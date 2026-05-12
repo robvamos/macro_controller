@@ -1,0 +1,14 @@
+{
+  "background_color": "#000000",
+  "text_color": "#00ff41",
+  "button_bg_color": "#ff00ff",
+  "button_fg_color": "#000000",
+  "border_color": "#00ffff",
+  "font_family": "Courier New",
+  "font_size_large": 12,
+  "font_size_medium": 10,
+  "font_size_small": 9,
+  "status_running_color": "#00ff41",
+  "status_recording_color": "#ff0040",
+  "status_idle_color": "#808080"
+}

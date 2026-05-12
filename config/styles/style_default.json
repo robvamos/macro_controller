@@ -1,0 +1,14 @@
+{
+  "background_color": "#282c34",
+  "text_color": "#abb2bf",
+  "button_bg_color": "#61afef",
+  "button_fg_color": "#ffffff",
+  "border_color": "#3e4452",
+  "font_family": "Segoe UI",
+  "font_size_large": 12,
+  "font_size_medium": 10,
+  "font_size_small": 9,
+  "status_running_color": "#50fa7b",
+  "status_recording_color": "#ff6e6e",
+  "status_idle_color": "#6a6a6a"
+}
