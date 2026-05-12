@@ -2,10 +2,3 @@ __pycache__/
 *.py[cod]
 
 .tools/
-
-data/*.db
-data/*.sqlite
-data/*.sqlite3
-
-config/config.json
-config/macro_config.json

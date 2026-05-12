@@ -1,0 +1,39 @@
+{
+  "playback": {
+    "focus_check_interval": 0.05,
+    "event_delay_tolerance": 0.01,
+    "mouse_coordinate_validation": true,
+    "keyboard_event_validation": true,
+    "max_playback_duration": 300,
+    "retry_on_focus_loss": true,
+    "max_retry_attempts": 3
+  },
+  "recording": {
+    "min_event_interval": 0.01,
+    "coordinate_normalization": true,
+    "backup_before_overwrite": true,
+    "validate_events_during_recording": true
+  },
+  "window_management": {
+    "focus_wait_timeout": 10.0,
+    "window_detection_retry": 3,
+    "client_area_only": true,
+    "fallback_window_size": {
+      "width": 800,
+      "height": 600
+    }
+  },
+  "input_simulation": {
+    "keyboard_delay": 0.01,
+    "mouse_delay": 0.01,
+    "use_absolute_coordinates": true,
+    "coordinate_rounding": true,
+    "scroll_sensitivity": 1.0
+  },
+  "debug": {
+    "enable_logging": true,
+    "log_level": "INFO",
+    "save_playback_logs": false,
+    "validate_events_before_playback": true
+  }
+}
