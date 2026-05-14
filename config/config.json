@@ -23,6 +23,7 @@
     "default_exe_name": "Doomsday.exe",
     "default_duration_sec": 10
   },
+  "selected_style": "dark_blue",
   "macro_editor_layout": {
     "left_column_weight": 3,
     "right_column_weight": 1
@@ -39,7 +40,6 @@
     "width": 1482,
     "height": 887
   },
-  "selected_style": "dark_blue",
   "new_macro_dialog_window": {
     "x": 0,
     "y": 0,

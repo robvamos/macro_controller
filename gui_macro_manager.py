@@ -1327,6 +1327,11 @@ def start_playback_thread():
 def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enabled, loop_delay, max_repetitions=None):
     global _game_client_rect_screen
     global execution_visualizer_events_list, execution_visualizer_canvas, execution_visualizer_status_label
+    playback_ui_state = {
+        "last_move_ui_update": 0.0,
+        "pending_move_event": None,
+        "move_events_since_flush": 0,
+    }
     
     def gui_log(msg, level="INFO"):
         if "In attesa che" in msg or "waiting for" in msg:
@@ -1341,6 +1346,23 @@ def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enab
     
     def event_callback(event, index, total, action_type, button_or_key=None, x=None, y=None, delta=None):
         """Callback chiamato per ogni evento eseguito durante la riproduzione"""
+        if action_type == "mouse_move":
+            now_monotonic = time.monotonic()
+            playback_ui_state["pending_move_event"] = (event, index, total, action_type, button_or_key, x, y, delta)
+            playback_ui_state["move_events_since_flush"] += 1
+
+            should_flush = (
+                playback_ui_state["move_events_since_flush"] >= 12
+                or (now_monotonic - playback_ui_state["last_move_ui_update"]) >= 0.08
+                or index + 1 == total
+            )
+            if not should_flush:
+                return
+
+            playback_ui_state["last_move_ui_update"] = now_monotonic
+            playback_ui_state["move_events_since_flush"] = 0
+            event, index, total, action_type, button_or_key, x, y, delta = playback_ui_state["pending_move_event"]
+
         def update_ui():
             global execution_visualizer_events_list, execution_visualizer_canvas, execution_visualizer_status_label
             

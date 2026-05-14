@@ -8,6 +8,8 @@ import json
 import threading
 import win32con # Aggiunto import per win32con
 
+from macro_config import get_focus_check_interval
+
 # Variabili globali per la registrazione
 _eventi_registrati = []
 _recording_active = False
@@ -576,8 +578,22 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
         max_repetitions: Numero massimo di ripetizioni (None o 0 = nessun limite)
         event_callback: Callback chiamato per ogni evento eseguito (event, index, total)
     """
-    def is_target_window_active():
-        return get_foreground_process_name() and get_foreground_process_name().lower() == target_exe.lower()
+    focus_check_interval = max(0.05, float(get_focus_check_interval() or 0.05))
+    last_focus_check_at = 0.0
+    last_focus_check_result = True
+
+    def is_target_window_active(force=False):
+        nonlocal last_focus_check_at, last_focus_check_result
+        now_monotonic = time.monotonic()
+        if not force and (now_monotonic - last_focus_check_at) < focus_check_interval:
+            return last_focus_check_result
+
+        current_process_name = get_foreground_process_name()
+        last_focus_check_result = bool(
+            current_process_name and current_process_name.lower() == target_exe.lower()
+        )
+        last_focus_check_at = now_monotonic
+        return last_focus_check_result
 
     iteration_count = 0
     playing_flag = True
@@ -611,14 +627,17 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
         else:
             print(f"🔄 Avvio iterazione {iteration_count} per '{target_exe}'...")
 
-        # Attendi che la finestra target sia in primo piano
-        window_found = wait_for_app_window(
-            target_exe,
-            log_callback,
-            max_wait_time=15,
-            check_recording_flag=False,
-            should_cancel=should_stop,
-        )
+        # Evita una seconda attesa completa se la finestra e' gia' attiva:
+        # il PlaybackService ha gia' gestito l'attesa iniziale prima di arrivare qui.
+        window_found = True
+        if not is_target_window_active(force=True):
+            window_found = wait_for_app_window(
+                target_exe,
+                log_callback,
+                max_wait_time=15,
+                check_recording_flag=False,
+                should_cancel=should_stop,
+            )
         if not window_found or should_stop():
             if not window_found and stop_reason != "user_stop":
                 if log_callback:

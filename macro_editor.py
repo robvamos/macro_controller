@@ -12,6 +12,7 @@ from repositories.macro_repository import (
     get_all_macros,
     get_macro_metadata_by_name,
     load_macro_events,
+    salva_macro_test,
     update_macro_events_only,
     update_macro_full,
 )
@@ -22,6 +23,10 @@ from core.config_store import (
     load_style_config,
     save_app_config,
     set_window_geometry,
+)
+from services.macro_optimization_service import (
+    build_optimized_macro_name,
+    compress_consecutive_mouse_moves,
 )
 
 # Import opzionale per visualizzazione timeline (matplotlib)
@@ -243,6 +248,7 @@ class MacroEditorApp:
         ttk.Button(event_buttons_frame, text="Elimina Evento", command=self.delete_selected_event).pack(side="left", padx=2)
         ttk.Button(event_buttons_frame, text="Sposta Su", command=self.move_event_up).pack(side="left", padx=2)
         ttk.Button(event_buttons_frame, text="Sposta Giù", command=self.move_event_down).pack(side="left", padx=2)
+        ttk.Button(event_buttons_frame, text="Ottimizza", command=self.optimize_current_macro).pack(side="left", padx=2)
         ttk.Button(event_buttons_frame, text="Re-registra Eventi", command=self.rerecord_events_dialog).pack(side="right", padx=2)
 
         # --- COLONNA DESTRA (STRETTA) ---
@@ -1040,6 +1046,79 @@ class MacroEditorApp:
         except Exception as e:
             logger.error(f"Errore generico nel salvataggio: {e}")
             messagebox.showerror("Errore Salvataggio", f"Errore durante il salvataggio della macro: {e}", parent=self.root)
+
+    def _load_macro_into_editor(self, macro_name):
+        """Ricarica completamente l'editor su una macro diversa."""
+        self.macro_name = macro_name
+        self.macro_metadata = get_macro_metadata_by_name(macro_name)
+        if not self.macro_metadata:
+            raise ValueError(f"Macro '{macro_name}' non trovata dopo il salvataggio.")
+
+        self.original_events = load_macro_events(self.macro_metadata['id'])
+        self.current_events = list(self.original_events)
+
+        self.name_entry.delete(0, tk.END)
+        self.name_entry.insert(0, self.macro_metadata['nome'])
+        self.desc_entry.delete(0, tk.END)
+        self.desc_entry.insert(0, self.macro_metadata['descrizione'])
+        self.duration_entry.delete(0, tk.END)
+        self.duration_entry.insert(0, str(self.macro_metadata['durata_sec']))
+        self.exe_entry.delete(0, tk.END)
+        self.exe_entry.insert(0, self.macro_metadata['eseguibile'])
+
+        self.root.title(f"Editor Macro: {self.macro_name}")
+        self.populate_events_tree()
+        self.update_diff_display()
+
+    def optimize_current_macro(self):
+        """Crea una nuova macro ottimizzata comprimendo i mouse move consecutivi."""
+        if not self.current_events:
+            messagebox.showwarning("Ottimizza Macro", "La macro non contiene eventi da ottimizzare.", parent=self.root)
+            return
+
+        optimized_events = compress_consecutive_mouse_moves(self.current_events)
+        removed_events = len(self.current_events) - len(optimized_events)
+        if removed_events <= 0:
+            messagebox.showinfo(
+                "Ottimizza Macro",
+                "Non ci sono sequenze di mouse move consecutive da comprimere.",
+                parent=self.root,
+            )
+            return
+
+        base_name = build_optimized_macro_name(self.name_entry.get().strip() or self.macro_metadata['nome'])
+        candidate_name = base_name
+        suffix = 1
+        while get_macro_metadata_by_name(candidate_name):
+            candidate_name = f"{base_name}_{suffix}"
+            suffix += 1
+
+        try:
+            macro_id = salva_macro_test(
+                candidate_name,
+                self.desc_entry.get(),
+                int(self.duration_entry.get()),
+                self.exe_entry.get(),
+                optimized_events,
+            )
+            logger.info(f"Creata macro ottimizzata ID {macro_id} da '{self.macro_name}' a '{candidate_name}'")
+            self._load_macro_into_editor(candidate_name)
+            messagebox.showinfo(
+                "Ottimizzazione completata",
+                f"Creata e caricata la nuova macro '{candidate_name}'.\n"
+                f"Eventi rimossi: {removed_events}.",
+                parent=self.root,
+            )
+        except ValueError as exc:
+            logger.error(f"Errore di validazione nell'ottimizzazione: {exc}")
+            messagebox.showerror("Errore Ottimizzazione", str(exc), parent=self.root)
+        except Exception as exc:
+            logger.error(f"Errore durante l'ottimizzazione della macro: {exc}")
+            messagebox.showerror(
+                "Errore Ottimizzazione",
+                f"Errore durante la creazione della macro ottimizzata: {exc}",
+                parent=self.root,
+            )
 
     def reset_changes(self):
         if messagebox.askyesno("Annulla Modifiche", "Sei sicuro di voler annullare tutte le modifiche non salvate?", parent=self.root):
