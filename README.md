@@ -84,6 +84,8 @@ La copertura attuale include:
 - [docs/IMPLEMENTATION_SUMMARY.md](/F:/Zombi/macro_controller/docs/IMPLEMENTATION_SUMMARY.md)
 - [docs/README_FOCUS_FIX.md](/F:/Zombi/macro_controller/docs/README_FOCUS_FIX.md)
 - [docs/SOLUZIONE_MACRO_PLAYBACK.md](/F:/Zombi/macro_controller/docs/SOLUZIONE_MACRO_PLAYBACK.md)
+- [CHANGELOG.md](/F:/Zombi/macro_controller/CHANGELOG.md)
+- [ROADMAP.md](/F:/Zombi/macro_controller/ROADMAP.md)
 
 ## Stato attuale
 

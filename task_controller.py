@@ -32,6 +32,7 @@ _scheduler_state_lock = threading.Lock()
 # Quando un task inizia la prima macro, gli altri task devono attendere
 task_execution_lock = threading.Lock()
 currently_executing_task_id = None
+currently_executing_task_name = None
 _execution_slot_lock = threading.Lock()
 _execution_slot_reserved = False
 _execution_slot_owner = None
@@ -170,6 +171,23 @@ def stop_scheduler(log_callback=None):
         log_callback("🛑 Background Scheduler fermato.")
 
 
+def get_scheduler_runtime_status():
+    """Restituisce uno snapshot leggero dello stato runtime dello scheduler."""
+    thread_alive = bool(scheduler_thread and scheduler_thread.is_alive())
+    with _execution_slot_lock:
+        slot_reserved = _execution_slot_reserved
+        slot_owner = _execution_slot_owner
+
+    return {
+        "scheduler_active": scheduler_active,
+        "thread_alive": thread_alive,
+        "slot_reserved": slot_reserved,
+        "slot_owner": slot_owner,
+        "currently_executing_task_id": currently_executing_task_id,
+        "currently_executing_task_name": currently_executing_task_name,
+    }
+
+
 def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=False):
     """Esegue un scheduled task. Se esiste una sequenza di macro, esegue tutte le macro in sequenza con i tempi di attesa configurati."""
     try:
@@ -216,7 +234,7 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
         
         # Esegui tutte le macro in sequenza
         def execute_sequence():
-            global currently_executing_task_id
+            global currently_executing_task_id, currently_executing_task_name
             lock_acquired = False
             try:
                 # Acquisisci il lock PRIMA di eseguire la prima macro
@@ -227,6 +245,7 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
                 task_execution_lock.acquire()
                 lock_acquired = True
                 currently_executing_task_id = task_id
+                currently_executing_task_name = task_name
                 
                 if log_callback:
                     log_callback(f"✅ Task '{task_name}' ha acquisito il lock - inizio esecuzione esclusiva")
@@ -315,6 +334,7 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
                 # Rilascia sempre il lock quando il task finisce, anche in caso di errore
                 if lock_acquired:
                     currently_executing_task_id = None
+                    currently_executing_task_name = None
                     task_execution_lock.release()
                     if log_callback:
                         log_callback(f"🔓 Task '{task_name}' ha rilasciato il lock - altri task possono ora partire")

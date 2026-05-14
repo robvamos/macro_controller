@@ -88,10 +88,25 @@ def _coerce_datetime(value):
     return value
 
 
-def build_countdown_entries(active_tasks, get_task_macro_sequence, now=None, error_callback=None):
+def build_countdown_entries(active_tasks, get_task_macro_sequence, now=None, error_callback=None, runtime_status=None):
     """Costruisce il contenuto testuale del pannello countdown."""
     now = now or datetime.datetime.now()
     entries = []
+    runtime_status = runtime_status or {}
+
+    scheduler_active = runtime_status.get("scheduler_active", False)
+    executing_task_name = runtime_status.get("currently_executing_task_name")
+    if scheduler_active:
+        entries.append(("🟢 Scheduler attivo\n", "runtime"))
+    else:
+        entries.append(("🔴 Scheduler fermo\n", "runtime"))
+
+    if executing_task_name:
+        entries.append((f"▶️ In esecuzione: {executing_task_name}\n", "runtime"))
+    elif runtime_status.get("slot_reserved"):
+        entries.append(("⏳ Slot di esecuzione prenotato\n", "runtime"))
+
+    entries.append((f"🕒 Aggiornato alle {now.strftime('%H:%M:%S')}\n\n", None))
 
     if not active_tasks:
         entries.append(("Nessun task attivo al momento.\n\n", None))

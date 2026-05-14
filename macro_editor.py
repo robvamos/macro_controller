@@ -26,7 +26,8 @@ from core.config_store import (
 )
 from services.macro_optimization_service import (
     build_optimized_macro_name,
-    compress_consecutive_mouse_moves,
+    compute_macro_event_stats,
+    optimize_macro_events,
 )
 
 # Import opzionale per visualizzazione timeline (matplotlib)
@@ -45,6 +46,7 @@ class MacroEditorApp:
         self.macro_metadata = None # Memorizzerà {id, nome, descrizione, eseguibile, durata_sec}
         self.original_events = []
         self.current_events = []
+        self.stats_summary_label = None
         self.event_filter_vars = {}
         self.event_filter_button = None
         self.event_filter_menu = None
@@ -82,6 +84,7 @@ class MacroEditorApp:
 
         self.load_macro_data()
         self.create_widgets()
+        self.bind_change_tracking()
         self.populate_events_tree()
         self.update_diff_display() # Inizializza il display delle modifiche
         
@@ -282,6 +285,16 @@ class MacroEditorApp:
 
         metadata_frame.grid_columnconfigure(1, weight=1)
 
+        stats_frame = ttk.LabelFrame(right_column, text="Statistiche Macro", padding="10")
+        stats_frame.pack(fill="x", pady=(0, 10))
+        self.stats_summary_label = ttk.Label(
+            stats_frame,
+            text="",
+            justify="left",
+            anchor="w",
+        )
+        self.stats_summary_label.pack(fill="x")
+
         # Visualizzazione delle modifiche
         diff_frame = ttk.LabelFrame(right_column, text="Modifiche Pendenti", padding="10")
         diff_frame.pack(fill="both", expand=True, pady=(0, 10))
@@ -299,6 +312,14 @@ class MacroEditorApp:
 
         # Primo render della timeline
         self.render_timeline()
+
+    def bind_change_tracking(self):
+        """Collega una sola volta gli eventi UI che aggiornano il riepilogo."""
+        self.events_tree.bind("<<TreeviewSelect>>", lambda event: self.update_diff_display())
+        self.name_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
+        self.desc_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
+        self.duration_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
+        self.exe_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
 
     def start_resize(self, event):
         """Inizia il ridimensionamento delle colonne."""
@@ -552,6 +573,34 @@ class MacroEditorApp:
         self.update_diff_display() # Aggiorna display dopo popolazione
         # Aggiorna la timeline ad ogni ricarica
         self.render_timeline()
+
+    def update_stats_display(self):
+        """Aggiorna il riepilogo sintetico della macro mostrato nella colonna destra."""
+        if not self.stats_summary_label:
+            return
+
+        current_stats = compute_macro_event_stats(self.current_events)
+        original_stats = compute_macro_event_stats(self.original_events)
+        filtered_count = sum(1 for _ in self.iter_filtered_events())
+
+        lines = [
+            f"Eventi: {current_stats['total_events']}",
+            f"Durata: {current_stats['duration_ms']} ms",
+            f"Mouse move: {current_stats['mouse_moves']}",
+            f"Click mouse: {current_stats['mouse_clicks']}",
+            f"Scroll: {current_stats['scroll_events']}",
+            f"Tastiera: {current_stats['keyboard_events']}",
+            f"Visibili col filtro: {filtered_count}",
+        ]
+
+        if current_stats != original_stats:
+            removed_events = original_stats["total_events"] - current_stats["total_events"]
+            duration_delta = original_stats["duration_ms"] - current_stats["duration_ms"]
+            lines.append("")
+            lines.append(f"Delta eventi: {removed_events:+d}")
+            lines.append(f"Delta durata: {duration_delta:+d} ms")
+
+        self.stats_summary_label.config(text="\n".join(lines))
 
     def _categorize_event(self, event):
         """Raggruppa gli eventi per tipologia sintetica per l'asse Y."""
@@ -985,13 +1034,7 @@ class MacroEditorApp:
         else:
             self.diff_text.insert(tk.END, "Nessuna modifica pendente.")
         self.diff_text.config(state="disabled")
-
-        # Ogni volta che qualcosa cambia nella Treeview, aggiorna il diff display
-        self.events_tree.bind("<<TreeviewSelect>>", lambda event: self.update_diff_display())
-        self.name_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
-        self.desc_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
-        self.duration_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
-        self.exe_entry.bind("<KeyRelease>", lambda event: self.update_diff_display())
+        self.update_stats_display()
 
 
     def save_macro(self):
@@ -1076,12 +1119,12 @@ class MacroEditorApp:
             messagebox.showwarning("Ottimizza Macro", "La macro non contiene eventi da ottimizzare.", parent=self.root)
             return
 
-        optimized_events = compress_consecutive_mouse_moves(self.current_events)
-        removed_events = len(self.current_events) - len(optimized_events)
+        optimized_events, optimization_report = optimize_macro_events(self.current_events)
+        removed_events = optimization_report["total_removed"]
         if removed_events <= 0:
             messagebox.showinfo(
                 "Ottimizza Macro",
-                "Non ci sono sequenze di mouse move consecutive da comprimere.",
+                "Non ci sono ottimizzazioni automatiche applicabili alla macro corrente.",
                 parent=self.root,
             )
             return
@@ -1106,7 +1149,9 @@ class MacroEditorApp:
             messagebox.showinfo(
                 "Ottimizzazione completata",
                 f"Creata e caricata la nuova macro '{candidate_name}'.\n"
-                f"Eventi rimossi: {removed_events}.",
+                f"Eventi rimossi: {removed_events}.\n"
+                f"Move compressi: {optimization_report['compressed_move_count']}.\n"
+                f"Move ridondanti prima del click: {optimization_report['removed_pre_click_moves']}.",
                 parent=self.root,
             )
         except ValueError as exc:

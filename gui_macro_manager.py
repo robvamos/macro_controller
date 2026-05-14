@@ -2369,6 +2369,7 @@ def update_next_tasks_countdown():
                 f"Errore nel calcolo del countdown per task {task['nome']}: {error}",
                 level="ERROR",
             ),
+            runtime_status=task_controller.get_scheduler_runtime_status(),
         )
         for text, tag in entries:
             if tag:
@@ -2379,6 +2380,7 @@ def update_next_tasks_countdown():
         # Configura i tag per lo styling
         next_tasks_countdown_text.tag_config("task_name", font=("Consolas", 9, "bold"))
         next_tasks_countdown_text.tag_config("countdown", font=("Consolas", 9, "bold"), foreground="blue")
+        next_tasks_countdown_text.tag_config("runtime", font=("Consolas", 9, "bold"))
         
         # Disabilita il text widget
         next_tasks_countdown_text.config(state=tk.DISABLED)
