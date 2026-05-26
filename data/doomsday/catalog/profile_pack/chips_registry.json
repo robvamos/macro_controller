@@ -1,0 +1,12 @@
+{
+  "Matrice sacrafiamma": {
+    "stars": 3,
+    "bonus": "Contrattacco +50",
+    "role": "Leader"
+  },
+  "Matrice rovo": {
+    "stars": 2,
+    "bonus": "Contrattacco +50",
+    "role": "Supporto"
+  }
+}

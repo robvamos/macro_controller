@@ -1,0 +1,24 @@
+{
+  "name": "Cynthia Calamity",
+  "level": 60,
+  "skills": [
+    {
+      "name": "Furia inarrestabile",
+      "type": "passive",
+      "effect": "+8 Rabbia su attacco base"
+    },
+    {
+      "name": "DAN Squadra",
+      "type": "buff",
+      "effect": "+9% ogni PS nemico <50%"
+    }
+  ],
+  "beast": "Zanne di fuoco",
+  "allies": [
+    "Park Dong-wook"
+  ],
+  "enemies": [
+    "Raigoro",
+    "Marco ed Eri"
+  ]
+}

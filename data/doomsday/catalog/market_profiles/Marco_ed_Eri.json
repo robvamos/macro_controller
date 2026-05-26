@@ -1,0 +1,58 @@
+{
+    "name": "Marco ed Eri",
+    "rarity": "Legendary",
+    "type": "Infantry",
+    "roles": [
+        "General",
+        "Skill"
+    ],
+    "abilities": [
+        "Heavy Bombardment",
+        "Rocket Blast",
+        "Tank Advance",
+        "Combined Assault"
+    ],
+    "talent_branches": [
+        "Infantry",
+        "General",
+        "Skill"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}

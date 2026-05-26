@@ -1,0 +1,29 @@
+{
+  "Zanne di fuoco": {
+    "type": "CRIT",
+    "element": "Fuoco",
+    "level": 56,
+    "skills": [
+      "Scintilla del colpo",
+      "Colpo potente"
+    ]
+  },
+  "Pangolino": {
+    "type": "DIF",
+    "element": "Erba",
+    "level": 50,
+    "skills": [
+      "Barriera naturale",
+      "Spine riflettenti"
+    ]
+  },
+  "Vulcarhino": {
+    "type": "ATT",
+    "element": "Fuoco",
+    "level": 52,
+    "skills": [
+      "Carica esplosiva",
+      "Terremoto"
+    ]
+  }
+}

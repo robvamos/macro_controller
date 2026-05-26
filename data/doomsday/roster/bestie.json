@@ -1,0 +1,26 @@
+{
+  "Toro Cadavere": {
+    "elemento": "Terra",
+    "ruolo_strategico": [
+      "Adunata",
+      "Critico",
+      "Combo"
+    ],
+    "sinergie": [
+      "Cynthia",
+      "Felix"
+    ]
+  },
+  "Pangolino Martello": {
+    "elemento": "Terra",
+    "ruolo_strategico": [
+      "Supporto",
+      "Contrattacco",
+      "Critico"
+    ],
+    "sinergie": [
+      "Park Dong-wook",
+      "Bella"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+    "name": "Bianca Drake",
+    "rarity": "Legendary",
+    "type": "Leader",
+    "roles": [
+        "General",
+        "Support"
+    ],
+    "abilities": [
+        "Inspiring Orders",
+        "Tactical Dog",
+        "Field Command",
+        "Coordination"
+    ],
+    "talent_branches": [
+        "Leader",
+        "General",
+        "Support"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}

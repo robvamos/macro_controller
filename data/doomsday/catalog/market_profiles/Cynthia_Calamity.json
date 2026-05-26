@@ -1,0 +1,70 @@
+{
+    "name": "Cynthia Calamity",
+    "rarity": "Legendary",
+    "type": "Rider",
+    "roles": [
+        "Zombie Killer",
+        "Field Combat"
+    ],
+    "abilities": [
+        "Gun Rush",
+        "Charm Shot",
+        "Adrenaline Shot",
+        "Dual Mayhem"
+    ],
+    "talent_branches": [
+        "Rider",
+        "Zombie Killer",
+        "Field Combat"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}

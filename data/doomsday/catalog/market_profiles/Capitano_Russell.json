@@ -1,0 +1,58 @@
+{
+    "name": "Capitano Russell",
+    "rarity": "Legendary",
+    "type": "Panoramic",
+    "roles": [
+        "Zombie Killer",
+        "Support"
+    ],
+    "abilities": [
+        "Firepower Boost",
+        "Strategic Advance",
+        "Command Presence",
+        "Heroic Stand"
+    ],
+    "talent_branches": [
+        "Panoramic",
+        "Zombie Killer",
+        "Support"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}

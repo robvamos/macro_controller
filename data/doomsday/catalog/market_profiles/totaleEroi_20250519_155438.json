@@ -1,0 +1,1226 @@
+[
+    {
+        "name": "Akemi",
+        "rarity": "Legendary",
+        "type": "Marksman",
+        "roles": [
+            "Zombie Killer",
+            "Attack"
+        ],
+        "abilities": [
+            "Phantom Arrow",
+            "Piercing Rain",
+            "Shadow Evasion",
+            "Crimson Barrage"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "Zombie Killer",
+            "Attack"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Bella",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Roar of Courage",
+            "Lion Strike",
+            "Beast Charge",
+            "Alpha's Howl"
+        ],
+        "talent_branches": [
+            "Rider",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Bianca Drake",
+        "rarity": "Legendary",
+        "type": "Leader",
+        "roles": [
+            "General",
+            "Support"
+        ],
+        "abilities": [
+            "Inspiring Orders",
+            "Tactical Dog",
+            "Field Command",
+            "Coordination"
+        ],
+        "talent_branches": [
+            "Leader",
+            "General",
+            "Support"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Capitano Russell",
+        "rarity": "Legendary",
+        "type": "Panoramic",
+        "roles": [
+            "Zombie Killer",
+            "Support"
+        ],
+        "abilities": [
+            "Firepower Boost",
+            "Strategic Advance",
+            "Command Presence",
+            "Heroic Stand"
+        ],
+        "talent_branches": [
+            "Panoramic",
+            "Zombie Killer",
+            "Support"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Cynthia Calamity",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "Zombie Killer",
+            "Field Combat"
+        ],
+        "abilities": [
+            "Gun Rush",
+            "Charm Shot",
+            "Adrenaline Shot",
+            "Dual Mayhem"
+        ],
+        "talent_branches": [
+            "Rider",
+            "Zombie Killer",
+            "Field Combat"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Elena",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Focused Shot",
+            "Flanking Maneuver",
+            "Mounted Defense",
+            "Lone Rider"
+        ],
+        "talent_branches": [
+            "Rider",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Felix",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Circular Saw",
+            "Leap Attack",
+            "Victory Toast",
+            "Race Flag"
+        ],
+        "talent_branches": [
+            "Rider",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Jaden",
+        "rarity": "Legendary",
+        "type": "Leader",
+        "roles": [
+            "Zombie Killer",
+            "Attack"
+        ],
+        "abilities": [
+            "Terror Wave",
+            "Zombie Horde",
+            "Ambush",
+            "Overrun"
+        ],
+        "talent_branches": [
+            "Leader",
+            "Zombie Killer",
+            "Attack"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Louis",
+        "rarity": "Legendary",
+        "type": "Marksman",
+        "roles": [
+            "Garrison",
+            "Skill"
+        ],
+        "abilities": [
+            "Piano Barrage",
+            "Soundwave",
+            "Harmonic Shot",
+            "Infernal Concerto"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "Garrison",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Lynne",
+        "rarity": "Epic",
+        "type": "Marksman",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Sniper Shot",
+            "Auto Target",
+            "Scanner Pulse",
+            "Tactical Retreat"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Mai Shiranui",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "General",
+            "Field Combat"
+        ],
+        "abilities": [
+            "Flame Dance",
+            "Whirlwind Kick",
+            "Fan Strike",
+            "Blazing Escape"
+        ],
+        "talent_branches": [
+            "Rider",
+            "General",
+            "Field Combat"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Marco ed Eri",
+        "rarity": "Legendary",
+        "type": "Infantry",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Heavy Bombardment",
+            "Rocket Blast",
+            "Tank Advance",
+            "Combined Assault"
+        ],
+        "talent_branches": [
+            "Infantry",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Martin",
+        "rarity": "Legendary",
+        "type": "Panoramic",
+        "roles": [
+            "Zombie Killer",
+            "Support"
+        ],
+        "abilities": [
+            "Divine Strike",
+            "Righteous Flame",
+            "Inquisition",
+            "Doom Sermon"
+        ],
+        "talent_branches": [
+            "Panoramic",
+            "Zombie Killer",
+            "Support"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Miyamoto Doichi",
+        "rarity": "Legendary",
+        "type": "Infantry",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Sword Slash",
+            "Bushido",
+            "Quickstep",
+            "Final Blow"
+        ],
+        "talent_branches": [
+            "Infantry",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Nakano Maaya",
+        "rarity": "Legendary",
+        "type": "Marksman",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Shadow Step",
+            "Spray Graffiti",
+            "Smoke Screen",
+            "Tactical Pack"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Norah",
+        "rarity": "Legendary",
+        "type": "Marksman",
+        "roles": [
+            "Siege",
+            "Attack"
+        ],
+        "abilities": [
+            "Target Lock",
+            "Precision Fire",
+            "Eagle Eye",
+            "Huntress"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "Siege",
+            "Attack"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Park Dong-wook",
+        "rarity": "Legendary",
+        "type": "Rider",
+        "roles": [
+            "Zombie Killer",
+            "Field Combat"
+        ],
+        "abilities": [
+            "Laser Cannon",
+            "Jet Charge",
+            "Burning Assault",
+            "Explosive Raid"
+        ],
+        "talent_branches": [
+            "Rider",
+            "Zombie Killer",
+            "Field Combat"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Peggy",
+        "rarity": "Legendary",
+        "type": "Panoramic",
+        "roles": [
+            "Zombie Killer",
+            "Support"
+        ],
+        "abilities": [
+            "Electro Trap",
+            "Boost Platform",
+            "Revolver Shot",
+            "Acoustic Heal"
+        ],
+        "talent_branches": [
+            "Panoramic",
+            "Zombie Killer",
+            "Support"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Raigoro",
+        "rarity": "Legendary",
+        "type": "Infantry",
+        "roles": [
+            "Garrison",
+            "Defense"
+        ],
+        "abilities": [
+            "Heavy Slam",
+            "Defender's Presence",
+            "Sumo Push",
+            "Iron Wall"
+        ],
+        "talent_branches": [
+            "Infantry",
+            "Garrison",
+            "Defense"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Sophie",
+        "rarity": "Legendary",
+        "type": "Marksman",
+        "roles": [
+            "General",
+            "Skill"
+        ],
+        "abilities": [
+            "Nano Boost",
+            "Support Bot",
+            "Drone Barrage",
+            "Defensive Field"
+        ],
+        "talent_branches": [
+            "Marksman",
+            "General",
+            "Skill"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    },
+    {
+        "name": "Tom",
+        "rarity": "Legendary",
+        "type": "Infantry",
+        "roles": [
+            "Garrison",
+            "Defense"
+        ],
+        "abilities": [
+            "Blitz Charge",
+            "Iron Tackle",
+            "Helmet Block",
+            "Shield Wall"
+        ],
+        "talent_branches": [
+            "Infantry",
+            "Garrison",
+            "Defense"
+        ],
+        "web_sources": [
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            },
+            {
+                "fonte": "Doomsday Fandom Wiki",
+                "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 7
+            },
+            {
+                "fonte": "FreeToPlayGames JSON API",
+                "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+                "tipo": "rest",
+                "affidabilita": 6
+            },
+            {
+                "fonte": "Google Search Snapshot",
+                "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+                "tipo": "html",
+                "affidabilita": 5
+            }
+        ]
+    }
+]

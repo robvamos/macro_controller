@@ -1,0 +1,46 @@
+{
+    "name": "Norah",
+    "rarity": "Legendary",
+    "type": "Marksman",
+    "roles": [
+        "Siege",
+        "Attack"
+    ],
+    "abilities": [
+        "Target Lock",
+        "Precision Fire",
+        "Eagle Eye",
+        "Huntress"
+    ],
+    "talent_branches": [
+        "Marksman",
+        "Siege",
+        "Attack"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}

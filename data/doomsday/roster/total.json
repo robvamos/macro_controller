@@ -1,0 +1,25 @@
+{
+  "formazioni_riders": {
+    "prima_marcia": [
+      "Cynthia",
+      "Felix",
+      "Elena"
+    ],
+    "seconda_marcia": [
+      "Bella",
+      "Park Dong-wook",
+      "Maddie"
+    ],
+    "terza_marcia": [
+      "Bianca Drake",
+      "Louis",
+      "Sophie"
+    ]
+  },
+  "cynthia": {
+    "supporto_preferito": "Toro Cadavere",
+    "supporto_alternativo": "Pangolino Martello",
+    "motivazione_supporto": "Amplifica critico, combo e bonus rally nei team offensivi",
+    "veicolo_raccomandato": "Beetle"
+  }
+}

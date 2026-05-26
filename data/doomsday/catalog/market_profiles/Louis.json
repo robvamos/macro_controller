@@ -1,0 +1,70 @@
+{
+    "name": "Louis",
+    "rarity": "Legendary",
+    "type": "Marksman",
+    "roles": [
+        "Garrison",
+        "Skill"
+    ],
+    "abilities": [
+        "Piano Barrage",
+        "Soundwave",
+        "Harmonic Shot",
+        "Infernal Concerto"
+    ],
+    "talent_branches": [
+        "Marksman",
+        "Garrison",
+        "Skill"
+    ],
+    "web_sources": [
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        },
+        {
+            "fonte": "Doomsday Fandom Wiki",
+            "endpoint": "https://doomsdaylastsurvivors.fandom.com/wiki/{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 7
+        },
+        {
+            "fonte": "FreeToPlayGames JSON API",
+            "endpoint": "https://www.freetogame.com/api/games?id={nome_eroe}",
+            "tipo": "rest",
+            "affidabilita": 6
+        },
+        {
+            "fonte": "Google Search Snapshot",
+            "endpoint": "https://www.google.com/search?q=doomsday+last+survivors+{nome_eroe}",
+            "tipo": "html",
+            "affidabilita": 5
+        }
+    ]
+}
