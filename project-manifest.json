@@ -1,0 +1,59 @@
+{
+  "name": "DDGameAss",
+  "slug": "ddgameass",
+  "path": "F:/_CODEX/AI-WORKSPACE/DDGameAss",
+  "status": "active",
+  "version": "0.2.1",
+  "summary": "Doomsday game assistant with macro automation, OCR, roster bootstrap, and visual automation primitives.",
+  "description": "Windows desktop Doomsday game assistant with modular macro playback, scheduled execution, reusable OCR, roster bootstrap, and vision helpers.",
+  "local_agents": "F:/_CODEX/AI-WORKSPACE/DDGameAss/AGENTS.md",
+  "project_card": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/projects/ddgameass.yaml",
+  "hub_root": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub",
+  "capabilities": [
+    "macro-automation-runtime",
+    "scheduled-macro-orchestration",
+    "doomsday-roster-bootstrap",
+    "doomsday-ocr-roster-extraction",
+    "doomsday-vision-template-matching",
+    "doomsday-catalog-ingestion"
+  ],
+  "interfaces": [
+    {
+      "name": "doomsday-roster-bootstrap",
+      "path": "../interfaces/doomsday-roster-bootstrap.md",
+      "status": "draft",
+      "version": "0.2.1",
+      "consumers": []
+    },
+    {
+      "name": "doomsday-vision-primitives",
+      "path": "../interfaces/doomsday-vision-primitives.md",
+      "status": "draft",
+      "version": "0.2.1",
+      "consumers": []
+    }
+  ],
+  "reusable_skills": [
+    "attivasviluppo",
+    "project-bootstrap",
+    "sviluppo-conoscenza"
+  ],
+  "dependencies_on_projects": [
+    "codex-knowledge-hub"
+  ],
+  "sync_watch": {
+    "poll_interval_seconds": 5,
+    "paths": [
+      "project-manifest.json",
+      "pyproject.toml",
+      "package.json",
+      "interfaces"
+    ]
+  },
+  "notes": [
+    "Bootstrapped with the project-bootstrap skill.",
+    "Moved into AI-WORKSPACE from F:/Zombi/macro_controller.",
+    "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects."
+  ],
+  "last_updated": "2026-05-26T00:51:14.372197+00:00"
+}
