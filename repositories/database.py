@@ -48,6 +48,10 @@ def setup_main_table():
                     descrizione TEXT,
                     eseguibile TEXT DEFAULT 'Doomsday.exe',
                     durata_sec INTEGER NOT NULL,
+                    macro_kind TEXT DEFAULT 'standard',
+                    is_protected INTEGER DEFAULT 0,
+                    system_key TEXT,
+                    system_payload TEXT,
                     data_creazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     data_ultima_modifica TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
@@ -64,6 +68,18 @@ def setup_main_table():
             if "eseguibile" not in column_names:
                 cursor.execute("ALTER TABLE Macro ADD COLUMN eseguibile TEXT DEFAULT 'Doomsday.exe';")
                 print("Colonna 'eseguibile' aggiunta alla tabella Macro.")
+            if "macro_kind" not in column_names:
+                cursor.execute("ALTER TABLE Macro ADD COLUMN macro_kind TEXT DEFAULT 'standard';")
+                print("Colonna 'macro_kind' aggiunta alla tabella Macro.")
+            if "is_protected" not in column_names:
+                cursor.execute("ALTER TABLE Macro ADD COLUMN is_protected INTEGER DEFAULT 0;")
+                print("Colonna 'is_protected' aggiunta alla tabella Macro.")
+            if "system_key" not in column_names:
+                cursor.execute("ALTER TABLE Macro ADD COLUMN system_key TEXT;")
+                print("Colonna 'system_key' aggiunta alla tabella Macro.")
+            if "system_payload" not in column_names:
+                cursor.execute("ALTER TABLE Macro ADD COLUMN system_payload TEXT;")
+                print("Colonna 'system_payload' aggiunta alla tabella Macro.")
 
         conn.commit()
     except Exception as e:

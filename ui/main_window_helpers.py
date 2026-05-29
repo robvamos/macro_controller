@@ -90,7 +90,7 @@ def bind_main_window_events(
     macro_list_tree,
     update_button_states,
     update_macro_details,
-    edit_selected_macro,
+    open_selected_macro_action,
     on_window_focus_in,
     on_window_focus_out,
     on_window_destroy,
@@ -99,7 +99,7 @@ def bind_main_window_events(
 ):
     """Registra i binding principali della finestra."""
     macro_list_tree.bind("<<TreeviewSelect>>", lambda event: (update_button_states(), update_macro_details()))
-    macro_list_tree.bind("<Double-Button-1>", lambda event: edit_selected_macro())
+    macro_list_tree.bind("<Double-Button-1>", lambda event: open_selected_macro_action())
 
     root_window.bind("<FocusIn>", lambda event: on_window_focus_in())
     root_window.bind("<FocusOut>", lambda event: on_window_focus_out())

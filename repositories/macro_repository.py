@@ -1,10 +1,15 @@
 """Repository per macro ed eventi associati."""
 
 import datetime
+import json
 import re
 import sqlite3
 
 from repositories.database import connect_db
+
+
+SYSTEM_MACRO_KIND = "system"
+STANDARD_MACRO_KIND = "standard"
 
 
 def _create_events_table(macro_id, cursor):
@@ -94,7 +99,7 @@ def get_all_macros():
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT id, nome, descrizione, durata_sec, eseguibile, data_creazione, data_ultima_modifica FROM Macro ORDER BY data_ultima_modifica DESC, data_creazione DESC;"
+        "SELECT id, nome, descrizione, durata_sec, eseguibile, macro_kind, is_protected, system_key, system_payload, data_creazione, data_ultima_modifica FROM Macro ORDER BY is_protected DESC, data_ultima_modifica DESC, data_creazione DESC;"
     )
     macros = []
     for row in cursor.fetchall():
@@ -105,8 +110,12 @@ def get_all_macros():
                 "descrizione": row[2],
                 "durata_sec": row[3],
                 "eseguibile": row[4],
-                "data_creazione": row[5],
-                "data_ultima_modifica": row[6],
+                "macro_kind": row[5] or STANDARD_MACRO_KIND,
+                "is_protected": bool(row[6]),
+                "system_key": row[7],
+                "system_payload": _decode_system_payload(row[8]),
+                "data_creazione": row[9],
+                "data_ultima_modifica": row[10],
             }
         )
     conn.close()
@@ -117,7 +126,7 @@ def get_macro_metadata_by_name(macro_name):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT id, nome, descrizione, durata_sec, eseguibile, data_creazione, data_ultima_modifica FROM Macro WHERE nome = ?",
+        "SELECT id, nome, descrizione, durata_sec, eseguibile, macro_kind, is_protected, system_key, system_payload, data_creazione, data_ultima_modifica FROM Macro WHERE nome = ?",
         (macro_name,),
     )
     row = cursor.fetchone()
@@ -129,8 +138,12 @@ def get_macro_metadata_by_name(macro_name):
             "descrizione": row[2],
             "durata_sec": row[3],
             "eseguibile": row[4],
-            "data_creazione": row[5],
-            "data_ultima_modifica": row[6],
+            "macro_kind": row[5] or STANDARD_MACRO_KIND,
+            "is_protected": bool(row[6]),
+            "system_key": row[7],
+            "system_payload": _decode_system_payload(row[8]),
+            "data_creazione": row[9],
+            "data_ultima_modifica": row[10],
         }
     return None
 
@@ -139,7 +152,7 @@ def get_macro_metadata_by_id(macro_id):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT id, nome, descrizione, durata_sec, eseguibile, data_creazione, data_ultima_modifica FROM Macro WHERE id = ?",
+        "SELECT id, nome, descrizione, durata_sec, eseguibile, macro_kind, is_protected, system_key, system_payload, data_creazione, data_ultima_modifica FROM Macro WHERE id = ?",
         (macro_id,),
     )
     row = cursor.fetchone()
@@ -151,13 +164,43 @@ def get_macro_metadata_by_id(macro_id):
             "descrizione": row[2],
             "durata_sec": row[3],
             "eseguibile": row[4],
-            "data_creazione": row[5],
-            "data_ultima_modifica": row[6],
+            "macro_kind": row[5] or STANDARD_MACRO_KIND,
+            "is_protected": bool(row[6]),
+            "system_key": row[7],
+            "system_payload": _decode_system_payload(row[8]),
+            "data_creazione": row[9],
+            "data_ultima_modifica": row[10],
         }
     return None
 
 
-def salva_macro_test(nome_macro, descrizione, durata_sec, eseguibile, events, log_callback=None):
+def _decode_system_payload(payload):
+    if not payload:
+        return None
+    try:
+        return json.loads(payload)
+    except (TypeError, json.JSONDecodeError):
+        return None
+
+
+def _encode_system_payload(payload):
+    if payload is None:
+        return None
+    return json.dumps(payload, ensure_ascii=False)
+
+
+def salva_macro_test(
+    nome_macro,
+    descrizione,
+    durata_sec,
+    eseguibile,
+    events,
+    log_callback=None,
+    macro_kind=STANDARD_MACRO_KIND,
+    is_protected=False,
+    system_key=None,
+    system_payload=None,
+):
     if log_callback:
         log_callback(
             f"DEBUG: Dentro salva_macro_test. Tipo di 'events': {type(events)}. Lunghezza: {len(events) if isinstance(events, list) else 'N/A'}",
@@ -178,10 +221,19 @@ def salva_macro_test(nome_macro, descrizione, durata_sec, eseguibile, events, lo
 
         cursor.execute(
             """
-            INSERT INTO Macro (nome, descrizione, durata_sec, eseguibile)
-            VALUES (?, ?, ?, ?);
+            INSERT INTO Macro (nome, descrizione, durata_sec, eseguibile, macro_kind, is_protected, system_key, system_payload)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
             """,
-            (nome_macro, descrizione, durata_sec, eseguibile),
+            (
+                nome_macro,
+                descrizione,
+                durata_sec,
+                eseguibile,
+                macro_kind,
+                1 if is_protected else 0,
+                system_key,
+                _encode_system_payload(system_payload),
+            ),
         )
         macro_id = cursor.lastrowid
 
@@ -339,6 +391,10 @@ def delete_macro(macro_name):
         macro_id_result = cursor.fetchone()
         if macro_id_result:
             macro_id = macro_id_result[0]
+            cursor.execute("SELECT is_protected FROM Macro WHERE id = ?", (macro_id,))
+            protected_row = cursor.fetchone()
+            if protected_row and bool(protected_row[0]):
+                raise ValueError(f"La macro di sistema '{macro_name}' non può essere cancellata.")
             cursor.execute(f"DROP TABLE IF EXISTS MacroEvent_{macro_id}")
         cursor.execute("DELETE FROM Macro WHERE nome = ?", (macro_name,))
         conn.commit()
@@ -356,12 +412,15 @@ def duplicate_macro(macro_id):
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT nome, descrizione, durata_sec, eseguibile FROM Macro WHERE id = ?", (macro_id,))
+        cursor.execute(
+            "SELECT nome, descrizione, durata_sec, eseguibile, macro_kind, system_key, system_payload FROM Macro WHERE id = ?",
+            (macro_id,),
+        )
         original_macro = cursor.fetchone()
         if not original_macro:
             raise ValueError(f"Macro con ID {macro_id} non trovata.")
 
-        original_name, description, duration_sec, eseguibile = original_macro
+        original_name, description, duration_sec, eseguibile, macro_kind, system_key, system_payload = original_macro
         timestamp_pattern = r"_\d{8}_\d{6}$"
         timestamp_match = re.search(timestamp_pattern, original_name)
 
@@ -388,10 +447,10 @@ def duplicate_macro(macro_id):
 
         cursor.execute(
             """
-            INSERT INTO Macro (nome, descrizione, durata_sec, eseguibile)
-            VALUES (?, ?, ?, ?);
+            INSERT INTO Macro (nome, descrizione, durata_sec, eseguibile, macro_kind, is_protected, system_key, system_payload)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
             """,
-            (new_name, description, duration_sec, eseguibile),
+            (new_name, description, duration_sec, eseguibile, macro_kind or STANDARD_MACRO_KIND, 0, system_key, system_payload),
         )
         new_macro_id = cursor.lastrowid
 
@@ -424,6 +483,8 @@ __all__ = [
     "get_macro_metadata_by_name",
     "load_macro_events",
     "salva_macro_test",
+    "STANDARD_MACRO_KIND",
+    "SYSTEM_MACRO_KIND",
     "update_macro_events_only",
     "update_macro_full",
 ]

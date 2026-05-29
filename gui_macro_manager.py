@@ -189,6 +189,12 @@ from services.operation_state_service import OperationStateService
 from services.focus_monitor_service import FocusMonitorService
 from services.playback_service import PlaybackService
 from services.recording_service import RecordingService
+from services.system_macro_service import ensure_launch_game_system_macro, run_system_macro
+from services.system_macro_service import (
+    LAUNCH_GAME_SYSTEM_KEY,
+    get_local_launch_game_variant_for_current_context,
+    save_launch_game_local_variant,
+)
 from services.audio_sample_service import (
     DEFAULT_OUTPUT_DIR as AUDIO_SAMPLES_DIR,
     compose_test_song,
@@ -1466,6 +1472,7 @@ def initialize_runtime_components():
     setup_scheduled_tasks_table()
     setup_task_macro_sequence_table()
     setup_game_elements_table()
+    ensure_launch_game_system_macro()
     refresh_macro_list()
     task_controller.start_scheduler(log_callback=console_log, root_callback=lambda: root and root.winfo_exists())
     update_status("Pronto", indicator="idle")
@@ -1971,11 +1978,29 @@ METADATI:
 • Descrizione: {macro_metadata.get('descrizione', 'N/A')}
 • Durata: {macro_metadata['durata_sec']} secondi
 • Eseguibile: {macro_metadata['eseguibile']}
+• Tipo: {"Macro di sistema" if macro_metadata.get('macro_kind') == 'system' else "Macro standard"}
+• Protetta: {"Sì" if macro_metadata.get('is_protected') else "No"}
 • Data Creazione: {macro_metadata['data_creazione']}
 
 SINTESI:
 • Gli eventi della macro non vengono mostrati nella sintesi per migliorare la leggibilità.
 • Per visualizzare i dettagli degli eventi utilizza il pulsante '✏️ Modifica' per aprire l'editor.
+"""
+        if macro_metadata.get("macro_kind") == "system":
+            payload = macro_metadata.get("system_payload") or {}
+            local_context = ""
+            if payload.get("variant_scope") == "local_workstation":
+                local_context = f"{payload.get('host_name') or '-'}\\{payload.get('user_name') or '-'}"
+            details += f"""
+
+MACRO DI SISTEMA:
+• Chiave: {macro_metadata.get('system_key') or '-'}
+• Collegamento di avvio: {payload.get('shortcut_path') or '-'}
+• Obiettivo: {payload.get('objective') or 'Arrivare al gioco pronto.'}
+• Comportamento iniziale: avvia il gioco se non è già attivo e attende il fullscreen.
+• Polling popup iniziali: ogni {payload.get('initial_popup_poll_interval_sec') or 10}s sull'intera finestra.
+• Step successivi previsti: caricamento completo, rilevamento/chiusura popup iniziali bloccanti, accesso al gioco.
+• Variante locale: {local_context or 'No'}
 """
             
         # Mostra i dettagli
@@ -2006,6 +2031,12 @@ def update_button_states():
 
         selected_item = macro_list_tree.selection()
         has_selection = bool(selected_item)
+        selected_macro_metadata = None
+        if has_selection:
+            try:
+                selected_macro_metadata = get_macro_metadata_by_id(int(selected_item[0]))
+            except Exception:
+                selected_macro_metadata = None
 
         def set_play_button_highlight(is_active):
             if is_active:
@@ -2054,8 +2085,10 @@ def update_button_states():
 
             if has_selection:
                 play_button.config(state=tk.NORMAL)
-                edit_button.config(state=tk.NORMAL)
-                delete_button.config(state=tk.NORMAL)
+                is_system_macro = bool(selected_macro_metadata and selected_macro_metadata.get("macro_kind") == "system")
+                is_protected = bool(selected_macro_metadata and selected_macro_metadata.get("is_protected"))
+                edit_button.config(state=tk.DISABLED if is_system_macro else tk.NORMAL)
+                delete_button.config(state=tk.DISABLED if is_protected else tk.NORMAL)
                 duplicate_button.config(state=tk.NORMAL) # Abilita anche duplicate
                 loop_var_checkbox.config(state=tk.NORMAL)
                 loop_delay_entry.config(state=tk.NORMAL if loop_var.get() else tk.DISABLED)
@@ -2426,10 +2459,20 @@ def start_playback_thread():
         return
     macro_id, macro_metadata = selected_macro
 
+    macro_kind = macro_metadata.get("macro_kind", "standard")
     macro_events = load_macro_events(macro_id)
-    if not macro_events:
+    if macro_kind != "system" and not macro_events:
         messagebox.showwarning("Riproduzione Macro", f"Nessun evento trovato per la macro '{macro_metadata['nome']}'.", parent=root)
         console_log(f"⚠️ Nessun evento trovato per la macro '{macro_metadata['nome']}'.", level="WARNING")
+        return
+
+    if macro_kind == "system":
+        try:
+            run_system_macro(macro_metadata, console_log)
+            update_status("Macro di sistema eseguita", indicator="idle")
+        except Exception as exc:
+            messagebox.showerror("Macro di sistema", f"Errore durante l'esecuzione della macro di sistema:\n{exc}", parent=root)
+            console_log(f"❌ Errore macro di sistema '{macro_metadata['nome']}': {exc}", level="ERROR")
         return
 
     target_exe = macro_metadata['eseguibile']
@@ -2562,6 +2605,13 @@ def edit_selected_macro():
         return
 
     macro_id_to_edit, macro_metadata = selected_macro
+    if macro_metadata.get("macro_kind") == "system":
+        messagebox.showinfo(
+            "Macro di sistema",
+            "Questa macro di sistema per ora può essere duplicata ma non modificata direttamente.",
+            parent=root,
+        )
+        return
     logger.info(f"Editor richiesto per macro ID: {macro_id_to_edit}")
     macro_name = macro_metadata['nome']
     logger.info(f"Apertura editor per macro: {macro_name}")
@@ -2577,6 +2627,110 @@ def edit_selected_macro():
     refresh_macro_ui_state()
 
 
+def configure_launch_game_system_macro(macro_metadata):
+    existing_local_variant = get_local_launch_game_variant_for_current_context()
+    source_payload = macro_metadata.get("system_payload") or {}
+    prefill_shortcut = (
+        (existing_local_variant or {}).get("system_payload", {}).get("shortcut_path")
+        or source_payload.get("shortcut_path")
+        or ""
+    )
+
+    dialog = tk.Toplevel(root)
+    dialog.title("Collegamento Locale Gioco")
+    dialog.transient(root)
+    dialog.grab_set()
+    dialog.resizable(False, False)
+
+    ttk.Label(
+        dialog,
+        text=(
+            "Incolla il collegamento o il percorso che usi su questa postazione per avviare il gioco.\n"
+            "La macro di sistema base non verrà sovrascritta: salvo una variante locale ricordata."
+        ),
+        justify="left",
+        wraplength=520,
+    ).pack(fill="x", padx=16, pady=(16, 10))
+
+    entry_var = tk.StringVar(value=prefill_shortcut)
+    shortcut_entry = ttk.Entry(dialog, textvariable=entry_var, width=80)
+    shortcut_entry.pack(fill="x", padx=16)
+    shortcut_entry.focus_set()
+    shortcut_entry.selection_range(0, tk.END)
+
+    status_var = tk.StringVar()
+    if existing_local_variant:
+        status_var.set(f"Variante locale trovata: {existing_local_variant.get('nome')}")
+    else:
+        status_var.set("Nessuna variante locale salvata finora per questa postazione.")
+    ttk.Label(dialog, textvariable=status_var, justify="left", wraplength=520).pack(fill="x", padx=16, pady=(10, 0))
+
+    button_row = ttk.Frame(dialog)
+    button_row.pack(fill="x", padx=16, pady=16)
+
+    def browse_shortcut():
+        selected = filedialog.askopenfilename(
+            parent=dialog,
+            title="Seleziona il collegamento o l'eseguibile del gioco",
+            filetypes=[
+                ("Collegamenti ed eseguibili", "*.lnk *.exe"),
+                ("Tutti i file", "*.*"),
+            ],
+        )
+        if selected:
+            entry_var.set(selected)
+
+    def save_local_variant():
+        shortcut_path = entry_var.get().strip()
+        try:
+            macro_id, macro_name, created = save_launch_game_local_variant(shortcut_path, source_macro_metadata=macro_metadata)
+        except Exception as exc:
+            messagebox.showerror("Collegamento locale", f"Non sono riuscito a salvare il collegamento:\n{exc}", parent=dialog)
+            return
+
+        console_log(
+            (
+                f"✅ Variante locale {'creata' if created else 'aggiornata'} per l'avvio del gioco: "
+                f"'{macro_name}' -> {shortcut_path}"
+            ),
+            level="INFO",
+        )
+        refresh_macro_ui_state()
+        if macro_list_tree and macro_list_tree.winfo_exists():
+            macro_list_tree.selection_set(str(macro_id))
+            macro_list_tree.focus(str(macro_id))
+            macro_list_tree.see(str(macro_id))
+        update_macro_details()
+        update_button_states()
+        dialog.destroy()
+
+    ttk.Button(button_row, text="Sfoglia", command=browse_shortcut).pack(side="left")
+    ttk.Button(button_row, text="Annulla", command=dialog.destroy).pack(side="right")
+    ttk.Button(button_row, text="Salva Variante Locale", command=save_local_variant).pack(side="right", padx=(0, 8))
+
+    dialog.bind("<Return>", lambda event: save_local_variant())
+    dialog.wait_window()
+
+
+def open_selected_macro_action():
+    selected_macro = get_selected_macro_metadata(
+        action_label="Apertura",
+        missing_selection_message="Seleziona una macro.",
+        invalid_selection_message="ID macro non valido selezionato.",
+        missing_metadata_message="Metadati macro non trovati per ID: {macro_id}",
+        parent=root,
+    )
+    if not selected_macro:
+        return
+
+    _macro_id, macro_metadata = selected_macro
+    if macro_metadata.get("system_key") == LAUNCH_GAME_SYSTEM_KEY:
+        configure_launch_game_system_macro(macro_metadata)
+        return
+
+    edit_selected_macro()
+
+
 def delete_selected_macro():
     selected_macro = get_selected_macro_metadata(
         action_label="Eliminazione",
@@ -2588,6 +2742,13 @@ def delete_selected_macro():
     if not selected_macro:
         return
     _macro_id, macro_metadata = selected_macro
+    if macro_metadata.get("is_protected"):
+        messagebox.showwarning(
+            "Macro di sistema",
+            "Questa macro di sistema è protetta e non può essere cancellata.",
+            parent=root,
+        )
+        return
     macro_name_to_delete = macro_metadata["nome"]
 
     confirm = messagebox.askyesno(
@@ -4542,6 +4703,7 @@ def setup_gui():
     loop_delay_entry = macro_panel_refs["loop_delay_entry"]
     max_repetitions_entry = macro_panel_refs["max_repetitions_entry"]
     macro_list_tree = macro_panel_refs["macro_list_tree"]
+    console_parent = macro_panel_refs["console_parent"]
     loop_delay_entry.bind("<FocusOut>", persist_loop_delay_from_entry)
     loop_delay_entry.bind("<Return>", persist_loop_delay_from_entry)
 
@@ -4557,16 +4719,8 @@ def setup_gui():
         setup_settings_tab=setup_settings_tab,
     )
 
-    console_section = CollapsibleSection(
-        main_frame,
-        title="Console Log",
-        expanded=panel_state.get("console", True),
-    )
-    console_section.pack(fill="both", expand=False, pady=(0, 10))
-    console_section.toggle_button.config(command=lambda: toggle_collapsible_section("console", console_section))
-
     console_text = build_log_console(
-        console_section.body,
+        console_parent,
         font_family=font_family,
         font_size_small=config["theme"]["font_size_small"],
         border_color=border_color,
@@ -4587,7 +4741,7 @@ def setup_gui():
         macro_list_tree=macro_list_tree,
         update_button_states=update_button_states,
         update_macro_details=update_macro_details,
-        edit_selected_macro=edit_selected_macro,
+        open_selected_macro_action=open_selected_macro_action,
         on_window_focus_in=on_window_focus_in,
         on_window_focus_out=on_window_focus_out,
         on_window_destroy=on_window_destroy,

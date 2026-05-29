@@ -18,6 +18,22 @@ class GameElementMatch:
     scale: float
 
 
+@dataclass(slots=True)
+class GameScreenElementSearchResult:
+    requested_elements: tuple[str, ...]
+    found: bool
+    expected_presence: bool
+    condition_satisfied: bool
+    matched_element_name: str | None
+    score: float | None
+    center: tuple[int, int] | None
+    location: tuple[int, int] | None
+    size: tuple[int, int] | None
+    scale: float | None
+    threshold: float
+    window_rect: tuple[int, int, int, int]
+
+
 def load_game_element_template_by_name(element_name: str):
     """Carica un elemento grafico dal catalogo e lo converte in template grayscale."""
     element = get_game_element_by_name(element_name)
@@ -44,7 +60,7 @@ def capture_window_for_matching(window_rect):
     return _capture_context_image_win32(left, top, right, bottom)
 
 
-def find_game_element_match(element_name, window_rect, *, threshold=0.8, scales=None):
+def find_game_element_match(element_name, window_rect, *, threshold=0.85, scales=None):
     """Cerca un elemento grafico catalogato nella finestra target."""
     template_gray = load_game_element_template_by_name(element_name)
     if template_gray is None:
@@ -75,7 +91,38 @@ def find_game_element_match(element_name, window_rect, *, threshold=0.8, scales=
         _release_cv_image(screenshot_gray)
 
 
-def find_best_scaled_match(element_name, template_gray, screenshot_gray, *, window_rect, threshold=0.8, scales=None):
+def search_game_window_elements(window_rect, *, element_names, threshold=0.85, scales=None, expected_presence=True):
+    """Ricerca uno o più elementi nell'intera finestra e restituisce un risultato comune riusabile."""
+    if isinstance(element_names, str):
+        requested_elements = (element_names,)
+    else:
+        requested_elements = tuple(name for name in (element_names or ()) if name)
+
+    best_match = None
+    for element_name in requested_elements:
+        match = find_game_element_match(element_name, window_rect, threshold=threshold, scales=scales)
+        if match and (best_match is None or match.score > best_match.score):
+            best_match = match
+
+    found = best_match is not None
+    condition_satisfied = found if expected_presence else not found
+    return GameScreenElementSearchResult(
+        requested_elements=requested_elements,
+        found=found,
+        expected_presence=expected_presence,
+        condition_satisfied=condition_satisfied,
+        matched_element_name=best_match.element_name if best_match else None,
+        score=best_match.score if best_match else None,
+        center=best_match.center if best_match else None,
+        location=best_match.location if best_match else None,
+        size=best_match.size if best_match else None,
+        scale=best_match.scale if best_match else None,
+        threshold=float(threshold),
+        window_rect=window_rect,
+    )
+
+
+def find_best_scaled_match(element_name, template_gray, screenshot_gray, *, window_rect, threshold=0.85, scales=None):
     """Esegue il matching provando più scale del template."""
     try:
         import cv2

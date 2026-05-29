@@ -16,6 +16,10 @@ Provide reusable external-automation primitives for Doomsday window capture and 
 - load legacy JSON-described templates
 - find the best on-screen match above a threshold
 - load graphic elements from the internal catalog and search them across the full game window with scale tolerance for recovery flows
+- search one or more catalogued graphic elements across the whole game window and return a reusable result with `found`, `center`, `score`, `matched_element_name`, `condition_satisfied`, and window metadata
+
+Default matching guidance:
+- for in-game graphic element search, matches above `0.85` are considered acceptable unless a caller overrides the threshold
 
 ## Notes
 

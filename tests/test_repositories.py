@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from repositories import backup_repository, database, game_element_repository, macro_repository, task_repository
+from services.system_macro_service import ensure_launch_game_system_macro, save_launch_game_local_variant
 
 
 def sample_events(prefix="base"):
@@ -114,6 +115,73 @@ class MacroRepositoryTests(RepositoryTestCase):
         backup_repository.restore_macro_from_backup(backups[0]["id"])
         restored_events = macro_repository.load_macro_events(macro_id)
         self.assertEqual(restored_events, original_events)
+
+    def test_protected_system_macro_cannot_be_deleted_and_duplicate_is_unprotected(self):
+        system_macro_id = macro_repository.salva_macro_test(
+            "Sistema · Avvia Test",
+            "macro di sistema",
+            1,
+            "game.exe",
+            [],
+            macro_kind=macro_repository.SYSTEM_MACRO_KIND,
+            is_protected=True,
+            system_key="launch_game",
+            system_payload={"shortcut_path": "C:/test.lnk", "target_exe": "game.exe"},
+        )
+
+        with self.assertRaises(ValueError):
+            macro_repository.delete_macro("Sistema · Avvia Test")
+
+        duplicate_id, _duplicate_name = macro_repository.duplicate_macro(system_macro_id)
+        duplicate_metadata = macro_repository.get_macro_metadata_by_id(duplicate_id)
+        self.assertEqual(duplicate_metadata["macro_kind"], macro_repository.SYSTEM_MACRO_KIND)
+        self.assertFalse(duplicate_metadata["is_protected"])
+
+    def test_ensure_launch_game_system_macro_creates_protected_entry(self):
+        with patch("services.system_macro_service.load_app_config", return_value={
+            "system_macros": {
+                "launch_game": {
+                    "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                    "target_exe": "Doomsday.exe",
+                }
+            }
+        }):
+            macro_id = ensure_launch_game_system_macro()
+
+        metadata = macro_repository.get_macro_metadata_by_id(macro_id)
+        self.assertEqual(metadata["macro_kind"], macro_repository.SYSTEM_MACRO_KIND)
+        self.assertTrue(metadata["is_protected"])
+        self.assertEqual(metadata["system_key"], "launch_game")
+        self.assertEqual(metadata["system_payload"]["target_exe"], "Doomsday.exe")
+
+    def test_save_launch_game_local_variant_creates_and_updates_per_workstation(self):
+        with patch("services.system_macro_service.load_app_config", return_value={
+            "system_macros": {
+                "launch_game": {
+                    "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                    "target_exe": "Doomsday.exe",
+                }
+            }
+        }), patch("services.system_macro_service.save_app_config"):
+            ensure_launch_game_system_macro()
+
+            with patch("services.system_macro_service.get_local_launch_context", return_value={
+                "host_name": "TESTPC",
+                "user_name": "Rob",
+            }):
+                macro_id, macro_name, created = save_launch_game_local_variant("D:/Custom/Doomsday.lnk")
+                metadata = macro_repository.get_macro_metadata_by_id(macro_id)
+                self.assertTrue(created)
+                self.assertEqual(metadata["system_payload"]["shortcut_path"], "D:/Custom/Doomsday.lnk")
+                self.assertEqual(metadata["system_payload"]["variant_scope"], "local_workstation")
+                self.assertEqual(macro_name, "Sistema · Avvia Doomsday · Locale TESTPC\\Rob")
+                self.assertFalse(metadata["is_protected"])
+
+                updated_id, _updated_name, created_again = save_launch_game_local_variant("E:/Games/Doomsday.lnk")
+                updated_metadata = macro_repository.get_macro_metadata_by_id(updated_id)
+                self.assertEqual(updated_id, macro_id)
+                self.assertFalse(created_again)
+                self.assertEqual(updated_metadata["system_payload"]["shortcut_path"], "E:/Games/Doomsday.lnk")
 
 
 class TaskRepositoryTests(RepositoryTestCase):

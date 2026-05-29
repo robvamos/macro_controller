@@ -38,7 +38,8 @@ def build_macro_management_tab(
     shell.columnconfigure(1, weight=3)
     shell.columnconfigure(2, weight=4)
     shell.rowconfigure(1, weight=1)
-    shell.rowconfigure(2, weight=2)
+    shell.rowconfigure(2, weight=1)
+    shell.rowconfigure(3, weight=3)
 
     header = ttk.Frame(shell)
     header.grid(row=0, column=0, columnspan=3, sticky="ew", pady=(0, 8))
@@ -151,7 +152,7 @@ def build_macro_management_tab(
     details_text = scrolledtext.ScrolledText(
         details_section.body,
         wrap="word",
-        height=11,
+        height=8,
         font=(theme["font_family"], theme["font_size_small"]),
         bg=theme["border_color"],
         fg=theme["text_color"],
@@ -166,9 +167,18 @@ def build_macro_management_tab(
         expanded=panel_state.get("macro_execution", True),
     )
     execution_section.grid = execution_section.container.grid
-    execution_section.grid(row=1, column=2, rowspan=2, sticky="nsew")
+    execution_section.grid(row=1, column=2, rowspan=3, sticky="nsew")
     execution_section.toggle_button.config(command=lambda: on_panel_state_change("macro_execution", execution_section))
     setup_execution_visualizer(execution_section.body)
+
+    console_section = CollapsibleSection(
+        shell,
+        title="Console Log",
+        expanded=panel_state.get("console", True),
+    )
+    console_section.grid = console_section.container.grid
+    console_section.grid(row=2, column=1, sticky="nsew", padx=(0, 8), pady=(0, 8))
+    console_section.toggle_button.config(command=lambda: on_panel_state_change("console", console_section))
 
     list_section = CollapsibleSection(
         shell,
@@ -176,7 +186,7 @@ def build_macro_management_tab(
         expanded=panel_state.get("macro_list", True),
     )
     list_section.grid = list_section.container.grid
-    list_section.grid(row=2, column=1, sticky="nsew", padx=(0, 8))
+    list_section.grid(row=3, column=1, sticky="nsew", padx=(0, 8))
     list_section.toggle_button.config(command=lambda: on_panel_state_change("macro_list", list_section))
     list_section.body.columnconfigure(0, weight=1)
     list_section.body.rowconfigure(0, weight=1)
@@ -219,4 +229,5 @@ def build_macro_management_tab(
         "max_repetitions_entry": max_repetitions_entry,
         "macro_list_tree": macro_list_tree,
         "macro_details_text": details_text,
+        "console_parent": console_section.body,
     }
