@@ -188,6 +188,7 @@ from core.windows_elevation import (
     target_requires_elevation,
 )
 from services.operation_state_service import OperationStateService
+from services.app_cleanup_service import cleanup_runtime_artifacts, close_logging_handlers
 from services.focus_monitor_service import FocusMonitorService
 from services.playback_service import PlaybackService
 from services.recording_service import RecordingService
@@ -239,6 +240,7 @@ focus_monitor_service = FocusMonitorService(app_state, state_service)
 playback_service = PlaybackService(app_state, state_service)
 recording_service = RecordingService(app_state, state_service)
 config = {}
+shutdown_cleanup_done = False
 
 # Variabili globali per i pulsanti per poterli abilitare/disabilitare
 new_macro_button = None # Assicurati che sia dichiarato globalmente
@@ -2297,6 +2299,20 @@ def on_window_destroy(event=None):
     except Exception as e:
         # Se c'è un errore durante la chiusura, stampa solo su console
         print(f"Errore durante la chiusura della finestra: {e}")
+    finally:
+        cleanup_on_application_close()
+
+
+def cleanup_on_application_close():
+    """Chiude i log e pulisce artefatti runtime locali una sola volta."""
+    global shutdown_cleanup_done, file_log_handler, playback_debug_log_path
+    if shutdown_cleanup_done:
+        return {"files_removed": 0, "dirs_removed": 0, "errors": 0}
+    shutdown_cleanup_done = True
+    close_logging_handlers()
+    file_log_handler = None
+    playback_debug_log_path = None
+    return cleanup_runtime_artifacts()
 
 
 def close_current_window_after_admin_relaunch():
@@ -2310,6 +2326,7 @@ def close_current_window_after_admin_relaunch():
             root.after(0, root.quit)
             root.after(50, root.destroy)
     finally:
+        cleanup_on_application_close()
         # Alcuni thread daemon possono tenere viva l'istanza non elevata:
         # forziamo l'uscita poco dopo il rilancio del nuovo processo.
         if root and root.winfo_exists():
@@ -4867,17 +4884,20 @@ def setup_gui():
 
     # Aggancia salvataggio posizione/dimensione alla chiusura
     def on_close():
-        # Ferma il monitoraggio del focus
-        stop_focus_monitoring()
-        # Ferma il background scheduler
-        task_controller.stop_scheduler(log_callback=console_log)
-        # Ferma eventuali operazioni in corso
-        stop_current_operation()
-        # Aggiorna i dettagli della macro
-        update_macro_details()
-        # Salva la geometria della finestra
-        save_window_geometry()
-        root.destroy()
+        try:
+            # Ferma il monitoraggio del focus
+            stop_focus_monitoring()
+            # Ferma il background scheduler
+            task_controller.stop_scheduler(log_callback=console_log)
+            # Ferma eventuali operazioni in corso
+            stop_current_operation()
+            # Aggiorna i dettagli della macro
+            update_macro_details()
+            # Salva la geometria della finestra
+            save_window_geometry()
+        finally:
+            cleanup_on_application_close()
+            root.destroy()
     root.protocol("WM_DELETE_WINDOW", on_close)
 
 
