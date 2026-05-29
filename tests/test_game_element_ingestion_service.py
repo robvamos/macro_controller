@@ -32,6 +32,8 @@ class GameElementIngestionServiceTests(unittest.TestCase):
         self.assertGreaterEqual(len(guidelines), 5)
         self.assertIn("senza distorsioni", summary)
         self.assertIn("shared top-left panel", summary)
+        self.assertTrue(any("cambiare lingua" in line for line in guidelines))
+        self.assertTrue(any("badge rossi" in line for line in guidelines))
 
 
 if __name__ == "__main__":

@@ -241,6 +241,85 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             "sia alla vista rifugio."
         ),
     )
+    top_left_profile_portrait = UIGraphNode(
+        node_id="top_left_profile_portrait",
+        label="Riquadro eroe profilo alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="portrait_anchor",
+        recovery_action=None,
+        tags=("shared", "hud", "profile", "portrait", "hero", "user-customizable"),
+        notes=(
+            "Primo riquadro quadrato del pannello alto sinistra, associato all'eroe o profilo. "
+            "L'immagine interna puo' essere casuale o personalizzata dall'utente del gioco, quindi "
+            "non e' un riferimento stabile. Per il matching contano soprattutto cornice, posizione, "
+            "forma del riquadro e struttura generale del blocco."
+        ),
+    )
+    top_left_status_bar = UIGraphNode(
+        node_id="top_left_status_bar",
+        label="Barra stato profilo alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="status_bar",
+        recovery_action=None,
+        tags=("shared", "hud", "status-bar"),
+        notes="Barra orizzontale sotto il ritratto profilo. Il livello di riempimento puo' variare e non va confrontato in modo rigido.",
+    )
+    top_left_power_indicator = UIGraphNode(
+        node_id="top_left_power_indicator",
+        label="Indicatore potenza alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="power_indicator",
+        recovery_action=None,
+        tags=("shared", "hud", "power", "language-agnostic"),
+        notes=(
+            "Area con icona pugno e valore numerico della potenza. Il numero cambia spesso, quindi il riferimento "
+            "stabile e' l'icona e la posizione, non il valore. Serve soprattutto a sapere dove si trova "
+            "l'indicatore, cosi' da poterne eventualmente leggere il numero come dato separato."
+        ),
+    )
+    top_left_vip_indicator = UIGraphNode(
+        node_id="top_left_vip_indicator",
+        label="Indicatore VIP alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="vip_indicator",
+        recovery_action=None,
+        tags=("shared", "hud", "vip", "language-agnostic"),
+        notes=(
+            "Indicatore VIP nel pannello alto sinistra, tipicamente composto dalla scritta VIP e da un numero. "
+            "Il numero del livello puo' cambiare, quindi il riferimento stabile resta il blocco VIP nella sua posizione "
+            "e non il valore numerico preciso."
+        ),
+    )
+    top_left_left_quick_action = UIGraphNode(
+        node_id="top_left_left_quick_action",
+        label="Scorciatoia sinistra alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="quick_action",
+        recovery_action=None,
+        tags=("shared", "hud", "quick-action", "left"),
+        notes="Primo piccolo pulsante rapido sulla destra del pannello alto sinistra.",
+    )
+    top_left_right_quick_action = UIGraphNode(
+        node_id="top_left_right_quick_action",
+        label="Scorciatoia destra alto sinistra",
+        kind="control",
+        conditions=(),
+        parent_node_id="top_left_compact_status_panel",
+        layout_role="quick_action",
+        recovery_action=None,
+        tags=("shared", "hud", "quick-action", "right"),
+        notes="Secondo piccolo pulsante rapido sulla destra del pannello alto sinistra.",
+    )
     top_right_extended_status_panel = UIGraphNode(
         node_id="top_right_extended_status_panel",
         label="Pannello esteso alto destra",
@@ -259,14 +338,29 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         node_id="bottom_left_shelter_switch_button",
         label="Bottone passaggio vista rifugio",
         kind="control",
-        conditions=(),
+        conditions=(
+            UIGraphCondition(
+                condition_id="view_switch_icon_visible",
+                element_names=("region_view_switch_globe_icon", "shelter_view_switch_home_icon"),
+                expected_presence=True,
+                threshold=0.85,
+                description=(
+                    "E' visibile una delle due icone del cambio vista in basso a sinistra: "
+                    "globo per andare in regione oppure rifugio per entrare nel shelter. "
+                    "La scritta puo' cambiare con la lingua, quindi il matching si basa sul simbolo."
+                ),
+            ),
+        ),
         parent_node_id="game_runtime_root",
         layout_role="bottom_left_primary",
         recovery_action=None,
-        tags=("shared", "navigation", "shelter-switch"),
+        tags=("shared", "navigation", "shelter-switch", "language-agnostic"),
         notes=(
             "Bottone importante in basso a sinistra usato per passare dalla vista esterna "
-            "alla vista rifugio e viceversa."
+            "alla vista rifugio e viceversa. Nella vista rifugio puo' mostrare il globo con "
+            "la scritta Regione o equivalenti in altre lingue; nella vista regione puo' mostrare "
+            "l'icona del rifugio con la scritta Rifugio o equivalenti. Per questo il riferimento "
+            "semantico corretto e' l'icona, non il testo."
         ),
     )
     shelter_left_side_controls_panel = UIGraphNode(
@@ -285,17 +379,81 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
     )
     shelter_bottom_right_sections_panel = UIGraphNode(
         node_id="shelter_bottom_right_sections_panel",
-        label="Pannello sezioni basso destra rifugio",
+        label="Pannello sezioni basso destra condiviso",
         kind="panel",
         conditions=(),
-        parent_node_id="shelter_interior_view",
+        parent_node_id="game_runtime_root",
         layout_role="bottom_right_sections",
         recovery_action=None,
-        tags=("shelter", "sections", "campagna", "zaino", "alleanza", "bestie", "eroe"),
+        tags=("shared", "sections", "campagna", "zaino", "alleanza", "bestie", "eroe", "language-agnostic"),
         notes=(
-            "Pannellino esteso in basso a destra nella vista rifugio con le sezioni campagna, "
-            "zaino, alleanza, bestie ed eroe."
+            "Pannellino esteso in basso a destra presente sia nella vista regione sia nella vista "
+            "rifugio con le sezioni campagna, zaino, alleanza, bestie ed eroe. I badge rossi e i "
+            "numeri di eventi in sospeso sono variabili e non devono far parte del riferimento "
+            "grafico stabile. Anche le scritte possono cambiare lingua, quindi il matching dovrebbe "
+            "privilegiare icone, disposizione e struttura del pannello."
         ),
+    )
+    campaign_section_button = UIGraphNode(
+        node_id="campaign_section_button",
+        label="Sezione Campagna",
+        kind="control",
+        conditions=(),
+        parent_node_id="shelter_bottom_right_sections_panel",
+        layout_role="section_slot",
+        recovery_action=None,
+        tags=("shared", "section", "campaign", "language-agnostic"),
+        notes=(
+            "Sezione Campagna del pannello basso destra condiviso. Il badge rosso eventi e la scritta "
+            "non sono il riferimento principale: conta soprattutto l'icona stabile."
+        ),
+    )
+    backpack_section_button = UIGraphNode(
+        node_id="backpack_section_button",
+        label="Sezione Zaino",
+        kind="control",
+        conditions=(),
+        parent_node_id="shelter_bottom_right_sections_panel",
+        layout_role="section_slot",
+        recovery_action=None,
+        tags=("shared", "section", "backpack", "language-agnostic"),
+        notes="Sezione Zaino del pannello basso destra condiviso, da riconoscere soprattutto tramite icona.",
+    )
+    alliance_section_button = UIGraphNode(
+        node_id="alliance_section_button",
+        label="Sezione Alleanza",
+        kind="control",
+        conditions=(),
+        parent_node_id="shelter_bottom_right_sections_panel",
+        layout_role="section_slot",
+        recovery_action=None,
+        tags=("shared", "section", "alliance", "language-agnostic"),
+        notes=(
+            "Sezione Alleanza del pannello basso destra condiviso. I numeri rossi variabili non fanno "
+            "parte del riferimento stabile."
+        ),
+    )
+    beast_section_button = UIGraphNode(
+        node_id="beast_section_button",
+        label="Sezione Bestia",
+        kind="control",
+        conditions=(),
+        parent_node_id="shelter_bottom_right_sections_panel",
+        layout_role="section_slot",
+        recovery_action=None,
+        tags=("shared", "section", "beast", "language-agnostic"),
+        notes="Sezione Bestia del pannello basso destra condiviso, con matching basato soprattutto sull'icona.",
+    )
+    hero_section_button = UIGraphNode(
+        node_id="hero_section_button",
+        label="Sezione Eroe",
+        kind="control",
+        conditions=(),
+        parent_node_id="shelter_bottom_right_sections_panel",
+        layout_role="section_slot",
+        recovery_action=None,
+        tags=("shared", "section", "hero", "language-agnostic"),
+        notes="Sezione Eroe del pannello basso destra condiviso, con riferimento principale sull'icona.",
     )
     shelter_right_edge_alerts_panel = UIGraphNode(
         node_id="shelter_right_edge_alerts_panel",
@@ -397,6 +555,48 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="La vista esterna include il pannello compatto alto sinistra.",
         ),
         UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_profile_portrait",
+            trigger="profile_portrait_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone il riquadro ritratto profilo.",
+        ),
+        UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_status_bar",
+            trigger="status_bar_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone una barra stato sotto il ritratto.",
+        ),
+        UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_power_indicator",
+            trigger="power_indicator_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone l'indicatore di potenza con icona pugno e valore.",
+        ),
+        UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_vip_indicator",
+            trigger="vip_indicator_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone il blocco VIP.",
+        ),
+        UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_left_quick_action",
+            trigger="left_quick_action_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone una prima scorciatoia rapida laterale.",
+        ),
+        UIGraphEdge(
+            from_node_id="top_left_compact_status_panel",
+            to_node_id="top_left_right_quick_action",
+            trigger="right_quick_action_visible",
+            action_name=None,
+            description="Il pannello alto sinistra espone una seconda scorciatoia rapida laterale.",
+        ),
+        UIGraphEdge(
             from_node_id="exterior_region_view",
             to_node_id="top_right_extended_status_panel",
             trigger="shared_top_panels_visible",
@@ -425,11 +625,53 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="La vista rifugio espone un pannellino di controlli sul margine sinistro sopra il bottone di cambio vista.",
         ),
         UIGraphEdge(
+            from_node_id="exterior_region_view",
+            to_node_id="shelter_bottom_right_sections_panel",
+            trigger="shared_bottom_right_sections_visible",
+            action_name=None,
+            description="La vista esterna espone il pannello basso destra condiviso con le sezioni principali.",
+        ),
+        UIGraphEdge(
             from_node_id="shelter_interior_view",
             to_node_id="shelter_bottom_right_sections_panel",
-            trigger="shelter_sections_visible",
+            trigger="shared_bottom_right_sections_visible",
             action_name=None,
-            description="La vista rifugio espone il pannello basso destra con le sezioni principali.",
+            description="La vista rifugio espone lo stesso pannello basso destra condiviso con le sezioni principali.",
+        ),
+        UIGraphEdge(
+            from_node_id="shelter_bottom_right_sections_panel",
+            to_node_id="campaign_section_button",
+            trigger="campaign_slot_visible",
+            action_name="open_campaign_section",
+            description="Il pannello condiviso espone la sezione Campagna.",
+        ),
+        UIGraphEdge(
+            from_node_id="shelter_bottom_right_sections_panel",
+            to_node_id="backpack_section_button",
+            trigger="backpack_slot_visible",
+            action_name="open_backpack_section",
+            description="Il pannello condiviso espone la sezione Zaino.",
+        ),
+        UIGraphEdge(
+            from_node_id="shelter_bottom_right_sections_panel",
+            to_node_id="alliance_section_button",
+            trigger="alliance_slot_visible",
+            action_name="open_alliance_section",
+            description="Il pannello condiviso espone la sezione Alleanza.",
+        ),
+        UIGraphEdge(
+            from_node_id="shelter_bottom_right_sections_panel",
+            to_node_id="beast_section_button",
+            trigger="beast_slot_visible",
+            action_name="open_beast_section",
+            description="Il pannello condiviso espone la sezione Bestia.",
+        ),
+        UIGraphEdge(
+            from_node_id="shelter_bottom_right_sections_panel",
+            to_node_id="hero_section_button",
+            trigger="hero_slot_visible",
+            action_name="open_hero_section",
+            description="Il pannello condiviso espone la sezione Eroe.",
         ),
         UIGraphEdge(
             from_node_id="shelter_interior_view",
@@ -475,10 +717,21 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             exterior_region_view,
             shelter_interior_view,
             top_left_compact_status_panel,
+            top_left_profile_portrait,
+            top_left_status_bar,
+            top_left_power_indicator,
+            top_left_vip_indicator,
+            top_left_left_quick_action,
+            top_left_right_quick_action,
             top_right_extended_status_panel,
             bottom_left_shelter_switch_button,
             shelter_left_side_controls_panel,
             shelter_bottom_right_sections_panel,
+            campaign_section_button,
+            backpack_section_button,
+            alliance_section_button,
+            beast_section_button,
+            hero_section_button,
             shelter_right_edge_alerts_panel,
             boot_overlay_node,
             popup_node,

@@ -19,6 +19,8 @@ Registrare elementi grafici del gioco in modo:
    - descrizione di dove compare
    - ruolo semantico
    - eventuale uso operativo o di recovery
+6. Se il controllo contiene testo localizzato, trattare la scritta come secondaria e usare il simbolo stabile come riferimento principale.
+7. Se il pannello contiene badge, contatori o puntini rossi variabili, considerarli rumore visivo e non parte del riferimento stabile.
 
 ## Procedura consigliata
 
@@ -34,7 +36,15 @@ Registrare elementi grafici del gioco in modo:
    - `popup close button`
    - `shared top-left status panel`
    - `shelter training control`
-6. Salvare l'elemento solo se il ritaglio è nitido e abbastanza specifico.
+6. Per bottoni multilingua, nominare l'elemento in base alla funzione o all'icona, non alla parola visibile.
+7. Per pannelli con contatori variabili, preferire il ritaglio delle icone o della struttura comune, evitando di dare peso ai numeri rossi.
+8. Salvare l'elemento solo se il ritaglio è nitido e abbastanza specifico.
+
+## Esempio utile
+
+- Se nel rifugio il bottone basso a sinistra mostra un globo con la scritta `Regione`, l'elemento va trattato come `region_view_switch_globe_icon`.
+- La scritta puo' cambiare lingua, ma l'icona globo resta il riferimento visivo piu' stabile per il matching.
+- Se il pannello `Campagna / Zaino / Alleanza / Bestia / Eroe` mostra badge rossi con numeri, quei badge non vanno considerati parte del confronto stabile.
 
 ## Uso futuro
 

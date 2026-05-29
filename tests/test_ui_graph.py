@@ -13,10 +13,21 @@ class UIGraphTests(unittest.TestCase):
         self.assertIn("exterior_region_view", node_ids)
         self.assertIn("shelter_interior_view", node_ids)
         self.assertIn("top_left_compact_status_panel", node_ids)
+        self.assertIn("top_left_profile_portrait", node_ids)
+        self.assertIn("top_left_status_bar", node_ids)
+        self.assertIn("top_left_power_indicator", node_ids)
+        self.assertIn("top_left_vip_indicator", node_ids)
+        self.assertIn("top_left_left_quick_action", node_ids)
+        self.assertIn("top_left_right_quick_action", node_ids)
         self.assertIn("top_right_extended_status_panel", node_ids)
         self.assertIn("bottom_left_shelter_switch_button", node_ids)
         self.assertIn("shelter_left_side_controls_panel", node_ids)
         self.assertIn("shelter_bottom_right_sections_panel", node_ids)
+        self.assertIn("campaign_section_button", node_ids)
+        self.assertIn("backpack_section_button", node_ids)
+        self.assertIn("alliance_section_button", node_ids)
+        self.assertIn("beast_section_button", node_ids)
+        self.assertIn("hero_section_button", node_ids)
         self.assertIn("shelter_right_edge_alerts_panel", node_ids)
         self.assertIn("boot_overlay_layer", node_ids)
         self.assertIn("initial_blocking_popup_close_symbol", node_ids)
@@ -25,9 +36,20 @@ class UIGraphTests(unittest.TestCase):
         self.assertEqual(graph.get_node("initial_blocking_popup_close_symbol").parent_node_id, "boot_overlay_layer")
         self.assertEqual(graph.get_node("shelter_left_side_controls_panel").parent_node_id, "shelter_interior_view")
         self.assertEqual(graph.get_node("top_right_extended_status_panel").layout_role, "top_right_extended")
+        self.assertEqual(graph.get_node("top_left_profile_portrait").parent_node_id, "top_left_compact_status_panel")
+        self.assertIn("personalizzata", graph.get_node("top_left_profile_portrait").notes)
+        self.assertEqual(graph.get_node("top_left_power_indicator").parent_node_id, "top_left_compact_status_panel")
+        self.assertIn("numero cambia", graph.get_node("top_left_power_indicator").notes)
+        self.assertIn("leggere il numero", graph.get_node("top_left_power_indicator").notes)
+        self.assertIn("scritta VIP e da un numero", graph.get_node("top_left_vip_indicator").notes)
+        self.assertEqual(graph.get_node("shelter_bottom_right_sections_panel").parent_node_id, "game_runtime_root")
+        self.assertIn("badge rossi", graph.get_node("shelter_bottom_right_sections_panel").notes)
+        self.assertEqual(graph.get_node("campaign_section_button").parent_node_id, "shelter_bottom_right_sections_panel")
+        self.assertEqual(graph.get_node("hero_section_button").parent_node_id, "shelter_bottom_right_sections_panel")
 
     def test_default_graph_exposes_region_shelter_navigation_semantics(self):
         graph = build_default_doomsday_ui_graph()
+        switch_node = graph.get_node("bottom_left_shelter_switch_button")
 
         edges = {(edge.from_node_id, edge.to_node_id, edge.trigger, edge.action_name) for edge in graph.edges}
         self.assertIn(
@@ -38,14 +60,46 @@ class UIGraphTests(unittest.TestCase):
             ("bottom_left_shelter_switch_button", "exterior_region_view", "exit_shelter", "open_region_view"),
             edges,
         )
+        self.assertIn(
+            ("exterior_region_view", "shelter_bottom_right_sections_panel", "shared_bottom_right_sections_visible", None),
+            edges,
+        )
+        self.assertIn(
+            ("shelter_interior_view", "shelter_bottom_right_sections_panel", "shared_bottom_right_sections_visible", None),
+            edges,
+        )
+        self.assertIn(
+            ("shelter_bottom_right_sections_panel", "campaign_section_button", "campaign_slot_visible", "open_campaign_section"),
+            edges,
+        )
+        self.assertIn(
+            ("shelter_bottom_right_sections_panel", "hero_section_button", "hero_slot_visible", "open_hero_section"),
+            edges,
+        )
+        self.assertIn(
+            ("top_left_compact_status_panel", "top_left_power_indicator", "power_indicator_visible", None),
+            edges,
+        )
+        self.assertIn(
+            ("top_left_compact_status_panel", "top_left_vip_indicator", "vip_indicator_visible", None),
+            edges,
+        )
+        self.assertEqual(
+            switch_node.conditions[0].element_names,
+            ("region_view_switch_globe_icon", "shelter_view_switch_home_icon"),
+        )
+        self.assertEqual(switch_node.conditions[0].threshold, 0.85)
+        self.assertIn("Rifugio", switch_node.notes)
 
     def test_evaluate_ui_graph_marks_popup_node_active_when_symbol_is_found(self):
         found_result = Mock(condition_satisfied=True, found=True, score=0.91)
         absent_result = Mock(condition_satisfied=False, found=True, score=0.91)
 
+        default_result = Mock(condition_satisfied=False, found=False, score=None)
+
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[found_result, absent_result],
+            side_effect=[default_result, found_result, absent_result],
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 
@@ -58,9 +112,11 @@ class UIGraphTests(unittest.TestCase):
         present_result = Mock(condition_satisfied=False, found=False, score=None)
         absent_result = Mock(condition_satisfied=True, found=False, score=None)
 
+        default_result = Mock(condition_satisfied=False, found=False, score=None)
+
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[present_result, absent_result],
+            side_effect=[default_result, present_result, absent_result],
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 
