@@ -487,17 +487,37 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         conditions=(
             UIGraphCondition(
                 condition_id="close_symbol_visible",
-                element_names=("popup_exit_close_symbol",),
+                element_names=("popup_exit_close_symbol", "boot_blocking_popup_close_button"),
                 expected_presence=True,
                 threshold=0.85,
-                description="Il simbolo di chiusura del popup è visibile sulla schermata.",
+                description="Il simbolo o bottone di chiusura del popup è visibile sulla schermata.",
             ),
         ),
         parent_node_id="boot_overlay_layer",
         layout_role="modal",
         recovery_action="click_popup_exit_close_symbol",
         tags=("boot", "blocking", "popup"),
-        notes="Popup bloccante che appare dopo il caricamento del gioco.",
+        notes=(
+            "Popup bloccante che appare dopo il caricamento del gioco. Quando è visibile, "
+            "di norma basta cliccare l'elemento di chiusura catalogato per liberare la schermata."
+        ),
+    )
+    empty_space_dismissal_node = UIGraphNode(
+        node_id="empty_space_popup_dismissal_band_4",
+        label="Dismiss popup con spazio vuoto fascia 4",
+        kind="spatial_action",
+        conditions=(),
+        parent_node_id="boot_overlay_layer",
+        layout_role="empty_space_recovery",
+        recovery_action="click_empty_space_band_4_from_bottom",
+        tags=("boot", "blocking", "popup", "empty-space", "fallback", "learned"),
+        notes=(
+            "Regola appresa: alcuni popup bloccanti non espongono un identificatore stabile e si chiudono "
+            "cliccando in uno spazio vuoto dello schermo. Dividendo lo schermo in 5 bande orizzontali "
+            "contate dal basso, la fascia 4 e' spesso una zona utile per tentare il dismiss senza colpire "
+            "controlli principali. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni "
+            "di chiusura riconoscibili."
+        ),
     )
     playable_node = UIGraphNode(
         node_id="playable_interface_without_boot_popup",
@@ -506,7 +526,7 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         conditions=(
             UIGraphCondition(
                 condition_id="close_symbol_not_visible",
-                element_names=("popup_exit_close_symbol",),
+                element_names=("popup_exit_close_symbol", "boot_blocking_popup_close_button"),
                 expected_presence=False,
                 threshold=0.85,
                 description="Il simbolo di chiusura popup non è presente, quindi la vista è libera da quel blocco.",
@@ -708,6 +728,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             action_name="resume_boot_flow",
             description="Una volta chiuso il popup bloccante il boot può proseguire verso la vista giocabile.",
         ),
+        UIGraphEdge(
+            from_node_id="empty_space_popup_dismissal_band_4",
+            to_node_id="playable_interface_without_boot_popup",
+            trigger="empty_space_dismissal_clicked",
+            action_name="resume_after_empty_space_popup_dismissal",
+            description="Fallback appreso: click su spazio vuoto nella fascia 4 dal basso per chiudere popup senza identificatori.",
+        ),
     )
     return UIGraphDefinition(
         graph_id="doomsday-default-ui-graph",
@@ -735,6 +762,7 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             shelter_right_edge_alerts_panel,
             boot_overlay_node,
             popup_node,
+            empty_space_dismissal_node,
             playable_node,
         ),
         edges=edges,

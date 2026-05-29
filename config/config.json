@@ -18,12 +18,6 @@
     "listbox_height": 8,
     "loop_interval_sec_default": 2.0
   },
-  "new_macro_dialog": {
-    "window_title": "Nuova Macro",
-    "default_exe_name": "Doomsday.exe",
-    "default_duration_sec": 10
-  },
-  "selected_style": "dark_blue",
   "system_macros": {
     "launch_game": {
       "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
@@ -32,9 +26,22 @@
       "fullscreen_timeout_sec": 180,
       "initial_popup_poll_interval_sec": 10,
       "blocking_popup_element_name": "popup_exit_close_symbol",
-      "blocking_popup_match_threshold": 0.85
+      "blocking_popup_match_threshold": 0.85,
+      "preferred_local_variant": {
+        "macro_id": 63,
+        "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+        "host_name": "MUSICSTATION",
+        "user_name": "robva",
+        "remembered_state": true
+      }
     }
   },
+  "new_macro_dialog": {
+    "window_title": "Nuova Macro",
+    "default_exe_name": "Doomsday.exe",
+    "default_duration_sec": 10
+  },
+  "selected_style": "dark_blue",
   "macro_editor_layout": {
     "left_column_weight": 3,
     "right_column_weight": 1
@@ -80,5 +87,10 @@
     "y": 361,
     "width": 500,
     "height": 300
+  },
+  "local_workstation": {
+    "host_name": "MUSICSTATION",
+    "user_name": "robva",
+    "last_seen_at": "2026-05-29T16:13:39"
   }
 }

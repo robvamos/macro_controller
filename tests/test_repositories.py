@@ -5,7 +5,11 @@ from unittest.mock import patch
 
 from repositories import backup_repository, database, game_element_repository, macro_repository, task_repository
 from repositories import ui_graph_macro_link_repository
-from services.system_macro_service import ensure_launch_game_system_macro, save_launch_game_local_variant
+from services.system_macro_service import (
+    ensure_launch_game_system_macro,
+    remember_local_workstation_context,
+    save_launch_game_local_variant,
+)
 from services.ui_graph_macro_link_service import get_macro_plan_for_ui_node, link_macro_to_ui_node
 
 
@@ -104,6 +108,33 @@ class MacroRepositoryTests(RepositoryTestCase):
         macro_repository.delete_macro("MacroTest")
         self.assertIsNone(macro_repository.get_macro_metadata_by_name("MacroTest"))
 
+    def test_macro_events_preserve_recorded_click_element_graph_metadata(self):
+        events = [
+            {
+                "time": 42,
+                "type": "mouse",
+                "event": "down",
+                "button": "left",
+                "normalized_x": 0.25,
+                "normalized_y": 0.75,
+                "game_element_id": 12,
+                "previous_game_element_id": 11,
+                "ui_graph_id": "doomsday-default-ui-graph",
+                "ui_node_id": "shelter_interior_view",
+            }
+        ]
+
+        macro_id = self.create_macro(events=events)
+        loaded_events = macro_repository.load_macro_events(macro_id)
+
+        self.assertEqual(loaded_events[0]["game_element_id"], 12)
+        self.assertEqual(loaded_events[0]["previous_game_element_id"], 11)
+        self.assertEqual(loaded_events[0]["ui_graph_id"], "doomsday-default-ui-graph")
+        self.assertEqual(loaded_events[0]["ui_node_id"], "shelter_interior_view")
+
+        references = macro_repository.get_game_element_event_references(12)
+        self.assertEqual(sum(item["count"] for item in references), 1)
+
     def test_update_events_creates_backup_and_restore_works(self):
         macro_id = self.create_macro(events=sample_events("original"))
         original_events = macro_repository.load_macro_events(macro_id)
@@ -185,6 +216,24 @@ class MacroRepositoryTests(RepositoryTestCase):
                 self.assertEqual(updated_id, macro_id)
                 self.assertFalse(created_again)
                 self.assertEqual(updated_metadata["system_payload"]["shortcut_path"], "E:/Games/Doomsday.lnk")
+
+    def test_remember_local_workstation_context_persists_startup_identity(self):
+        saved = {}
+
+        with (
+            patch("services.system_macro_service.load_app_config", return_value={}),
+            patch("services.system_macro_service.save_app_config", side_effect=lambda config: saved.update(config)),
+            patch("services.system_macro_service.get_local_launch_context", return_value={
+                "host_name": "TESTPC",
+                "user_name": "Rob",
+            }),
+        ):
+            context = remember_local_workstation_context()
+
+        self.assertEqual(context["host_name"], "TESTPC")
+        self.assertEqual(saved["local_workstation"]["host_name"], "TESTPC")
+        self.assertEqual(saved["local_workstation"]["user_name"], "Rob")
+        self.assertIn("last_seen_at", saved["local_workstation"])
 
 
 class TaskRepositoryTests(RepositoryTestCase):

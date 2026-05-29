@@ -12,6 +12,12 @@ import logging
 
 from doomsday.vision.click_context_guard import ClickContextGuard, ClickContextGuardConfig
 from macro_config import get_focus_check_interval, get_visual_click_guard_config
+from services.click_element_capture_service import (
+    DOOMSDAY_GRAPH_ID,
+    UNKNOWN_VIEW_NODE_ID,
+    classify_doomsday_view,
+    register_recorded_click_element,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -122,6 +128,10 @@ _target_process_name = "Doomsday.exe" # Valore di default
 _record_duration_sec = 0 # 0 per registrazione continua
 _recording_thread = None # Riferimento al thread di registrazione
 _recording_stop_event = threading.Event()
+_recording_log_callback = None
+_recording_macro_name = ""
+_recording_ui_node_id = None
+_recorded_click_element_count = 0
 _playback_stop_event = threading.Event()
 
 
@@ -435,9 +445,69 @@ def keyboard_hook(event):
     global _eventi_registrati, _recording_active
     if _recording_active:
         if event.event_type == keyboard.KEY_DOWN:
-            _eventi_registrati.append({"time": now(), "type": "key", "event": "down", "name": event.name})
+            _eventi_registrati.append(_with_recording_ui_context({"time": now(), "type": "key", "event": "down", "name": event.name}))
         elif event.event_type == keyboard.KEY_UP:
-            _eventi_registrati.append({"time": now(), "type": "key", "event": "up", "name": event.name})
+            _eventi_registrati.append(_with_recording_ui_context({"time": now(), "type": "key", "event": "up", "name": event.name}))
+
+
+def _with_recording_ui_context(event_data):
+    if _recording_ui_node_id:
+        event_data.setdefault("ui_graph_id", DOOMSDAY_GRAPH_ID)
+        event_data.setdefault("ui_node_id", _recording_ui_node_id)
+    return event_data
+
+
+def _detect_recording_start_ui_node(target_exe, log_callback=None):
+    game_rect = get_game_window_rect(target_exe)
+    if not game_rect:
+        if log_callback:
+            log_callback("Vista iniziale non rilevata: finestra di gioco non disponibile.", "WARNING")
+        return UNKNOWN_VIEW_NODE_ID
+    try:
+        ui_node_id = classify_doomsday_view(game_rect)
+    except Exception as exc:
+        logger.warning("Impossibile classificare la vista iniziale della registrazione: %s", exc)
+        if log_callback:
+            log_callback(f"Vista iniziale non classificabile: {exc}", "WARNING")
+        return UNKNOWN_VIEW_NODE_ID
+    if log_callback:
+        log_callback(f"Vista iniziale registrazione: {ui_node_id}", "INFO")
+    return ui_node_id
+
+
+def _capture_recorded_click_element(event_data, *, abs_x, abs_y, game_rect):
+    global _recorded_click_element_count
+    try:
+        observation = register_recorded_click_element(
+            macro_name=_recording_macro_name,
+            event_time_ms=event_data.get("time"),
+            button=event_data.get("button"),
+            abs_x=abs_x,
+            abs_y=abs_y,
+            normalized_x=event_data.get("normalized_x"),
+            normalized_y=event_data.get("normalized_y"),
+            window_rect=game_rect,
+            view_node_id=_recording_ui_node_id,
+        )
+    except Exception as exc:
+        logger.warning("Impossibile censire l'elemento cliccato durante la registrazione: %s", exc)
+        if _recording_log_callback:
+            _recording_log_callback(
+                f"Censimento elemento cliccato non riuscito: {exc}",
+                "WARNING",
+            )
+        return
+
+    _recorded_click_element_count += 1
+    event_data["game_element_id"] = observation.element_id
+    event_data["ui_graph_id"] = observation.graph_id
+    event_data["ui_node_id"] = observation.view_node_id
+    if _recording_log_callback:
+        _recording_log_callback(
+            "Elemento cliccato censito: "
+            f"{observation.element_name} -> {observation.view_node_id}",
+            "INFO",
+        )
 
 def mouse_hook(event):
     global _eventi_registrati, _recording_active, _target_process_name
@@ -466,16 +536,16 @@ def mouse_hook(event):
         normalized_y = (current_y - window_top) / window_height if window_height != 0 else 0.0
 
         if isinstance(event, mouse.MoveEvent):
-            _eventi_registrati.append({
+            _eventi_registrati.append(_with_recording_ui_context({
                 "time": now(),
                 "type": "mouse",
                 "event": "move",
                 "normalized_x": round(normalized_x, 4),
                 "normalized_y": round(normalized_y, 4)
-            })
+            }))
         elif isinstance(event, mouse.ButtonEvent):
             if event.event_type == "down":
-                _eventi_registrati.append({
+                event_data = _with_recording_ui_context({
                     "time": now(),
                     "type": "mouse",
                     "event": "down",
@@ -483,24 +553,31 @@ def mouse_hook(event):
                     "normalized_x": round(normalized_x, 4),
                     "normalized_y": round(normalized_y, 4)
                 })
+                _eventi_registrati.append(event_data)
+                _capture_recorded_click_element(
+                    event_data,
+                    abs_x=current_x,
+                    abs_y=current_y,
+                    game_rect=game_rect,
+                )
             elif event.event_type == "up":
-                _eventi_registrati.append({
+                _eventi_registrati.append(_with_recording_ui_context({
                     "time": now(),
                     "type": "mouse",
                     "event": "up",
                     "button": event.button,
                     "normalized_x": round(normalized_x, 4),
                     "normalized_y": round(normalized_y, 4)
-                })
+                }))
         elif isinstance(event, mouse.WheelEvent):
-            _eventi_registrati.append({
+            _eventi_registrati.append(_with_recording_ui_context({
                 "time": now(),
                 "type": "mouse",
                 "event": "scroll",
                 "delta": event.delta,
                 "normalized_x": round(normalized_x, 4),
                 "normalized_y": round(normalized_y, 4)
-            })
+            }))
 
 def stop_recording(log_callback=None):
     """
@@ -552,6 +629,7 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
     Versione migliorata per essere più responsiva agli stop.
     """
     global _eventi_registrati, _recording_active, _start_time, _target_process_name, _record_duration_sec, _recording_thread
+    global _recording_log_callback, _recording_macro_name, _recording_ui_node_id, _recorded_click_element_count
 
     def is_target_window_active():
         current_process = get_foreground_process_name()
@@ -574,6 +652,10 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
     _target_process_name = None
     _record_duration_sec = 0
     _recording_thread = None
+    _recording_log_callback = log_callback
+    _recording_macro_name = nome_macro
+    _recording_ui_node_id = None
+    _recorded_click_element_count = 0
     _recording_stop_event.clear()
     
     # Piccolo delay per permettere al sistema di stabilizzarsi dopo il reset
@@ -643,6 +725,7 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         _recording_active = False
         return None
     
+    _recording_ui_node_id = _detect_recording_start_ui_node(_target_process_name, log_callback)
     _start_time = time.time() # Inizia a contare il tempo dopo che l'app è attiva
     
     # Setup hooks meno aggressivo con delucidate gestione errori
@@ -679,6 +762,7 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
 
             if log_callback:
                 log_callback(f"✅ Registrazione di '{nome_macro}' completata. Registrati {len(_eventi_registrati)} eventi.")
+                log_callback(f"Elementi cliccati censiti: {_recorded_click_element_count}.")
         else:
             # Per registrazione continua, la funzione resta bloccata fino a che _recording_active non diventa False
             while _recording_active:
@@ -693,6 +777,7 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
 
             if log_callback:
                 log_callback(f"✅ Registrazione continua di '{nome_macro}' fermata. Registrati {len(_eventi_registrati)} eventi.")
+                log_callback(f"Elementi cliccati censiti: {_recorded_click_element_count}.")
 
         # Final validation and cleanup
         try:
@@ -711,6 +796,8 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         _cleanup_recording_hooks(log_callback)
         _recording_active = False
         _recording_thread = None
+        _recording_log_callback = None
+        _recording_ui_node_id = None
         _recording_stop_event.clear()
 
 def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=False, loop_delay=0, max_repetitions=None, event_callback=None):

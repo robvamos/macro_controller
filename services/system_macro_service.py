@@ -126,6 +126,22 @@ def get_local_launch_context():
     }
 
 
+def remember_local_workstation_context():
+    """Persist the current workstation identity so startup can select local variants."""
+    context = get_local_launch_context()
+    config = load_app_config()
+    local_config = config.setdefault("local_workstation", {})
+    local_config.update(
+        {
+            "host_name": context["host_name"],
+            "user_name": context["user_name"],
+            "last_seen_at": datetime.now().isoformat(timespec="seconds"),
+        }
+    )
+    save_app_config(config)
+    return context
+
+
 def build_local_launch_game_macro_name(*, host_name, user_name):
     return f"{LAUNCH_GAME_SYSTEM_NAME} · Locale {host_name}\\{user_name}"
 

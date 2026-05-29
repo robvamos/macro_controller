@@ -120,6 +120,7 @@ from repositories.macro_repository import (
     delete_macro,
     duplicate_macro,
     get_all_macros,
+    get_game_element_event_references,
     get_macro_metadata_by_id,
     get_macro_metadata_by_name,
     load_macro_events,
@@ -190,7 +191,7 @@ from services.operation_state_service import OperationStateService
 from services.focus_monitor_service import FocusMonitorService
 from services.playback_service import PlaybackService
 from services.recording_service import RecordingService
-from services.system_macro_service import ensure_launch_game_system_macro, run_system_macro
+from services.system_macro_service import ensure_launch_game_system_macro, remember_local_workstation_context, run_system_macro
 from services.system_macro_service import (
     LAUNCH_GAME_SYSTEM_KEY,
     get_local_launch_game_variant_for_current_context,
@@ -1479,6 +1480,7 @@ def initialize_runtime_components():
     setup_task_macro_sequence_table()
     setup_game_elements_table()
     setup_ui_graph_macro_links_table()
+    remember_local_workstation_context()
     ensure_launch_game_system_macro()
     refresh_macro_list()
     task_controller.start_scheduler(log_callback=console_log, root_callback=lambda: root and root.winfo_exists())
@@ -3188,10 +3190,11 @@ def _draw_execution_click_history(canvas, points):
 # Variabili globali per la GUI elementi grafici
 game_elements_list_tree = None
 game_elements_image_label = None
+game_elements_details_label = None
 
 def setup_game_elements_interface(parent):
     """Configura l'interfaccia per gli elementi grafici del gioco"""
-    global game_elements_list_tree, game_elements_image_label
+    global game_elements_list_tree, game_elements_image_label, game_elements_details_label
     
     main_frame = ttk.Frame(parent)
     main_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -3246,8 +3249,8 @@ def setup_game_elements_interface(parent):
     game_elements_image_label.pack(fill="both", expand=True, pady=10)
     
     # Label per i dettagli
-    details_label = ttk.Label(right_frame, text="", foreground=config['theme']['text_color'])
-    details_label.pack(fill="x", pady=5)
+    game_elements_details_label = ttk.Label(right_frame, text="", foreground=config['theme']['text_color'], wraplength=360)
+    game_elements_details_label.pack(fill="x", pady=5)
     
     # Carica la lista iniziale
     refresh_game_elements_list()
@@ -3270,9 +3273,17 @@ def refresh_game_elements_list():
     except Exception as e:
         console_log(f"❌ Errore nel caricamento degli elementi: {e}", level="ERROR")
 
+def clear_game_element_preview():
+    """Svuota anteprima e dettagli dopo cancellazione o refresh."""
+    if game_elements_image_label:
+        game_elements_image_label.configure(image="", text="Seleziona un elemento per vedere l'anteprima")
+        game_elements_image_label.image = None
+    if game_elements_details_label:
+        game_elements_details_label.configure(text="")
+
 def on_game_element_selected(event):
     """Gestisce la selezione di un elemento nella lista"""
-    global game_elements_list_tree, game_elements_image_label
+    global game_elements_list_tree, game_elements_image_label, game_elements_details_label
     if not game_elements_list_tree:
         return
     
@@ -3289,11 +3300,8 @@ def on_game_element_selected(event):
             render_preview_image(image, game_elements_image_label, max_size=(350, 350))
             details_text = build_game_element_details_text(element)
             
-            # Aggiorna il label dei dettagli (se esiste)
-            for widget in game_elements_image_label.master.winfo_children():
-                if isinstance(widget, ttk.Label) and widget != game_elements_image_label:
-                    widget.configure(text=details_text)
-                    break
+            if game_elements_details_label:
+                game_elements_details_label.configure(text=details_text)
     except Exception as e:
         console_log(f"❌ Errore nel caricamento dell'anteprima: {e}", level="ERROR")
 
@@ -3573,12 +3581,30 @@ def delete_selected_game_element():
         if not element:
             messagebox.showerror("Errore Eliminazione", "Elemento non trovato.")
             return
-        
-        if messagebox.askyesno("Conferma Eliminazione", 
-                              f"Sei sicuro di voler eliminare l'elemento '{element['nome']}'?"):
+        references = get_game_element_event_references(element_id)
+        reference_count = sum(item["count"] for item in references)
+        reference_note = ""
+        if reference_count:
+            reference_note = (
+                f"\n\nNota: questo elemento e' citato da {reference_count} evento/i macro. "
+                "La cancellazione rimuove solo l'immagine dal catalogo: gli eventi restano salvati, "
+                "ma non avranno piu' l'anteprima collegata."
+            )
+
+        confirm_message = (
+            f"Eliminare l'elemento grafico?\n\n"
+            f"ID: {element['id']}\n"
+            f"Nome: {element['nome']}\n"
+            f"Formato: {element['formato_immagine']}"
+            f"{reference_note}\n\n"
+            "Usa questa azione per ripulire crop inutili o sbagliati."
+        )
+
+        if messagebox.askyesno("Conferma Eliminazione Elemento", confirm_message):
             delete_game_element(element_id)
             console_log(f"✅ Elemento '{element['nome']}' eliminato con successo.")
             refresh_game_elements_list()
+            clear_game_element_preview()
     except Exception as e:
         messagebox.showerror("Errore Eliminazione", f"Errore: {e}")
 

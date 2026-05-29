@@ -4,14 +4,33 @@ import datetime
 
 from repositories.database import connect_db
 
+EVENT_METADATA_COLUMNS = (
+    ("game_element_id", "INTEGER"),
+    ("previous_game_element_id", "INTEGER"),
+    ("ui_graph_id", "TEXT"),
+    ("ui_node_id", "TEXT"),
+)
+
+
+def _ensure_event_metadata_columns(table_name, cursor):
+    cursor.execute(f"PRAGMA table_info({table_name});")
+    column_names = {row[1] for row in cursor.fetchall()}
+    for column_name, column_type in EVENT_METADATA_COLUMNS:
+        if column_name not in column_names:
+            cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type};")
+
 
 def _save_events_to_table(table_name, events_data, cursor):
+    _ensure_event_metadata_columns(table_name, cursor)
     for event in events_data:
         is_pressed_val = 1 if event.get("is_pressed") else 0
         cursor.execute(
             f"""
-            INSERT INTO {table_name} (time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO {table_name} (
+                time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+                game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """,
             (
                 event.get("time"),
@@ -25,6 +44,10 @@ def _save_events_to_table(table_name, events_data, cursor):
                 is_pressed_val,
                 event.get("normalized_x"),
                 event.get("normalized_y"),
+                event.get("game_element_id"),
+                event.get("previous_game_element_id"),
+                event.get("ui_graph_id"),
+                event.get("ui_node_id"),
             ),
         )
 
@@ -60,26 +83,39 @@ def restore_macro_from_backup(backup_id):
             raise ValueError(f"Backup con ID {backup_id} non trovato.")
         original_macro_id = backup_data[0]
         backup_events_table = f"MacroEventBackup_{backup_id}"
+        _ensure_event_metadata_columns(backup_events_table, cursor)
         cursor.execute(
-            f"SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y FROM {backup_events_table} ORDER BY time;"
+            f"""
+            SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+                   game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+            FROM {backup_events_table}
+            ORDER BY time;
+            """
         )
         backup_events = []
         for row in cursor.fetchall():
-            backup_events.append(
-                {
-                    "time": row[0],
-                    "type": row[1],
-                    "event": row[2],
-                    "name": row[3],
-                    "button": row[4],
-                    "x": row[5],
-                    "y": row[6],
-                    "delta": row[7],
-                    "is_pressed": bool(row[8]),
-                    "normalized_x": row[9],
-                    "normalized_y": row[10],
-                }
-            )
+            event_data = {
+                "time": row[0],
+                "type": row[1],
+                "event": row[2],
+                "name": row[3],
+                "button": row[4],
+                "x": row[5],
+                "y": row[6],
+                "delta": row[7],
+                "is_pressed": bool(row[8]),
+                "normalized_x": row[9],
+                "normalized_y": row[10],
+            }
+            if row[11] is not None:
+                event_data["game_element_id"] = row[11]
+            if row[12] is not None:
+                event_data["previous_game_element_id"] = row[12]
+            if row[13] is not None:
+                event_data["ui_graph_id"] = row[13]
+            if row[14] is not None:
+                event_data["ui_node_id"] = row[14]
+            backup_events.append(event_data)
         cursor.execute("SELECT id FROM Macro WHERE id = ?", (original_macro_id,))
         if not cursor.fetchone():
             raise ValueError(f"La macro originale con ID {original_macro_id} non esiste più. Impossibile ripristinare.")

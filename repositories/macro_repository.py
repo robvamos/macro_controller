@@ -10,6 +10,12 @@ from repositories.database import connect_db
 
 SYSTEM_MACRO_KIND = "system"
 STANDARD_MACRO_KIND = "standard"
+EVENT_METADATA_COLUMNS = (
+    ("game_element_id", "INTEGER"),
+    ("previous_game_element_id", "INTEGER"),
+    ("ui_graph_id", "TEXT"),
+    ("ui_node_id", "TEXT"),
+)
 
 
 def _create_events_table(macro_id, cursor):
@@ -28,10 +34,15 @@ def _create_events_table(macro_id, cursor):
             delta INTEGER,
             is_pressed BOOLEAN,
             normalized_x REAL,
-            normalized_y REAL
+            normalized_y REAL,
+            game_element_id INTEGER,
+            previous_game_element_id INTEGER,
+            ui_graph_id TEXT,
+            ui_node_id TEXT
         );
         """
     )
+    _ensure_event_metadata_columns(table_name, cursor)
 
 
 def _create_backup_events_table(backup_id, cursor):
@@ -50,19 +61,36 @@ def _create_backup_events_table(backup_id, cursor):
             delta INTEGER,
             is_pressed BOOLEAN,
             normalized_x REAL,
-            normalized_y REAL
+            normalized_y REAL,
+            game_element_id INTEGER,
+            previous_game_element_id INTEGER,
+            ui_graph_id TEXT,
+            ui_node_id TEXT
         );
         """
     )
+    _ensure_event_metadata_columns(table_name, cursor)
+
+
+def _ensure_event_metadata_columns(table_name, cursor):
+    cursor.execute(f"PRAGMA table_info({table_name});")
+    column_names = {row[1] for row in cursor.fetchall()}
+    for column_name, column_type in EVENT_METADATA_COLUMNS:
+        if column_name not in column_names:
+            cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type};")
 
 
 def _save_events_to_table(table_name, events_data, cursor):
+    _ensure_event_metadata_columns(table_name, cursor)
     for event in events_data:
         is_pressed_val = 1 if event.get("is_pressed") else 0
         cursor.execute(
             f"""
-            INSERT INTO {table_name} (time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO {table_name} (
+                time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+                game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """,
             (
                 event.get("time"),
@@ -76,20 +104,34 @@ def _save_events_to_table(table_name, events_data, cursor):
                 is_pressed_val,
                 event.get("normalized_x"),
                 event.get("normalized_y"),
+                event.get("game_element_id"),
+                event.get("previous_game_element_id"),
+                event.get("ui_graph_id"),
+                event.get("ui_node_id"),
             ),
         )
 
 
 def _copy_events_between_tables(source_table, dest_table, cursor):
+    _ensure_event_metadata_columns(source_table, cursor)
+    _ensure_event_metadata_columns(dest_table, cursor)
     cursor.execute(
-        f"SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y FROM {source_table} ORDER BY time;"
+        f"""
+        SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+               game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+        FROM {source_table}
+        ORDER BY time;
+        """
     )
     events = cursor.fetchall()
     for row in events:
         cursor.execute(
             f"""
-            INSERT INTO {dest_table} (time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO {dest_table} (
+                time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+                game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """,
             row,
         )
@@ -268,31 +310,78 @@ def load_macro_events(macro_id):
     table_name = f"MacroEvent_{macro_id}"
     events = []
     try:
+        _ensure_event_metadata_columns(table_name, cursor)
+        conn.commit()
         cursor.execute(
-            f"SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y FROM {table_name} ORDER BY time;"
+            f"""
+            SELECT time, type, event, name, button, x, y, delta, is_pressed, normalized_x, normalized_y,
+                   game_element_id, previous_game_element_id, ui_graph_id, ui_node_id
+            FROM {table_name}
+            ORDER BY time;
+            """
         )
         for row in cursor.fetchall():
-            events.append(
-                {
-                    "time": row[0],
-                    "type": row[1],
-                    "event": row[2],
-                    "name": row[3],
-                    "button": row[4],
-                    "x": row[5],
-                    "y": row[6],
-                    "delta": row[7],
-                    "is_pressed": bool(row[8]),
-                    "normalized_x": row[9],
-                    "normalized_y": row[10],
-                }
-            )
+            event_data = {
+                "time": row[0],
+                "type": row[1],
+                "event": row[2],
+                "name": row[3],
+                "button": row[4],
+                "x": row[5],
+                "y": row[6],
+                "delta": row[7],
+                "is_pressed": bool(row[8]),
+                "normalized_x": row[9],
+                "normalized_y": row[10],
+            }
+            if row[11] is not None:
+                event_data["game_element_id"] = row[11]
+            if row[12] is not None:
+                event_data["previous_game_element_id"] = row[12]
+            if row[13] is not None:
+                event_data["ui_graph_id"] = row[13]
+            if row[14] is not None:
+                event_data["ui_node_id"] = row[14]
+            events.append(event_data)
     except sqlite3.OperationalError as e:
         print(f"Errore: Tabella {table_name} non trovata o altri errori del DB: {e}")
         return []
     finally:
         conn.close()
     return events
+
+
+def get_game_element_event_references(game_element_id):
+    """Return macro event tables that reference a captured game element."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    references = []
+    try:
+        cursor.execute(
+            """
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+              AND (name LIKE 'MacroEvent_%' OR name LIKE 'MacroEventBackup_%')
+            ORDER BY name;
+            """
+        )
+        for (table_name,) in cursor.fetchall():
+            try:
+                _ensure_event_metadata_columns(table_name, cursor)
+                cursor.execute(
+                    f"SELECT COUNT(*) FROM {table_name} WHERE game_element_id = ? OR previous_game_element_id = ?;",
+                    (game_element_id, game_element_id),
+                )
+                count = cursor.fetchone()[0]
+            except sqlite3.OperationalError:
+                continue
+            if count:
+                references.append({"table_name": table_name, "count": count})
+        conn.commit()
+    finally:
+        conn.close()
+    return references
 
 
 def update_macro_full(macro_id, new_name, new_description, new_duration_sec, new_eseguibile, new_events, save_backup=True):
@@ -479,6 +568,7 @@ __all__ = [
     "delete_macro",
     "duplicate_macro",
     "get_all_macros",
+    "get_game_element_event_references",
     "get_macro_metadata_by_id",
     "get_macro_metadata_by_name",
     "load_macro_events",

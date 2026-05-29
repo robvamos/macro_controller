@@ -90,6 +90,63 @@ class MacroControllerRobustnessTests(unittest.TestCase):
         logged_messages = [call.args[0] for call in log_callback.call_args_list if call.args]
         self.assertTrue(any("Contesto visivo non compatibile all'avvio dell'iterazione" in message for message in logged_messages))
 
+    def test_mouse_down_recording_captures_clicked_element_observation(self):
+        observation = Mock(
+            element_id=7,
+            graph_id="doomsday-default-ui-graph",
+            view_node_id="shelter_interior_view",
+            element_name="recorded_click_test_000001ms_150x250",
+        )
+        log_callback = Mock()
+
+        macro_controller._eventi_registrati = []
+        macro_controller._recording_active = True
+        macro_controller._target_process_name = "Doomsday.exe"
+        macro_controller._recording_macro_name = "Test macro"
+        macro_controller._recording_log_callback = log_callback
+        macro_controller._recorded_click_element_count = 0
+
+        event = macro_controller.mouse.ButtonEvent("down", "left", 1.0)
+        with (
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 400)),
+            patch.object(macro_controller.mouse, "get_position", return_value=(150, 250)),
+            patch.object(macro_controller, "now", return_value=123),
+            patch.object(macro_controller, "register_recorded_click_element", return_value=observation) as capture,
+        ):
+            macro_controller.mouse_hook(event)
+
+        self.assertEqual(len(macro_controller._eventi_registrati), 1)
+        recorded = macro_controller._eventi_registrati[0]
+        self.assertEqual(recorded["game_element_id"], 7)
+        self.assertEqual(recorded["ui_node_id"], "shelter_interior_view")
+        self.assertEqual(macro_controller._recorded_click_element_count, 1)
+        capture.assert_called_once()
+
+    def test_recording_detects_ui_node_once_at_start_and_applies_to_events(self):
+        log_callback = Mock()
+
+        with (
+            patch.object(macro_controller.psutil, "process_iter", return_value=[Mock(info={"name": "Doomsday.exe"})]),
+            patch.object(macro_controller, "wait_for_app_window", return_value=True),
+            patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 500, 600)),
+            patch.object(macro_controller, "classify_doomsday_view", return_value="exterior_region_view") as classify,
+            patch.object(macro_controller.keyboard, "hook", side_effect=lambda callback: callback(Mock(event_type=macro_controller.keyboard.KEY_DOWN, name="a"))),
+            patch.object(macro_controller.mouse, "hook"),
+            patch.object(macro_controller.keyboard, "unhook_all"),
+            patch.object(macro_controller.mouse, "unhook_all"),
+        ):
+            events = macro_controller.registra_eventi(
+                nome_macro="Test vista",
+                durata_sec=0.01,
+                target_exe="Doomsday.exe",
+                log_callback=log_callback,
+            )
+
+        classify.assert_called_once_with((100, 200, 500, 600))
+        self.assertEqual(events[0]["ui_graph_id"], "doomsday-default-ui-graph")
+        self.assertEqual(events[0]["ui_node_id"], "exterior_region_view")
+
 
 if __name__ == "__main__":
     unittest.main()

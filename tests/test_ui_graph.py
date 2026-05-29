@@ -31,9 +31,20 @@ class UIGraphTests(unittest.TestCase):
         self.assertIn("shelter_right_edge_alerts_panel", node_ids)
         self.assertIn("boot_overlay_layer", node_ids)
         self.assertIn("initial_blocking_popup_close_symbol", node_ids)
+        self.assertIn("empty_space_popup_dismissal_band_4", node_ids)
         self.assertIn("playable_interface_without_boot_popup", node_ids)
         self.assertEqual(graph.get_node("initial_blocking_popup_close_symbol").recovery_action, "click_popup_exit_close_symbol")
         self.assertEqual(graph.get_node("initial_blocking_popup_close_symbol").parent_node_id, "boot_overlay_layer")
+        self.assertIn(
+            "boot_blocking_popup_close_button",
+            graph.get_node("initial_blocking_popup_close_symbol").conditions[0].element_names,
+        )
+        self.assertIn("basta cliccare", graph.get_node("initial_blocking_popup_close_symbol").notes)
+        self.assertEqual(
+            graph.get_node("empty_space_popup_dismissal_band_4").recovery_action,
+            "click_empty_space_band_4_from_bottom",
+        )
+        self.assertIn("fascia 4", graph.get_node("empty_space_popup_dismissal_band_4").notes)
         self.assertEqual(graph.get_node("shelter_left_side_controls_panel").parent_node_id, "shelter_interior_view")
         self.assertEqual(graph.get_node("top_right_extended_status_panel").layout_role, "top_right_extended")
         self.assertEqual(graph.get_node("top_left_profile_portrait").parent_node_id, "top_left_compact_status_panel")
