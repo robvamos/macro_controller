@@ -46,10 +46,14 @@ class MacroControllerRobustnessTests(unittest.TestCase):
         with (
             patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
             patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
+            patch.object(macro_controller, "_create_visual_click_guard") as create_guard,
             patch.object(macro_controller, "_move_mouse_absolute"),
             patch.object(macro_controller, "_dispatch_mouse_button"),
             patch.object(macro_controller.keyboard, "press"),
         ):
+            fake_guard = Mock()
+            fake_guard.verify_or_prime.return_value = {"ok": True, "primed": True, "score": 1.0, "threshold": 0.8}
+            create_guard.return_value = fake_guard
             macro_controller.clear_playback_stop_request()
             macro_controller.play_macro_events(events, "Doomsday.exe", log_callback=log_callback)
 

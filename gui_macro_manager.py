@@ -168,6 +168,7 @@ from ui.main_window_helpers import (
     build_status_bar,
 )
 from ui.collapsible_panel import CollapsibleSection
+from ui.knowledge_graph_panel import build_knowledge_graph_tab
 from ui.tab_bootstrap import build_secondary_tabs
 from ui.status_console import (
     append_console_message,
@@ -200,6 +201,7 @@ from services.system_macro_service import (
     save_launch_game_local_variant,
 )
 from services.ui_graph_macro_link_service import get_macro_plan_for_ui_node
+from services.knowledge_graph_service import format_knowledge_graph_details, load_knowledge_graph_model
 from services.game_element_ingestion_service import (
     build_game_element_description,
     build_game_element_ingestion_guidelines,
@@ -2795,6 +2797,184 @@ ui_graph_details_text = None
 ui_graph_relations_text = None
 ui_graph_macros_text = None
 current_ui_graph_definition = None
+knowledge_graph_tree = None
+knowledge_graph_details_text = None
+knowledge_graph_linked_tree = None
+knowledge_graph_model = None
+knowledge_graph_items_by_iid = {}
+
+
+def setup_knowledge_graph_interface(parent):
+    """Configura la tab di navigazione del grafo di conoscenza condiviso."""
+    global knowledge_graph_tree, knowledge_graph_details_text, knowledge_graph_linked_tree
+    refs = build_knowledge_graph_tab(
+        parent=parent,
+        theme=config["theme"],
+        refresh_knowledge_graph=refresh_knowledge_graph_view,
+        on_knowledge_graph_select=on_knowledge_graph_selected,
+    )
+    knowledge_graph_tree = refs["knowledge_tree"]
+    knowledge_graph_details_text = refs["details_text"]
+    knowledge_graph_linked_tree = refs["linked_tree"]
+    refresh_knowledge_graph_view()
+
+
+def refresh_knowledge_graph_view():
+    """Ricarica il grafo condiviso e popola la TreeView multilivello."""
+    global knowledge_graph_model, knowledge_graph_items_by_iid
+    if not knowledge_graph_tree:
+        return
+    try:
+        knowledge_graph_model = load_knowledge_graph_model()
+    except Exception as exc:
+        console_log(f"Errore caricamento grafo conoscenza: {exc}", level="ERROR")
+        return
+
+    knowledge_graph_items_by_iid = {}
+    for item in knowledge_graph_tree.get_children():
+        knowledge_graph_tree.delete(item)
+
+    graph = knowledge_graph_model["graph"]
+    graph_iid = f"graph:{graph.get('graph_id', 'shared')}"
+    knowledge_graph_tree.insert(
+        "",
+        "end",
+        iid=graph_iid,
+        text=graph.get("name") or graph.get("graph_id") or "Grafo conoscenza",
+        values=("graph", f"{len(knowledge_graph_model['nodes'])} nodi"),
+        open=True,
+    )
+    knowledge_graph_items_by_iid[graph_iid] = ("graph", graph)
+
+    for node in knowledge_graph_model["children_by_parent"].get("__root__", []):
+        _insert_knowledge_node(graph_iid, node)
+
+    _set_knowledge_details("graph", graph)
+
+
+def _insert_knowledge_node(parent_iid, node):
+    node_id = node.get("node_id")
+    iid = f"node:{node_id}"
+    linked_count = len(knowledge_graph_model["elements_by_node"].get(node_id, []))
+    click_count = len(knowledge_graph_model["clicks_by_node"].get(node_id, []))
+    agganci = linked_count + click_count
+    knowledge_graph_tree.insert(
+        parent_iid,
+        "end",
+        iid=iid,
+        text=node.get("label") or node_id,
+        values=(node.get("kind", "node"), agganci),
+        open=node.get("parent_node_id") is None,
+    )
+    knowledge_graph_items_by_iid[iid] = ("node", node)
+
+    for child in knowledge_graph_model["children_by_parent"].get(node_id, []):
+        _insert_knowledge_node(iid, child)
+
+    _insert_knowledge_elements(iid, node_id)
+    _insert_knowledge_edges(iid, node_id)
+    _insert_knowledge_clicks(iid, node_id)
+
+
+def _insert_knowledge_elements(parent_iid, node_id):
+    elements = knowledge_graph_model["elements_by_node"].get(node_id, [])
+    if not elements:
+        return
+    group_iid = f"elements:{node_id}"
+    knowledge_graph_tree.insert(parent_iid, "end", iid=group_iid, text="Elementi censiti", values=("group", len(elements)))
+    knowledge_graph_items_by_iid[group_iid] = ("group", {"label": "Elementi censiti", "node_id": node_id})
+    for element in elements:
+        element_iid = f"element:{node_id}:{element.get('id')}"
+        knowledge_graph_tree.insert(
+            group_iid,
+            "end",
+            iid=element_iid,
+            text=element.get("name") or f"Elemento {element.get('id')}",
+            values=("element", element.get("id")),
+        )
+        knowledge_graph_items_by_iid[element_iid] = ("element", element)
+
+
+def _insert_knowledge_edges(parent_iid, node_id):
+    edges = knowledge_graph_model["edges_by_source"].get(node_id, [])
+    if not edges:
+        return
+    group_iid = f"edges:{node_id}"
+    knowledge_graph_tree.insert(parent_iid, "end", iid=group_iid, text="Transizioni", values=("group", len(edges)))
+    knowledge_graph_items_by_iid[group_iid] = ("group", {"label": "Transizioni", "node_id": node_id})
+    for index, edge in enumerate(edges):
+        edge_iid = f"edge:{node_id}:{index}"
+        knowledge_graph_tree.insert(
+            group_iid,
+            "end",
+            iid=edge_iid,
+            text=f"{edge.get('trigger')} -> {edge.get('to_node_id')}",
+            values=("edge", edge.get("action_name") or ""),
+        )
+        knowledge_graph_items_by_iid[edge_iid] = ("edge", edge)
+
+
+def _insert_knowledge_clicks(parent_iid, node_id):
+    clicks = knowledge_graph_model["clicks_by_node"].get(node_id, [])
+    if not clicks:
+        return
+    group_iid = f"clicks:{node_id}"
+    knowledge_graph_tree.insert(parent_iid, "end", iid=group_iid, text="Click osservati", values=("group", len(clicks)))
+    knowledge_graph_items_by_iid[group_iid] = ("group", {"label": "Click osservati", "node_id": node_id})
+    for index, click in enumerate(clicks):
+        click_iid = f"click:{node_id}:{index}"
+        knowledge_graph_tree.insert(
+            group_iid,
+            "end",
+            iid=click_iid,
+            text=f"{click.get('macro_name')} #{index + 1}",
+            values=("click", click.get("game_element_id") or ""),
+        )
+        knowledge_graph_items_by_iid[click_iid] = ("click", click)
+
+
+def on_knowledge_graph_selected():
+    """Aggiorna dettaglio e lista agganci quando l'utente seleziona un nodo."""
+    if not knowledge_graph_tree:
+        return
+    selected = knowledge_graph_tree.selection()
+    if not selected:
+        return
+    item_kind, item = knowledge_graph_items_by_iid.get(selected[0], ("unknown", {}))
+    _set_knowledge_details(item_kind, item)
+
+
+def _set_knowledge_details(item_kind, item):
+    if not knowledge_graph_details_text or knowledge_graph_model is None:
+        return
+    details = format_knowledge_graph_details(item_kind, item, knowledge_graph_model)
+    knowledge_graph_details_text.configure(state="normal")
+    knowledge_graph_details_text.delete("1.0", "end")
+    knowledge_graph_details_text.insert("1.0", details)
+    knowledge_graph_details_text.configure(state="disabled")
+    _refresh_knowledge_linked_items(item_kind, item)
+
+
+def _refresh_knowledge_linked_items(item_kind, item):
+    if not knowledge_graph_linked_tree or knowledge_graph_model is None:
+        return
+    for row in knowledge_graph_linked_tree.get_children():
+        knowledge_graph_linked_tree.delete(row)
+    if item_kind != "node":
+        return
+    node_id = item.get("node_id")
+    for element in knowledge_graph_model["elements_by_node"].get(node_id, []):
+        knowledge_graph_linked_tree.insert(
+            "",
+            "end",
+            values=(element.get("id"), "elemento", element.get("name")),
+        )
+    for click in knowledge_graph_model["clicks_by_node"].get(node_id, []):
+        knowledge_graph_linked_tree.insert(
+            "",
+            "end",
+            values=(click.get("macro_id"), "click", click.get("macro_name")),
+        )
 
 def setup_game_elements_interface(parent):
     """Configura l'interfaccia per gli elementi grafici del gioco"""
@@ -4843,6 +5023,7 @@ def setup_gui():
     build_secondary_tabs(
         tab_control=tab_control,
         setup_ui_graph_browser_interface=setup_ui_graph_browser_interface,
+        setup_knowledge_graph_interface=setup_knowledge_graph_interface,
         setup_scheduled_tasks_interface=setup_scheduled_tasks_interface,
         setup_game_elements_interface=setup_game_elements_interface,
         setup_settings_tab=setup_settings_tab,
