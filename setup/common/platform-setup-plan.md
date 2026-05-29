@@ -18,11 +18,10 @@
 
 - launcher desktop `.desktop`
 - packaging AppImage o pacchetto distro-specifico
-- mapping dipendenze di sistema per audio e GUI
+- mapping dipendenze di sistema per input, visione e GUI
 
 ## Android
 
 - valutare solo sottosistemi esportabili
 - separare UI desktop da logica riusabile
 - isolare i componenti Windows-only prima del porting
-

@@ -15,9 +15,7 @@
     "docs"
   ],
   "asset_directories": [
-    "data/doomsday/catalog",
-    "data/calibration",
-    "data/learning"
+    "data/doomsday/catalog"
   ],
   "runtime_notes": [
     "Windows richiede privilegi elevati per alcuni flussi di input sul gioco target.",
@@ -25,4 +23,3 @@
     "Il layer di visione esterna va considerato parte del runtime applicativo."
   ]
 }
-

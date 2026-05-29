@@ -164,9 +164,7 @@ from ui.main_window_helpers import (
     build_log_console,
     build_status_bar,
 )
-from ui.audio_samples_panel import build_audio_samples_tab
 from ui.collapsible_panel import CollapsibleSection
-from ui.learning_lab_panel import build_learning_lab_tab
 from ui.tab_bootstrap import build_secondary_tabs
 from ui.status_console import (
     append_console_message,
@@ -198,25 +196,13 @@ from services.system_macro_service import (
     get_local_launch_game_variant_for_current_context,
     save_launch_game_local_variant,
 )
-from services.audio_sample_service import (
-    DEFAULT_OUTPUT_DIR as AUDIO_SAMPLES_DIR,
-    compose_test_song,
-    create_audio_sample_from_selection,
-    get_audio_duration_seconds,
-    get_audio_sample_entry,
-    list_audio_samples,
-    load_sample_audio,
-    load_sample_payload,
-    split_audio_sample,
-)
-from services.learning_test_service import LearningTestService
-from services.learning_configuration_service import LearningConfigurationService
-from services.preprocessing_pipeline_service import PreprocessingPipelineService
+from services.ui_graph_macro_link_service import get_macro_plan_for_ui_node
 from services.game_element_ingestion_service import (
     build_game_element_ingestion_guidelines,
     build_prepared_asset_summary,
     prepare_game_element_asset,
 )
+from doomsday.vision.ui_graph import build_default_doomsday_ui_graph
 # CORREZIONE: Cambiato 'wait_for_target_window_active_only' a 'wait_for_app_window'
 from macro_controller import (
     get_game_window_rect,
@@ -289,39 +275,6 @@ scheduled_task_buttons_frame = None
 next_tasks_countdown_frame = None
 next_tasks_countdown_text = None
 countdown_update_job = None
-audio_samples_tree = None
-audio_sample_details_text = None
-audio_source_path_var = None
-audio_source_duration_var = None
-audio_sample_name_entry = None
-audio_sample_start_entry = None
-audio_sample_end_entry = None
-audio_composed_name_entry = None
-audio_compose_gap_entry = None
-audio_learning_objective_entry = None
-selected_audio_source_path = None
-learning_test_service = LearningTestService()
-learning_configuration_service = LearningConfigurationService()
-preprocessing_pipeline_service = PreprocessingPipelineService()
-latest_preprocessing_analysis = None
-learning_sample_name_var = None
-learning_sample_combo = None
-learning_dominant_bpm_var = None
-learning_stability_var = None
-learning_pattern_var = None
-learning_readiness_var = None
-learning_summary_status_var = None
-learning_target_lock_var = None
-learning_beat_one_var = None
-learning_resync_var = None
-learning_evaluation_prompt_var = None
-learning_evaluation_recommendation_var = None
-learning_rating_var = None
-learning_evaluation_note_entry = None
-learning_offset_var = None
-learning_confidence_var = None
-learning_beat_var = None
-learning_details_text = None
 
 
 def restore_saved_window_geometry(window, config_key, description):
@@ -366,633 +319,6 @@ def schedule_macro_views_refresh():
     """Aggiorna pulsanti e dettagli macro sul thread UI."""
     schedule_on_ui(update_button_states)
     schedule_on_ui(update_macro_details)
-
-
-def format_audio_duration(duration_sec):
-    """Formatta una durata audio con precisione leggibile."""
-    if duration_sec is None:
-        return "-"
-    return f"{float(duration_sec):.3f}".rstrip("0").rstrip(".")
-
-
-def refresh_learning_sample_choices():
-    """Aggiorna la lista dei campioni disponibili nella vista learning."""
-    if learning_sample_combo is None:
-        return
-    values = [entry["base_name"] for entry in list_audio_samples(AUDIO_SAMPLES_DIR)]
-    learning_sample_combo["values"] = values
-    if values and learning_sample_name_var is not None and not learning_sample_name_var.get():
-        learning_sample_name_var.set(values[0])
-
-
-def render_learning_summary():
-    """Mostra metriche e stato della sessione learning."""
-    analysis = latest_preprocessing_analysis
-    selected_sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
-    summary = learning_test_service.get_summary(
-        recognizable_pattern_score=analysis.recognizable_pattern_score if analysis else 0.0,
-        bpm_stability_score=analysis.bpm_stability_score if analysis else 0.0,
-        correction_readiness_score=analysis.correction_readiness_score if analysis else 0.0,
-    )
-    profile = summary["convergence_profile"]
-    if learning_dominant_bpm_var is not None:
-        bpm_text = f"BPM: {analysis.dominant_bpm}" if analysis else "BPM: -"
-        learning_dominant_bpm_var.set(bpm_text)
-    if learning_stability_var is not None:
-        stability_text = f"Stabilità: {analysis.bpm_stability_score}%" if analysis else "Stabilità: -"
-        learning_stability_var.set(stability_text)
-    if learning_pattern_var is not None:
-        pattern_text = f"Pattern: {analysis.recognizable_pattern_score}%" if analysis else "Pattern: -"
-        learning_pattern_var.set(pattern_text)
-    if learning_readiness_var is not None:
-        readiness_text = f"Readiness: {analysis.correction_readiness_score}%" if analysis else "Readiness: -"
-        learning_readiness_var.set(readiness_text)
-    if learning_summary_status_var is not None:
-        learning_summary_status_var.set(f"Stato: {summary['status']}")
-    if learning_target_lock_var is not None:
-        learning_target_lock_var.set(f"Lock: {summary['target_lock_pct']}%")
-    if learning_beat_one_var is not None:
-        learning_beat_one_var.set(f"Beat 1: {summary['beat_one_accuracy_pct']}%")
-    if learning_resync_var is not None:
-        learning_resync_var.set(f"Resync: {summary['resync_count']}")
-    if learning_evaluation_prompt_var is not None:
-        if selected_sample_name:
-            learning_evaluation_prompt_var.set(
-                learning_configuration_service.build_evaluation_prompt(selected_sample_name, summary)
-            )
-        else:
-            learning_evaluation_prompt_var.set("Dopo ogni analisi significativa, salva una valutazione della configurazione.")
-    if learning_evaluation_recommendation_var is not None:
-        if selected_sample_name:
-            learning_evaluation_recommendation_var.set(
-                f"Storico: {learning_configuration_service.recommend_for_sample(selected_sample_name)}"
-            )
-        else:
-            learning_evaluation_recommendation_var.set("Storico: nessuna valutazione.")
-
-    if learning_details_text is None:
-        return
-
-    learning_details_text.config(state=tk.NORMAL)
-    learning_details_text.delete("1.0", tk.END)
-
-    if learning_test_service.session is None:
-        if analysis is None:
-            learning_details_text.insert(
-                tk.END,
-                "Seleziona un campione, lancia l'analisi BPM e poi crea la griglia di learning. Il focus ora è su preprocessing e stabilità del tempo.",
-            )
-        else:
-            lines = [
-                f"Campione: {analysis.sample_name}",
-                f"Durata analizzata: {analysis.duration_sec} s",
-                f"BPM dominante: {analysis.dominant_bpm}",
-                f"Stabilità BPM: {analysis.bpm_stability_score}%",
-                f"Pattern riconoscibile: {analysis.recognizable_pattern_score}%",
-                f"Readiness correzione: {analysis.correction_readiness_score}%",
-                f"Densità onset: {analysis.onset_density}",
-                "",
-                "Segmenti BPM rilevati:",
-            ]
-            if analysis.merged_segments:
-                for segment in analysis.merged_segments:
-                    lines.append(
-                        f"- {segment['start_sec']:.1f}-{segment['end_sec']:.1f}s | bpm {segment['bpm']} | conf {segment['confidence']}"
-                    )
-            else:
-                lines.append("- Nessun segmento stabile rilevato")
-            learning_details_text.insert(tk.END, "\n".join(lines))
-    else:
-        session = learning_test_service.session
-        lines = [
-            f"Campione: {session.sample_name}",
-            f"Durata analizzata: {analysis.duration_sec if analysis else '-'} s",
-            f"Finestre learning: {len(session.grid)}",
-            f"Indice corrente: {summary.get('current_grid_index', 0)}/{summary.get('grid_size', 0)}",
-            f"Barre tagliate per resync: {summary['cut_bar_count']}",
-            "",
-            "Lettura preprocessing:",
-            f"- bpm dominante: {analysis.dominant_bpm if analysis else '-'}",
-            f"- stabilita' bpm: {analysis.bpm_stability_score if analysis else '-'}%",
-            f"- pattern riconoscibile: {analysis.recognizable_pattern_score if analysis else '-'}%",
-            f"- readiness correzione: {analysis.correction_readiness_score if analysis else '-'}%",
-            f"- densita' onset: {analysis.onset_density if analysis else '-'}",
-            "",
-            "Lettura learning:",
-            f"- aggancio target: {summary['target_lock_pct']}%",
-            f"- offset medio: {summary['average_offset_ms']} ms",
-            f"- velocita' correzione: {summary['correction_speed']}",
-            f"- ultima reazione: {summary['last_beat_reaction']}",
-            f"- accuratezza beat 1: {summary['beat_one_accuracy_pct']}%",
-            "",
-            "Convergenza musicale:",
-            f"- stage: {profile.stage}",
-            f"- confidenza complessiva: {profile.confidence_pct}%",
-            f"- intensita' suggerita: {profile.output_intensity_pct}%",
-            f"- complessita' componenti: {profile.component_complexity_pct}%",
-            f"- profondita' effetti: {profile.effect_depth_pct}%",
-            f"- approccio: {profile.reaction_mode}",
-            "",
-            "Interpretazione:",
-            "Se pattern e stabilita' sono alti, il sistema ha basi buone per accordarsi in fretta.",
-            "Se il BPM resta stabile ma il beat 1 cala, il problema e' piu' di fase che di tempo.",
-            "Quando una battuta parte male conviene resettare il sync e tagliare la barra corrente.",
-            profile.rationale,
-        ]
-        if analysis and analysis.windows:
-            lines.extend(["", "Finestre BPM rilevate:"])
-            for window in analysis.windows[:8]:
-                lines.append(
-                    f"- {window.start_sec:.1f}-{window.end_sec:.1f}s | bpm {window.bpm} | conf {window.confidence} | energy {window.energy}"
-                )
-            if len(analysis.windows) > 8:
-                lines.append(f"... altre {len(analysis.windows) - 8} finestre")
-        if session.feedback_log:
-            lines.extend(["", f"Feedback recenti: {', '.join(session.feedback_log[-6:])}"])
-        learning_details_text.insert(tk.END, "\n".join(lines))
-
-    learning_details_text.config(state=tk.DISABLED)
-
-
-def save_configuration_evaluation():
-    """Salva una valutazione della configurazione corrente di learning/preprocessing."""
-    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
-    if not sample_name:
-        messagebox.showwarning("Campione mancante", "Seleziona prima un campione.")
-        return
-    if latest_preprocessing_analysis is None:
-        messagebox.showwarning("Analisi mancante", "Esegui prima almeno un'analisi BPM.")
-        return
-
-    summary = learning_test_service.get_summary(
-        recognizable_pattern_score=latest_preprocessing_analysis.recognizable_pattern_score,
-        bpm_stability_score=latest_preprocessing_analysis.bpm_stability_score,
-        correction_readiness_score=latest_preprocessing_analysis.correction_readiness_score,
-    )
-    snapshot = learning_configuration_service.build_configuration_snapshot(
-        sample_name=sample_name,
-        analysis=latest_preprocessing_analysis,
-        learning_summary=summary,
-    )
-    rating = learning_rating_var.get().strip() if learning_rating_var is not None else "buono"
-    note = learning_evaluation_note_entry.get().strip() if learning_evaluation_note_entry is not None else ""
-
-    try:
-        learning_configuration_service.save_evaluation(
-            sample_name=sample_name,
-            configuration_snapshot=snapshot,
-            rating=rating,
-            note=note,
-        )
-        console_log(f"Valutazione configurazione salvata per {sample_name}: {rating}", level="INFO")
-    except Exception as exc:
-        console_log(f"Errore salvataggio valutazione configurazione: {exc}", level="ERROR")
-        messagebox.showerror("Valutazione configurazione", str(exc))
-        return
-
-    if learning_evaluation_note_entry is not None:
-        learning_evaluation_note_entry.delete(0, tk.END)
-    render_learning_summary()
-    messagebox.showinfo("Valutazione salvata", "La configurazione corrente è stata registrata nello storico.")
-
-
-def create_learning_grid():
-    """Crea una sessione learning dal campione selezionato."""
-    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
-    if not sample_name:
-        messagebox.showwarning("Campione mancante", "Seleziona un campione per il learning test.")
-        return
-
-    try:
-        payload = load_sample_payload(sample_name, AUDIO_SAMPLES_DIR)
-        if latest_preprocessing_analysis and latest_preprocessing_analysis.sample_name == sample_name:
-            detected_segments = latest_preprocessing_analysis.merged_segments
-            if detected_segments:
-                payload = dict(payload)
-                payload["segments"] = detected_segments
-        learning_test_service.start_session(sample_name, payload)
-        console_log(f"Sessione learning creata per {sample_name}", level="INFO")
-    except Exception as exc:
-        console_log(f"Errore creazione learning grid: {exc}", level="ERROR")
-        messagebox.showerror("Learning grid", str(exc))
-        return
-
-    render_learning_summary()
-
-
-def run_preprocessing_analysis():
-    """Esegue preprocessing e BPM detection sul campione selezionato."""
-    global latest_preprocessing_analysis
-
-    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
-    if not sample_name:
-        messagebox.showwarning("Campione mancante", "Seleziona un campione da analizzare.")
-        return
-
-    try:
-        audio = load_sample_audio(sample_name, AUDIO_SAMPLES_DIR)
-        latest_preprocessing_analysis = preprocessing_pipeline_service.analyze_bpm_windows(
-            sample_name=sample_name,
-            audio=audio,
-            sample_rate=44_100,
-        )
-        console_log(
-            f"Analisi preprocessing completata per {sample_name}: BPM {latest_preprocessing_analysis.dominant_bpm}",
-            level="INFO",
-        )
-    except Exception as exc:
-        console_log(f"Errore analisi preprocessing: {exc}", level="ERROR")
-        messagebox.showerror("Analisi preprocessing", str(exc))
-        return
-
-    render_learning_summary()
-
-
-def record_learning_observation():
-    """Registra l'esito dell'ultima battuta osservata."""
-    try:
-        offset_ms = float(learning_offset_var.get().strip())
-        confidence = float(learning_confidence_var.get().strip())
-        beat_in_bar = int(learning_beat_var.get().strip())
-    except Exception:
-        messagebox.showwarning("Valori non validi", "Inserisci offset, confidenza e quarto validi.")
-        return
-
-    try:
-        observation = learning_test_service.record_observation(
-            offset_ms=offset_ms,
-            confidence=confidence,
-            observed_beat_in_bar=beat_in_bar,
-        )
-        console_log(
-            f"Battuta registrata: beat {observation.beat_number}, offset {observation.offset_ms} ms, within={observation.within_tolerance}",
-            level="INFO",
-        )
-    except Exception as exc:
-        console_log(f"Errore registrazione battuta learning: {exc}", level="ERROR")
-        messagebox.showerror("Learning observation", str(exc))
-        return
-
-    render_learning_summary()
-
-
-def reset_learning_sync():
-    """Forza un reset di sincronizzazione della sessione learning."""
-    try:
-        learning_test_service.reset_sync(cut_current_bar=True, reason="manual")
-        console_log("Reset sincronizzazione learning richiesto", level="WARNING")
-    except Exception as exc:
-        console_log(f"Errore reset sync learning: {exc}", level="ERROR")
-        messagebox.showerror("Reset sync", str(exc))
-        return
-    render_learning_summary()
-
-
-def apply_learning_feedback(feedback_code):
-    """Registra feedback qualitativo dell'utilizzatore sul comportamento learning."""
-    try:
-        learning_test_service.apply_feedback(feedback_code)
-        console_log(f"Feedback learning registrato: {feedback_code}", level="INFO")
-    except Exception as exc:
-        console_log(f"Errore feedback learning: {exc}", level="ERROR")
-        messagebox.showerror("Feedback learning", str(exc))
-        return
-    render_learning_summary()
-
-
-def set_selected_audio_source(source_path, duration_sec):
-    """Aggiorna lo stato UI del file audio sorgente selezionato."""
-    global selected_audio_source_path
-    selected_audio_source_path = source_path
-
-    if audio_source_path_var is not None:
-        audio_source_path_var.set(str(source_path) if source_path else "Nessun file selezionato")
-    if audio_source_duration_var is not None:
-        if duration_sec is None:
-            audio_source_duration_var.set("Durata sorgente: -")
-        else:
-            audio_source_duration_var.set(f"Durata sorgente: {format_audio_duration(duration_sec)} s")
-
-    if source_path and audio_sample_name_entry is not None:
-        suggested_name = Path(source_path).stem
-        audio_sample_name_entry.delete(0, tk.END)
-        audio_sample_name_entry.insert(0, f"{suggested_name}_sample")
-
-    if duration_sec is not None and audio_sample_end_entry is not None:
-        audio_sample_end_entry.delete(0, tk.END)
-        audio_sample_end_entry.insert(0, format_audio_duration(min(duration_sec, 30.0)))
-
-
-def browse_audio_sample_source():
-    """Permette di scegliere un file audio sorgente per estrarre un campione."""
-    file_path = filedialog.askopenfilename(
-        title="Seleziona un file audio",
-        filetypes=[
-            ("File audio", "*.mp3 *.wav *.flac *.ogg *.m4a"),
-            ("Tutti i file", "*.*"),
-        ],
-    )
-    if not file_path:
-        return
-
-    try:
-        duration_sec = get_audio_duration_seconds(file_path)
-        set_selected_audio_source(file_path, duration_sec)
-        console_log(f"Audio sorgente caricato: {file_path} ({format_audio_duration(duration_sec)} s)", level="INFO")
-    except Exception as exc:
-        console_log(f"Errore caricamento audio: {exc}", level="ERROR")
-        messagebox.showerror("Audio non valido", str(exc))
-
-
-def refresh_audio_samples_list():
-    """Ricarica la lista dei campioni audio disponibili dal manifest."""
-    if audio_samples_tree is None:
-        return
-
-    for item_id in audio_samples_tree.get_children():
-        audio_samples_tree.delete(item_id)
-
-    try:
-        entries = list_audio_samples(AUDIO_SAMPLES_DIR)
-    except Exception as exc:
-        console_log(f"Errore lettura lista campioni audio: {exc}", level="ERROR")
-        return
-
-    for entry in entries:
-        source_label = Path(entry["source_file"]).name if entry.get("source_file") else entry["preset"]
-        audio_samples_tree.insert(
-            "",
-            tk.END,
-            iid=entry["base_name"],
-            values=(
-                entry["base_name"],
-                entry["preset"],
-                format_audio_duration(entry.get("duration_sec")),
-                source_label,
-            ),
-        )
-
-    update_audio_sample_details()
-    refresh_learning_sample_choices()
-
-
-def get_selected_audio_sample_entry():
-    """Restituisce l'entry del campione audio selezionato in lista."""
-    if audio_samples_tree is None:
-        return None
-    selection = audio_samples_tree.selection()
-    if not selection:
-        return None
-    base_name = selection[0]
-    for entry in list_audio_samples(AUDIO_SAMPLES_DIR):
-        if entry["base_name"] == base_name:
-            return entry
-    return None
-
-
-def get_selected_audio_sample_entries():
-    """Restituisce le entry selezionate nell'ordine visibile della lista."""
-    if audio_samples_tree is None:
-        return []
-
-    selected_ids = set(audio_samples_tree.selection())
-    if not selected_ids:
-        return []
-
-    entries_by_name = {
-        entry["base_name"]: entry
-        for entry in list_audio_samples(AUDIO_SAMPLES_DIR)
-    }
-    ordered_entries = []
-    for item_id in audio_samples_tree.get_children():
-        if item_id in selected_ids and item_id in entries_by_name:
-            ordered_entries.append(entries_by_name[item_id])
-    return ordered_entries
-
-
-def update_audio_sample_details():
-    """Mostra i dettagli del campione audio selezionato."""
-    if audio_sample_details_text is None:
-        return
-
-    entry = get_selected_audio_sample_entry()
-    audio_sample_details_text.config(state=tk.NORMAL)
-    audio_sample_details_text.delete("1.0", tk.END)
-
-    if not entry:
-        audio_sample_details_text.insert(
-            tk.END,
-            "Seleziona un campione audio per vedere origine, durata e file generati.",
-        )
-    else:
-        lines = [
-            f"Nome: {entry['base_name']}",
-            f"Tipo: {entry['preset']}",
-            f"Durata: {format_audio_duration(entry.get('duration_sec'))} s",
-            f"MP3: {entry.get('mp3', '-')}",
-            f"WAV: {entry.get('wav', '-')}",
-            f"Ground truth: {entry.get('ground_truth', '-')}",
-        ]
-        if entry.get("source_file"):
-            lines.extend(
-                [
-                    f"Sorgente: {entry['source_file']}",
-                    f"Da: {format_audio_duration(entry.get('selection_start_sec'))} s",
-                    f"A: {format_audio_duration(entry.get('selection_end_sec'))} s",
-                ]
-            )
-        if entry.get("source_sample"):
-            lines.append(f"Campione origine: {entry['source_sample']}")
-        if entry.get("component_samples"):
-            lines.append(f"Componenti: {', '.join(entry['component_samples'])}")
-        audio_sample_details_text.insert(tk.END, "\n".join(lines))
-
-    audio_sample_details_text.config(state=tk.DISABLED)
-
-
-def import_audio_selection():
-    """Estrae una sezione dall'audio scelto e la salva come nuovo campione."""
-    if not selected_audio_source_path:
-        messagebox.showwarning("Audio mancante", "Seleziona prima un file audio sorgente.")
-        return
-
-    try:
-        output_name = audio_sample_name_entry.get().strip()
-        start_sec = float(audio_sample_start_entry.get().strip())
-        end_sec = float(audio_sample_end_entry.get().strip())
-    except ValueError:
-        messagebox.showwarning("Valori non validi", "Inserisci numeri validi per inizio e fine selezione.")
-        return
-
-    try:
-        entry = create_audio_sample_from_selection(
-            source_path=selected_audio_source_path,
-            output_name=output_name,
-            start_sec=start_sec,
-            end_sec=end_sec,
-            output_dir=AUDIO_SAMPLES_DIR,
-        )
-    except Exception as exc:
-        console_log(f"Errore creazione campione audio: {exc}", level="ERROR")
-        messagebox.showerror("Importazione fallita", str(exc))
-        return
-
-    console_log(f"Campione audio creato: {entry['mp3']}", level="INFO")
-    refresh_audio_samples_list()
-    if audio_samples_tree is not None:
-        audio_samples_tree.selection_set(entry["base_name"])
-        audio_samples_tree.focus(entry["base_name"])
-    update_audio_sample_details()
-    messagebox.showinfo("Campione creato", f"Campione salvato come:\n{entry['base_name']}")
-
-
-def split_selected_audio_sample():
-    """Scompone il campione selezionato usando i segmenti del suo ground truth."""
-    entry = get_selected_audio_sample_entry()
-    if not entry:
-        messagebox.showwarning("Campione mancante", "Seleziona un campione da scomporre.")
-        return
-
-    try:
-        if not get_audio_sample_entry(entry["base_name"], AUDIO_SAMPLES_DIR):
-            raise ValueError("Campione non presente nel catalogo locale.")
-        created_entries = split_audio_sample(
-            base_name=entry["base_name"],
-            output_dir=AUDIO_SAMPLES_DIR,
-        )
-    except Exception as exc:
-        console_log(f"Errore scomposizione campione: {exc}", level="ERROR")
-        messagebox.showerror("Scomposizione fallita", str(exc))
-        return
-
-    refresh_audio_samples_list()
-    console_log(
-        f"Scomposto il campione {entry['base_name']} in {len(created_entries)} parti.",
-        level="INFO",
-    )
-    messagebox.showinfo(
-        "Scomposizione completata",
-        f"Creati {len(created_entries)} campioni derivati da {entry['base_name']}.",
-    )
-
-
-def compose_selected_audio_samples():
-    """Combina più campioni selezionati in una song di test ordinata."""
-    selected_entries = get_selected_audio_sample_entries()
-    if not selected_entries:
-        messagebox.showwarning("Selezione vuota", "Seleziona almeno un campione da combinare.")
-        return
-
-    try:
-        output_name = audio_composed_name_entry.get().strip()
-        gap_sec = float(audio_compose_gap_entry.get().strip())
-        learning_objective = audio_learning_objective_entry.get().strip()
-    except ValueError:
-        messagebox.showwarning("Valori non validi", "Inserisci un gap numerico valido.")
-        return
-
-    try:
-        entry = compose_test_song(
-            sample_names=[item["base_name"] for item in selected_entries],
-            output_name=output_name,
-            output_dir=AUDIO_SAMPLES_DIR,
-            gap_sec=gap_sec,
-            learning_objective=learning_objective,
-        )
-    except Exception as exc:
-        console_log(f"Errore composizione song di test: {exc}", level="ERROR")
-        messagebox.showerror("Composizione fallita", str(exc))
-        return
-
-    refresh_audio_samples_list()
-    if audio_samples_tree is not None:
-        audio_samples_tree.selection_set(entry["base_name"])
-        audio_samples_tree.focus(entry["base_name"])
-    update_audio_sample_details()
-    console_log(
-        f"Creata song di test {entry['base_name']} da {len(selected_entries)} campioni.",
-        level="INFO",
-    )
-    messagebox.showinfo(
-        "Song creata",
-        f"Song di test salvata come:\n{entry['base_name']}",
-    )
-
-
-def setup_audio_samples_interface(parent):
-    """Costruisce la tab per importare campioni audio personalizzati."""
-    refs = build_audio_samples_tab(
-        parent=parent,
-        theme=config["theme"],
-        browse_audio_source=browse_audio_sample_source,
-        import_audio_selection=import_audio_selection,
-        split_selected_audio_sample=split_selected_audio_sample,
-        compose_selected_audio_samples=compose_selected_audio_samples,
-        refresh_audio_samples_list=refresh_audio_samples_list,
-        on_audio_sample_select=update_audio_sample_details,
-    )
-
-    global audio_samples_tree, audio_sample_details_text
-    global audio_source_path_var, audio_source_duration_var
-    global audio_sample_name_entry, audio_sample_start_entry, audio_sample_end_entry
-    global audio_composed_name_entry, audio_compose_gap_entry, audio_learning_objective_entry
-
-    audio_samples_tree = refs["audio_samples_tree"]
-    audio_sample_details_text = refs["audio_sample_details_text"]
-    audio_source_path_var = refs["source_path_var"]
-    audio_source_duration_var = refs["source_duration_var"]
-    audio_sample_name_entry = refs["sample_name_entry"]
-    audio_sample_start_entry = refs["start_entry"]
-    audio_sample_end_entry = refs["end_entry"]
-    audio_composed_name_entry = refs["composed_name_entry"]
-    audio_compose_gap_entry = refs["compose_gap_entry"]
-    audio_learning_objective_entry = refs["learning_objective_entry"]
-
-    refresh_audio_samples_list()
-
-
-def setup_learning_lab_interface(parent):
-    """Costruisce la vista ridotta per il learning test."""
-    refs = build_learning_lab_tab(
-        parent=parent,
-        theme=config["theme"],
-        run_preprocessing_analysis=run_preprocessing_analysis,
-        create_learning_grid=create_learning_grid,
-        record_learning_observation=record_learning_observation,
-        reset_learning_sync=reset_learning_sync,
-        apply_learning_feedback=apply_learning_feedback,
-        save_configuration_evaluation=save_configuration_evaluation,
-    )
-
-    global learning_sample_name_var, learning_sample_combo
-    global learning_dominant_bpm_var, learning_stability_var, learning_pattern_var, learning_readiness_var
-    global learning_summary_status_var, learning_target_lock_var, learning_beat_one_var
-    global learning_resync_var, learning_evaluation_prompt_var, learning_evaluation_recommendation_var
-    global learning_rating_var, learning_evaluation_note_entry
-    global learning_offset_var, learning_confidence_var, learning_beat_var
-    global learning_details_text
-
-    learning_sample_name_var = refs["sample_name_var"]
-    learning_sample_combo = refs["sample_combo"]
-    learning_dominant_bpm_var = refs["dominant_bpm_var"]
-    learning_stability_var = refs["stability_var"]
-    learning_pattern_var = refs["pattern_var"]
-    learning_readiness_var = refs["readiness_var"]
-    learning_summary_status_var = refs["status_var"]
-    learning_target_lock_var = refs["target_lock_var"]
-    learning_beat_one_var = refs["beat_one_var"]
-    learning_resync_var = refs["resync_var"]
-    learning_evaluation_prompt_var = refs["evaluation_prompt_var"]
-    learning_evaluation_recommendation_var = refs["evaluation_recommendation_var"]
-    learning_rating_var = refs["rating_var"]
-    learning_evaluation_note_entry = refs["evaluation_note_entry"]
-    learning_offset_var = refs["offset_var"]
-    learning_confidence_var = refs["confidence_var"]
-    learning_beat_var = refs["beat_var"]
-    learning_details_text = refs["details_text"]
-
-    refresh_learning_sample_choices()
-    render_learning_summary()
 
 
 def schedule_macro_list_refresh():
@@ -3203,15 +2529,269 @@ def _draw_execution_click_history(canvas, points):
         font=(config['theme']['font_family'], config['theme']['font_size_small']),
     )
 
+def setup_ui_graph_browser_interface(parent):
+    """Configura una tab dedicata alla consultazione del grafo semantico UI."""
+    global ui_graph_tree, ui_graph_details_text, ui_graph_relations_text, ui_graph_macros_text, current_ui_graph_definition
+
+    current_ui_graph_definition = build_default_doomsday_ui_graph()
+
+    main_frame = ttk.Frame(parent)
+    main_frame.pack(fill="both", expand=True, padx=10, pady=10)
+    main_frame.columnconfigure(0, weight=2)
+    main_frame.columnconfigure(1, weight=3)
+    main_frame.rowconfigure(1, weight=1)
+
+    header_frame = ttk.Frame(main_frame)
+    header_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 8))
+    header_frame.columnconfigure(0, weight=1)
+
+    ttk.Label(
+        header_frame,
+        text="Browser del grafo semantico UI di Doomsday",
+        font=(config['theme']['font_family'], config['theme']['font_size_large'], "bold"),
+    ).grid(row=0, column=0, sticky="w")
+    ttk.Button(header_frame, text="🔄 Aggiorna", command=refresh_ui_graph_browser).grid(row=0, column=1, padx=(8, 0))
+    ttk.Label(
+        header_frame,
+        text="Esplora viste, pannelli, popup, controlli e macro candidate collegate al grafo del gioco.",
+        wraplength=900,
+        justify="left",
+    ).grid(row=1, column=0, columnspan=2, sticky="w", pady=(6, 0))
+
+    left_frame = ttk.LabelFrame(main_frame, text="Mappa Gerarchica", padding="10")
+    left_frame.grid(row=1, column=0, sticky="nsew", padx=(0, 6))
+    left_frame.rowconfigure(0, weight=1)
+    left_frame.columnconfigure(0, weight=1)
+
+    ui_graph_tree = ttk.Treeview(left_frame, columns=("kind",), show="tree headings", height=22)
+    ui_graph_tree.heading("#0", text="Nodo")
+    ui_graph_tree.heading("kind", text="Tipo")
+    ui_graph_tree.column("#0", width=280, anchor="w")
+    ui_graph_tree.column("kind", width=110, anchor="center")
+    ui_graph_tree.grid(row=0, column=0, sticky="nsew")
+    ui_graph_tree.bind("<<TreeviewSelect>>", on_ui_graph_node_selected)
+
+    tree_scrollbar = ttk.Scrollbar(left_frame, orient="vertical", command=ui_graph_tree.yview)
+    tree_scrollbar.grid(row=0, column=1, sticky="ns")
+    ui_graph_tree.configure(yscrollcommand=tree_scrollbar.set)
+
+    right_frame = ttk.Frame(main_frame)
+    right_frame.grid(row=1, column=1, sticky="nsew")
+    right_frame.rowconfigure(0, weight=2)
+    right_frame.rowconfigure(1, weight=1)
+    right_frame.rowconfigure(2, weight=1)
+    right_frame.columnconfigure(0, weight=1)
+
+    details_frame = ttk.LabelFrame(right_frame, text="Dettagli Nodo", padding="10")
+    details_frame.grid(row=0, column=0, sticky="nsew", pady=(0, 6))
+    details_frame.rowconfigure(0, weight=1)
+    details_frame.columnconfigure(0, weight=1)
+
+    ui_graph_details_text = scrolledtext.ScrolledText(
+        details_frame,
+        wrap="word",
+        height=12,
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        bg=config['theme']['border_color'],
+        fg=config['theme']['text_color'],
+        insertbackground=config['theme']['text_color'],
+    )
+    ui_graph_details_text.grid(row=0, column=0, sticky="nsew")
+    ui_graph_details_text.config(state=tk.DISABLED)
+
+    relations_frame = ttk.LabelFrame(right_frame, text="Relazioni E Trigger", padding="10")
+    relations_frame.grid(row=1, column=0, sticky="nsew", pady=(0, 6))
+    relations_frame.rowconfigure(0, weight=1)
+    relations_frame.columnconfigure(0, weight=1)
+
+    ui_graph_relations_text = scrolledtext.ScrolledText(
+        relations_frame,
+        wrap="word",
+        height=8,
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        bg=config['theme']['border_color'],
+        fg=config['theme']['text_color'],
+        insertbackground=config['theme']['text_color'],
+    )
+    ui_graph_relations_text.grid(row=0, column=0, sticky="nsew")
+    ui_graph_relations_text.config(state=tk.DISABLED)
+
+    macros_frame = ttk.LabelFrame(right_frame, text="Macro Candidate Collegate", padding="10")
+    macros_frame.grid(row=2, column=0, sticky="nsew")
+    macros_frame.rowconfigure(0, weight=1)
+    macros_frame.columnconfigure(0, weight=1)
+
+    ui_graph_macros_text = scrolledtext.ScrolledText(
+        macros_frame,
+        wrap="word",
+        height=8,
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        bg=config['theme']['border_color'],
+        fg=config['theme']['text_color'],
+        insertbackground=config['theme']['text_color'],
+    )
+    ui_graph_macros_text.grid(row=0, column=0, sticky="nsew")
+    ui_graph_macros_text.config(state=tk.DISABLED)
+
+    refresh_ui_graph_browser()
+
+
+def _set_ui_graph_text(widget, content):
+    if widget is None:
+        return
+    widget.config(state=tk.NORMAL)
+    widget.delete("1.0", tk.END)
+    widget.insert(tk.END, content)
+    widget.config(state=tk.DISABLED)
+
+
+def refresh_ui_graph_browser():
+    """Ricarica il browser del grafo UI nella tab dedicata."""
+    global current_ui_graph_definition
+    if ui_graph_tree is None:
+        return
+
+    current_ui_graph_definition = build_default_doomsday_ui_graph()
+
+    for item_id in ui_graph_tree.get_children():
+        ui_graph_tree.delete(item_id)
+
+    nodes_by_parent = {}
+    for node in current_ui_graph_definition.nodes:
+        nodes_by_parent.setdefault(node.parent_node_id, []).append(node)
+
+    for children in nodes_by_parent.values():
+        children.sort(key=lambda item: (item.kind, item.label.lower()))
+
+    def insert_children(parent_node_id, tree_parent=""):
+        for node in nodes_by_parent.get(parent_node_id, []):
+            ui_graph_tree.insert(
+                tree_parent,
+                "end",
+                iid=node.node_id,
+                text=node.label,
+                values=(node.kind,),
+                open=True,
+            )
+            insert_children(node.node_id, node.node_id)
+
+    insert_children(None, "")
+
+    root_nodes = ui_graph_tree.get_children()
+    if root_nodes:
+        ui_graph_tree.selection_set(root_nodes[0])
+        ui_graph_tree.focus(root_nodes[0])
+        on_ui_graph_node_selected()
+
+
+def on_ui_graph_node_selected(event=None):
+    """Aggiorna i dettagli del nodo selezionato nel browser del grafo UI."""
+    if ui_graph_tree is None or current_ui_graph_definition is None:
+        return
+
+    selection = ui_graph_tree.selection()
+    if not selection:
+        return
+
+    node_id = selection[0]
+    node = current_ui_graph_definition.get_node(node_id)
+    if node is None:
+        return
+
+    condition_lines = []
+    if node.conditions:
+        for condition in node.conditions:
+            expected_text = "presenza" if condition.expected_presence else "assenza"
+            condition_lines.append(
+                f"- {condition.condition_id}: {expected_text} | soglia {condition.threshold} | elementi {', '.join(condition.element_names)}"
+            )
+            if condition.description:
+                condition_lines.append(f"  {condition.description}")
+    else:
+        condition_lines.append("- Nessuna condizione grafica rigida definita")
+
+    details_text = "\n".join(
+        [
+            f"ID: {node.node_id}",
+            f"Titolo: {node.label}",
+            f"Tipo: {node.kind}",
+            f"Padre: {node.parent_node_id or '-'}",
+            f"Ruolo layout: {node.layout_role}",
+            f"Recovery action: {node.recovery_action or '-'}",
+            f"Tag: {', '.join(node.tags) if node.tags else '-'}",
+            "",
+            "Condizioni:",
+            *condition_lines,
+            "",
+            "Note:",
+            node.notes or "-",
+        ]
+    )
+    _set_ui_graph_text(ui_graph_details_text, details_text)
+
+    relation_lines = []
+    outgoing = [edge for edge in current_ui_graph_definition.edges if edge.from_node_id == node_id]
+    incoming = [edge for edge in current_ui_graph_definition.edges if edge.to_node_id == node_id]
+
+    if outgoing:
+        relation_lines.append("Uscite:")
+        for edge in outgoing:
+            relation_lines.append(f"- -> {edge.to_node_id} | trigger: {edge.trigger} | azione: {edge.action_name or '-'}")
+            if edge.description:
+                relation_lines.append(f"  {edge.description}")
+    if incoming:
+        if relation_lines:
+            relation_lines.append("")
+        relation_lines.append("Ingressi:")
+        for edge in incoming:
+            relation_lines.append(f"- <- {edge.from_node_id} | trigger: {edge.trigger} | azione: {edge.action_name or '-'}")
+            if edge.description:
+                relation_lines.append(f"  {edge.description}")
+    if not relation_lines:
+        relation_lines.append("Nessuna relazione registrata per questo nodo.")
+    _set_ui_graph_text(ui_graph_relations_text, "\n".join(relation_lines))
+
+    try:
+        macro_plan = get_macro_plan_for_ui_node(
+            graph_id=current_ui_graph_definition.graph_id,
+            node_id=node_id,
+            intent_key=None,
+        )
+        if macro_plan.candidate_links:
+            macro_lines = []
+            for link in macro_plan.candidate_links:
+                macro_lines.append(
+                    f"- {link.macro_name or 'Macro senza nome'} | relazione: {link.relation_type} | priorita': {link.priority}"
+                )
+                if link.intent_key:
+                    macro_lines.append(f"  intento: {link.intent_key}")
+                if link.notes:
+                    macro_lines.append(f"  note: {link.notes}")
+        else:
+            macro_lines = ["Nessuna macro collegata ancora a questo nodo."]
+    except Exception as exc:
+        macro_lines = [f"Errore lettura collegamenti macro: {exc}"]
+    _set_ui_graph_text(ui_graph_macros_text, "\n".join(macro_lines))
+
 # === FUNZIONI PER ELEMENTI GRAFICI DEL GIOCO ===
 # Variabili globali per la GUI elementi grafici
-game_elements_list_tree = None
+game_elements_gallery_canvas = None
+game_elements_gallery_frame = None
+game_elements_cards = {}
+game_elements_card_photos = {}
+game_elements_selected_id = None
 game_elements_image_label = None
 game_elements_details_label = None
+ui_graph_tree = None
+ui_graph_details_text = None
+ui_graph_relations_text = None
+ui_graph_macros_text = None
+current_ui_graph_definition = None
 
 def setup_game_elements_interface(parent):
     """Configura l'interfaccia per gli elementi grafici del gioco"""
-    global game_elements_list_tree, game_elements_image_label, game_elements_details_label
+    global game_elements_gallery_canvas, game_elements_gallery_frame
+    global game_elements_image_label, game_elements_details_label
     
     main_frame = ttk.Frame(parent)
     main_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -3221,7 +2801,7 @@ def setup_game_elements_interface(parent):
     content_frame.pack(fill="both", expand=True)
     
     # --- Colonna sinistra: Lista elementi ---
-    left_frame = ttk.LabelFrame(content_frame, text="Lista Elementi", padding="10")
+    left_frame = ttk.LabelFrame(content_frame, text="Galleria Elementi", padding="10")
     left_frame.pack(side="left", fill="both", expand=True, padx=(0, 5))
     
     # Frame per i pulsanti di azione
@@ -3233,27 +2813,33 @@ def setup_game_elements_interface(parent):
     ttk.Button(buttons_frame, text="🗑️ Elimina", command=delete_selected_game_element).pack(side="left", padx=5)
     ttk.Button(buttons_frame, text="🔄 Aggiorna", command=refresh_game_elements_list).pack(side="left", padx=5)
     
-    # TreeView per la lista degli elementi
-    tree_frame = ttk.Frame(left_frame)
-    tree_frame.pack(fill="both", expand=True)
-    
-    game_elements_list_tree = ttk.Treeview(tree_frame, columns=("ID", "Nome", "Formato", "Data"), show="headings", height=15)
-    game_elements_list_tree.heading("ID", text="ID")
-    game_elements_list_tree.heading("Nome", text="Nome")
-    game_elements_list_tree.heading("Formato", text="Formato")
-    game_elements_list_tree.heading("Data", text="Ultima Modifica")
-    game_elements_list_tree.column("ID", width=50)
-    game_elements_list_tree.column("Nome", width=200)
-    game_elements_list_tree.column("Formato", width=80)
-    game_elements_list_tree.column("Data", width=150)
-    game_elements_list_tree.pack(side="left", fill="both", expand=True)
-    
-    tree_scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=game_elements_list_tree.yview)
-    tree_scrollbar.pack(side="right", fill="y")
-    game_elements_list_tree.configure(yscrollcommand=tree_scrollbar.set)
-    
-    # Binding per la selezione
-    game_elements_list_tree.bind("<<TreeviewSelect>>", on_game_element_selected)
+    gallery_frame = ttk.Frame(left_frame)
+    gallery_frame.pack(fill="both", expand=True)
+
+    game_elements_gallery_canvas = tk.Canvas(
+        gallery_frame,
+        background=config['theme']['background_color'],
+        highlightthickness=0,
+        bd=0,
+    )
+    gallery_scrollbar = ttk.Scrollbar(gallery_frame, orient="vertical", command=game_elements_gallery_canvas.yview)
+    game_elements_gallery_canvas.configure(yscrollcommand=gallery_scrollbar.set)
+    game_elements_gallery_canvas.pack(side="left", fill="both", expand=True)
+    gallery_scrollbar.pack(side="right", fill="y")
+
+    game_elements_gallery_frame = ttk.Frame(game_elements_gallery_canvas)
+    gallery_window = game_elements_gallery_canvas.create_window((0, 0), window=game_elements_gallery_frame, anchor="nw")
+
+    def update_gallery_scroll_region(event=None):
+        if game_elements_gallery_canvas and game_elements_gallery_frame:
+            game_elements_gallery_canvas.configure(scrollregion=game_elements_gallery_canvas.bbox("all"))
+
+    def update_gallery_width(event):
+        if game_elements_gallery_canvas:
+            game_elements_gallery_canvas.itemconfigure(gallery_window, width=event.width)
+
+    game_elements_gallery_frame.bind("<Configure>", update_gallery_scroll_region)
+    game_elements_gallery_canvas.bind("<Configure>", update_gallery_width)
     
     # --- Colonna destra: Anteprima immagine ---
     right_frame = ttk.LabelFrame(content_frame, text="Anteprima Elemento", padding="10")
@@ -3273,54 +2859,151 @@ def setup_game_elements_interface(parent):
     refresh_game_elements_list()
 
 def refresh_game_elements_list():
-    """Aggiorna la lista degli elementi grafici"""
-    global game_elements_list_tree
-    if not game_elements_list_tree:
+    """Aggiorna la galleria degli elementi grafici"""
+    global game_elements_cards, game_elements_card_photos, game_elements_selected_id
+    if not game_elements_gallery_frame:
         return
-    
-    # Pulisci la lista
-    for item in game_elements_list_tree.get_children():
-        game_elements_list_tree.delete(item)
-    
-    # Carica gli elementi dal database
+
+    for child in game_elements_gallery_frame.winfo_children():
+        child.destroy()
+    game_elements_cards = {}
+    game_elements_card_photos = {}
+
     try:
         elements = get_all_game_elements()
-        for element in elements:
-            game_elements_list_tree.insert("", "end", iid=str(element['id']), values=build_game_element_row(element))
+        if not elements:
+            empty_label = ttk.Label(
+                game_elements_gallery_frame,
+                text="Nessun elemento registrato.\nUsa 'Nuovo Elemento' per iniziare una libreria visiva pulita.",
+                justify="center",
+            )
+            empty_label.grid(row=0, column=0, padx=12, pady=20, sticky="nsew")
+        else:
+            columns = 3
+            for index, element in enumerate(elements):
+                row = index // columns
+                column = index % columns
+                card = build_game_element_gallery_card(game_elements_gallery_frame, element)
+                card.grid(row=row, column=column, padx=8, pady=8, sticky="n")
+                game_elements_cards[element["id"]] = card
+
+            for column in range(columns):
+                game_elements_gallery_frame.columnconfigure(column, weight=1)
+
+            if game_elements_selected_id in game_elements_cards:
+                select_game_element_by_id(game_elements_selected_id)
+            else:
+                game_elements_selected_id = None
+                clear_game_element_preview()
     except Exception as e:
         console_log(f"❌ Errore nel caricamento degli elementi: {e}", level="ERROR")
 
+def build_game_element_gallery_card(parent, element):
+    """Crea una card grafica selezionabile per la galleria elementi."""
+    card = tk.Frame(
+        parent,
+        bg=config['theme']['background_color'],
+        highlightbackground=config['theme']['border_color'],
+        highlightcolor=config['theme']['button_bg_color'],
+        highlightthickness=1,
+        bd=0,
+        cursor="hand2",
+        padx=6,
+        pady=6,
+    )
+    card.element_id = element["id"]
+
+    preview_label = tk.Label(
+        card,
+        bg=config['theme']['border_color'],
+        fg=config['theme']['text_color'],
+        text="Anteprima",
+        width=18,
+        height=8,
+        cursor="hand2",
+    )
+    preview_label.pack(fill="both", expand=True)
+
+    title_label = tk.Label(
+        card,
+        text=element["nome"],
+        bg=config['theme']['background_color'],
+        fg=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_medium'], "bold"),
+        wraplength=170,
+        justify="center",
+        cursor="hand2",
+    )
+    title_label.pack(fill="x", pady=(6, 2))
+
+    meta_label = tk.Label(
+        card,
+        text=f"{element['formato_immagine']}  •  ID {element['id']}",
+        bg=config['theme']['background_color'],
+        fg=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        cursor="hand2",
+    )
+    meta_label.pack(fill="x")
+
+    try:
+        full_element = get_game_element_by_id(element["id"])
+        if full_element:
+            image = blob_to_image(full_element['immagine'], full_element['formato_immagine'])
+            photo = render_preview_image(image, preview_label, max_size=(160, 120))
+            game_elements_card_photos[element["id"]] = photo
+    except Exception as exc:
+        preview_label.configure(text=f"Errore anteprima\n{exc}")
+
+    for widget in (card, preview_label, title_label, meta_label):
+        widget.bind("<Button-1>", lambda event, element_id=element["id"]: select_game_element_by_id(element_id))
+        widget.bind("<Double-Button-1>", lambda event, element_id=element["id"]: open_game_element_from_gallery(element_id))
+
+    return card
+
 def clear_game_element_preview():
     """Svuota anteprima e dettagli dopo cancellazione o refresh."""
+    global game_elements_selected_id
+    game_elements_selected_id = None
     if game_elements_image_label:
         game_elements_image_label.configure(image="", text="Seleziona un elemento per vedere l'anteprima")
         game_elements_image_label.image = None
     if game_elements_details_label:
         game_elements_details_label.configure(text="")
 
-def on_game_element_selected(event):
-    """Gestisce la selezione di un elemento nella lista"""
-    global game_elements_list_tree, game_elements_image_label, game_elements_details_label
-    if not game_elements_list_tree:
+def update_game_element_card_selection():
+    """Aggiorna l'evidenza visiva della card selezionata."""
+    for element_id, card in game_elements_cards.items():
+        selected = element_id == game_elements_selected_id
+        card.configure(
+            highlightthickness=3 if selected else 1,
+            highlightbackground=config['theme']['button_bg_color'] if selected else config['theme']['border_color'],
+        )
+
+def select_game_element_by_id(element_id):
+    """Seleziona un elemento della galleria e aggiorna anteprima e dettagli."""
+    global game_elements_selected_id
+    if not element_id:
         return
-    
-    selected = game_elements_list_tree.selection()
-    if not selected:
-        return
-    
+
     try:
-        element_id = int(selected[0])
+        element_id = int(element_id)
+        game_elements_selected_id = element_id
+        update_game_element_card_selection()
         element = get_game_element_by_id(element_id)
         if element:
-            # Mostra l'anteprima
             image = blob_to_image(element['immagine'], element['formato_immagine'])
             render_preview_image(image, game_elements_image_label, max_size=(350, 350))
             details_text = build_game_element_details_text(element)
-            
             if game_elements_details_label:
                 game_elements_details_label.configure(text=details_text)
     except Exception as e:
         console_log(f"❌ Errore nel caricamento dell'anteprima: {e}", level="ERROR")
+
+def open_game_element_from_gallery(element_id):
+    """Apre l'editor dell'elemento selezionato dalla galleria."""
+    select_game_element_by_id(element_id)
+    edit_selected_game_element()
 
 def create_new_game_element_dialog():
     """Dialog per creare un nuovo elemento grafico"""
@@ -3438,17 +3121,13 @@ def create_new_game_element_dialog():
 
 def edit_selected_game_element():
     """Modifica l'elemento grafico selezionato"""
-    global game_elements_list_tree
-    if not game_elements_list_tree:
-        return
-    
-    selected = game_elements_list_tree.selection()
-    if not selected:
+    global game_elements_selected_id
+    if not game_elements_selected_id:
         messagebox.showwarning("Modifica Elemento", "Seleziona un elemento da modificare.")
         return
     
     try:
-        element_id = int(selected[0])
+        element_id = int(game_elements_selected_id)
         element = get_game_element_by_id(element_id)
         if not element:
             messagebox.showerror("Errore Modifica", "Elemento non trovato.")
@@ -3583,17 +3262,13 @@ def edit_selected_game_element():
 
 def delete_selected_game_element():
     """Elimina l'elemento grafico selezionato"""
-    global game_elements_list_tree
-    if not game_elements_list_tree:
-        return
-    
-    selected = game_elements_list_tree.selection()
-    if not selected:
+    global game_elements_selected_id
+    if not game_elements_selected_id:
         messagebox.showwarning("Elimina Elemento", "Seleziona un elemento da eliminare.")
         return
     
     try:
-        element_id = int(selected[0])
+        element_id = int(game_elements_selected_id)
         element = get_game_element_by_id(element_id)
         if not element:
             messagebox.showerror("Errore Eliminazione", "Elemento non trovato.")
@@ -4830,8 +4505,7 @@ def setup_gui():
 
     build_secondary_tabs(
         tab_control=tab_control,
-        setup_audio_samples_interface=setup_audio_samples_interface,
-        setup_learning_lab_interface=setup_learning_lab_interface,
+        setup_ui_graph_browser_interface=setup_ui_graph_browser_interface,
         setup_scheduled_tasks_interface=setup_scheduled_tasks_interface,
         setup_game_elements_interface=setup_game_elements_interface,
         setup_settings_tab=setup_settings_tab,

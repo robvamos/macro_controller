@@ -503,8 +503,9 @@ def _capture_recorded_click_element(event_data, *, abs_x, abs_y, game_rect):
     event_data["ui_graph_id"] = observation.graph_id
     event_data["ui_node_id"] = observation.view_node_id
     if _recording_log_callback:
+        action_label = "riusato dal catalogo" if observation.reused_existing else "censito"
         _recording_log_callback(
-            "Elemento cliccato censito: "
+            f"Elemento cliccato {action_label}: "
             f"{observation.element_name} -> {observation.view_node_id}",
             "INFO",
         )

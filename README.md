@@ -119,55 +119,6 @@ La copertura attuale include:
 - [debug_macro_playback.py](/F:/_CODEX/DDassistant/debug_macro_playback.py): diagnostica dei problemi di riproduzione
 - [repair_macros.py](/F:/_CODEX/DDassistant/repair_macros.py): riparazione e verifica macro
 - [test_focus_logic.py](/F:/_CODEX/DDassistant/test_focus_logic.py): script di verifica manuale della logica focus
-- [scripts/generate_reference_calibration_audio.py](/F:/_CODEX/DDassistant/scripts/generate_reference_calibration_audio.py): genera audio campione per test live e aggiorna l'indice dei file creati
-
-## Audio campione calibrazione
-
-Nella cartella [data/calibration](/F:/_CODEX/DDassistant/data/calibration) e' disponibile un campione generico gia' pronto:
-
-- [generic_reference_sample.mp3](/F:/_CODEX/DDassistant/data/calibration/generic_reference_sample.mp3)
-- [generic_reference_sample.json](/F:/_CODEX/DDassistant/data/calibration/generic_reference_sample.json)
-
-La libreria base include anche almeno 3 pezzi di test con variazioni note per verificare allineamento ritmico e fase del brano:
-
-- [phase_alignment_drill.mp3](/F:/_CODEX/DDassistant/data/calibration/phase_alignment_drill.mp3): materiale stabile a `96 BPM` con blocchi noti per riconoscere il beat `1`
-- [grid16_phrase_map.mp3](/F:/_CODEX/DDassistant/data/calibration/grid16_phrase_map.mp3): mappa fraseologica a `16 grid` con due zone di tempo note
-- [tempo_transition_stress.mp3](/F:/_CODEX/DDassistant/data/calibration/tempo_transition_stress.mp3): cambi di tempo noti per testare la rapidita' di riallineamento
-
-L'indice dei campioni generati viene mantenuto in:
-
-- [data/calibration/index.json](/F:/_CODEX/DDassistant/data/calibration/index.json)
-
-Dall'interfaccia principale e' ora disponibile anche la tab `Audio Campioni`, che permette di:
-
-- caricare un file audio esterno
-- scegliere inizio e fine della sezione da usare come campione
-- salvare il ritaglio come nuovo sample MP3/WAV
-- ritrovare il campione nella lista aggiornata automaticamente
-- scomporre un campione con segmenti noti in piu' blocchi derivati
-- combinare piu' campioni in una song di test ordinata per misurare tempo, fase della battuta e riconoscimento del beat `1`
-
-E' disponibile anche una vista dedicata `Learning Lab`, piu' focalizzata e meno dispersiva, con:
-
-- analisi di preprocessing e BPM detection a finestre
-- costruzione della griglia di learning dal campione selezionato o dai segmenti BPM rilevati
-- metriche compatte su stabilita' tempo, pattern riconoscibile, readiness di correzione e accuratezza del beat `1`
-- feedback rapido dell'utilizzatore
-- reset di sync quando una battuta parte male e va riallineata
-- tooltip sui controlli principali
-- sezione manuale avanzata compressa di default per lasciare il focus su preprocessing e tempo
-
-La logica di convergenza musicale e' stata separata in uno strato dedicato:
-
-- all'inizio il comportamento resta non invasivo
-- con maggiore stabilita' del pattern e del BPM aumenta la confidenza
-- solo quando la convergenza e' davvero solida il sistema suggerisce piu' intensita', componenti ed effetti
-
-La tab `Learning Lab` propone anche una valutazione della configurazione corrente:
-
-- dopo analisi e prove puoi salvare un giudizio rapido sulla configurazione
-- lo storico viene riusato per capire quali assetti funzionano meglio
-- questo permette al sistema di imparare non solo dal segnale, ma anche dal feedback dell'utilizzatore
 
 ## Elementi grafici del gioco
 
@@ -181,14 +132,6 @@ La tab `Elementi` e' stata impostata per acquisire elementi grafici senza distor
 Procedura consigliata:
 
 - [docs/GAME_ELEMENT_INGESTION_WORKFLOW.md](/F:/_CODEX/DDassistant/docs/GAME_ELEMENT_INGESTION_WORKFLOW.md)
-
-Per rigenerare il campione base o crearne altri con un nome dedicato:
-
-```powershell
-python scripts/generate_reference_calibration_audio.py --ffmpeg F:\_CODEX\Audio2VideoPal\.tools\ffmpeg\bin\ffmpeg.exe
-python scripts/generate_reference_calibration_audio.py --ffmpeg F:\_CODEX\Audio2VideoPal\.tools\ffmpeg\bin\ffmpeg.exe --preset reference_live_calibration --name test_session_01
-python scripts/generate_reference_calibration_audio.py --list
-```
 
 ## Documentazione interna
 

@@ -15,5 +15,4 @@ Preparare un pacchetto installabile che:
 - avvii `gui_macro_manager.py`
 - possa richiedere elevazione quando serve
 - preservi `config/` e `data/`
-- includa gli asset di catalogo e di calibration
-
+- includa gli asset di catalogo del gioco

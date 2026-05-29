@@ -81,7 +81,7 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
 
         with (
             patch("services.click_element_capture_service.search_game_window_elements", return_value=view_result),
-            patch("services.click_element_capture_service.capture_context_image", return_value=context),
+            patch("services.click_element_capture_service.get_all_game_elements", return_value=[]),
             patch("services.click_element_capture_service.create_game_element", side_effect=fake_create_game_element),
         ):
             observation = register_recorded_click_element(
@@ -113,7 +113,7 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
 
         with (
             patch("services.click_element_capture_service.search_game_window_elements") as classify,
-            patch("services.click_element_capture_service.capture_context_image", return_value=context),
+            patch("services.click_element_capture_service.get_all_game_elements", return_value=[]),
             patch("services.click_element_capture_service.create_game_element", return_value=9),
         ):
             observation = register_recorded_click_element(
@@ -132,6 +132,72 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
 
         self.assertEqual(observation.view_node_id, "shelter_interior_view")
         classify.assert_not_called()
+        self.assertFalse(observation.reused_existing)
+
+    def test_register_recorded_click_element_reuses_existing_catalog_element(self):
+        crop_image = Image.new("RGB", (92, 54), color=(80, 120, 210))
+        metadata_description = (
+            "Elemento acquisito automaticamente durante la registrazione macro.\n"
+            "[semantic_hint] old_hint\n"
+            "AUTO_CLICK_ELEMENT_METADATA:{\"macro_name\":\"Macro precedente\"}"
+        )
+        existing_element = {
+            "id": 7,
+            "nome": "recorded_click_existing",
+            "descrizione": metadata_description,
+            "immagine": crop_image.tobytes(),
+            "formato_immagine": "PNG",
+        }
+        view_result = Mock(found=True, matched_element_name="region_view_switch_globe_icon")
+        updated = {}
+
+        def fake_blob_to_image(_blob, _fmt):
+            return crop_image.copy()
+
+        def fake_update(element_id, **kwargs):
+            updated["id"] = element_id
+            updated.update(kwargs)
+            return True
+
+        with (
+            patch("services.click_element_capture_service.search_game_window_elements", return_value=view_result),
+            patch(
+                "services.click_element_capture_service.capture_clicked_element_crop",
+                return_value=type(
+                    "Crop",
+                    (),
+                    {
+                        "image": crop_image.copy(),
+                        "capture_bounds": (10, 20, 120, 140),
+                        "crop_bounds": (20, 30, 112, 84),
+                        "click_offset_in_crop": (25, 20),
+                        "contour_confidence": 0.91,
+                    },
+                )(),
+            ),
+            patch("services.click_element_capture_service.get_all_game_elements", return_value=[existing_element]),
+            patch("services.click_element_capture_service.blob_to_image", side_effect=fake_blob_to_image),
+            patch("services.click_element_capture_service.update_game_element", side_effect=fake_update),
+            patch("services.click_element_capture_service.create_game_element") as create_game_element,
+        ):
+            observation = register_recorded_click_element(
+                macro_name="Apri Eroi",
+                event_time_ms=1234,
+                button="left",
+                abs_x=512,
+                abs_y=412,
+                normalized_x=0.25,
+                normalized_y=0.75,
+                window_rect=(400, 300, 900, 800),
+            )
+
+        self.assertEqual(observation.element_id, 7)
+        self.assertEqual(observation.element_name, "recorded_click_existing")
+        self.assertTrue(observation.reused_existing)
+        create_game_element.assert_not_called()
+        self.assertEqual(updated["id"], 7)
+        self.assertIn("AUTO_CLICK_ELEMENT_METADATA:", updated["descrizione"])
+        self.assertIn("Apri Eroi", updated["descrizione"])
 
     def test_recorded_click_element_name_is_stable_and_slugged(self):
         name = build_recorded_click_element_name(

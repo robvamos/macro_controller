@@ -48,11 +48,21 @@ def create_game_element(nome, descrizione, immagine_blob, formato_immagine):
         conn.close()
 
 
-def get_all_game_elements():
+def get_all_game_elements(include_image=False):
     """Ottiene tutti gli elementi grafici del gioco."""
     conn = connect_db()
     cursor = conn.cursor()
     try:
+        if include_image:
+            cursor.execute(
+                """
+                SELECT id, nome, descrizione, immagine, formato_immagine, data_creazione, data_ultima_modifica
+                FROM GameElements
+                ORDER BY data_ultima_modifica DESC, data_creazione DESC
+                """
+            )
+            return [_game_element_row_to_dict(row, include_image=True) for row in cursor.fetchall()]
+
         cursor.execute(
             """
             SELECT id, nome, descrizione, formato_immagine, data_creazione, data_ultima_modifica

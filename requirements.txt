@@ -6,8 +6,6 @@ psutil>=5.9
 PyGetWindow>=0.0.9
 pywin32>=306
 
-# Vision and audio
+# Vision
 numpy>=1.24
 opencv-python>=4.8
-soundfile>=0.12
-

@@ -7,10 +7,12 @@ import json
 import math
 import re
 
+from doomsday.vision.click_context_guard import compute_context_similarity
 from doomsday.vision.click_context_guard import capture_context_image
 from doomsday.vision.game_element_recovery import search_game_window_elements
 from game_elements import image_to_blob
-from repositories.game_element_repository import create_game_element
+from game_elements import blob_to_image
+from repositories.game_element_repository import create_game_element, get_all_game_elements, update_game_element
 from services.game_element_ingestion_service import prepare_game_element_asset
 
 
@@ -18,6 +20,11 @@ DEFAULT_CLICK_CAPTURE_RADIUS_PX = 112
 DEFAULT_CLICK_CAPTURE_HALF_WIDTH_PX = 160
 DEFAULT_CLICK_CAPTURE_HALF_HEIGHT_PX = 96
 DEFAULT_CONTOUR_PADDING_PX = 8
+DEFAULT_DUPLICATE_ELEMENT_SIMILARITY = 0.93
+STRUCTURED_METADATA_MARKERS = (
+    "AUTO_CLICK_ELEMENT_METADATA:",
+    "GENERAL_CLICK_SEMANTIC_NOTE:",
+)
 DOOMSDAY_GRAPH_ID = "doomsday-default-ui-graph"
 UNKNOWN_VIEW_NODE_ID = "unknown_main_view"
 REGION_VIEW_NODE_ID = "exterior_region_view"
@@ -47,6 +54,7 @@ class ClickedElementObservation:
     capture_bounds: tuple[int, int, int, int]
     crop_bounds: tuple[int, int, int, int]
     contour_confidence: float
+    reused_existing: bool = False
 
 
 def classify_doomsday_view(window_rect, *, threshold=0.85) -> str:
@@ -171,7 +179,12 @@ def register_recorded_click_element(
             abs_y=abs_y,
         )
         description = build_recorded_click_element_description(metadata)
-        element_id = _create_unique_game_element(name, description, image_to_blob(asset.image, asset.storage_format), asset.storage_format)
+        element_id, element_name, reused_existing = _find_or_create_game_element(
+            base_name=name,
+            description=description,
+            image=asset.image,
+            image_format=asset.storage_format,
+        )
     finally:
         close_fn = getattr(crop.image, "close", None)
         if callable(close_fn):
@@ -179,7 +192,7 @@ def register_recorded_click_element(
 
     return ClickedElementObservation(
         element_id=element_id,
-        element_name=name,
+        element_name=element_name,
         graph_id=DOOMSDAY_GRAPH_ID,
         view_node_id=view_node_id,
         macro_name=macro_name,
@@ -189,6 +202,7 @@ def register_recorded_click_element(
         capture_bounds=crop.capture_bounds,
         crop_bounds=crop.crop_bounds,
         contour_confidence=crop.contour_confidence,
+        reused_existing=reused_existing,
     )
 
 
@@ -446,6 +460,110 @@ def _create_unique_game_element(base_name, description, image_blob, image_format
                 raise
             candidate = f"{base_name}_{suffix}"
             suffix += 1
+
+
+def _find_or_create_game_element(*, base_name, description, image, image_format):
+    matched_element = _find_matching_game_element(image)
+    if matched_element is not None:
+        merged_description = _merge_game_element_descriptions(
+            matched_element.get("descrizione"),
+            description,
+        )
+        if merged_description != (matched_element.get("descrizione") or ""):
+            update_game_element(matched_element["id"], descrizione=merged_description)
+        return int(matched_element["id"]), matched_element["nome"], True
+
+    image_blob = image_to_blob(image, image_format)
+    element_id = _create_unique_game_element(base_name, description, image_blob, image_format)
+    return element_id, base_name, False
+
+
+def _find_matching_game_element(image, *, similarity_threshold=DEFAULT_DUPLICATE_ELEMENT_SIMILARITY):
+    for element in get_all_game_elements(include_image=True):
+        existing_blob = element.get("immagine")
+        if not existing_blob:
+            continue
+        existing_image = None
+        try:
+            existing_image = blob_to_image(existing_blob, element.get("formato_immagine") or "PNG")
+            if not _sizes_are_compatible(image.size, existing_image.size):
+                continue
+            score = compute_context_similarity(
+                existing_image,
+                image,
+                resize_px=48,
+                translation_tolerance_px=2,
+            )
+            if score >= similarity_threshold:
+                return element
+        except Exception:
+            continue
+        finally:
+            close_fn = getattr(existing_image, "close", None)
+            if callable(close_fn):
+                close_fn()
+    return None
+
+
+def _sizes_are_compatible(size_a, size_b, *, tolerance_ratio=0.18):
+    width_a, height_a = size_a
+    width_b, height_b = size_b
+    if min(width_a, height_a, width_b, height_b) <= 0:
+        return False
+    width_delta = abs(width_a - width_b) / float(max(width_a, width_b))
+    height_delta = abs(height_a - height_b) / float(max(height_a, height_b))
+    return width_delta <= tolerance_ratio and height_delta <= tolerance_ratio
+
+
+def _merge_game_element_descriptions(existing_description, new_description):
+    existing = (existing_description or "").strip()
+    incoming = (new_description or "").strip()
+    if not incoming:
+        return existing
+    if not existing:
+        return incoming
+    if incoming in existing:
+        return existing
+
+    semantic_hint = _extract_semantic_hint(incoming)
+    merged = existing
+    if semantic_hint and semantic_hint not in existing:
+        merged = f"{merged}\n[semantic_hint] {semantic_hint}".strip()
+
+    for marker in STRUCTURED_METADATA_MARKERS:
+        block = _extract_marker_block(incoming, marker)
+        if block and block not in merged:
+            merged = f"{merged}\n{block}".strip()
+
+    plain_incoming = _strip_structured_metadata(incoming)
+    if plain_incoming and plain_incoming not in merged:
+        merged = f"{merged}\n{plain_incoming}".strip()
+    return merged
+
+
+def _extract_semantic_hint(description):
+    match = re.search(r"\[semantic_hint\]\s*(.+)", description or "")
+    return match.group(1).strip() if match else ""
+
+
+def _extract_marker_block(description, marker):
+    if not description:
+        return ""
+    marker_index = description.find(marker)
+    if marker_index < 0:
+        return ""
+    return description[marker_index:].strip()
+
+
+def _strip_structured_metadata(description):
+    cleaned = description or ""
+    semantic_marker = "[semantic_hint]"
+    if semantic_marker in cleaned:
+        cleaned = cleaned.split(semantic_marker, 1)[0]
+    for marker in STRUCTURED_METADATA_MARKERS:
+        if marker in cleaned:
+            cleaned = cleaned.split(marker, 1)[0]
+    return cleaned.strip()
 
 
 def _rect_to_dict(rect):

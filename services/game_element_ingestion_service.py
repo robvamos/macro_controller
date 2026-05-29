@@ -21,10 +21,11 @@ def build_game_element_ingestion_guidelines() -> tuple[str, ...]:
         "1. Cattura solo il simbolo o pannello davvero utile, senza UI extra non necessaria.",
         "2. Mantieni l'immagine nel suo rapporto originale: il salvataggio non la stira né la ridimensiona.",
         "3. Se l'elemento contiene testo che puo' cambiare lingua, privilegia il simbolo stabile e non la scritta.",
-        "4. Dai un nome descrittivo e spiega cosa rappresenta o dove compare nel gioco.",
-        "5. Se l'elemento serve per recovery o navigazione, annota anche come va usato.",
-        "6. Se ci sono badge rossi, numeri o puntini variabili, trattali come rumore e non come parte del riferimento stabile.",
-        "7. Preferisci immagini nitide e ritagli stretti, cosi' il matching resta piu' affidabile.",
+        "4. Se un elemento esiste gia', riusalo e aggiungi nuove caratteristiche invece di duplicarlo.",
+        "5. Dai un nome descrittivo e spiega cosa rappresenta o dove compare nel gioco.",
+        "6. Se l'elemento serve per recovery o navigazione, annota anche come va usato.",
+        "7. Se ci sono badge rossi, numeri o puntini variabili, trattali come rumore e non come parte del riferimento stabile.",
+        "8. Preferisci immagini nitide e ritagli stretti, cosi' il matching resta piu' affidabile.",
     )
 
 
