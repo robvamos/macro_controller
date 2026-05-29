@@ -1,0 +1,28 @@
+{
+  "app_id": "robvamos.ddgameass",
+  "display_name": "Macro Manager",
+  "project_slug": "ddgameass",
+  "entry_script": "gui_macro_manager.py",
+  "python_version": "3.11",
+  "platform_targets": [
+    "windows",
+    "linux",
+    "android"
+  ],
+  "data_directories": [
+    "config",
+    "data",
+    "docs"
+  ],
+  "asset_directories": [
+    "data/doomsday/catalog",
+    "data/calibration",
+    "data/learning"
+  ],
+  "runtime_notes": [
+    "Windows richiede privilegi elevati per alcuni flussi di input sul gioco target.",
+    "Il database locale e gli asset di catalogo devono essere preservati negli aggiornamenti.",
+    "Il layer di visione esterna va considerato parte del runtime applicativo."
+  ]
+}
+

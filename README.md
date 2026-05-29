@@ -33,6 +33,21 @@ Con doppio clic su:
 
 Questo launcher chiede i permessi amministrativi e avvia l'interfaccia principale.
 
+## Dipendenze e packaging
+
+Le dipendenze Python del progetto sono state centralizzate in:
+
+- [requirements.txt](/F:/_CODEX/DDassistant/requirements.txt)
+- [pyproject.toml](/F:/_CODEX/DDassistant/pyproject.toml)
+
+La base per i futuri setup applicativi è in:
+
+- [setup/README.md](/F:/_CODEX/DDassistant/setup/README.md)
+- [setup/common/app-packaging.json](/F:/_CODEX/DDassistant/setup/common/app-packaging.json)
+- [setup/windows/README.md](/F:/_CODEX/DDassistant/setup/windows/README.md)
+
+Questo permette di iniziare dal setup Windows senza spargere metadati o asset che in futuro potranno servire anche a Linux o Android.
+
 ## Struttura del progetto
 
 - [gui_macro_manager.py](/F:/_CODEX/DDassistant/gui_macro_manager.py): interfaccia principale e coordinamento generale
