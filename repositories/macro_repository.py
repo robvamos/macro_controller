@@ -160,11 +160,13 @@ def get_macro_metadata_by_id(macro_id):
 def salva_macro_test(nome_macro, descrizione, durata_sec, eseguibile, events, log_callback=None):
     if log_callback:
         log_callback(
-            f"DEBUG: Dentro salva_macro_test. Tipo di 'events': {type(events)}. Lunghezza: {len(events) if isinstance(events, list) else 'N/A'}"
+            f"DEBUG: Dentro salva_macro_test. Tipo di 'events': {type(events)}. Lunghezza: {len(events) if isinstance(events, list) else 'N/A'}",
+            "DEBUG",
         )
         if not isinstance(events, list):
             log_callback(
-                f"ERRORE GRAVE: 'events' non è una lista al suo arrivo in salva_macro_test! Tipo: {type(events)}"
+                f"ERRORE GRAVE: 'events' non è una lista al suo arrivo in salva_macro_test! Tipo: {type(events)}",
+                "ERROR",
             )
 
     conn = connect_db()
@@ -187,21 +189,22 @@ def salva_macro_test(nome_macro, descrizione, durata_sec, eseguibile, events, lo
 
         if log_callback:
             log_callback(
-                f"DEBUG: Prima di save_events_to_table. Tipo di 'events': {type(events)}. Lunghezza: {len(events) if isinstance(events, list) else 'N/A'}"
+                f"DEBUG: Prima di save_events_to_table. Tipo di 'events': {type(events)}. Lunghezza: {len(events) if isinstance(events, list) else 'N/A'}",
+                "DEBUG",
             )
 
         _save_events_to_table(f"MacroEvent_{macro_id}", events, cursor)
 
         conn.commit()
         if log_callback:
-            log_callback(f"Macro '{nome_macro}' salvata con ID {macro_id} e {len(events)} eventi.")
+            log_callback(f"Macro '{nome_macro}' salvata con ID {macro_id} e {len(events)} eventi.", "INFO")
         return macro_id
     except Exception as e:
         conn.rollback()
         if log_callback:
-            log_callback(f"Errore DB in salva_macro_test: {e}")
-            log_callback(f"DEBUG: Tipo di eccezione in salva_macro_test: {type(e)}")
-            log_callback(f"DEBUG: Messaggio originale eccezione in salva_macro_test: {str(e)}")
+            log_callback(f"Errore DB in salva_macro_test: {e}", "ERROR")
+            log_callback(f"DEBUG: Tipo di eccezione in salva_macro_test: {type(e)}", "DEBUG")
+            log_callback(f"DEBUG: Messaggio originale eccezione in salva_macro_test: {str(e)}", "DEBUG")
         raise e
     finally:
         conn.close()

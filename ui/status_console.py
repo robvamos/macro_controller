@@ -3,6 +3,8 @@
 import time
 import tkinter as tk
 
+from macro_config import normalize_log_level
+
 
 SEARCHING_COLOR = "#f7d358"
 FOUND_COLOR = "#50fa7b"
@@ -10,18 +12,19 @@ FOUND_COLOR = "#50fa7b"
 
 def append_console_message(console_widget, message, level="INFO", fallback_print=print):
     """Scrive un messaggio nella console testuale o usa il fallback."""
+    normalized_level = normalize_log_level(level)
     if console_widget and console_widget.winfo_exists():
         try:
             timestamp = time.strftime("[%H:%M:%S]")
             console_widget.config(state=tk.NORMAL)
-            console_widget.insert(tk.END, f"{timestamp} [{level}] {message}\n")
+            console_widget.insert(tk.END, f"{timestamp} [{normalized_level}] {message}\n")
             console_widget.see(tk.END)
             console_widget.config(state=tk.DISABLED)
             return
         except tk.TclError:
             pass
 
-    fallback_print(f"[{level}] {message}")
+    fallback_print(f"[{normalized_level}] {message}")
 
 
 def apply_status_indicator_state(

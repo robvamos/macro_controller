@@ -16,7 +16,7 @@
   "macro_manager": {
     "window_title": "Macro Manager",
     "listbox_height": 8,
-    "loop_interval_sec_default": 5
+    "loop_interval_sec_default": 2.0
   },
   "new_macro_dialog": {
     "window_title": "Nuova Macro",
@@ -35,8 +35,8 @@
     "height": 890
   },
   "macro_manager_window": {
-    "x": 103,
-    "y": 230,
+    "x": 215,
+    "y": 65,
     "width": 1482,
     "height": 887
   },

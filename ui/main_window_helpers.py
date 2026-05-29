@@ -9,12 +9,12 @@ from tkinter import scrolledtext, ttk
 def build_log_console(parent, *, font_family: str, font_size_small: int, border_color: str, text_color: str):
     """Crea il riquadro console e restituisce il widget testuale."""
     console_frame = ttk.LabelFrame(parent, text="Log Console", padding="10")
-    console_frame.pack(fill="x", pady=10)
+    console_frame.pack(fill="both", expand=True, pady=10)
 
     console_text = scrolledtext.ScrolledText(
         console_frame,
         wrap="word",
-        height=8,
+        height=10,
         font=(font_family, font_size_small),
         bg=border_color,
         fg=text_color,
@@ -105,6 +105,6 @@ def bind_main_window_events(
     root_window.bind("<FocusOut>", lambda event: on_window_focus_out())
     root_window.bind("<Destroy>", on_window_destroy)
 
-    root_window.bind("<Control-Alt-s>", lambda event: stop_current_operation())
+    root_window.bind("<Control-Alt-s>", lambda event: emergency_stop_all())
     root_window.bind("<Control-Alt-e>", lambda event: emergency_stop_all())
     root_window.bind("<Escape>", lambda event: emergency_stop_all())

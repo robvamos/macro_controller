@@ -6,9 +6,113 @@ import win32process
 import psutil
 import json
 import threading
+import win32api
 import win32con # Aggiunto import per win32con
+import logging
 
-from macro_config import get_focus_check_interval
+from doomsday.vision.click_context_guard import ClickContextGuard, ClickContextGuardConfig
+from macro_config import get_focus_check_interval, get_visual_click_guard_config
+
+logger = logging.getLogger(__name__)
+
+
+def _create_visual_click_guard():
+    config = get_visual_click_guard_config() or {}
+    return ClickContextGuard(
+        ClickContextGuardConfig(
+            enabled=bool(config.get("enabled", True)),
+            radius_px=int(config.get("radius_px", 48)),
+            resize_px=int(config.get("resize_px", 32)),
+            min_similarity=float(config.get("min_similarity", 0.55)),
+            stop_on_mismatch=bool(config.get("stop_on_mismatch", True)),
+        )
+    )
+
+
+def _emit_playback_event_debug(log_callback, index, total, message):
+    """Invia un messaggio di debug per l'esecuzione di un evento playback."""
+    debug_message = f"DEBUG PLAYBACK [{index + 1}/{total}] {message}"
+    logger.debug(debug_message)
+    if log_callback:
+        log_callback(debug_message, level="DEBUG")
+
+
+def _format_actual_mouse_position():
+    """Restituisce la posizione reale del cursore per il debug playback."""
+    try:
+        actual_x, actual_y = mouse.get_position()
+        return f" actual=({actual_x},{actual_y})"
+    except Exception as exc:
+        return f" actual=(unavailable:{exc})"
+
+
+def _get_actual_mouse_position():
+    """Legge la posizione attuale del cursore."""
+    try:
+        return mouse.get_position()
+    except Exception:
+        try:
+            return win32api.GetCursorPos()
+        except Exception:
+            return None
+
+
+def _move_mouse_absolute(x, y):
+    """Muove il cursore usando un backend ibrido con fallback."""
+    target_x = int(x)
+    target_y = int(y)
+
+    # Primo tentativo: backend mouse, che storicamente dava feedback visivo migliore.
+    try:
+        mouse.move(target_x, target_y, absolute=True, duration=0)
+        actual_position = _get_actual_mouse_position()
+        if actual_position and abs(actual_position[0] - target_x) <= 2 and abs(actual_position[1] - target_y) <= 2:
+            return
+    except Exception:
+        pass
+
+    # Fallback: Win32 nativo.
+    try:
+        win32api.SetCursorPos((target_x, target_y))
+        return
+    except Exception:
+        pass
+
+    # Ultimo tentativo: API mouse relativa/assoluta senza keyword duration.
+    mouse.move(target_x, target_y, absolute=True)
+
+
+def _dispatch_mouse_button(button, is_press):
+    """Invia un click mouse con backend ibrido e fallback."""
+    normalized_button = (button or "left").lower()
+    try:
+        if is_press:
+            mouse.press(normalized_button)
+        else:
+            mouse.release(normalized_button)
+        return
+    except Exception:
+        pass
+
+    button_flags = {
+        "left": (win32con.MOUSEEVENTF_LEFTDOWN, win32con.MOUSEEVENTF_LEFTUP),
+        "right": (win32con.MOUSEEVENTF_RIGHTDOWN, win32con.MOUSEEVENTF_RIGHTUP),
+        "middle": (win32con.MOUSEEVENTF_MIDDLEDOWN, win32con.MOUSEEVENTF_MIDDLEUP),
+    }
+    down_flag, up_flag = button_flags.get(normalized_button, button_flags["left"])
+    win32api.mouse_event(down_flag if is_press else up_flag, 0, 0, 0, 0)
+
+
+def _dispatch_mouse_scroll(delta):
+    """Invia uno scroll mouse con backend ibrido e fallback."""
+    try:
+        mouse.wheel(delta)
+        return
+    except Exception:
+        pass
+
+    wheel_delta = int((delta or 0) * 120)
+    win32api.mouse_event(win32con.MOUSEEVENTF_WHEEL, 0, 0, wheel_delta, 0)
 
 # Variabili globali per la registrazione
 _eventi_registrati = []
@@ -17,7 +121,33 @@ _start_time = None
 _target_process_name = "Doomsday.exe" # Valore di default
 _record_duration_sec = 0 # 0 per registrazione continua
 _recording_thread = None # Riferimento al thread di registrazione
+_recording_stop_event = threading.Event()
 _playback_stop_event = threading.Event()
+
+
+def _wait_with_event(stop_event, timeout_seconds, step_seconds=0.05):
+    """Attende in modo interrompibile, restituendo True se l'evento è stato segnalato."""
+    if timeout_seconds <= 0:
+        return stop_event.is_set()
+
+    deadline = time.monotonic() + timeout_seconds
+    while not stop_event.is_set():
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return False
+        if stop_event.wait(min(step_seconds, remaining)):
+            return True
+    return True
+
+
+def _cleanup_recording_hooks(log_callback=None):
+    """Sgancia gli hook di input usati dalla registrazione."""
+    try:
+        keyboard.unhook_all()
+        mouse.unhook_all()
+    except Exception as e:
+        if log_callback:
+            log_callback(f"⚠️ Errore durante la pulizia degli hook di registrazione: {e}")
 
 def now():
     """Restituisce il tempo trascorso dall'inizio della registrazione in millisecondi."""
@@ -60,12 +190,15 @@ def get_game_window_rect(target_exe):
                     point_tl = win32gui.ClientToScreen(hwnd, (client_left, client_top))
                     point_br = win32gui.ClientToScreen(hwnd, (client_right, client_bottom))
                     
-                    return (point_tl[0], point_tl[1], point_br[0], point_br[1])
+                    rect = (point_tl[0], point_tl[1], point_br[0], point_br[1])
+                    logger.debug("Finestra target trovata per '%s': %s", target_exe, rect)
+                    return rect
             except (psutil.NoSuchProcess, psutil.AccessDenied):
                 continue
             except Exception as e:
-                # print(f"Errore durante l'ottenimento del rettangolo della finestra: {e}")
+                logger.debug("Errore lettura rettangolo finestra per '%s': %s", target_exe, e)
                 continue
+    logger.debug("Nessuna finestra visibile trovata per '%s'", target_exe)
     return None
 
 def _attempt_bring_window_to_front(target_exe, log_callback=None):
@@ -166,6 +299,7 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
     if log_callback:
         log_callback(f"🕹️ In attesa che '{exe_name}' sia in primo piano (timeout: {max_wait_time}s)...")
         log_callback(f"💡 ISTRUZIONI: CLICCA sulla finestra '{exe_name}' per portarla in primo piano prima dello scadere del timer")
+    logger.info("Inizio attesa focus per '%s' con timeout %.1fs", exe_name, max_wait_time)
 
     start_wait_time = time.time()
     last_check_time = start_wait_time
@@ -188,6 +322,7 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
         pass
     
     if not process_found:
+        logger.warning("Processo target '%s' non trovato durante wait_for_app_window", exe_name)
         if log_callback:
             log_callback(f"❌ Processo '{exe_name}' non trovato nel sistema.")
             log_callback(f"💡 SOLUZIONE: Assicurati che '{exe_name}' sia in esecuzione prima di avviare la registrazione")
@@ -211,6 +346,7 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
                 log_callback(f"🔄 Tentativo {retry + 1}/{max_window_retries}: Ricerca finestra '{exe_name}'...")
     
     if not window_rect:
+        logger.warning("Finestra target '%s' non trovata dopo %s tentativi", exe_name, max_window_retries)
         if log_callback:
             log_callback(f"❌ Finestra dell'applicazione '{exe_name}' non trovata o non raggiungibile dopo {max_window_retries} tentativi.")
             log_callback(f"💡 SOLUZIONE: Assicurati che '{exe_name}' sia aperto e visibile sullo schermo prima di avviare la registrazione")
@@ -232,6 +368,12 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
         current_time = time.time()
         if current_time - last_check_time >= 1.0:
             current_foreground_process = get_foreground_process_name()
+            logger.debug(
+                "Controllo focus '%s': foreground='%s' elapsed=%.2fs",
+                exe_name,
+                current_foreground_process,
+                current_time - start_wait_time,
+            )
             if log_callback:
                 remaining = max_wait_time - (current_time - start_wait_time)
                 log_callback(f"🔍 Focus current: '{current_foreground_process}' (rimanenti: {remaining:.1f}s)")
@@ -246,12 +388,18 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
                 if log_callback:
                     log_callback(f"🔄 Tentativo automatico di portare '{exe_name}' in primo piano...")
                 attempted_bring_to_front = True
+                logger.info("Tentativo automatico bring-to-front per '%s'", exe_name)
                 success = _attempt_bring_window_to_front(exe_name, log_callback)
                 if success:
                     # Give the system a moment to respond
                     time.sleep(0.5)
                     # Check again after the bring-to-front attempt by getting fresh info
                     new_foreground_process = get_foreground_process_name()
+                    logger.info(
+                        "Esito bring-to-front per '%s': foreground adesso '%s'",
+                        exe_name,
+                        new_foreground_process,
+                    )
                     if new_foreground_process and new_foreground_process.lower() == exe_name.lower():
                         if log_callback:
                             log_callback(f"✅ '{exe_name}' ora in primo piano dopo correzione automatica!")
@@ -265,6 +413,11 @@ def wait_for_app_window(exe_name, log_callback=None, max_wait_time=10, check_rec
     if log_callback:
         log_callback(f"⏰ Timeout scaduto per '{exe_name}' - non è mai andato in focus.")
         current_foreground_process = get_foreground_process_name()
+        logger.warning(
+            "Timeout attesa focus per '%s'. Finestra in primo piano finale: '%s'",
+            exe_name,
+            current_foreground_process,
+        )
         if current_foreground_process:
             log_callback(f"💡 Finestra in primo piano: '{current_foreground_process}' - È necessario cliccare su '{exe_name}' MANUALMENTE")
         else:
@@ -357,22 +510,21 @@ def stop_recording(log_callback=None):
     global _recording_active, _recording_thread
     if _recording_active:
         _recording_active = False # Imposta il flag per terminare i hook immediatamente
+        _recording_stop_event.set()
         
         # Sgancia gli hook immediatamente per essere più responsivo
         try:
-            keyboard.unhook_all()
-            mouse.unhook_all()
+            _cleanup_recording_hooks(log_callback)
             if log_callback:
                 log_callback("🔌 Hook di tastiera e mouse sganciati immediatamente.")
-        except Exception as e:
-            if log_callback:
-                log_callback(f"⚠️ Errore durante lo sganciamento degli hook: {e}")
+        except Exception:
+            pass
         
         if log_callback:
             log_callback(f"✅ Registrazione fermata manualmente. Registrati {len(_eventi_registrati)} eventi.")
         
         # Aspetta che il thread di registrazione termini con timeout ridotto per essere più responsivo
-        if _recording_thread and _recording_thread.is_alive():
+        if _recording_thread and _recording_thread.is_alive() and _recording_thread != threading.current_thread():
             if log_callback:
                 log_callback("⏳ Attendo terminazione thread di registrazione...")
             
@@ -387,7 +539,6 @@ def stop_recording(log_callback=None):
                 if log_callback:
                     log_callback("✅ Thread di registrazione terminato correttamente.")
         
-        _recording_thread = None # Rimuovi il riferimento al thread terminato
         return True
     else:
         if log_callback:
@@ -412,8 +563,7 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         if log_callback:
             log_callback("⚠️ Rilevata registrazione precedente ancora attiva. Pulizia dello stato...")
         try:
-            keyboard.unhook_all()
-            mouse.unhook_all()
+            _cleanup_recording_hooks(log_callback)
         except Exception:
             pass  # Ignora errori se gli hook non sono attivi
     
@@ -424,14 +574,16 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
     _target_process_name = None
     _record_duration_sec = 0
     _recording_thread = None
+    _recording_stop_event.clear()
     
     # Piccolo delay per permettere al sistema di stabilizzarsi dopo il reset
-    time.sleep(0.1)
+    _wait_with_event(_recording_stop_event, 0.1)
     
     # Ora imposta lo stato per la nuova registrazione
     _recording_active = True # Imposta a True per indicare che stiamo iniziando
     _target_process_name = target_exe # Imposta il target process
     _record_duration_sec = durata_sec
+    _recording_thread = threading.current_thread()
 
     # Verifica preliminare che il processo target esista
     if log_callback:
@@ -475,7 +627,9 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         if attempt < max_retries - 1:
             if log_callback:
                 log_callback(f"⚠️ Tentativo {attempt + 1}/{max_retries}: Ripristino focus su '{target_exe}'...")
-            time.sleep(0.5)
+            if _wait_with_event(_recording_stop_event, 0.5):
+                _recording_active = False
+                return None
         else:
             if log_callback:
                 log_callback(f"❌ '{target_exe}' non più in focus dopo {max_retries} tentativi.")
@@ -485,7 +639,9 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
     # Piccola pausa per assicurarsi che la finestra abbia completamente acquisito il focus
     if log_callback:
         log_callback("✅ Finestra target confermata attiva, avvio registrazione...")
-    time.sleep(0.2)
+    if _wait_with_event(_recording_stop_event, 0.2):
+        _recording_active = False
+        return None
     
     _start_time = time.time() # Inizia a contare il tempo dopo che l'app è attiva
     
@@ -507,62 +663,55 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         else:
             log_callback(f"🔴 Registrazione continua di '{nome_macro}' su '{_target_process_name}'... (Premi Stop per terminare)")
     
-    if durata_sec > 0:
-        # Crea un thread per gestire il timeout della registrazione
-        _recording_thread = threading.Thread(target=lambda: time.sleep(durata_sec))
-        _recording_thread.start()
-        start_time = time.time()
-        
-        # Controlla più frequentemente se la registrazione deve essere fermata
-        while _recording_active and (time.time() - start_time < durata_sec):
-            if not is_target_window_active():
-                _recording_active = False
-                if log_callback:
-                    log_callback(f"❌ Finestra target '{target_exe}' non più attiva. Interrompo la registrazione.", level="ERROR")
-                break
-            time.sleep(0.05)  # Controlla ogni 50ms invece di 100ms per essere più responsivo
-        
-        if _recording_thread.is_alive():
-            _recording_thread.join(timeout=0.2)  # Timeout ridotto per essere più responsivo
-            
-        # Cleanup hooks when recording completes
-        keyboard.unhook_all()
-        mouse.unhook_all()
-        _recording_active = False
-        
-        if log_callback:
-            log_callback(f"✅ Registrazione di '{nome_macro}' completata. Registrati {len(_eventi_registrati)} eventi.")
-    else:
-        # Per registrazione continua, la funzione resta bloccata fino a che _recording_active non diventa False
-        # Controlla più frequentemente per essere più responsiva
-        while _recording_active:
-            if not is_target_window_active():
-                _recording_active = False
-                if log_callback:
-                    log_callback(f"❌ Finestra target '{target_exe}' non più attiva. Interrompo la registrazione.", level="ERROR")
-                break
-            time.sleep(0.05)  # Controlla ogni 50ms invece di 100ms per essere più responsiva
-            
-        # Cleanup hooks when continuous recording stops
-        keyboard.unhook_all()
-        mouse.unhook_all()
-        
-        if log_callback:
-            log_callback(f"✅ Registrazione continua di '{nome_macro}' fermata. Registrati {len(_eventi_registrati)} eventi.")
-
-    # Final validation and cleanup
     try:
-        if _eventi_registrati and len(_eventi_registrati) > 0:
+        start_time = time.time()
+        if durata_sec > 0:
+            # Controlla più frequentemente se la registrazione deve essere fermata
+            while _recording_active and (time.time() - start_time < durata_sec):
+                if not is_target_window_active():
+                    _recording_active = False
+                    if log_callback:
+                        log_callback(f"❌ Finestra target '{target_exe}' non più attiva. Interrompo la registrazione.", level="ERROR")
+                    break
+                if _wait_with_event(_recording_stop_event, 0.05):
+                    _recording_active = False
+                    break
+
             if log_callback:
-                log_callback(f"💾 {len(_eventi_registrati)} eventi pronti per il salvataggio.")
+                log_callback(f"✅ Registrazione di '{nome_macro}' completata. Registrati {len(_eventi_registrati)} eventi.")
         else:
+            # Per registrazione continua, la funzione resta bloccata fino a che _recording_active non diventa False
+            while _recording_active:
+                if not is_target_window_active():
+                    _recording_active = False
+                    if log_callback:
+                        log_callback(f"❌ Finestra target '{target_exe}' non più attiva. Interrompo la registrazione.", level="ERROR")
+                    break
+                if _wait_with_event(_recording_stop_event, 0.05):
+                    _recording_active = False
+                    break
+
             if log_callback:
-                log_callback("⚠️ Nessun evento registrato - possibile registrazione troppo breve.")
-    except Exception as e:
-        if log_callback:
-            log_callback(f"⚠️ Errore durante la validazione finale: {e}")
-    
-    return _eventi_registrati
+                log_callback(f"✅ Registrazione continua di '{nome_macro}' fermata. Registrati {len(_eventi_registrati)} eventi.")
+
+        # Final validation and cleanup
+        try:
+            if _eventi_registrati and len(_eventi_registrati) > 0:
+                if log_callback:
+                    log_callback(f"💾 {len(_eventi_registrati)} eventi pronti per il salvataggio.")
+            else:
+                if log_callback:
+                    log_callback("⚠️ Nessun evento registrato - possibile registrazione troppo breve.")
+        except Exception as e:
+            if log_callback:
+                log_callback(f"⚠️ Errore durante la validazione finale: {e}")
+
+        return _eventi_registrati
+    finally:
+        _cleanup_recording_hooks(log_callback)
+        _recording_active = False
+        _recording_thread = None
+        _recording_stop_event.clear()
 
 def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=False, loop_delay=0, max_repetitions=None, event_callback=None):
     """
@@ -581,6 +730,8 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
     focus_check_interval = max(0.05, float(get_focus_check_interval() or 0.05))
     last_focus_check_at = 0.0
     last_focus_check_result = True
+    click_context_guard = _create_visual_click_guard()
+    click_context_guard.reset()
 
     def is_target_window_active(force=False):
         nonlocal last_focus_check_at, last_focus_check_result
@@ -617,11 +768,13 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
             return True
         return False
 
+    click_context_guard.reset()
     while playing_flag and (loop_enabled or iteration_count == 0):
         if should_stop():
             break
 
         iteration_count += 1
+        iteration_guard_checked = False
         if log_callback:
             log_callback(f"🔄 Avvio iterazione {iteration_count} per '{target_exe}'...")
         else:
@@ -683,10 +836,22 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                 if key_name:
                     try:
                         if event['event'] == "down":
+                            _emit_playback_event_debug(
+                                log_callback,
+                                i,
+                                len(macro_events),
+                                f"key_down key='{key_name}' t={current_event_time}ms",
+                            )
                             keyboard.press(key_name)
                             if event_callback:
                                 event_callback(event, i, len(macro_events), "key_press", key_name)
                         elif event['event'] == "up":
+                            _emit_playback_event_debug(
+                                log_callback,
+                                i,
+                                len(macro_events),
+                                f"key_up key='{key_name}' t={current_event_time}ms",
+                            )
                             keyboard.release(key_name)
                             if event_callback:
                                 event_callback(event, i, len(macro_events), "key_release", key_name)
@@ -701,23 +866,115 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                 abs_y = int(window_top + (event.get('normalized_y', 0.0) * window_height))
                 try:
                     if mouse_event_type == "move":
-                        mouse.move(abs_x, abs_y, absolute=True, duration=0)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_move abs=({abs_x},{abs_y}) norm=({event.get('normalized_x')},{event.get('normalized_y')}) t={current_event_time}ms",
+                        )
+                        _move_mouse_absolute(abs_x, abs_y)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_move_result target=({abs_x},{abs_y}){_format_actual_mouse_position()}",
+                        )
                         if event_callback:
                             event_callback(event, i, len(macro_events), "mouse_move", None, abs_x, abs_y)
                     elif mouse_event_type == "down":
-                        mouse.move(abs_x, abs_y, absolute=True, duration=0)
+                        guard_result = None
+                        if not iteration_guard_checked:
+                            iteration_guard_checked = True
+                            try:
+                                guard_result = click_context_guard.verify_or_prime(
+                                    abs_x,
+                                    abs_y,
+                                    screen_bounds=game_rect,
+                                )
+                            except Exception as exc:
+                                stop_reason = "visual_guard_error"
+                                if log_callback:
+                                    log_callback(
+                                        f"❌ Controllo visivo click non disponibile: {exc}. Riproduzione fermata per sicurezza.",
+                                        level="ERROR",
+                                    )
+                                playing_flag = False
+                                break
+                            if guard_result["primed"]:
+                                _emit_playback_event_debug(
+                                    log_callback,
+                                    i,
+                                    len(macro_events),
+                                    f"visual_guard_reference_set abs=({abs_x},{abs_y}) threshold={guard_result['threshold']:.2f}",
+                                )
+                            elif not guard_result["ok"]:
+                                stop_reason = "visual_context_mismatch"
+                                message = (
+                                    f"❌ Contesto visivo non compatibile all'avvio dell'iterazione su ({abs_x},{abs_y}). "
+                                    f"Compatibilità {guard_result['score']:.2f} < soglia {guard_result['threshold']:.2f}. "
+                                    "Macro fermata per evitare click sulla schermata sbagliata."
+                                )
+                                if log_callback:
+                                    log_callback(message, level="ERROR")
+                                    log_callback(
+                                        "💡 Il contesto iniziale non è recuperabile automaticamente: la macro si ferma in sicurezza.",
+                                        level="WARNING",
+                                    )
+                                playing_flag = False
+                                break
+
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_down button='{button}' abs=({abs_x},{abs_y}) norm=({event.get('normalized_x')},{event.get('normalized_y')}) t={current_event_time}ms",
+                        )
+                        _move_mouse_absolute(abs_x, abs_y)
                         if button:
-                            mouse.press(button)
+                            _dispatch_mouse_button(button, is_press=True)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_down_result button='{button}' target=({abs_x},{abs_y}){_format_actual_mouse_position()}",
+                        )
                         if event_callback:
-                            event_callback(event, i, len(macro_events), "mouse_down", button, abs_x, abs_y)
+                            event_callback(
+                                event,
+                                i,
+                                len(macro_events),
+                                "mouse_down",
+                                button,
+                                abs_x,
+                                abs_y,
+                                visual_context=guard_result,
+                            )
                     elif mouse_event_type == "up":
-                        mouse.move(abs_x, abs_y, absolute=True, duration=0)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_up button='{button}' abs=({abs_x},{abs_y}) norm=({event.get('normalized_x')},{event.get('normalized_y')}) t={current_event_time}ms",
+                        )
+                        _move_mouse_absolute(abs_x, abs_y)
                         if button:
-                            mouse.release(button)
+                            _dispatch_mouse_button(button, is_press=False)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_up_result button='{button}' target=({abs_x},{abs_y}){_format_actual_mouse_position()}",
+                        )
                         if event_callback:
                             event_callback(event, i, len(macro_events), "mouse_up", button, abs_x, abs_y)
                     elif mouse_event_type == "scroll":
-                        mouse.wheel(delta)
+                        _emit_playback_event_debug(
+                            log_callback,
+                            i,
+                            len(macro_events),
+                            f"mouse_scroll delta={delta} abs=({abs_x},{abs_y}) norm=({event.get('normalized_x')},{event.get('normalized_y')}) t={current_event_time}ms",
+                        )
+                        _dispatch_mouse_scroll(delta)
                         if event_callback:
                             event_callback(event, i, len(macro_events), "mouse_scroll", None, abs_x, abs_y, delta)
                 except Exception as e:

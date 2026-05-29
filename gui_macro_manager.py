@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, ttk, scrolledtext
+from tkinter import filedialog, messagebox, ttk, scrolledtext
 import threading
 import time
 import keyboard
@@ -12,6 +12,16 @@ import subprocess
 import logging
 import queue
 import datetime
+import os
+import sys
+from pathlib import Path
+from macro_config import (
+    get_debug_config,
+    get_log_level,
+    get_log_level_value,
+    normalize_log_level,
+    should_emit_log_level,
+)
 
 # Custom logging handler that sends messages to console_log
 class ConsoleLogHandler(logging.Handler):
@@ -30,10 +40,15 @@ class ConsoleLogHandler(logging.Handler):
 
 # Global handler instance
 console_log_handler = None
+file_log_handler = None
+playback_debug_log_path = None
 
 def setup_console_logging():
     """Setup centralized logging to console_log function"""
-    global console_log_handler
+    global console_log_handler, file_log_handler, playback_debug_log_path
+    debug_config = get_debug_config()
+    configured_level_name = normalize_log_level(get_log_level())
+    configured_level = get_log_level_value(configured_level_name)
     
     # Remove existing handlers
     root_logger = logging.getLogger()
@@ -42,7 +57,7 @@ def setup_console_logging():
     
     # Create custom handler
     console_log_handler = ConsoleLogHandler()
-    console_log_handler.setLevel(logging.DEBUG)
+    console_log_handler.setLevel(configured_level)
     
     # Create formatter
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -50,7 +65,19 @@ def setup_console_logging():
     
     # Add handler to root logger
     root_logger.addHandler(console_log_handler)
-    root_logger.setLevel(logging.DEBUG)
+    root_logger.setLevel(configured_level)
+
+    file_log_handler = None
+    playback_debug_log_path = None
+    if debug_config.get("save_playback_logs"):
+        logs_dir = Path(__file__).resolve().parent / "logs"
+        logs_dir.mkdir(exist_ok=True)
+        log_path = logs_dir / "playback_focus_debug.log"
+        playback_debug_log_path = log_path
+        file_log_handler = logging.FileHandler(log_path, encoding="utf-8")
+        file_log_handler.setLevel(configured_level)
+        file_log_handler.setFormatter(formatter)
+        root_logger.addHandler(file_log_handler)
     
     # No parent for root; child loggers will propagate to root by default
     # Keep propagate default behavior on child loggers
@@ -61,7 +88,7 @@ def process_log_queue():
         try:
             while not console_log_handler.log_queue.empty():
                 level, message = console_log_handler.log_queue.get_nowait()
-                console_log(message, level)
+                console_log(message, level, mirror_to_file=False)
         except queue.Empty:
             pass
     
@@ -96,7 +123,6 @@ from repositories.macro_repository import (
     get_macro_metadata_by_name,
     load_macro_events,
     salva_macro_test,
-    update_macro_events_only,
 )
 from repositories.task_repository import (
     add_macro_to_task_sequence,
@@ -136,6 +162,9 @@ from ui.main_window_helpers import (
     build_log_console,
     build_status_bar,
 )
+from ui.audio_samples_panel import build_audio_samples_tab
+from ui.collapsible_panel import CollapsibleSection
+from ui.learning_lab_panel import build_learning_lab_tab
 from ui.tab_bootstrap import build_secondary_tabs
 from ui.status_console import (
     append_console_message,
@@ -150,10 +179,30 @@ from core.config_store import (
     set_window_geometry,
 )
 from core.app_state import AppState
+from core.windows_elevation import (
+    build_restart_as_admin_message,
+    enforce_single_macro_manager_instance,
+    relaunch_current_process_as_admin,
+    target_requires_elevation,
+)
 from services.operation_state_service import OperationStateService
 from services.focus_monitor_service import FocusMonitorService
 from services.playback_service import PlaybackService
 from services.recording_service import RecordingService
+from services.audio_sample_service import (
+    DEFAULT_OUTPUT_DIR as AUDIO_SAMPLES_DIR,
+    compose_test_song,
+    create_audio_sample_from_selection,
+    get_audio_duration_seconds,
+    get_audio_sample_entry,
+    list_audio_samples,
+    load_sample_audio,
+    load_sample_payload,
+    split_audio_sample,
+)
+from services.learning_test_service import LearningTestService
+from services.learning_configuration_service import LearningConfigurationService
+from services.preprocessing_pipeline_service import PreprocessingPipelineService
 # CORREZIONE: Cambiato 'wait_for_target_window_active_only' a 'wait_for_app_window'
 from macro_controller import (
     get_game_window_rect,
@@ -184,7 +233,6 @@ record_button = None # CORREZIONE: Aggiunto qui
 play_button = None
 stop_button = None
 emergency_stop_button = None  # Pulsante di emergenza
-rerecord_button = None
 edit_button = None
 delete_button = None
 duplicate_button = None # Pulsante per duplicare macro
@@ -210,12 +258,55 @@ execution_visualizer_events_list = None
 execution_visualizer_canvas = None
 execution_visualizer_canvas_image = None
 execution_visualizer_status_label = None
+execution_visualizer_reference_image_label = None
+execution_visualizer_candidate_image_label = None
+execution_visualizer_reference_caption_label = None
+execution_visualizer_candidate_caption_label = None
+live_click_reference_image_label = None
+live_click_candidate_image_label = None
+live_click_reference_caption_label = None
+live_click_candidate_caption_label = None
+CLICK_PREVIEW_MAX_SIZE = (220, 140)
+execution_click_history = []
 # Variabili per scheduled tasks
 scheduled_tasks_list_tree = None
 scheduled_task_buttons_frame = None
 next_tasks_countdown_frame = None
 next_tasks_countdown_text = None
 countdown_update_job = None
+audio_samples_tree = None
+audio_sample_details_text = None
+audio_source_path_var = None
+audio_source_duration_var = None
+audio_sample_name_entry = None
+audio_sample_start_entry = None
+audio_sample_end_entry = None
+audio_composed_name_entry = None
+audio_compose_gap_entry = None
+audio_learning_objective_entry = None
+selected_audio_source_path = None
+learning_test_service = LearningTestService()
+learning_configuration_service = LearningConfigurationService()
+preprocessing_pipeline_service = PreprocessingPipelineService()
+latest_preprocessing_analysis = None
+learning_sample_name_var = None
+learning_sample_combo = None
+learning_dominant_bpm_var = None
+learning_stability_var = None
+learning_pattern_var = None
+learning_readiness_var = None
+learning_summary_status_var = None
+learning_target_lock_var = None
+learning_beat_one_var = None
+learning_resync_var = None
+learning_evaluation_prompt_var = None
+learning_evaluation_recommendation_var = None
+learning_rating_var = None
+learning_evaluation_note_entry = None
+learning_offset_var = None
+learning_confidence_var = None
+learning_beat_var = None
+learning_details_text = None
 
 
 def restore_saved_window_geometry(window, config_key, description):
@@ -262,6 +353,633 @@ def schedule_macro_views_refresh():
     schedule_on_ui(update_macro_details)
 
 
+def format_audio_duration(duration_sec):
+    """Formatta una durata audio con precisione leggibile."""
+    if duration_sec is None:
+        return "-"
+    return f"{float(duration_sec):.3f}".rstrip("0").rstrip(".")
+
+
+def refresh_learning_sample_choices():
+    """Aggiorna la lista dei campioni disponibili nella vista learning."""
+    if learning_sample_combo is None:
+        return
+    values = [entry["base_name"] for entry in list_audio_samples(AUDIO_SAMPLES_DIR)]
+    learning_sample_combo["values"] = values
+    if values and learning_sample_name_var is not None and not learning_sample_name_var.get():
+        learning_sample_name_var.set(values[0])
+
+
+def render_learning_summary():
+    """Mostra metriche e stato della sessione learning."""
+    analysis = latest_preprocessing_analysis
+    selected_sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
+    summary = learning_test_service.get_summary(
+        recognizable_pattern_score=analysis.recognizable_pattern_score if analysis else 0.0,
+        bpm_stability_score=analysis.bpm_stability_score if analysis else 0.0,
+        correction_readiness_score=analysis.correction_readiness_score if analysis else 0.0,
+    )
+    profile = summary["convergence_profile"]
+    if learning_dominant_bpm_var is not None:
+        bpm_text = f"BPM: {analysis.dominant_bpm}" if analysis else "BPM: -"
+        learning_dominant_bpm_var.set(bpm_text)
+    if learning_stability_var is not None:
+        stability_text = f"Stabilità: {analysis.bpm_stability_score}%" if analysis else "Stabilità: -"
+        learning_stability_var.set(stability_text)
+    if learning_pattern_var is not None:
+        pattern_text = f"Pattern: {analysis.recognizable_pattern_score}%" if analysis else "Pattern: -"
+        learning_pattern_var.set(pattern_text)
+    if learning_readiness_var is not None:
+        readiness_text = f"Readiness: {analysis.correction_readiness_score}%" if analysis else "Readiness: -"
+        learning_readiness_var.set(readiness_text)
+    if learning_summary_status_var is not None:
+        learning_summary_status_var.set(f"Stato: {summary['status']}")
+    if learning_target_lock_var is not None:
+        learning_target_lock_var.set(f"Lock: {summary['target_lock_pct']}%")
+    if learning_beat_one_var is not None:
+        learning_beat_one_var.set(f"Beat 1: {summary['beat_one_accuracy_pct']}%")
+    if learning_resync_var is not None:
+        learning_resync_var.set(f"Resync: {summary['resync_count']}")
+    if learning_evaluation_prompt_var is not None:
+        if selected_sample_name:
+            learning_evaluation_prompt_var.set(
+                learning_configuration_service.build_evaluation_prompt(selected_sample_name, summary)
+            )
+        else:
+            learning_evaluation_prompt_var.set("Dopo ogni analisi significativa, salva una valutazione della configurazione.")
+    if learning_evaluation_recommendation_var is not None:
+        if selected_sample_name:
+            learning_evaluation_recommendation_var.set(
+                f"Storico: {learning_configuration_service.recommend_for_sample(selected_sample_name)}"
+            )
+        else:
+            learning_evaluation_recommendation_var.set("Storico: nessuna valutazione.")
+
+    if learning_details_text is None:
+        return
+
+    learning_details_text.config(state=tk.NORMAL)
+    learning_details_text.delete("1.0", tk.END)
+
+    if learning_test_service.session is None:
+        if analysis is None:
+            learning_details_text.insert(
+                tk.END,
+                "Seleziona un campione, lancia l'analisi BPM e poi crea la griglia di learning. Il focus ora è su preprocessing e stabilità del tempo.",
+            )
+        else:
+            lines = [
+                f"Campione: {analysis.sample_name}",
+                f"Durata analizzata: {analysis.duration_sec} s",
+                f"BPM dominante: {analysis.dominant_bpm}",
+                f"Stabilità BPM: {analysis.bpm_stability_score}%",
+                f"Pattern riconoscibile: {analysis.recognizable_pattern_score}%",
+                f"Readiness correzione: {analysis.correction_readiness_score}%",
+                f"Densità onset: {analysis.onset_density}",
+                "",
+                "Segmenti BPM rilevati:",
+            ]
+            if analysis.merged_segments:
+                for segment in analysis.merged_segments:
+                    lines.append(
+                        f"- {segment['start_sec']:.1f}-{segment['end_sec']:.1f}s | bpm {segment['bpm']} | conf {segment['confidence']}"
+                    )
+            else:
+                lines.append("- Nessun segmento stabile rilevato")
+            learning_details_text.insert(tk.END, "\n".join(lines))
+    else:
+        session = learning_test_service.session
+        lines = [
+            f"Campione: {session.sample_name}",
+            f"Durata analizzata: {analysis.duration_sec if analysis else '-'} s",
+            f"Finestre learning: {len(session.grid)}",
+            f"Indice corrente: {summary.get('current_grid_index', 0)}/{summary.get('grid_size', 0)}",
+            f"Barre tagliate per resync: {summary['cut_bar_count']}",
+            "",
+            "Lettura preprocessing:",
+            f"- bpm dominante: {analysis.dominant_bpm if analysis else '-'}",
+            f"- stabilita' bpm: {analysis.bpm_stability_score if analysis else '-'}%",
+            f"- pattern riconoscibile: {analysis.recognizable_pattern_score if analysis else '-'}%",
+            f"- readiness correzione: {analysis.correction_readiness_score if analysis else '-'}%",
+            f"- densita' onset: {analysis.onset_density if analysis else '-'}",
+            "",
+            "Lettura learning:",
+            f"- aggancio target: {summary['target_lock_pct']}%",
+            f"- offset medio: {summary['average_offset_ms']} ms",
+            f"- velocita' correzione: {summary['correction_speed']}",
+            f"- ultima reazione: {summary['last_beat_reaction']}",
+            f"- accuratezza beat 1: {summary['beat_one_accuracy_pct']}%",
+            "",
+            "Convergenza musicale:",
+            f"- stage: {profile.stage}",
+            f"- confidenza complessiva: {profile.confidence_pct}%",
+            f"- intensita' suggerita: {profile.output_intensity_pct}%",
+            f"- complessita' componenti: {profile.component_complexity_pct}%",
+            f"- profondita' effetti: {profile.effect_depth_pct}%",
+            f"- approccio: {profile.reaction_mode}",
+            "",
+            "Interpretazione:",
+            "Se pattern e stabilita' sono alti, il sistema ha basi buone per accordarsi in fretta.",
+            "Se il BPM resta stabile ma il beat 1 cala, il problema e' piu' di fase che di tempo.",
+            "Quando una battuta parte male conviene resettare il sync e tagliare la barra corrente.",
+            profile.rationale,
+        ]
+        if analysis and analysis.windows:
+            lines.extend(["", "Finestre BPM rilevate:"])
+            for window in analysis.windows[:8]:
+                lines.append(
+                    f"- {window.start_sec:.1f}-{window.end_sec:.1f}s | bpm {window.bpm} | conf {window.confidence} | energy {window.energy}"
+                )
+            if len(analysis.windows) > 8:
+                lines.append(f"... altre {len(analysis.windows) - 8} finestre")
+        if session.feedback_log:
+            lines.extend(["", f"Feedback recenti: {', '.join(session.feedback_log[-6:])}"])
+        learning_details_text.insert(tk.END, "\n".join(lines))
+
+    learning_details_text.config(state=tk.DISABLED)
+
+
+def save_configuration_evaluation():
+    """Salva una valutazione della configurazione corrente di learning/preprocessing."""
+    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
+    if not sample_name:
+        messagebox.showwarning("Campione mancante", "Seleziona prima un campione.")
+        return
+    if latest_preprocessing_analysis is None:
+        messagebox.showwarning("Analisi mancante", "Esegui prima almeno un'analisi BPM.")
+        return
+
+    summary = learning_test_service.get_summary(
+        recognizable_pattern_score=latest_preprocessing_analysis.recognizable_pattern_score,
+        bpm_stability_score=latest_preprocessing_analysis.bpm_stability_score,
+        correction_readiness_score=latest_preprocessing_analysis.correction_readiness_score,
+    )
+    snapshot = learning_configuration_service.build_configuration_snapshot(
+        sample_name=sample_name,
+        analysis=latest_preprocessing_analysis,
+        learning_summary=summary,
+    )
+    rating = learning_rating_var.get().strip() if learning_rating_var is not None else "buono"
+    note = learning_evaluation_note_entry.get().strip() if learning_evaluation_note_entry is not None else ""
+
+    try:
+        learning_configuration_service.save_evaluation(
+            sample_name=sample_name,
+            configuration_snapshot=snapshot,
+            rating=rating,
+            note=note,
+        )
+        console_log(f"Valutazione configurazione salvata per {sample_name}: {rating}", level="INFO")
+    except Exception as exc:
+        console_log(f"Errore salvataggio valutazione configurazione: {exc}", level="ERROR")
+        messagebox.showerror("Valutazione configurazione", str(exc))
+        return
+
+    if learning_evaluation_note_entry is not None:
+        learning_evaluation_note_entry.delete(0, tk.END)
+    render_learning_summary()
+    messagebox.showinfo("Valutazione salvata", "La configurazione corrente è stata registrata nello storico.")
+
+
+def create_learning_grid():
+    """Crea una sessione learning dal campione selezionato."""
+    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
+    if not sample_name:
+        messagebox.showwarning("Campione mancante", "Seleziona un campione per il learning test.")
+        return
+
+    try:
+        payload = load_sample_payload(sample_name, AUDIO_SAMPLES_DIR)
+        if latest_preprocessing_analysis and latest_preprocessing_analysis.sample_name == sample_name:
+            detected_segments = latest_preprocessing_analysis.merged_segments
+            if detected_segments:
+                payload = dict(payload)
+                payload["segments"] = detected_segments
+        learning_test_service.start_session(sample_name, payload)
+        console_log(f"Sessione learning creata per {sample_name}", level="INFO")
+    except Exception as exc:
+        console_log(f"Errore creazione learning grid: {exc}", level="ERROR")
+        messagebox.showerror("Learning grid", str(exc))
+        return
+
+    render_learning_summary()
+
+
+def run_preprocessing_analysis():
+    """Esegue preprocessing e BPM detection sul campione selezionato."""
+    global latest_preprocessing_analysis
+
+    sample_name = learning_sample_name_var.get().strip() if learning_sample_name_var is not None else ""
+    if not sample_name:
+        messagebox.showwarning("Campione mancante", "Seleziona un campione da analizzare.")
+        return
+
+    try:
+        audio = load_sample_audio(sample_name, AUDIO_SAMPLES_DIR)
+        latest_preprocessing_analysis = preprocessing_pipeline_service.analyze_bpm_windows(
+            sample_name=sample_name,
+            audio=audio,
+            sample_rate=44_100,
+        )
+        console_log(
+            f"Analisi preprocessing completata per {sample_name}: BPM {latest_preprocessing_analysis.dominant_bpm}",
+            level="INFO",
+        )
+    except Exception as exc:
+        console_log(f"Errore analisi preprocessing: {exc}", level="ERROR")
+        messagebox.showerror("Analisi preprocessing", str(exc))
+        return
+
+    render_learning_summary()
+
+
+def record_learning_observation():
+    """Registra l'esito dell'ultima battuta osservata."""
+    try:
+        offset_ms = float(learning_offset_var.get().strip())
+        confidence = float(learning_confidence_var.get().strip())
+        beat_in_bar = int(learning_beat_var.get().strip())
+    except Exception:
+        messagebox.showwarning("Valori non validi", "Inserisci offset, confidenza e quarto validi.")
+        return
+
+    try:
+        observation = learning_test_service.record_observation(
+            offset_ms=offset_ms,
+            confidence=confidence,
+            observed_beat_in_bar=beat_in_bar,
+        )
+        console_log(
+            f"Battuta registrata: beat {observation.beat_number}, offset {observation.offset_ms} ms, within={observation.within_tolerance}",
+            level="INFO",
+        )
+    except Exception as exc:
+        console_log(f"Errore registrazione battuta learning: {exc}", level="ERROR")
+        messagebox.showerror("Learning observation", str(exc))
+        return
+
+    render_learning_summary()
+
+
+def reset_learning_sync():
+    """Forza un reset di sincronizzazione della sessione learning."""
+    try:
+        learning_test_service.reset_sync(cut_current_bar=True, reason="manual")
+        console_log("Reset sincronizzazione learning richiesto", level="WARNING")
+    except Exception as exc:
+        console_log(f"Errore reset sync learning: {exc}", level="ERROR")
+        messagebox.showerror("Reset sync", str(exc))
+        return
+    render_learning_summary()
+
+
+def apply_learning_feedback(feedback_code):
+    """Registra feedback qualitativo dell'utilizzatore sul comportamento learning."""
+    try:
+        learning_test_service.apply_feedback(feedback_code)
+        console_log(f"Feedback learning registrato: {feedback_code}", level="INFO")
+    except Exception as exc:
+        console_log(f"Errore feedback learning: {exc}", level="ERROR")
+        messagebox.showerror("Feedback learning", str(exc))
+        return
+    render_learning_summary()
+
+
+def set_selected_audio_source(source_path, duration_sec):
+    """Aggiorna lo stato UI del file audio sorgente selezionato."""
+    global selected_audio_source_path
+    selected_audio_source_path = source_path
+
+    if audio_source_path_var is not None:
+        audio_source_path_var.set(str(source_path) if source_path else "Nessun file selezionato")
+    if audio_source_duration_var is not None:
+        if duration_sec is None:
+            audio_source_duration_var.set("Durata sorgente: -")
+        else:
+            audio_source_duration_var.set(f"Durata sorgente: {format_audio_duration(duration_sec)} s")
+
+    if source_path and audio_sample_name_entry is not None:
+        suggested_name = Path(source_path).stem
+        audio_sample_name_entry.delete(0, tk.END)
+        audio_sample_name_entry.insert(0, f"{suggested_name}_sample")
+
+    if duration_sec is not None and audio_sample_end_entry is not None:
+        audio_sample_end_entry.delete(0, tk.END)
+        audio_sample_end_entry.insert(0, format_audio_duration(min(duration_sec, 30.0)))
+
+
+def browse_audio_sample_source():
+    """Permette di scegliere un file audio sorgente per estrarre un campione."""
+    file_path = filedialog.askopenfilename(
+        title="Seleziona un file audio",
+        filetypes=[
+            ("File audio", "*.mp3 *.wav *.flac *.ogg *.m4a"),
+            ("Tutti i file", "*.*"),
+        ],
+    )
+    if not file_path:
+        return
+
+    try:
+        duration_sec = get_audio_duration_seconds(file_path)
+        set_selected_audio_source(file_path, duration_sec)
+        console_log(f"Audio sorgente caricato: {file_path} ({format_audio_duration(duration_sec)} s)", level="INFO")
+    except Exception as exc:
+        console_log(f"Errore caricamento audio: {exc}", level="ERROR")
+        messagebox.showerror("Audio non valido", str(exc))
+
+
+def refresh_audio_samples_list():
+    """Ricarica la lista dei campioni audio disponibili dal manifest."""
+    if audio_samples_tree is None:
+        return
+
+    for item_id in audio_samples_tree.get_children():
+        audio_samples_tree.delete(item_id)
+
+    try:
+        entries = list_audio_samples(AUDIO_SAMPLES_DIR)
+    except Exception as exc:
+        console_log(f"Errore lettura lista campioni audio: {exc}", level="ERROR")
+        return
+
+    for entry in entries:
+        source_label = Path(entry["source_file"]).name if entry.get("source_file") else entry["preset"]
+        audio_samples_tree.insert(
+            "",
+            tk.END,
+            iid=entry["base_name"],
+            values=(
+                entry["base_name"],
+                entry["preset"],
+                format_audio_duration(entry.get("duration_sec")),
+                source_label,
+            ),
+        )
+
+    update_audio_sample_details()
+    refresh_learning_sample_choices()
+
+
+def get_selected_audio_sample_entry():
+    """Restituisce l'entry del campione audio selezionato in lista."""
+    if audio_samples_tree is None:
+        return None
+    selection = audio_samples_tree.selection()
+    if not selection:
+        return None
+    base_name = selection[0]
+    for entry in list_audio_samples(AUDIO_SAMPLES_DIR):
+        if entry["base_name"] == base_name:
+            return entry
+    return None
+
+
+def get_selected_audio_sample_entries():
+    """Restituisce le entry selezionate nell'ordine visibile della lista."""
+    if audio_samples_tree is None:
+        return []
+
+    selected_ids = set(audio_samples_tree.selection())
+    if not selected_ids:
+        return []
+
+    entries_by_name = {
+        entry["base_name"]: entry
+        for entry in list_audio_samples(AUDIO_SAMPLES_DIR)
+    }
+    ordered_entries = []
+    for item_id in audio_samples_tree.get_children():
+        if item_id in selected_ids and item_id in entries_by_name:
+            ordered_entries.append(entries_by_name[item_id])
+    return ordered_entries
+
+
+def update_audio_sample_details():
+    """Mostra i dettagli del campione audio selezionato."""
+    if audio_sample_details_text is None:
+        return
+
+    entry = get_selected_audio_sample_entry()
+    audio_sample_details_text.config(state=tk.NORMAL)
+    audio_sample_details_text.delete("1.0", tk.END)
+
+    if not entry:
+        audio_sample_details_text.insert(
+            tk.END,
+            "Seleziona un campione audio per vedere origine, durata e file generati.",
+        )
+    else:
+        lines = [
+            f"Nome: {entry['base_name']}",
+            f"Tipo: {entry['preset']}",
+            f"Durata: {format_audio_duration(entry.get('duration_sec'))} s",
+            f"MP3: {entry.get('mp3', '-')}",
+            f"WAV: {entry.get('wav', '-')}",
+            f"Ground truth: {entry.get('ground_truth', '-')}",
+        ]
+        if entry.get("source_file"):
+            lines.extend(
+                [
+                    f"Sorgente: {entry['source_file']}",
+                    f"Da: {format_audio_duration(entry.get('selection_start_sec'))} s",
+                    f"A: {format_audio_duration(entry.get('selection_end_sec'))} s",
+                ]
+            )
+        if entry.get("source_sample"):
+            lines.append(f"Campione origine: {entry['source_sample']}")
+        if entry.get("component_samples"):
+            lines.append(f"Componenti: {', '.join(entry['component_samples'])}")
+        audio_sample_details_text.insert(tk.END, "\n".join(lines))
+
+    audio_sample_details_text.config(state=tk.DISABLED)
+
+
+def import_audio_selection():
+    """Estrae una sezione dall'audio scelto e la salva come nuovo campione."""
+    if not selected_audio_source_path:
+        messagebox.showwarning("Audio mancante", "Seleziona prima un file audio sorgente.")
+        return
+
+    try:
+        output_name = audio_sample_name_entry.get().strip()
+        start_sec = float(audio_sample_start_entry.get().strip())
+        end_sec = float(audio_sample_end_entry.get().strip())
+    except ValueError:
+        messagebox.showwarning("Valori non validi", "Inserisci numeri validi per inizio e fine selezione.")
+        return
+
+    try:
+        entry = create_audio_sample_from_selection(
+            source_path=selected_audio_source_path,
+            output_name=output_name,
+            start_sec=start_sec,
+            end_sec=end_sec,
+            output_dir=AUDIO_SAMPLES_DIR,
+        )
+    except Exception as exc:
+        console_log(f"Errore creazione campione audio: {exc}", level="ERROR")
+        messagebox.showerror("Importazione fallita", str(exc))
+        return
+
+    console_log(f"Campione audio creato: {entry['mp3']}", level="INFO")
+    refresh_audio_samples_list()
+    if audio_samples_tree is not None:
+        audio_samples_tree.selection_set(entry["base_name"])
+        audio_samples_tree.focus(entry["base_name"])
+    update_audio_sample_details()
+    messagebox.showinfo("Campione creato", f"Campione salvato come:\n{entry['base_name']}")
+
+
+def split_selected_audio_sample():
+    """Scompone il campione selezionato usando i segmenti del suo ground truth."""
+    entry = get_selected_audio_sample_entry()
+    if not entry:
+        messagebox.showwarning("Campione mancante", "Seleziona un campione da scomporre.")
+        return
+
+    try:
+        if not get_audio_sample_entry(entry["base_name"], AUDIO_SAMPLES_DIR):
+            raise ValueError("Campione non presente nel catalogo locale.")
+        created_entries = split_audio_sample(
+            base_name=entry["base_name"],
+            output_dir=AUDIO_SAMPLES_DIR,
+        )
+    except Exception as exc:
+        console_log(f"Errore scomposizione campione: {exc}", level="ERROR")
+        messagebox.showerror("Scomposizione fallita", str(exc))
+        return
+
+    refresh_audio_samples_list()
+    console_log(
+        f"Scomposto il campione {entry['base_name']} in {len(created_entries)} parti.",
+        level="INFO",
+    )
+    messagebox.showinfo(
+        "Scomposizione completata",
+        f"Creati {len(created_entries)} campioni derivati da {entry['base_name']}.",
+    )
+
+
+def compose_selected_audio_samples():
+    """Combina più campioni selezionati in una song di test ordinata."""
+    selected_entries = get_selected_audio_sample_entries()
+    if not selected_entries:
+        messagebox.showwarning("Selezione vuota", "Seleziona almeno un campione da combinare.")
+        return
+
+    try:
+        output_name = audio_composed_name_entry.get().strip()
+        gap_sec = float(audio_compose_gap_entry.get().strip())
+        learning_objective = audio_learning_objective_entry.get().strip()
+    except ValueError:
+        messagebox.showwarning("Valori non validi", "Inserisci un gap numerico valido.")
+        return
+
+    try:
+        entry = compose_test_song(
+            sample_names=[item["base_name"] for item in selected_entries],
+            output_name=output_name,
+            output_dir=AUDIO_SAMPLES_DIR,
+            gap_sec=gap_sec,
+            learning_objective=learning_objective,
+        )
+    except Exception as exc:
+        console_log(f"Errore composizione song di test: {exc}", level="ERROR")
+        messagebox.showerror("Composizione fallita", str(exc))
+        return
+
+    refresh_audio_samples_list()
+    if audio_samples_tree is not None:
+        audio_samples_tree.selection_set(entry["base_name"])
+        audio_samples_tree.focus(entry["base_name"])
+    update_audio_sample_details()
+    console_log(
+        f"Creata song di test {entry['base_name']} da {len(selected_entries)} campioni.",
+        level="INFO",
+    )
+    messagebox.showinfo(
+        "Song creata",
+        f"Song di test salvata come:\n{entry['base_name']}",
+    )
+
+
+def setup_audio_samples_interface(parent):
+    """Costruisce la tab per importare campioni audio personalizzati."""
+    refs = build_audio_samples_tab(
+        parent=parent,
+        theme=config["theme"],
+        browse_audio_source=browse_audio_sample_source,
+        import_audio_selection=import_audio_selection,
+        split_selected_audio_sample=split_selected_audio_sample,
+        compose_selected_audio_samples=compose_selected_audio_samples,
+        refresh_audio_samples_list=refresh_audio_samples_list,
+        on_audio_sample_select=update_audio_sample_details,
+    )
+
+    global audio_samples_tree, audio_sample_details_text
+    global audio_source_path_var, audio_source_duration_var
+    global audio_sample_name_entry, audio_sample_start_entry, audio_sample_end_entry
+    global audio_composed_name_entry, audio_compose_gap_entry, audio_learning_objective_entry
+
+    audio_samples_tree = refs["audio_samples_tree"]
+    audio_sample_details_text = refs["audio_sample_details_text"]
+    audio_source_path_var = refs["source_path_var"]
+    audio_source_duration_var = refs["source_duration_var"]
+    audio_sample_name_entry = refs["sample_name_entry"]
+    audio_sample_start_entry = refs["start_entry"]
+    audio_sample_end_entry = refs["end_entry"]
+    audio_composed_name_entry = refs["composed_name_entry"]
+    audio_compose_gap_entry = refs["compose_gap_entry"]
+    audio_learning_objective_entry = refs["learning_objective_entry"]
+
+    refresh_audio_samples_list()
+
+
+def setup_learning_lab_interface(parent):
+    """Costruisce la vista ridotta per il learning test."""
+    refs = build_learning_lab_tab(
+        parent=parent,
+        theme=config["theme"],
+        run_preprocessing_analysis=run_preprocessing_analysis,
+        create_learning_grid=create_learning_grid,
+        record_learning_observation=record_learning_observation,
+        reset_learning_sync=reset_learning_sync,
+        apply_learning_feedback=apply_learning_feedback,
+        save_configuration_evaluation=save_configuration_evaluation,
+    )
+
+    global learning_sample_name_var, learning_sample_combo
+    global learning_dominant_bpm_var, learning_stability_var, learning_pattern_var, learning_readiness_var
+    global learning_summary_status_var, learning_target_lock_var, learning_beat_one_var
+    global learning_resync_var, learning_evaluation_prompt_var, learning_evaluation_recommendation_var
+    global learning_rating_var, learning_evaluation_note_entry
+    global learning_offset_var, learning_confidence_var, learning_beat_var
+    global learning_details_text
+
+    learning_sample_name_var = refs["sample_name_var"]
+    learning_sample_combo = refs["sample_combo"]
+    learning_dominant_bpm_var = refs["dominant_bpm_var"]
+    learning_stability_var = refs["stability_var"]
+    learning_pattern_var = refs["pattern_var"]
+    learning_readiness_var = refs["readiness_var"]
+    learning_summary_status_var = refs["status_var"]
+    learning_target_lock_var = refs["target_lock_var"]
+    learning_beat_one_var = refs["beat_one_var"]
+    learning_resync_var = refs["resync_var"]
+    learning_evaluation_prompt_var = refs["evaluation_prompt_var"]
+    learning_evaluation_recommendation_var = refs["evaluation_recommendation_var"]
+    learning_rating_var = refs["rating_var"]
+    learning_evaluation_note_entry = refs["evaluation_note_entry"]
+    learning_offset_var = refs["offset_var"]
+    learning_confidence_var = refs["confidence_var"]
+    learning_beat_var = refs["beat_var"]
+    learning_details_text = refs["details_text"]
+
+    refresh_learning_sample_choices()
+    render_learning_summary()
+
+
 def schedule_macro_list_refresh():
     """Aggiorna la lista macro e i relativi dettagli sul thread UI."""
     schedule_on_ui(refresh_macro_list)
@@ -280,6 +998,465 @@ def schedule_messagebox(kind, title, message, parent=None):
     """Mostra un messagebox sul thread UI."""
     messagebox_fn = getattr(messagebox, kind)
     schedule_on_ui(lambda: messagebox_fn(title, message, parent=parent))
+
+
+def refresh_macro_ui_state():
+    """Aggiorna lista e dettagli macro dopo modifiche ai dati."""
+    refresh_macro_list()
+    update_macro_details()
+
+
+def schedule_recording_finish_cleanup(*, refresh_list=False, debug_message=None):
+    """Esegue il cleanup comune a fine registrazione."""
+    schedule_on_ui(stop_recording_timer)
+    if not app_state.playing_flag:
+        stop_focus_monitoring()
+    schedule_operation_idle_cleanup(refresh_list=refresh_list)
+    if debug_message:
+        console_log(debug_message)
+
+
+def handle_playback_target_wait_cancelled():
+    """Gestisce l'annullamento dell'attesa della finestra target."""
+    schedule_operation_idle_cleanup()
+    console_log("🛑 Attesa della finestra target annullata prima dell'avvio del playback.")
+
+
+def handle_playback_target_wait_failed(failed_target_exe):
+    """Gestisce il timeout o fallimento nell'aggancio alla finestra target."""
+    schedule_operation_idle_cleanup()
+    console_log(
+        f"❌ Finestra dell'applicazione '{failed_target_exe}' non trovata o non raggiungibile durante l'attesa.",
+        level="ERROR",
+    )
+    schedule_messagebox(
+        "showerror",
+        "Errore Riproduzione",
+        f"Impossibile trovare la finestra dell'applicazione '{failed_target_exe}' nei 15 secondi di timeout.\n\n"
+        f"SOLUZIONI:\n"
+        f"• Assicurati che '{failed_target_exe}' sia aperto e visibile\n"
+        f"• Clicca sulla finestra '{failed_target_exe}' per portarla in primo piano\n"
+        f"• Riprova la riproduzione",
+        parent=root,
+    )
+
+
+def handle_playback_started():
+    """Aggiorna la UI quando parte la riproduzione."""
+    schedule_status_update("🟢 Riproduzione macro in corso...", indicator="playing")
+
+
+def handle_playback_finished():
+    """Ripristina la UI al termine della riproduzione."""
+    schedule_operation_idle_cleanup()
+
+
+def get_selected_macro_metadata(
+    *,
+    action_label,
+    missing_selection_message,
+    invalid_selection_message,
+    missing_metadata_message,
+    parent=None,
+    log_missing_selection=None,
+    log_invalid_selection=None,
+    log_missing_metadata=None,
+):
+    """Restituisce `(macro_id, metadata)` per la macro selezionata o `None`."""
+    selected_item = macro_list_tree.selection()
+    if not selected_item:
+        if log_missing_selection:
+            console_log(log_missing_selection, level="WARNING")
+        messagebox.showwarning(action_label, missing_selection_message, parent=parent)
+        return None
+
+    macro_id_str = selected_item[0]
+    try:
+        macro_id = int(macro_id_str)
+    except ValueError:
+        if log_invalid_selection:
+            console_log(log_invalid_selection.format(macro_id_str=macro_id_str), level="ERROR")
+        messagebox.showerror(f"Errore {action_label}", invalid_selection_message, parent=parent)
+        return None
+
+    macro_metadata = get_macro_metadata_by_id(macro_id)
+    if not macro_metadata:
+        if log_missing_metadata:
+            console_log(log_missing_metadata.format(macro_id=macro_id), level="ERROR")
+        messagebox.showerror(f"Errore {action_label}", missing_metadata_message.format(macro_id=macro_id), parent=parent)
+        return None
+
+    return macro_id, macro_metadata
+
+
+def validate_new_macro_input(name, exe, duration_str, *, parent):
+    """Valida i campi del dialog di nuova macro e restituisce la durata intera."""
+    if not name:
+        messagebox.showwarning("Input Errato", "Il nome della macro non può essere vuoto.", parent=parent)
+        return None
+    if not exe:
+        messagebox.showwarning("Input Errato", "Il nome dell'eseguibile non può essere vuoto.", parent=parent)
+        return None
+
+    try:
+        duration = int(duration_str)
+        if duration <= 0:
+            raise ValueError("La durata deve essere un numero intero positivo.")
+    except ValueError:
+        messagebox.showwarning("Input Errato", "La durata deve essere un numero intero valido per i secondi.", parent=parent)
+        return None
+
+    return duration
+
+
+def create_recording_thread(*args):
+    """Crea il thread daemon usato per la registrazione di una nuova macro."""
+    return threading.Thread(target=record_macro_thread_target, args=args, daemon=True)
+
+
+def handle_recording_started(macro_name):
+    """Aggiorna la UI quando parte la registrazione."""
+    schedule_status_update(f"🔴 Registrazione di '{macro_name}' in corso...", indicator="recording")
+
+
+def handle_empty_recording():
+    """Mostra il messaggio per una registrazione senza eventi."""
+    schedule_messagebox(
+        "showwarning",
+        "Registrazione Macro",
+        "Nessun evento registrato. Potrebbe indicare:\n• Registrazione troppo veloce\n• Mancanza di input utente\n• Problema con la finestra target",
+        parent=root,
+    )
+
+
+def handle_recording_save_error(macro_name, exc):
+    """Gestisce un errore di salvataggio a fine registrazione."""
+    console_log(f"❌ Errore durante il salvataggio della macro '{macro_name}': {exc}", level="ERROR")
+    schedule_messagebox("showerror", "Errore Salvataggio", f"Errore: {exc}", parent=root)
+
+
+def handle_recording_cancelled(cancelled_exe):
+    """Gestisce l'annullamento o fallimento della registrazione sul target."""
+    schedule_messagebox(
+        "showinfo",
+        "Registrazione Macro",
+        "Registrazione annullata o processo non trovato.\n\nAssicurati che:\n"
+        + f"• '{cancelled_exe}' sia avviato\n"
+        + "• La finestra target sia in primo piano\n"
+        + "• Nessun altro software interferisca",
+        parent=root,
+    )
+
+
+def handle_recording_unhandled_error(exc):
+    """Gestisce un errore non previsto durante la registrazione."""
+    console_log(f"❌ Errore durante la registrazione della macro: {exc}", level="ERROR")
+    schedule_messagebox(
+        "showerror",
+        "Errore Registrazione",
+        f"Si è verificato un errore durante la registrazione: {exc}",
+        parent=root,
+    )
+
+
+def should_flush_playback_move(playback_ui_state, index, total):
+    """Decide quando aggiornare la UI durante raffiche di mouse move."""
+    now_monotonic = time.monotonic()
+    should_flush = (
+        playback_ui_state["move_events_since_flush"] >= 12
+        or (now_monotonic - playback_ui_state["last_move_ui_update"]) >= 0.08
+        or index + 1 == total
+    )
+    if should_flush:
+        playback_ui_state["last_move_ui_update"] = now_monotonic
+        playback_ui_state["move_events_since_flush"] = 0
+    return should_flush
+
+
+def build_execution_visualizer_event_text(action_type, button_or_key, x, y, delta, timestamp):
+    """Restituisce il testo leggibile da mostrare nel visualizer eventi."""
+    time_str = f"{timestamp}ms"
+    if action_type == "key_press":
+        return f"[{time_str}] ⌨️ Premuto tasto: {button_or_key}"
+    if action_type == "key_release":
+        return f"[{time_str}] ⌨️ Rilasciato tasto: {button_or_key}"
+    if action_type == "mouse_move":
+        return f"[{time_str}] 🖱️ Spostamento mouse: ({x}, {y})"
+    if action_type == "mouse_down":
+        button_name = button_or_key or "sconosciuto"
+        return f"[{time_str}] 🖱️ Click DOWN {button_name} in ({x}, {y})"
+    if action_type == "mouse_up":
+        button_name = button_or_key or "sconosciuto"
+        return f"[{time_str}] 🖱️ Click UP {button_name} in ({x}, {y})"
+    if action_type == "mouse_scroll":
+        return f"[{time_str}] 🖱️ Scroll: {delta} in ({x}, {y})"
+    return f"[{time_str}] {action_type}"
+
+
+def update_execution_visualizer(event, index, total, action_type, button_or_key=None, x=None, y=None, delta=None, visual_context=None):
+    """Aggiorna il visualizer di esecuzione sul thread UI."""
+    if execution_visualizer_status_label:
+        execution_visualizer_status_label.config(text=f"Esecuzione: {index + 1}/{total}")
+
+    if not execution_visualizer_events_list:
+        return
+
+    timestamp = event.get("time", 0)
+    event_text = build_execution_visualizer_event_text(action_type, button_or_key, x, y, delta, timestamp)
+
+    if action_type == "mouse_down":
+        if execution_visualizer_canvas and x is not None and y is not None:
+            draw_mouse_position(execution_visualizer_canvas, x, y, button_or_key or "sconosciuto")
+        if visual_context:
+            update_execution_visualizer_context_preview(visual_context)
+
+    execution_visualizer_events_list.insert(tk.END, event_text)
+    execution_visualizer_events_list.see(tk.END)
+
+
+def reset_execution_visualizer():
+    """Pulisce il visualizer prima di una nuova riproduzione."""
+    global execution_click_history
+    execution_click_history = []
+    if execution_visualizer_events_list:
+        root.after(0, lambda: execution_visualizer_events_list.delete(0, tk.END))
+    if execution_visualizer_canvas:
+        root.after(0, lambda: execution_visualizer_canvas.delete("all"))
+    if execution_visualizer_status_label:
+        root.after(0, lambda: execution_visualizer_status_label.config(text="Pronto all'esecuzione..."))
+    if execution_visualizer_reference_image_label:
+        root.after(0, clear_execution_visualizer_context_preview)
+
+
+def redraw_execution_click_history():
+    """Ridisegna la traccia dei click in base alla dimensione corrente del canvas."""
+    if execution_visualizer_canvas is None or not execution_click_history:
+        return
+    _draw_execution_click_history(execution_visualizer_canvas, execution_click_history[-50:])
+
+
+def update_execution_visualizer_context_preview(visual_context):
+    """Mostra riferimento e ritaglio corrente del controllo visivo click."""
+    reference_preview = visual_context.get("reference_preview")
+    candidate_preview = visual_context.get("candidate_preview")
+    score = visual_context.get("score")
+    threshold = visual_context.get("threshold")
+
+    preview_targets = [
+        (
+            execution_visualizer_reference_image_label,
+            execution_visualizer_reference_caption_label,
+            execution_visualizer_candidate_image_label,
+            execution_visualizer_candidate_caption_label,
+        ),
+        (
+            live_click_reference_image_label,
+            live_click_reference_caption_label,
+            live_click_candidate_image_label,
+            live_click_candidate_caption_label,
+        ),
+    ]
+
+    for reference_label, reference_caption, candidate_label, candidate_caption in preview_targets:
+        if reference_preview and reference_label:
+            render_preview_image(reference_preview, reference_label, max_size=CLICK_PREVIEW_MAX_SIZE)
+            if reference_caption:
+                reference_caption.config(text="Primo riferimento click")
+
+        if candidate_preview and candidate_label:
+            render_preview_image(candidate_preview, candidate_label, max_size=CLICK_PREVIEW_MAX_SIZE)
+            if candidate_caption:
+                if score is not None and threshold is not None:
+                    candidate_caption.config(
+                        text=f"Controllo corrente · compatibilità {score:.2f}/{threshold:.2f}"
+                    )
+                else:
+                    candidate_caption.config(text="Controllo corrente")
+
+
+def clear_execution_visualizer_context_preview():
+    """Pulisce i due riquadri di anteprima del controllo visivo."""
+    for image_label, caption_label, caption_text in (
+        (execution_visualizer_reference_image_label, execution_visualizer_reference_caption_label, "Primo riferimento click"),
+        (execution_visualizer_candidate_image_label, execution_visualizer_candidate_caption_label, "Controllo corrente"),
+        (live_click_reference_image_label, live_click_reference_caption_label, "Primo riferimento click"),
+        (live_click_candidate_image_label, live_click_candidate_caption_label, "Controllo corrente"),
+    ):
+        if image_label:
+            image_label.configure(image="", text="Anteprima non disponibile")
+            image_label.image = None
+        if caption_label:
+            caption_label.config(text=caption_text)
+
+
+def setup_click_context_preview(parent):
+    """Crea il riquadro compatto con riferimento e ritaglio corrente."""
+    global live_click_reference_image_label, live_click_candidate_image_label
+    global live_click_reference_caption_label, live_click_candidate_caption_label
+
+    preview_hint = ttk.Label(
+        parent,
+        text="Alla prima esecuzione vedrai qui il riferimento del primo click e il ritaglio corrente prima dei click successivi.",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        wraplength=320,
+        justify="left",
+    )
+    preview_hint.pack(fill="x", pady=(0, 8))
+
+    previews_frame = ttk.Frame(parent)
+    previews_frame.pack(fill="both", expand=True)
+    previews_frame.columnconfigure(0, weight=1)
+    previews_frame.columnconfigure(1, weight=1)
+    previews_frame.rowconfigure(0, weight=1)
+
+    reference_frame = ttk.LabelFrame(previews_frame, text="Primo Click", padding="6")
+    reference_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 4))
+    reference_frame.columnconfigure(0, weight=1)
+    reference_frame.rowconfigure(1, weight=1)
+    live_click_reference_caption_label = ttk.Label(
+        reference_frame,
+        text="Primo riferimento click",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
+    live_click_reference_caption_label.grid(row=0, column=0, sticky="ew", pady=(0, 4))
+    reference_preview_holder = tk.Frame(
+        reference_frame,
+        background=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['text_color'],
+        width=220,
+        height=140,
+    )
+    reference_preview_holder.grid(row=1, column=0, sticky="nsew")
+    reference_preview_holder.grid_propagate(False)
+    live_click_reference_image_label = tk.Label(
+        reference_preview_holder,
+        text="Anteprima non disponibile",
+        background=config['theme']['border_color'],
+        anchor="center",
+        fg=config['theme']['text_color'],
+    )
+    live_click_reference_image_label.pack(fill="both", expand=True)
+
+    candidate_frame = ttk.LabelFrame(previews_frame, text="Prima Del Click", padding="6")
+    candidate_frame.grid(row=0, column=1, sticky="nsew", padx=(4, 0))
+    candidate_frame.columnconfigure(0, weight=1)
+    candidate_frame.rowconfigure(1, weight=1)
+    live_click_candidate_caption_label = ttk.Label(
+        candidate_frame,
+        text="Controllo corrente",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
+    live_click_candidate_caption_label.grid(row=0, column=0, sticky="ew", pady=(0, 4))
+    candidate_preview_holder = tk.Frame(
+        candidate_frame,
+        background=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['text_color'],
+        width=220,
+        height=140,
+    )
+    candidate_preview_holder.grid(row=1, column=0, sticky="nsew")
+    candidate_preview_holder.grid_propagate(False)
+    live_click_candidate_image_label = tk.Label(
+        candidate_preview_holder,
+        text="Anteprima non disponibile",
+        background=config['theme']['border_color'],
+        anchor="center",
+        fg=config['theme']['text_color'],
+    )
+    live_click_candidate_image_label.pack(fill="both", expand=True)
+
+    clear_execution_visualizer_context_preview()
+
+
+def cleanup_input_hooks(gui_active):
+    """Pulisce gli hook globali di tastiera e mouse."""
+    try:
+        keyboard.unhook_all()
+        mouse.unhook_all()
+        if gui_active:
+            console_log("🧹 Hook di tastiera e mouse puliti.")
+    except Exception as exc:
+        if gui_active:
+            console_log(f"⚠️ Errore durante la pulizia degli hook: {exc}", level="WARNING")
+
+
+def finalize_stop_operation(gui_active):
+    """Ripristina la UI dopo uno stop e pulisce gli hook residui."""
+    if gui_active:
+        update_status("Pronto", indicator="idle")
+        update_button_states()
+        update_macro_details()
+    cleanup_input_hooks(gui_active)
+    if gui_active:
+        console_log("✅ Operazioni fermate con successo.")
+
+
+def stop_active_recording(gui_active):
+    """Ferma una registrazione attiva e ripulisce lo stato associato."""
+    if gui_active:
+        console_log("🛑 Fermando la registrazione...")
+        stop_recording_timer()
+
+    if stop_recording(console_log):
+        if gui_active:
+            console_log("✅ Registrazione fermata con successo.")
+    elif gui_active:
+        console_log("⚠️ Nessuna registrazione attiva da fermare.")
+
+    state_service.stop_recording()
+
+
+def stop_active_playback(gui_active):
+    """Ferma una riproduzione attiva e segnala eventuali thread coinvolti."""
+    if gui_active:
+        console_log("🛑 Fermando la riproduzione...")
+    request_playback_stop(console_log)
+
+    if hasattr(threading, "_active"):
+        for thread in threading._active.values():
+            if thread.is_alive() and hasattr(thread, "_name") and "playback" in thread._name:
+                if gui_active:
+                    console_log(f"🔄 Terminando thread di riproduzione: {thread._name}")
+
+    if gui_active:
+        console_log("✅ Segnalato alla riproduzione di fermarsi.")
+    reset_playback_state()
+
+
+def log_force_stop_candidate_threads():
+    """Segnala i thread operativi che lo stop emergenza sta tentando di fermare."""
+    if not hasattr(threading, "_active"):
+        return
+
+    for thread_id, thread in threading._active.items():
+        if not thread.is_alive() or thread == threading.current_thread():
+            continue
+        try:
+            if hasattr(thread, "_name") and any(keyword in thread._name.lower() for keyword in ["record", "playback", "macro"]):
+                console_log(f"🔄 Terminando forzatamente thread: {thread._name}")
+        except Exception as exc:
+            console_log(f"⚠️ Errore durante la gestione del thread {thread_id}: {exc}", level="ERROR")
+
+
+def emergency_cleanup():
+    """Esegue il cleanup forzato usato dallo stop emergenza."""
+    try:
+        keyboard.unhook_all()
+        mouse.unhook_all()
+        console_log("🔌 Tutti gli hook di tastiera e mouse sganciati forzatamente.")
+    except Exception as exc:
+        console_log(f"⚠️ Errore durante la pulizia forzata degli hook: {exc}", level="ERROR")
+
+    log_force_stop_candidate_threads()
+    stop_focus_monitoring()
+    update_status("🚨 STOP EMERGENZA - Operazioni fermate", indicator="idle")
+    update_button_states()
+    update_macro_details()
 
 
 def initialize_runtime_components():
@@ -303,8 +1480,8 @@ def log_startup_messages():
     console_log("✅ Le macro continuano a funzionare quando la finestra target è attiva")
     console_log("⚠️ Le operazioni si interrompono solo se la finestra target non è più attiva")
     console_log("⚡ Funzione di stop migliorata per maggiore responsività")
-    console_log("🚨 Pulsante di STOP EMERGENZA disponibile nella sezione dedicata")
-    console_log("⌨️ Scorciatoie: ESC = Stop Emergenza, Ctrl+Alt+S = Stop Normale")
+    console_log("■ Pulsante Stop disponibile accanto a Play")
+    console_log("⌨️ Scorciatoie: ESC / Ctrl+Alt+S / Ctrl+Alt+E = Stop Emergenza")
     console_log("ℹ️ Il sistema distingue tra 'perdita di focus' e 'focus su finestra target'")
     console_log("📅 Scheduled Tasks ora disponibili - puoi programmare l'esecuzione delle macro!")
     console_log("🔄 Background Scheduler attivo - I task verranno eseguiti automaticamente!")
@@ -596,9 +1773,26 @@ def on_style_selected(style_name):
         console_log(f"❌ Errore nel salvataggio dello stile '{style_name}': {e}", level="ERROR")
         messagebox.showerror("Errore Stile", f"Errore nel salvataggio dello stile: {e}", parent=root)
 
-def console_log(message, level="INFO"):
+def append_playback_debug_log(message, level):
+    """Scrive un messaggio operativo direttamente nel file di debug, se attivo."""
+    if not playback_debug_log_path:
+        return
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")[:-3]
+    try:
+        with playback_debug_log_path.open("a", encoding="utf-8") as log_file:
+            log_file.write(f"{timestamp} - __main__ - {level} - {message}\n")
+    except Exception:
+        pass
+
+
+def console_log(message, level="INFO", mirror_to_file=True):
     """Funzione per stampare messaggi nella console testuale della GUI."""
-    append_console_message(console_text, message, level=level, fallback_print=print)
+    normalized_level = normalize_log_level(level)
+    if not should_emit_log_level(normalized_level):
+        return
+    if mirror_to_file:
+        append_playback_debug_log(message, normalized_level)
+    append_console_message(console_text, message, level=normalized_level, fallback_print=print)
 
 # Aggiorna update_status per supportare nuovi indicatori
 
@@ -803,8 +1997,8 @@ def update_button_states():
     """Abilita/disabilita i pulsanti in base alla selezione e allo stato delle operazioni."""
     try:
         # Controlla che tutti i pulsanti e widget necessari siano stati inizializzati e siano ancora validi
-        widgets = [new_macro_button, record_button, play_button, stop_button, 
-                  emergency_stop_button, rerecord_button, edit_button, delete_button, duplicate_button, 
+        widgets = [new_macro_button, record_button, play_button, stop_button,
+                  emergency_stop_button, edit_button, delete_button, duplicate_button,
                   loop_var_checkbox, loop_delay_entry, max_repetitions_entry, macro_list_tree]
         
         if not all(widgets) or not all(widget.winfo_exists() for widget in widgets if widget):
@@ -813,17 +2007,24 @@ def update_button_states():
         selected_item = macro_list_tree.selection()
         has_selection = bool(selected_item)
 
+        def set_play_button_highlight(is_active):
+            if is_active:
+                play_button.config(style="ActivePlay.TButton")
+            else:
+                play_button.config(style="TButton")
+
         # Stato iniziale: disabilita tutto tranne "Nuova Macro"
         new_macro_button.config(state=tk.NORMAL)
+        stop_button.config(state=tk.DISABLED)
+        emergency_stop_button.config(state=tk.DISABLED)
+        set_play_button_highlight(False)
         
         # Abilita/Disabilita basandosi su flags globali (riproduzione/registrazione)
         if app_state.recording_flag:
             new_macro_button.config(state=tk.DISABLED)
             record_button.config(state=tk.DISABLED)
             play_button.config(state=tk.DISABLED)
-            stop_button.config(state=tk.NORMAL)
             emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
-            rerecord_button.config(state=tk.DISABLED)
             edit_button.config(state=tk.DISABLED)
             delete_button.config(state=tk.DISABLED)
             duplicate_button.config(state=tk.DISABLED)
@@ -835,9 +2036,8 @@ def update_button_states():
             new_macro_button.config(state=tk.DISABLED)
             record_button.config(state=tk.DISABLED)
             play_button.config(state=tk.DISABLED)
-            stop_button.config(state=tk.NORMAL)
+            set_play_button_highlight(True)
             emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
-            rerecord_button.config(state=tk.DISABLED)
             edit_button.config(state=tk.DISABLED)
             delete_button.config(state=tk.DISABLED)
             duplicate_button.config(state=tk.DISABLED)
@@ -846,8 +2046,7 @@ def update_button_states():
             loop_delay_entry.config(state=tk.DISABLED)
             
         else: # Nessuna registrazione o riproduzione in corso
-            stop_button.config(state=tk.DISABLED)
-            emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza per sicurezza
+            emergency_stop_button.config(state=tk.DISABLED)
             new_macro_button.config(state=tk.NORMAL)
             record_button.config(state=tk.DISABLED)
             # Il bottone concatena può essere sempre abilitato (non richiede selezione)
@@ -855,7 +2054,6 @@ def update_button_states():
 
             if has_selection:
                 play_button.config(state=tk.NORMAL)
-                rerecord_button.config(state=tk.NORMAL)
                 edit_button.config(state=tk.NORMAL)
                 delete_button.config(state=tk.NORMAL)
                 duplicate_button.config(state=tk.NORMAL) # Abilita anche duplicate
@@ -863,7 +2061,6 @@ def update_button_states():
                 loop_delay_entry.config(state=tk.NORMAL if loop_var.get() else tk.DISABLED)
             else:
                 play_button.config(state=tk.DISABLED)
-                rerecord_button.config(state=tk.DISABLED)
                 edit_button.config(state=tk.DISABLED)
                 delete_button.config(state=tk.DISABLED)
                 duplicate_button.config(state=tk.DISABLED)
@@ -886,10 +2083,44 @@ def get_loop_delay():
         delay = float(loop_delay_entry.get())
         if delay < 0:
             raise ValueError("Il ritardo del loop non può essere negativo.")
+        save_loop_delay_preference(delay)
         return delay
     except ValueError:
         console_log("⚠️ Valore non valido per il ritardo del loop. Usando il default.", level="WARNING")
         return config['macro_manager']['loop_interval_sec_default']
+
+
+def save_loop_delay_preference(delay):
+    """Memorizza il ritardo loop scelto dall'utente."""
+    try:
+        delay_value = float(delay)
+        if delay_value < 0:
+            raise ValueError
+    except (TypeError, ValueError):
+        return
+
+    config_data = load_app_config()
+    macro_cfg = dict(config_data.get("macro_manager", {}))
+    if macro_cfg.get("loop_interval_sec_default") == delay_value:
+        return
+
+    macro_cfg["loop_interval_sec_default"] = delay_value
+    config_data["macro_manager"] = macro_cfg
+    save_app_config(config_data)
+    config["macro_manager"]["loop_interval_sec_default"] = delay_value
+
+
+def persist_loop_delay_from_entry(event=None):
+    """Salva il ritardo loop corrente se valido."""
+    if loop_delay_entry is None or not loop_delay_entry.winfo_exists():
+        return
+    try:
+        delay = float(loop_delay_entry.get())
+        if delay < 0:
+            raise ValueError
+        save_loop_delay_preference(delay)
+    except ValueError:
+        return
 
 
 def get_max_repetitions():
@@ -1018,11 +2249,31 @@ def on_window_destroy(event=None):
         return
     try:
         stop_focus_monitoring()
+        task_controller.stop_scheduler(log_callback=console_log if root and root.winfo_exists() else None)
         stop_current_operation()
         schedule_on_ui(update_macro_details)
     except Exception as e:
         # Se c'è un errore durante la chiusura, stampa solo su console
         print(f"Errore durante la chiusura della finestra: {e}")
+
+
+def close_current_window_after_admin_relaunch():
+    """Chiude in modo deciso l'istanza non elevata dopo il rilancio admin."""
+    try:
+        stop_focus_monitoring()
+        task_controller.stop_scheduler(log_callback=console_log if root and root.winfo_exists() else None)
+        stop_current_operation()
+        if root and root.winfo_exists():
+            save_window_geometry()
+            root.after(0, root.quit)
+            root.after(50, root.destroy)
+    finally:
+        # Alcuni thread daemon possono tenere viva l'istanza non elevata:
+        # forziamo l'uscita poco dopo il rilancio del nuovo processo.
+        if root and root.winfo_exists():
+            root.after(400, lambda: os._exit(0))
+        else:
+            os._exit(0)
 
 
 # --- Funzioni di gestione Macro ---
@@ -1077,19 +2328,8 @@ def create_new_macro_dialog():
         duration_str = macro_duration_var.get().strip()
         exe = macro_exe_var.get().strip()
 
-        if not name:
-            messagebox.showwarning("Input Errato", "Il nome della macro non può essere vuoto.", parent=dialog)
-            return
-        if not exe:
-            messagebox.showwarning("Input Errato", "Il nome dell'eseguibile non può essere vuoto.", parent=dialog)
-            return
-
-        try:
-            duration = int(duration_str)
-            if duration <= 0:
-                raise ValueError("La durata deve essere un numero intero positivo.")
-        except ValueError:
-            messagebox.showwarning("Input Errato", "La durata deve essere un numero intero valido per i secondi.", parent=dialog)
+        duration = validate_new_macro_input(name, exe, duration_str, parent=dialog)
+        if duration is None:
             return
 
         dialog.destroy() # Chiudi il dialogo prima di iniziare la registrazione
@@ -1114,8 +2354,7 @@ def start_recording_for_new_macro(macro_name, macro_desc, macro_duration, macro_
     start_focus_monitoring()
 
     # Avvia la registrazione in un thread separato per non bloccare la GUI
-    record_thread = threading.Thread(target=record_macro_thread_target, args=(macro_name, macro_desc, macro_duration, macro_exe))
-    record_thread.daemon = True # Il thread terminerà con l'applicazione principale
+    record_thread = create_recording_thread(macro_name, macro_desc, macro_duration, macro_exe)
     record_thread.start()
 
 def record_macro_thread_target(macro_name, macro_desc, macro_duration, macro_exe):
@@ -1127,44 +2366,14 @@ def record_macro_thread_target(macro_name, macro_desc, macro_duration, macro_exe
         registra_eventi=registra_eventi,
         save_macro=salva_macro_test,
         log_callback=console_log,
-        on_recording_started=lambda: schedule_status_update(
-            f"🔴 Registrazione di '{macro_name}' in corso...",
-            indicator="recording",
-        ),
-        on_empty_recording=lambda: schedule_messagebox(
-            "showwarning",
-            "Registrazione Macro",
-            "Nessun evento registrato. Potrebbe indicare:\n• Registrazione troppo veloce\n• Mancanza di input utente\n• Problema con la finestra target",
-            parent=root,
-        ),
-        on_save_error=lambda exc: (
-            console_log(f"❌ Errore durante il salvataggio della macro '{macro_name}': {exc}", level="ERROR"),
-            schedule_messagebox("showerror", "Errore Salvataggio", f"Errore: {exc}", parent=root),
-        ),
-        on_cancelled=lambda cancelled_exe: schedule_messagebox(
-            "showinfo",
-            "Registrazione Macro",
-            "Registrazione annullata o processo non trovato.\n\nAssicurati che:\n"
-            + f"• '{cancelled_exe}' sia avviato\n"
-            + "• La finestra target sia in primo piano\n"
-            + "• Nessun altro software interferisca",
-            parent=root,
-        ),
-        on_unhandled_error=lambda exc: (
-            console_log(f"❌ Errore durante la registrazione della macro: {exc}", level="ERROR"),
-            schedule_messagebox(
-                "showerror",
-                "Errore Registrazione",
-                f"Si è verificato un errore durante la registrazione: {exc}",
-                parent=root,
-            ),
-        ),
-        on_finished=lambda: (
-            console_log("DEBUG: Blocco 'finally' di record_macro_thread_target."),
-            schedule_on_ui(stop_recording_timer),
-            None if app_state.playing_flag else stop_focus_monitoring(),
-            schedule_operation_idle_cleanup(refresh_list=True),
-            console_log("DEBUG: Fine funzione record_macro_thread_target."),
+        on_recording_started=lambda: handle_recording_started(macro_name),
+        on_empty_recording=handle_empty_recording,
+        on_save_error=lambda exc: handle_recording_save_error(macro_name, exc),
+        on_cancelled=handle_recording_cancelled,
+        on_unhandled_error=handle_recording_unhandled_error,
+        on_finished=lambda: schedule_recording_finish_cleanup(
+            refresh_list=True,
+            debug_message="DEBUG: Fine funzione record_macro_thread_target.",
         ),
     )
 
@@ -1179,34 +2388,7 @@ def emergency_stop_all():
     
     # Ferma il timer di registrazione
     stop_recording_timer()
-    
-    # Forza la pulizia di tutti gli hook e processi
-    try:
-        keyboard.unhook_all()
-        mouse.unhook_all()
-        console_log("🔌 Tutti gli hook di tastiera e mouse sganciati forzatamente.")
-    except Exception as e:
-        console_log(f"⚠️ Errore durante la pulizia forzata degli hook: {e}", level="ERROR")
-    
-    # Termina forzatamente tutti i thread di registrazione e riproduzione
-    if hasattr(threading, '_active'):
-        for thread_id, thread in threading._active.items():
-            if thread.is_alive() and thread != threading.current_thread():
-                try:
-                    if hasattr(thread, '_name') and any(keyword in thread._name.lower() for keyword in ['record', 'playback', 'macro']):
-                        console_log(f"🔄 Terminando forzatamente thread: {thread._name}")
-                        # Non possiamo forzare la terminazione, ma segnaliamo di fermarsi
-                except Exception as e:
-                    console_log(f"⚠️ Errore durante la gestione del thread {thread_id}: {e}", level="ERROR")
-    
-    # Ferma il monitoraggio del focus
-    stop_focus_monitoring()
-    
-    # Aggiorna immediatamente lo stato
-    update_status("🚨 STOP EMERGENZA - Operazioni fermate", indicator="idle")
-    update_button_states()
-    update_macro_details()
-    
+    emergency_cleanup()
     console_log("✅ STOP EMERGENZA completato - Tutte le operazioni sono state fermate.")
 
 
@@ -1219,83 +2401,30 @@ def stop_current_operation():
         console_log("🛑 Tentativo di fermare le operazioni in corso...")
     
     if app_state.recording_flag:
-        if gui_active:
-            console_log("🛑 Fermando la registrazione...")
-        # Ferma il timer di registrazione
-        if gui_active:
-            stop_recording_timer()
-        # Chiama la funzione stop_recording dal modulo macro_controller
-        if stop_recording(console_log):
-            if gui_active:
-                console_log("✅ Registrazione fermata con successo.")
-        else:
-            if gui_active:
-                console_log("⚠️ Nessuna registrazione attiva da fermare.")
-        state_service.stop_recording()
-        
+        stop_active_recording(gui_active)
     elif app_state.playing_flag:
-        if gui_active:
-            console_log("🛑 Fermando la riproduzione...")
-        request_playback_stop(console_log)
-        
-        # Forza la terminazione dei thread di riproduzione se necessario
-        if hasattr(threading, '_active'):
-            for thread in threading._active.values():
-                if thread.is_alive() and hasattr(thread, '_name') and 'playback' in thread._name:
-                    if gui_active:
-                        console_log(f"🔄 Terminando thread di riproduzione: {thread._name}")
-        
-        if gui_active:
-            console_log("✅ Segnalato alla riproduzione di fermarsi.")
-        reset_playback_state()
-        
+        stop_active_playback(gui_active)
     else:
         if gui_active:
             console_log("ℹ️ Nessuna operazione attiva da fermare.")
         return
-    
-    # Aggiorna immediatamente lo stato solo se la GUI è ancora attiva
-    if gui_active:
-        update_status("Pronto", indicator="idle")
-        update_button_states()
-        update_macro_details()
-    
-    # Forza la pulizia dei processi in background
-    try:
-        # Termina eventuali processi di keyboard/mouse hook che potrebbero essere rimasti attivi
-        keyboard.unhook_all()
-        mouse.unhook_all()
-        if gui_active:
-            console_log("🧹 Hook di tastiera e mouse puliti.")
-    except Exception as e:
-        if gui_active:
-            console_log(f"⚠️ Errore durante la pulizia degli hook: {e}", level="WARNING")
-    
-    if gui_active:
-        console_log("✅ Operazioni fermate con successo.")
+
+    finalize_stop_operation(gui_active)
 
 
 def start_playback_thread():
-    selected_item = macro_list_tree.selection()
-    if not selected_item:
-        messagebox.showwarning("Riproduzione Macro", "Seleziona una macro dalla lista per riprodurla.")
+    selected_macro = get_selected_macro_metadata(
+        action_label="Riproduzione",
+        missing_selection_message="Seleziona una macro dalla lista per riprodurla.",
+        invalid_selection_message="ID macro non valido selezionato.",
+        missing_metadata_message="Metadati macro non trovati.",
+        parent=root,
+        log_invalid_selection="❌ Errore: ID macro non valido dalla selezione: {macro_id_str}",
+        log_missing_metadata="❌ Errore: Metadati macro non trovati per ID: {macro_id}",
+    )
+    if not selected_macro:
         return
-
-    # selected_item è un tuple con l'iid. L'iid è l'ID numerico della macro.
-    macro_id_str = selected_item[0]
-    
-    try:
-        macro_id = int(macro_id_str)
-    except ValueError:
-        console_log(f"❌ Errore: ID macro non valido dalla selezione: {macro_id_str}", level="ERROR")
-        messagebox.showerror("Errore Riproduzione", "ID macro non valido selezionato.", parent=root)
-        return
-
-    macro_metadata = get_macro_metadata_by_id(macro_id)
-    if not macro_metadata:
-        console_log(f"❌ Errore: Metadati macro non trovati per ID: {macro_id}", level="ERROR")
-        messagebox.showerror("Errore Riproduzione", "Metadati macro non trovati.", parent=root)
-        return
+    macro_id, macro_metadata = selected_macro
 
     macro_events = load_macro_events(macro_id)
     if not macro_events:
@@ -1304,6 +2433,42 @@ def start_playback_thread():
         return
 
     target_exe = macro_metadata['eseguibile']
+    elevation_state = target_requires_elevation(target_exe)
+    if elevation_state["requires_restart"]:
+        should_restart = messagebox.askyesno(
+            "Riavvio come amministratore",
+            build_restart_as_admin_message(target_exe),
+            parent=root,
+        )
+        if should_restart:
+            console_log(
+                f"⚠️ Riavvio richiesto come amministratore per controllare '{target_exe}'.",
+                level="WARNING",
+            )
+            if relaunch_current_process_as_admin():
+                close_current_window_after_admin_relaunch()
+                return
+            messagebox.showerror(
+                "Riavvio non riuscito",
+                "Non sono riuscito ad avviare di nuovo l'app come amministratore.",
+                parent=root,
+            )
+            return
+
+        console_log(
+            f"⚠️ Riproduzione annullata: '{target_exe}' gira come amministratore ma l'app no.",
+            level="WARNING",
+        )
+        update_status("Riavvio admin consigliato", indicator="idle")
+        return
+
+    logger.info(
+        "Avvio playback richiesto: macro='%s' id=%s target='%s' eventi=%s",
+        macro_metadata["nome"],
+        macro_id,
+        target_exe,
+        len(macro_events),
+    )
     loop_enabled = loop_var.get()
     loop_delay = get_loop_delay() # Questa funzione è già robusta
     max_repetitions = get_max_repetitions() # Ottiene il numero massimo di ripetizioni
@@ -1326,7 +2491,6 @@ def start_playback_thread():
 
 def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enabled, loop_delay, max_repetitions=None):
     global _game_client_rect_screen
-    global execution_visualizer_events_list, execution_visualizer_canvas, execution_visualizer_status_label
     playback_ui_state = {
         "last_move_ui_update": 0.0,
         "pending_move_event": None,
@@ -1344,69 +2508,25 @@ def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enab
             root.after(0, lambda: update_status(msg, indicator="idle"))
         console_log(msg, level=level)
     
-    def event_callback(event, index, total, action_type, button_or_key=None, x=None, y=None, delta=None):
+    def event_callback(event, index, total, action_type, button_or_key=None, x=None, y=None, delta=None, visual_context=None):
         """Callback chiamato per ogni evento eseguito durante la riproduzione"""
         if action_type == "mouse_move":
-            now_monotonic = time.monotonic()
-            playback_ui_state["pending_move_event"] = (event, index, total, action_type, button_or_key, x, y, delta)
+            playback_ui_state["pending_move_event"] = (event, index, total, action_type, button_or_key, x, y, delta, visual_context)
             playback_ui_state["move_events_since_flush"] += 1
 
-            should_flush = (
-                playback_ui_state["move_events_since_flush"] >= 12
-                or (now_monotonic - playback_ui_state["last_move_ui_update"]) >= 0.08
-                or index + 1 == total
-            )
-            if not should_flush:
+            if not should_flush_playback_move(playback_ui_state, index, total):
                 return
 
-            playback_ui_state["last_move_ui_update"] = now_monotonic
-            playback_ui_state["move_events_since_flush"] = 0
-            event, index, total, action_type, button_or_key, x, y, delta = playback_ui_state["pending_move_event"]
+            event, index, total, action_type, button_or_key, x, y, delta, visual_context = playback_ui_state["pending_move_event"]
 
-        def update_ui():
-            global execution_visualizer_events_list, execution_visualizer_canvas, execution_visualizer_status_label
-            
-            # Aggiorna lo stato
-            if execution_visualizer_status_label:
-                execution_visualizer_status_label.config(text=f"Esecuzione: {index + 1}/{total}")
-            
-            # Aggiungi evento alla lista
-            if execution_visualizer_events_list:
-                timestamp = event.get('time', 0)
-                time_str = f"{timestamp}ms"
-                
-                if action_type == "key_press":
-                    event_text = f"[{time_str}] ⌨️ Premuto tasto: {button_or_key}"
-                elif action_type == "key_release":
-                    event_text = f"[{time_str}] ⌨️ Rilasciato tasto: {button_or_key}"
-                elif action_type == "mouse_move":
-                    event_text = f"[{time_str}] 🖱️ Spostamento mouse: ({x}, {y})"
-                elif action_type == "mouse_down":
-                    button_name = button_or_key or "sconosciuto"
-                    event_text = f"[{time_str}] 🖱️ Click DOWN {button_name} in ({x}, {y})"
-                    # Mostra posizione sul canvas
-                    if execution_visualizer_canvas and x is not None and y is not None:
-                        draw_mouse_position(execution_visualizer_canvas, x, y, button_name)
-                elif action_type == "mouse_up":
-                    button_name = button_or_key or "sconosciuto"
-                    event_text = f"[{time_str}] 🖱️ Click UP {button_name} in ({x}, {y})"
-                elif action_type == "mouse_scroll":
-                    event_text = f"[{time_str}] 🖱️ Scroll: {delta} in ({x}, {y})"
-                else:
-                    event_text = f"[{time_str}] {action_type}"
-                
-                execution_visualizer_events_list.insert(tk.END, event_text)
-                execution_visualizer_events_list.see(tk.END)  # Scroll alla fine
-        
-        root.after(0, update_ui)
+        root.after(
+            0,
+            lambda event=event, index=index, total=total, action_type=action_type,
+                   button_or_key=button_or_key, x=x, y=y, delta=delta, visual_context=visual_context:
+                update_execution_visualizer(event, index, total, action_type, button_or_key, x, y, delta, visual_context),
+        )
     
-    # Pulisci la visualizzazione prima di iniziare
-    if execution_visualizer_events_list:
-        root.after(0, lambda: execution_visualizer_events_list.delete(0, tk.END))
-    if execution_visualizer_canvas:
-        root.after(0, lambda: execution_visualizer_canvas.delete("all"))
-    if execution_visualizer_status_label:
-        root.after(0, lambda: execution_visualizer_status_label.config(text="Pronto all'esecuzione..."))
+    reset_execution_visualizer()
 
     playback_service.run_playback(
         macro_events=macro_events,
@@ -1421,57 +2541,28 @@ def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enab
         is_playback_stop_requested=is_playback_stop_requested,
         start_focus_monitoring=start_focus_monitoring,
         stop_focus_monitoring=stop_focus_monitoring,
-        on_target_wait_cancelled=lambda: (
-            schedule_operation_idle_cleanup(),
-            console_log("🛑 Attesa della finestra target annullata prima dell'avvio del playback."),
-        ),
-        on_target_wait_failed=lambda failed_target_exe: (
-            schedule_operation_idle_cleanup(),
-            console_log(
-                f"❌ Finestra dell'applicazione '{failed_target_exe}' non trovata o non raggiungibile durante l'attesa.",
-                level="ERROR",
-            ),
-            schedule_messagebox(
-                "showerror",
-                "Errore Riproduzione",
-                f"Impossibile trovare la finestra dell'applicazione '{failed_target_exe}' nei 15 secondi di timeout.\n\n"
-                f"SOLUZIONI:\n"
-                f"• Assicurati che '{failed_target_exe}' sia aperto e visibile\n"
-                f"• Clicca sulla finestra '{failed_target_exe}' per portarla in primo piano\n"
-                f"• Riprova la riproduzione",
-                parent=root,
-            ),
-        ),
-        on_before_playback=lambda: schedule_status_update("🟢 Riproduzione macro in corso...", indicator="playing"),
-        on_playback_finished=lambda: schedule_operation_idle_cleanup(),
+        on_target_wait_cancelled=handle_playback_target_wait_cancelled,
+        on_target_wait_failed=handle_playback_target_wait_failed,
+        on_before_playback=handle_playback_started,
+        on_playback_finished=handle_playback_finished,
     )
 
 
 def edit_selected_macro():
     logger.info("Tentativo di apertura editor macro")
-    selected_item = macro_list_tree.selection()
-    if not selected_item:
+    selected_macro = get_selected_macro_metadata(
+        action_label="Modifica",
+        missing_selection_message="Seleziona una macro da modificare.",
+        invalid_selection_message="ID macro non valido selezionato.",
+        missing_metadata_message="Metadati macro non trovati per ID: {macro_id}",
+        parent=root,
+    )
+    if not selected_macro:
         logger.warning("Nessuna macro selezionata per l'editing")
-        messagebox.showwarning("Modifica Macro", "Seleziona una macro da modificare.")
-        return
-    
-    # L'iid è l'ID della macro, che è ciò di cui abbiamo bisogno
-    macro_id_to_edit_str = selected_item[0]
-    logger.info(f"Editor richiesto per macro ID: {macro_id_to_edit_str}")
-    try:
-        macro_id_to_edit = int(macro_id_to_edit_str)
-    except ValueError:
-        logger.error(f"ID macro non valido: {macro_id_to_edit_str}")
-        messagebox.showerror("Errore Modifica", "ID macro non valido selezionato.", parent=root)
         return
 
-    # Recupera il nome della macro per passarlo all'editor
-    macro_metadata = get_macro_metadata_by_id(macro_id_to_edit)
-    if not macro_metadata:
-        logger.error(f"Metadati macro non trovati per ID: {macro_id_to_edit}")
-        messagebox.showerror("Errore Modifica", f"Metadati macro non trovati per ID: {macro_id_to_edit}", parent=root)
-        return
-        
+    macro_id_to_edit, macro_metadata = selected_macro
+    logger.info(f"Editor richiesto per macro ID: {macro_id_to_edit}")
     macro_name = macro_metadata['nome']
     logger.info(f"Apertura editor per macro: {macro_name}")
 
@@ -1483,114 +2574,21 @@ def edit_selected_macro():
 
     # Dopo che l'editor si è chiuso, ricarica la lista delle macro per riflettere eventuali modifiche
     logger.info("Editor chiuso, refresh lista macro")
-    refresh_macro_list()
-    update_macro_details() # Aggiorna i dettagli dopo la modifica
-
-
-def rerecord_selected_macro():
-    selected_item = macro_list_tree.selection()
-    if not selected_item:
-        messagebox.showwarning("Re-registra Macro", "Seleziona una macro da re-registrare.", parent=root)
-        return
-
-    macro_id_str = selected_item[0]
-    try:
-        macro_id = int(macro_id_str)
-    except ValueError:
-        messagebox.showerror("Errore Re-registrazione", "ID macro non valido selezionato.", parent=root)
-        return
-
-    macro_metadata = get_macro_metadata_by_id(macro_id)
-    if not macro_metadata:
-        messagebox.showerror("Errore Re-registrazione", f"Metadati macro non trovati per ID: {macro_id}", parent=root)
-        return
-
-    macro_name = macro_metadata['nome']
-    macro_duration = macro_metadata['durata_sec']
-    macro_exe = macro_metadata['eseguibile']
-
-    confirm = messagebox.askyesno(
-        "Conferma Re-registrazione",
-        f"Sei sicuro di voler re-registrare la macro '{macro_name}' (durata: {macro_duration}s, eseguibile: {macro_exe})?\n"
-        "Questo sovrascriverà gli eventi esistenti della macro.",
-        parent=root
-    )
-    if not confirm:
-        return
-
-    if app_state.recording_flag:
-        messagebox.showwarning("Registrazione", "Una registrazione è già in corso.", parent=root)
-        return
-
-    if not recording_service.start_recording_session(target_exe=macro_exe, duration_sec=macro_duration):
-        messagebox.showwarning("Registrazione", "Una registrazione è già in corso.", parent=root)
-        return
-    update_status(f"🔴 Re-registrazione di '{macro_name}' in corso...", indicator="recording")
-    
-    # Avvia il monitoraggio del focus se non è già attivo
-    start_focus_monitoring()
-
-    # Avvia la re-registrazione in un thread separato
-    rerecord_thread = threading.Thread(target=rerecord_macro_thread_target, args=(macro_id, macro_name, macro_duration, macro_exe))
-    rerecord_thread.daemon = True
-    rerecord_thread.start()
-
-def rerecord_macro_thread_target(macro_id, macro_name, macro_duration, macro_exe):
-    recording_service.run_rerecording(
-        macro_id=macro_id,
-        macro_name=macro_name,
-        macro_duration=macro_duration,
-        macro_exe=macro_exe,
-        registra_eventi=registra_eventi,
-        update_events_only=update_macro_events_only,
-        log_callback=console_log,
-        on_update_error=lambda exc: (
-            console_log(f"❌ Errore durante l'aggiornamento della macro '{macro_name}' con i nuovi eventi: {exc}", level="ERROR"),
-            schedule_messagebox(
-                "showerror",
-                "Errore Re-registrazione",
-                f"Errore durante l'aggiornamento degli eventi della macro: {exc}",
-                parent=root,
-            ),
-        ),
-        on_cancelled=lambda: schedule_messagebox(
-            "showinfo",
-            "Re-registrazione Macro",
-            "Nessun nuovo evento acquisito o operazione annullata.",
-            parent=root,
-        ),
-        on_unhandled_error=lambda exc: (
-            console_log(f"❌ Errore critico durante il processo di re-registrazione: {exc}", level="ERROR"),
-            schedule_messagebox(
-                "showerror",
-                "Errore Re-registrazione",
-                f"Si è verificato un errore critico durante la re-registrazione: {exc}",
-                parent=root,
-            ),
-        ),
-        on_finished=lambda: (
-            schedule_on_ui(stop_recording_timer),
-            None if app_state.playing_flag else stop_focus_monitoring(),
-            schedule_operation_idle_cleanup(refresh_list=True),
-            console_log("DEBUG: Fine funzione rerecord_macro_thread_target."),
-        ),
-    )
+    refresh_macro_ui_state()
 
 
 def delete_selected_macro():
-    selected_item = macro_list_tree.selection()
-    if not selected_item:
-        messagebox.showwarning("Elimina Macro", "Seleziona una macro da eliminare.", parent=root)
+    selected_macro = get_selected_macro_metadata(
+        action_label="Eliminazione",
+        missing_selection_message="Seleziona una macro da eliminare.",
+        invalid_selection_message="ID macro non valido selezionato.",
+        missing_metadata_message="Metadati macro non trovati per ID: {macro_id}",
+        parent=root,
+    )
+    if not selected_macro:
         return
-
-    # Ottieni il nome della macro dalla selezione per il messaggio di conferma
-    # La selezione contiene l'ID come iid, e i valori nella colonna 0 è il nome
-    item_values = macro_list_tree.item(selected_item[0], 'values')
-    if not item_values or len(item_values) < 1:
-        messagebox.showerror("Errore Eliminazione", "Dati macro non validi selezionati.", parent=root)
-        return
-    
-    macro_name_to_delete = item_values[0] # Il nome è nella prima colonna (indice 0)
+    _macro_id, macro_metadata = selected_macro
+    macro_name_to_delete = macro_metadata["nome"]
 
     confirm = messagebox.askyesno(
         "Conferma Eliminazione",
@@ -1602,8 +2600,7 @@ def delete_selected_macro():
         try:
             delete_macro(macro_name_to_delete)
             console_log(f"✅ Macro '{macro_name_to_delete}' eliminata con successo.")
-            refresh_macro_list() # Aggiorna la lista dopo l'eliminazione
-            update_macro_details() # Aggiorna i dettagli dopo l'eliminazione
+            refresh_macro_ui_state()
         except ValueError as e:
             console_log(f"❌ Errore durante l'eliminazione: {e}", level="ERROR")
             messagebox.showerror("Errore Eliminazione", f"Errore: {e}", parent=root)
@@ -1613,22 +2610,19 @@ def delete_selected_macro():
 
 def duplicate_selected_macro():
     """Duplica la macro selezionata con un nuovo nome che include la data e ora corrente."""
-    selected_item = macro_list_tree.selection()
-    if not selected_item:
-        console_log("⚠️ Seleziona una macro da duplicare.", level="WARNING")
+    selected_macro = get_selected_macro_metadata(
+        action_label="Duplicazione",
+        missing_selection_message="Seleziona una macro da duplicare.",
+        invalid_selection_message="ID macro non valido selezionato.",
+        missing_metadata_message="Metadati macro non trovati per ID: {macro_id}",
+        parent=root,
+        log_missing_selection="⚠️ Seleziona una macro da duplicare.",
+        log_invalid_selection="❌ Errore Duplicazione: ID macro non valido selezionato.",
+        log_missing_metadata="❌ Errore Duplicazione: Metadati macro non trovati per ID: {macro_id}",
+    )
+    if not selected_macro:
         return
-
-    macro_id_str = selected_item[0]
-    try:
-        macro_id = int(macro_id_str)
-    except ValueError:
-        console_log(f"❌ Errore Duplicazione: ID macro non valido selezionato.", level="ERROR")
-        return
-
-    macro_metadata = get_macro_metadata_by_id(macro_id)
-    if not macro_metadata:
-        console_log(f"❌ Errore Duplicazione: Metadati macro non trovati per ID: {macro_id}", level="ERROR")
-        return
+    macro_id, macro_metadata = selected_macro
 
     macro_name = macro_metadata['nome']
     
@@ -1637,8 +2631,7 @@ def duplicate_selected_macro():
     try:
         new_macro_id, new_macro_name = duplicate_macro(macro_id)
         console_log(f"✅ Macro '{macro_name}' duplicata con successo come '{new_macro_name}' (ID: {new_macro_id}).")
-        refresh_macro_list() # Aggiorna la lista dopo la duplicazione
-        update_macro_details() # Aggiorna i dettagli dopo la duplicazione
+        refresh_macro_ui_state()
     except Exception as e:
         console_log(f"❌ Errore durante la duplicazione della macro '{macro_name}': {e}", level="ERROR")
 
@@ -1803,88 +2796,225 @@ def concat_macros_dialog():
 def setup_execution_visualizer(parent):
     """Crea il widget per visualizzare la sequenza di operazioni durante l'esecuzione"""
     global execution_visualizer_events_list, execution_visualizer_canvas, execution_visualizer_status_label
+    global execution_visualizer_reference_image_label, execution_visualizer_candidate_image_label
+    global execution_visualizer_reference_caption_label, execution_visualizer_candidate_caption_label
     
-    # Frame principale con layout verticale
     main_frame = ttk.Frame(parent)
     main_frame.pack(fill="both", expand=True, padx=5, pady=5)
-    
-    # Label di stato
-    execution_visualizer_status_label = ttk.Label(main_frame, text="Pronto all'esecuzione...", 
-                                                   font=(config['theme']['font_family'], config['theme']['font_size_medium'], 'bold'))
-    execution_visualizer_status_label.pack(fill="x", pady=(0, 5))
-    
-    # Frame per canvas e lista eventi
+    main_frame.columnconfigure(0, weight=1)
+    main_frame.rowconfigure(2, weight=1)
+
+    execution_visualizer_status_label = ttk.Label(
+        main_frame,
+        text="Pronto all'esecuzione...",
+        font=(config['theme']['font_family'], config['theme']['font_size_medium'], 'bold'),
+    )
+    execution_visualizer_status_label.grid(row=0, column=0, sticky="ew", pady=(0, 6))
+
+    context_frame = ttk.LabelFrame(main_frame, text="Ritagli controllo click", padding="6")
+    context_frame.grid(row=1, column=0, sticky="ew", pady=(0, 8))
+    context_frame.columnconfigure(0, weight=1)
+
+    previews_frame = ttk.Frame(context_frame)
+    previews_frame.pack(fill="x", expand=True)
+
+    reference_frame = ttk.Frame(previews_frame)
+    reference_frame.pack(side="left", fill="both", expand=True, padx=(0, 4))
+    execution_visualizer_reference_caption_label = ttk.Label(
+        reference_frame,
+        text="Primo riferimento click",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
+    execution_visualizer_reference_caption_label.pack(fill="x", pady=(0, 4))
+    execution_reference_holder = tk.Frame(
+        reference_frame,
+        background=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['text_color'],
+        width=220,
+        height=140,
+    )
+    execution_reference_holder.pack(fill="both", expand=True)
+    execution_reference_holder.pack_propagate(False)
+    execution_visualizer_reference_image_label = tk.Label(
+        execution_reference_holder,
+        text="Anteprima non disponibile",
+        background=config['theme']['border_color'],
+        anchor="center",
+    )
+    execution_visualizer_reference_image_label.pack(fill="both", expand=True)
+
+    candidate_frame = ttk.Frame(previews_frame)
+    candidate_frame.pack(side="left", fill="both", expand=True, padx=(4, 0))
+    execution_visualizer_candidate_caption_label = ttk.Label(
+        candidate_frame,
+        text="Controllo corrente",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
+    execution_visualizer_candidate_caption_label.pack(fill="x", pady=(0, 4))
+    execution_candidate_holder = tk.Frame(
+        candidate_frame,
+        background=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['text_color'],
+        width=220,
+        height=140,
+    )
+    execution_candidate_holder.pack(fill="both", expand=True)
+    execution_candidate_holder.pack_propagate(False)
+    execution_visualizer_candidate_image_label = tk.Label(
+        execution_candidate_holder,
+        text="Anteprima non disponibile",
+        background=config['theme']['border_color'],
+        anchor="center",
+    )
+    execution_visualizer_candidate_image_label.pack(fill="both", expand=True)
+
     content_frame = ttk.Frame(main_frame)
-    content_frame.pack(fill="both", expand=True)
-    
-    # Canvas per visualizzare posizioni mouse (sinistra)
-    canvas_frame = ttk.LabelFrame(content_frame, text="Posizioni Click", padding="5")
-    canvas_frame.pack(side="left", fill="both", expand=False, padx=(0, 5))
-    canvas_frame.configure(width=300)
-    
-    execution_visualizer_canvas = tk.Canvas(canvas_frame, width=290, height=200, 
-                                           bg=config['theme']['border_color'],
-                                           highlightthickness=1, highlightbackground=config['theme']['text_color'])
-    execution_visualizer_canvas.pack(fill="both", expand=True)
-    
-    # Label informativa sul canvas
-    canvas_info_label = ttk.Label(canvas_frame, text="Le posizioni dei click verranno mostrate qui", 
-                                  foreground=config['theme']['text_color'], font=(config['theme']['font_family'], config['theme']['font_size_small']))
-    canvas_info_label.pack(pady=5)
-    
-    # Lista eventi (destra)
-    events_frame = ttk.LabelFrame(content_frame, text="Sequenza Operazioni", padding="5")
-    events_frame.pack(side="right", fill="both", expand=True)
-    
-    # Listbox per gli eventi
+    content_frame.grid(row=2, column=0, sticky="nsew")
+    content_frame.columnconfigure(0, weight=1)
+    content_frame.rowconfigure(0, weight=3)
+    content_frame.rowconfigure(1, weight=2)
+
+    canvas_frame = ttk.LabelFrame(content_frame, text="Posizioni Click", padding="6")
+    canvas_frame.grid(row=0, column=0, sticky="nsew", pady=(0, 8))
+    canvas_frame.columnconfigure(0, weight=1)
+    canvas_frame.rowconfigure(0, weight=1)
+
+    execution_visualizer_canvas = tk.Canvas(
+        canvas_frame,
+        width=460,
+        height=260,
+        bg="#1f2230",
+        highlightthickness=1,
+        highlightbackground=config['theme']['text_color'],
+    )
+    execution_visualizer_canvas.grid(row=0, column=0, sticky="nsew")
+    execution_visualizer_canvas.bind("<Configure>", lambda event: redraw_execution_click_history())
+
+    canvas_info_label = ttk.Label(
+        canvas_frame,
+        text="I click restano tracciati in sequenza: linea, numero progressivo e colore del pulsante.",
+        foreground=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
+    canvas_info_label.grid(row=1, column=0, sticky="w", pady=(6, 0))
+
+    events_frame = ttk.LabelFrame(content_frame, text="Sequenza Operazioni", padding="6")
+    events_frame.grid(row=1, column=0, sticky="nsew")
+    events_frame.columnconfigure(0, weight=1)
+    events_frame.rowconfigure(0, weight=1)
+
     listbox_frame = ttk.Frame(events_frame)
-    listbox_frame.pack(fill="both", expand=True)
-    
-    execution_visualizer_events_list = tk.Listbox(listbox_frame, 
-                                                  bg=config['theme']['border_color'],
-                                                  fg=config['theme']['text_color'],
-                                                  font=(config['theme']['font_family'], config['theme']['font_size_small']),
-                                                  selectbackground=config['theme']['button_bg_color'],
-                                                  selectforeground=config['theme']['button_fg_color'])
-    execution_visualizer_events_list.pack(side="left", fill="both", expand=True)
-    
+    listbox_frame.grid(row=0, column=0, sticky="nsew")
+    listbox_frame.columnconfigure(0, weight=1)
+    listbox_frame.rowconfigure(0, weight=1)
+
+    execution_visualizer_events_list = tk.Listbox(
+        listbox_frame,
+        bg=config['theme']['border_color'],
+        fg=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+        selectbackground=config['theme']['button_bg_color'],
+        selectforeground=config['theme']['button_fg_color'],
+        width=80,
+    )
+    execution_visualizer_events_list.grid(row=0, column=0, sticky="nsew")
+
     events_scrollbar = ttk.Scrollbar(listbox_frame, orient="vertical", command=execution_visualizer_events_list.yview)
-    events_scrollbar.pack(side="right", fill="y")
+    events_scrollbar.grid(row=0, column=1, sticky="ns")
     execution_visualizer_events_list.configure(yscrollcommand=events_scrollbar.set)
-    
-    # Pulsante per pulire
-    clear_button = ttk.Button(events_frame, text="🗑️ Pulisci", command=lambda: execution_visualizer_events_list.delete(0, tk.END))
-    clear_button.pack(pady=5)
+
+    clear_button = ttk.Button(events_frame, text="🗑️ Pulisci", command=reset_execution_visualizer)
+    clear_button.grid(row=1, column=0, sticky="e", pady=(6, 0))
+    clear_execution_visualizer_context_preview()
 
 def draw_mouse_position(canvas, x, y, button_name):
     """Disegna la posizione del mouse sul canvas"""
-    # Scala le coordinate per adattarle al canvas (assumendo risoluzione max 1920x1080)
-    max_x, max_y = 1920, 1080
-    canvas_width = canvas.winfo_width() or 290
-    canvas_height = canvas.winfo_height() or 200
-    
-    scaled_x = (x / max_x) * canvas_width
-    scaled_y = (y / max_y) * canvas_height
-    
-    # Colori per i diversi pulsanti
+    global execution_click_history
+
+    execution_click_history.append((x, y, (button_name or "").lower()))
+    _draw_execution_click_history(canvas, execution_click_history[-50:])
+
+
+def _draw_execution_click_history(canvas, points):
+    """Disegna la traccia dei click adattandola alla dimensione corrente del canvas."""
+    if not points:
+        return
+
+    canvas.delete("all")
+
+    canvas_width = max(canvas.winfo_width(), 240)
+    canvas_height = max(canvas.winfo_height(), 180)
+    margin = 24
+
+    xs = [point[0] for point in points]
+    ys = [point[1] for point in points]
+    min_x = min(xs)
+    max_x = max(xs)
+    min_y = min(ys)
+    max_y = max(ys)
+
+    span_x = max(max_x - min_x, 1)
+    span_y = max(max_y - min_y, 1)
+
+    def scale_point(px, py):
+        scaled_x = margin + ((px - min_x) / span_x) * max(canvas_width - (margin * 2), 1)
+        scaled_y = margin + ((py - min_y) / span_y) * max(canvas_height - (margin * 2), 1)
+        return scaled_x, scaled_y
+
+    canvas.create_rectangle(
+        margin // 2,
+        margin // 2,
+        canvas_width - (margin // 2),
+        canvas_height - (margin // 2),
+        outline="#5c6370",
+        dash=(4, 3),
+    )
+
     button_colors = {
-        'left': '#ff6e6e',  # Rosso per sinistro
-        'right': '#61afef',  # Blu per destro
-        'middle': '#50fa7b',  # Verde per centrale
+        'left': '#ff6e6e',
+        'right': '#61afef',
+        'middle': '#50fa7b',
     }
-    color = button_colors.get(button_name.lower(), '#abb2bf')  # Default grigio
-    
-    # Disegna un cerchio nella posizione del click
-    radius = 5
-    canvas.create_oval(scaled_x - radius, scaled_y - radius, 
-                      scaled_x + radius, scaled_y + radius,
-                      fill=color, outline=config['theme']['text_color'], width=2)
-    
-    # Aggiungi etichetta con coordinate
-    label_text = f"({x},{y})"
-    canvas.create_text(scaled_x, scaled_y - 15, text=label_text, 
-                      fill=config['theme']['text_color'],
-                      font=(config['theme']['font_family'], config['theme']['font_size_small']))
+    scaled_points = [(*scale_point(px, py), btn, px, py) for px, py, btn in points]
+
+    for index in range(1, len(scaled_points)):
+        prev_x, prev_y, *_ = scaled_points[index - 1]
+        curr_x, curr_y, *_ = scaled_points[index]
+        canvas.create_line(prev_x, prev_y, curr_x, curr_y, fill="#8fbcff", width=2, smooth=True)
+
+    for index, (scaled_x, scaled_y, btn, px, py) in enumerate(scaled_points, start=1):
+        color = button_colors.get(btn, '#abb2bf')
+        radius = 8 if index == len(scaled_points) else 6
+        outline_width = 3 if index == len(scaled_points) else 2
+        canvas.create_oval(
+            scaled_x - radius,
+            scaled_y - radius,
+            scaled_x + radius,
+            scaled_y + radius,
+            fill=color,
+            outline="#f8f8f2",
+            width=outline_width,
+        )
+        canvas.create_text(
+            scaled_x,
+            scaled_y - 16,
+            text=str(index),
+            fill="#f8f8f2",
+            font=(config['theme']['font_family'], config['theme']['font_size_small'], 'bold'),
+        )
+
+    last_scaled_x, last_scaled_y, _, last_abs_x, last_abs_y = scaled_points[-1]
+    canvas.create_text(
+        last_scaled_x,
+        min(canvas_height - 12, last_scaled_y + 18),
+        text=f"Ultimo click: ({last_abs_x},{last_abs_y})",
+        fill=config['theme']['text_color'],
+        font=(config['theme']['font_family'], config['theme']['font_size_small']),
+    )
 
 # === FUNZIONI PER ELEMENTI GRAFICI DEL GIOCO ===
 # Variabili globali per la GUI elementi grafici
@@ -3242,16 +4372,54 @@ def save_window_geometry():
 def load_window_geometry():
     restore_saved_window_geometry(root, "macro_manager_window", "macro manager")
 
+
+def get_panel_visibility_state():
+    config_data = load_app_config()
+    return config_data.get(
+        "panel_visibility",
+        {
+            "macro_actions": True,
+            "macro_details": True,
+            "macro_live_control": True,
+            "macro_list": True,
+            "macro_execution": True,
+            "console": True,
+        },
+    )
+
+
+def save_panel_visibility(panel_key, expanded):
+    config_data = load_app_config()
+    panel_visibility = dict(config_data.get("panel_visibility", {}))
+    panel_visibility[panel_key] = bool(expanded)
+    config_data["panel_visibility"] = panel_visibility
+    save_app_config(config_data)
+
+
+def toggle_collapsible_section(panel_key, section):
+    section.toggle()
+    save_panel_visibility(panel_key, section._expanded)
+
 def setup_gui():
     logger.info("Setup GUI Macro Manager")
     global root, macro_list_tree, console_text, status_bar
     # CORREZIONE: Aggiunto record_button alla dichiarazione global
-    global new_macro_button, record_button, play_button, stop_button, emergency_stop_button, rerecord_button, edit_button, delete_button, duplicate_button, concat_button
+    global new_macro_button, record_button, play_button, stop_button, emergency_stop_button, edit_button, delete_button, duplicate_button, concat_button
     global loop_var, loop_delay_entry, max_repetitions_entry, loop_var_checkbox, recording_indicator_button, playing_indicator_button, focus_monitor_indicator, macro_details_text
     global recording_timer_label
 
+    single_instance_state = enforce_single_macro_manager_instance()
+    if not single_instance_state["keep_current"]:
+        logger.info(
+            "Istanza secondaria rilevata, chiusura immediata. Duplicati presenti: %s",
+            single_instance_state["duplicate_pids"],
+        )
+        sys.exit(0)
+
     root = tk.Tk()
     load_config() # Carica la configurazione prima di applicare gli stili
+    if single_instance_state["closed_pids"]:
+        logger.info("Chiuse istanze duplicate del Macro Manager: %s", single_instance_state["closed_pids"])
     
     # Applica il stile selezionato al riavvio
     apply_window_styles(root)
@@ -3278,8 +4446,21 @@ def setup_gui():
     style.configure('TLabel', background=bg_color, foreground=text_color)
     style.configure('TButton', background=button_bg, foreground=button_fg, font=(font_family, font_size_medium, 'bold'), borderwidth=1, relief="solid")
     style.map('TButton', 
-              background=[('active', button_bg)],
-              foreground=[('active', button_fg)]) # Mantieni lo stesso colore per lo stato attivo per coerenza
+              background=[('active', button_bg), ('disabled', '#555555')],
+              foreground=[('active', button_fg), ('disabled', '#b0b0b0')]) # Mantieni lo stesso colore per lo stato attivo per coerenza
+    style.configure(
+        'ActivePlay.TButton',
+        background='#1f9d55',
+        foreground='white',
+        font=(font_family, font_size_medium, 'bold'),
+        borderwidth=1,
+        relief="solid",
+    )
+    style.map(
+        'ActivePlay.TButton',
+        background=[('active', '#1f9d55'), ('disabled', '#1f9d55')],
+        foreground=[('active', 'white'), ('disabled', 'white')],
+    )
     
     style.configure('Treeview', 
                     background=border_color, 
@@ -3310,6 +4491,7 @@ def setup_gui():
     # --- Tab Control ---
     tab_control = ttk.Notebook(main_frame)
     tab_control.pack(fill="both", expand=True, pady=(0, 10))
+    panel_state = get_panel_visibility_state()
 
     # Configura uno stile speciale per il pulsante di emergenza
     try:
@@ -3318,6 +4500,11 @@ def setup_gui():
                                 background='#ff4444', 
                                 foreground='white', 
                                 font=('Segoe UI', 10, 'bold'))
+        emergency_style.map(
+            'Emergency.TButton',
+            background=[('active', '#ff4444'), ('disabled', '#555555')],
+            foreground=[('active', 'white'), ('disabled', '#b0b0b0')],
+        )
     except Exception as e:
         console_log(f"⚠️ Impossibile applicare stile speciale al pulsante di emergenza: {e}", level="WARNING")
     macro_panel_refs = build_macro_management_tab(
@@ -3328,14 +4515,16 @@ def setup_gui():
         console_log=console_log,
         start_playback_thread=start_playback_thread,
         stop_current_operation=stop_current_operation,
-        rerecord_selected_macro=rerecord_selected_macro,
         edit_selected_macro=edit_selected_macro,
         delete_selected_macro=delete_selected_macro,
         duplicate_selected_macro=duplicate_selected_macro,
         concat_macros_dialog=concat_macros_dialog,
         emergency_stop_all=emergency_stop_all,
         update_button_states=update_button_states,
+        setup_click_context_preview=setup_click_context_preview,
         setup_execution_visualizer=setup_execution_visualizer,
+        panel_state=panel_state,
+        on_panel_state_change=toggle_collapsible_section,
     )
 
     macro_tab = macro_panel_refs["macro_tab"]
@@ -3343,7 +4532,6 @@ def setup_gui():
     record_button = macro_panel_refs["record_button"]
     play_button = macro_panel_refs["play_button"]
     stop_button = macro_panel_refs["stop_button"]
-    rerecord_button = macro_panel_refs["rerecord_button"]
     edit_button = macro_panel_refs["edit_button"]
     delete_button = macro_panel_refs["delete_button"]
     duplicate_button = macro_panel_refs["duplicate_button"]
@@ -3354,19 +4542,31 @@ def setup_gui():
     loop_delay_entry = macro_panel_refs["loop_delay_entry"]
     max_repetitions_entry = macro_panel_refs["max_repetitions_entry"]
     macro_list_tree = macro_panel_refs["macro_list_tree"]
+    loop_delay_entry.bind("<FocusOut>", persist_loop_delay_from_entry)
+    loop_delay_entry.bind("<Return>", persist_loop_delay_from_entry)
 
     global macro_details_text
     macro_details_text = macro_panel_refs["macro_details_text"]
 
     build_secondary_tabs(
         tab_control=tab_control,
+        setup_audio_samples_interface=setup_audio_samples_interface,
+        setup_learning_lab_interface=setup_learning_lab_interface,
         setup_scheduled_tasks_interface=setup_scheduled_tasks_interface,
         setup_game_elements_interface=setup_game_elements_interface,
         setup_settings_tab=setup_settings_tab,
     )
 
-    console_text = build_log_console(
+    console_section = CollapsibleSection(
         main_frame,
+        title="Console Log",
+        expanded=panel_state.get("console", True),
+    )
+    console_section.pack(fill="both", expand=False, pady=(0, 10))
+    console_section.toggle_button.config(command=lambda: toggle_collapsible_section("console", console_section))
+
+    console_text = build_log_console(
+        console_section.body,
         font_family=font_family,
         font_size_small=config["theme"]["font_size_small"],
         border_color=border_color,
@@ -3398,6 +4598,12 @@ def setup_gui():
     # Setup console logging
     setup_console_logging()
     process_log_queue()  # Start processing log queue
+    debug_config = get_debug_config()
+    if debug_config.get("save_playback_logs"):
+        console_log(
+            f"🧪 Debug playback attivo. Log file: {Path(__file__).resolve().parent / 'logs' / 'playback_focus_debug.log'}",
+            level="INFO",
+        )
     
     initialize_runtime_components()
     log_startup_messages()

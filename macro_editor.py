@@ -13,7 +13,6 @@ from repositories.macro_repository import (
     get_macro_metadata_by_name,
     load_macro_events,
     salva_macro_test,
-    update_macro_events_only,
     update_macro_full,
 )
 from core.config_store import (
@@ -26,6 +25,7 @@ from core.config_store import (
 )
 from services.macro_optimization_service import (
     build_optimized_macro_name,
+    compute_macro_duration_seconds,
     compute_macro_event_stats,
     optimize_macro_events,
 )
@@ -50,6 +50,7 @@ class MacroEditorApp:
         self.event_filter_vars = {}
         self.event_filter_button = None
         self.event_filter_menu = None
+        self.optimize_keyboard_var = tk.BooleanVar(value=False)
         self._event_filter_options = {
             "mouse": "Mouse",
             "keyboard": "Keyboard",
@@ -252,8 +253,11 @@ class MacroEditorApp:
         ttk.Button(event_buttons_frame, text="Sposta Su", command=self.move_event_up).pack(side="left", padx=2)
         ttk.Button(event_buttons_frame, text="Sposta Giù", command=self.move_event_down).pack(side="left", padx=2)
         ttk.Button(event_buttons_frame, text="Ottimizza", command=self.optimize_current_macro).pack(side="left", padx=2)
-        ttk.Button(event_buttons_frame, text="Re-registra Eventi", command=self.rerecord_events_dialog).pack(side="right", padx=2)
-
+        ttk.Checkbutton(
+            event_buttons_frame,
+            text="Ottimizza tastiera",
+            variable=self.optimize_keyboard_var,
+        ).pack(side="left", padx=(10, 2))
         # --- COLONNA DESTRA (STRETTA) ---
         right_column = ttk.Frame(self.main_frame)
         right_column.grid(row=0, column=2, sticky="nsew", padx=(2, 0))  # Spostato a column=2 per fare spazio al separatore
@@ -987,16 +991,6 @@ class MacroEditorApp:
                 self.events_tree.selection_set(last_child)
                 self.events_tree.focus(last_child)
 
-    def rerecord_events_dialog(self):
-        # Placeholder for re-record functionality. This would open a new dialog
-        # and integrate with macro_recorder_fullscreen.
-        messagebox.showinfo("Re-registra Eventi", "Questa funzione ti permetterà di re-registrare una sequenza di eventi per la macro selezionata. (Non ancora implementata)")
-        # Da implementare:
-        # 1. Chiedere durata e forse nome eseguibile
-        # 2. Avviare la registrazione con macro_recorder_fullscreen.registra_eventi
-        # 3. Al termine, sostituire self.current_events con i nuovi eventi
-        # 4. Aggiornare self.duration_entry e self.populate_events_tree()
-
     def update_diff_display(self):
         # Questa funzione dovrebbe confrontare self.current_events con self.original_events
         # e i metadati correnti con quelli caricati.
@@ -1119,9 +1113,17 @@ class MacroEditorApp:
             messagebox.showwarning("Ottimizza Macro", "La macro non contiene eventi da ottimizzare.", parent=self.root)
             return
 
-        optimized_events, optimization_report = optimize_macro_events(self.current_events)
+        optimize_keyboard_input = self.optimize_keyboard_var.get()
+        optimized_events, optimization_report = optimize_macro_events(
+            self.current_events,
+            optimize_keyboard_input=optimize_keyboard_input,
+        )
         removed_events = optimization_report["total_removed"]
-        if removed_events <= 0:
+        recovered_time_ms = (
+            optimization_report["removed_move_time_ms"]
+            + optimization_report["removed_keyboard_time_ms"]
+        )
+        if removed_events <= 0 and recovered_time_ms <= 0:
             messagebox.showinfo(
                 "Ottimizza Macro",
                 "Non ci sono ottimizzazioni automatiche applicabili alla macro corrente.",
@@ -1137,10 +1139,11 @@ class MacroEditorApp:
             suffix += 1
 
         try:
+            optimized_duration_sec = compute_macro_duration_seconds(optimized_events)
             macro_id = salva_macro_test(
                 candidate_name,
                 self.desc_entry.get(),
-                int(self.duration_entry.get()),
+                optimized_duration_sec,
                 self.exe_entry.get(),
                 optimized_events,
             )
@@ -1151,7 +1154,11 @@ class MacroEditorApp:
                 f"Creata e caricata la nuova macro '{candidate_name}'.\n"
                 f"Eventi rimossi: {removed_events}.\n"
                 f"Move compressi: {optimization_report['compressed_move_count']}.\n"
-                f"Move ridondanti prima del click: {optimization_report['removed_pre_click_moves']}.",
+                f"Tempo recuperato sui move: {optimization_report['removed_move_time_ms']} ms.\n"
+                f"Tempo recuperato sulla tastiera: {optimization_report['removed_keyboard_time_ms']} ms.\n"
+                f"Eventi tastiera accelerati: {optimization_report['accelerated_keyboard_events']}.\n"
+                f"Move ridondanti prima del click: {optimization_report['removed_pre_click_moves']}.\n"
+                f"Durata aggiornata: {optimized_duration_sec} s.",
                 parent=self.root,
             )
         except ValueError as exc:

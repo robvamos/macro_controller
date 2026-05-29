@@ -13,6 +13,12 @@ class PlaybackService:
         self.state = state
         self.state_service = state_service
 
+    def _finish_playback(self, stop_focus_monitoring: Callable[[], None]) -> None:
+        """Ripulisce sempre lo stato operativo a fine playback."""
+        self.state_service.reset_playback()
+        if not self.state.recording_flag:
+            stop_focus_monitoring()
+
     def start_playback(self, *, loop_enabled: bool) -> bool:
         """Prenota lo stato di playback se nessuna riproduzione e' attiva."""
         if self.state.playing_flag:
@@ -50,9 +56,7 @@ class PlaybackService:
         )
 
         if not window_found:
-            self.state_service.reset_playback()
-            if not self.state.recording_flag:
-                stop_focus_monitoring()
+            self._finish_playback(stop_focus_monitoring)
 
             if is_playback_stop_requested():
                 on_target_wait_cancelled()
@@ -63,17 +67,17 @@ class PlaybackService:
 
         self.state_service.set_target_exe(target_exe)
         start_focus_monitoring()
-        on_before_playback()
-        play_macro_events(
-            macro_events,
-            target_exe,
-            log_callback=gui_log,
-            loop_enabled=loop_enabled,
-            loop_delay=loop_delay,
-            max_repetitions=max_repetitions,
-            event_callback=event_callback,
-        )
-        self.state_service.reset_playback()
-        if not self.state.recording_flag:
-            stop_focus_monitoring()
-        on_playback_finished()
+        try:
+            on_before_playback()
+            play_macro_events(
+                macro_events,
+                target_exe,
+                log_callback=gui_log,
+                loop_enabled=loop_enabled,
+                loop_delay=loop_delay,
+                max_repetitions=max_repetitions,
+                event_callback=event_callback,
+            )
+        finally:
+            self._finish_playback(stop_focus_monitoring)
+            on_playback_finished()

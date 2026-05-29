@@ -18,7 +18,8 @@ from macro_controller import (
     play_macro_events,
     get_game_window_rect,
     get_foreground_process_name,
-    _attempt_bring_window_to_front
+    _attempt_bring_window_to_front,
+    request_playback_stop,
 )
 
 
@@ -36,11 +37,63 @@ currently_executing_task_name = None
 _execution_slot_lock = threading.Lock()
 _execution_slot_reserved = False
 _execution_slot_owner = None
+_worker_threads_lock = threading.Lock()
+_worker_threads = set()
 
 
 def _wait_for_scheduler_stop(timeout_seconds):
     """Attende lo stop dello scheduler oppure il timeout specificato."""
     return _scheduler_stop_event.wait(timeout_seconds)
+
+
+def _wait_or_cancel(timeout_seconds):
+    """Attende in modo interrompibile, restituendo True se e' stato richiesto lo stop."""
+    if timeout_seconds <= 0:
+        return _scheduler_stop_event.is_set()
+
+    deadline = time.monotonic() + timeout_seconds
+    while not _scheduler_stop_event.is_set():
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return False
+        if _scheduler_stop_event.wait(min(0.1, remaining)):
+            return True
+    return True
+
+
+def _register_worker_thread(thread):
+    with _worker_threads_lock:
+        _worker_threads.add(thread)
+
+
+def _unregister_worker_thread(thread):
+    with _worker_threads_lock:
+        _worker_threads.discard(thread)
+
+
+def _start_worker_thread(*, target, name):
+    def runner():
+        try:
+            target()
+        finally:
+            _unregister_worker_thread(threading.current_thread())
+
+    thread = threading.Thread(target=runner, daemon=True, name=name)
+    _register_worker_thread(thread)
+    thread.start()
+    return thread
+
+
+def _join_worker_threads(log_callback=None, timeout_seconds=2.0):
+    with _worker_threads_lock:
+        worker_threads = list(_worker_threads)
+
+    for thread in worker_threads:
+        if thread == threading.current_thread() or not thread.is_alive():
+            continue
+        thread.join(timeout=timeout_seconds)
+        if thread.is_alive() and log_callback:
+            log_callback(f"⚠️ Worker thread ancora attivo dopo il timeout di shutdown: {thread.name}")
 
 
 def _reserve_execution_slot(owner_id):
@@ -162,9 +215,11 @@ def stop_scheduler(log_callback=None):
     
     scheduler_active = False
     _scheduler_stop_event.set()
+    request_playback_stop(log_callback)
     if scheduler_thread and scheduler_thread.is_alive():
         scheduler_thread.join(timeout=5.0)
-    
+
+    _join_worker_threads(log_callback=log_callback)
     scheduler_thread = None
     
     if log_callback:
@@ -260,7 +315,11 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
                     if idx > 0 and attesa_secondi > 0:
                         if log_callback:
                             log_callback(f"⏳ Attesa di {attesa_secondi} secondi prima della prossima macro...")
-                        time.sleep(attesa_secondi)
+                        if _wait_or_cancel(attesa_secondi):
+                            task_stopped = True
+                            if log_callback:
+                                log_callback(f"🛑 Task '{task_name}' interrotto durante l'attesa tra macro")
+                            break
                     
                     # Carica i metadati della macro
                     macro_metadata = get_macro_metadata_by_id(macro_id)
@@ -309,6 +368,11 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
                     
                     # Esegui la macro
                     play_macro_events(macro_events, target_exe, log_callback=log_callback, loop_enabled=False, loop_delay=0)
+                    if _scheduler_stop_event.is_set():
+                        task_stopped = True
+                        if log_callback:
+                            log_callback(f"🛑 Task '{task_name}' interrotto durante lo shutdown")
+                        break
                 
                 # Dopo aver eseguito tutte le macro nella sequenza (solo se il task non è stato fermato)
                 if not task_stopped:
@@ -342,8 +406,7 @@ def execute_scheduled_task(task, log_callback=None, execution_slot_reserved=Fals
                     _release_execution_slot(task_id)
         
         # Esegui in un thread separato per non bloccare il scheduler
-        execution_thread = threading.Thread(target=execute_sequence, daemon=True, name=f"scheduled-task-{task_id}")
-        execution_thread.start()
+        _start_worker_thread(target=execute_sequence, name=f"scheduled-task-{task_id}")
         
     except Exception as e:
         if execution_slot_reserved:
@@ -430,7 +493,11 @@ def test_execute_scheduled_task(task, log_callback=None):
                     if idx > 0 and attesa_secondi > 0:
                         if log_callback:
                             log_callback(f"⏳ Attesa di {attesa_secondi} secondi prima della prossima macro...")
-                        time.sleep(attesa_secondi)
+                        if _wait_or_cancel(attesa_secondi):
+                            task_stopped = True
+                            if log_callback:
+                                log_callback(f"🛑 Test task '{task_name}' interrotto durante l'attesa tra macro")
+                            break
                     
                     # Carica i metadati della macro
                     macro_metadata = get_macro_metadata_by_id(macro_id)
@@ -478,6 +545,11 @@ def test_execute_scheduled_task(task, log_callback=None):
                     
                     # Esegui la macro
                     play_macro_events(macro_events, target_exe, log_callback=log_callback, loop_enabled=False, loop_delay=0)
+                    if _scheduler_stop_event.is_set():
+                        task_stopped = True
+                        if log_callback:
+                            log_callback(f"🛑 Test task '{task_name}' interrotto durante lo shutdown")
+                        break
                 
                 # Dopo aver eseguito tutte le macro nella sequenza (solo se il task non è stato fermato)
                 if not task_stopped:
@@ -499,8 +571,7 @@ def test_execute_scheduled_task(task, log_callback=None):
                 _release_execution_slot(f"test-{task_id}")
         
         # Esegui in un thread separato per non bloccare la GUI
-        execution_thread = threading.Thread(target=execute_sequence, daemon=True, name=f"scheduled-task-test-{task_id}")
-        execution_thread.start()
+        _start_worker_thread(target=execute_sequence, name=f"scheduled-task-test-{task_id}")
         
     except Exception as e:
         _release_execution_slot(f"test-{task['id']}")

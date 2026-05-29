@@ -6,8 +6,17 @@ Contiene impostazioni per migliorare la riproduzione e la gestione degli eventi.
 
 import json
 import os
+import logging
 
 from core.paths import CONFIG_DIR
+
+LOG_LEVEL_NAME_TO_VALUE = {
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "CRITICAL": logging.CRITICAL,
+}
 
 # Configurazione predefinita
 DEFAULT_CONFIG = {
@@ -18,7 +27,14 @@ DEFAULT_CONFIG = {
         "keyboard_event_validation": True,
         "max_playback_duration": 300,  # Massimo 5 minuti per macro
         "retry_on_focus_loss": True,
-        "max_retry_attempts": 3
+        "max_retry_attempts": 3,
+        "visual_click_guard": {
+            "enabled": True,
+            "radius_px": 48,
+            "resize_px": 32,
+            "min_similarity": 0.8,
+            "stop_on_mismatch": True
+        }
     },
     "recording": {
         "min_event_interval": 0.01,  # Minimo 10ms tra eventi
@@ -239,6 +255,28 @@ def get_log_level():
     """Restituisce il livello di log configurato."""
     return macro_config.get('debug.log_level', 'INFO')
 
+
+def normalize_log_level(level, default="INFO"):
+    """Normalizza il livello di log in una stringa supportata."""
+    if isinstance(level, int):
+        return logging.getLevelName(level) if level in LOG_LEVEL_NAME_TO_VALUE.values() else default
+    if isinstance(level, str):
+        normalized = level.strip().upper()
+        if normalized in LOG_LEVEL_NAME_TO_VALUE:
+            return normalized
+    return default
+
+
+def get_log_level_value(level=None):
+    """Restituisce il valore numerico del livello richiesto o configurato."""
+    level_name = normalize_log_level(level or get_log_level())
+    return LOG_LEVEL_NAME_TO_VALUE.get(level_name, logging.INFO)
+
+
+def should_emit_log_level(level):
+    """Indica se un messaggio deve essere emesso secondo la soglia configurata."""
+    return get_log_level_value(level) >= get_log_level_value()
+
 def should_validate_events():
     """Verifica se gli eventi devono essere validati prima della riproduzione."""
     return macro_config.get('debug.validate_events_before_playback', True)
@@ -246,6 +284,11 @@ def should_validate_events():
 def get_focus_check_interval():
     """Restituisce l'intervallo di controllo del focus."""
     return macro_config.get('playback.focus_check_interval', 0.05)
+
+
+def get_visual_click_guard_config():
+    """Restituisce la configurazione del controllo visivo sui click."""
+    return macro_config.get('playback.visual_click_guard', DEFAULT_CONFIG["playback"]["visual_click_guard"])
 
 def get_focus_wait_timeout():
     """Restituisce il timeout per l'attesa del focus."""

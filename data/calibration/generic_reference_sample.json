@@ -1,0 +1,65 @@
+{
+  "preset": "generic_reference",
+  "description": "Generic prebuilt sample for latency, preprocessing, and BPM tracking tests.",
+  "sample_rate": 44100,
+  "total_duration_sec": 180,
+  "segments": [
+    {
+      "label": "tempo_90",
+      "kind": "tempo",
+      "start_sec": 0.0,
+      "end_sec": 50.0,
+      "duration_sec": 50,
+      "bpm": 90,
+      "expected_detection": true
+    },
+    {
+      "label": "pause_noise_10",
+      "kind": "pause",
+      "start_sec": 50.0,
+      "end_sec": 60.0,
+      "duration_sec": 10,
+      "bpm": null,
+      "expected_detection": false
+    },
+    {
+      "label": "tempo_100",
+      "kind": "tempo",
+      "start_sec": 60.0,
+      "end_sec": 110.0,
+      "duration_sec": 50,
+      "bpm": 100,
+      "expected_detection": true
+    },
+    {
+      "label": "pause_noise_20",
+      "kind": "pause",
+      "start_sec": 110.0,
+      "end_sec": 130.0,
+      "duration_sec": 20,
+      "bpm": null,
+      "expected_detection": false
+    },
+    {
+      "label": "tempo_105",
+      "kind": "tempo",
+      "start_sec": 130.0,
+      "end_sec": 180.0,
+      "duration_sec": 50,
+      "bpm": 105,
+      "expected_detection": true
+    }
+  ],
+  "notes": {
+    "purpose": "Generic prebuilt sample for live preprocessing checks and known-pattern testing.",
+    "tempo_segments_bpm": [
+      90,
+      100,
+      105
+    ],
+    "pause_segments_sec": [
+      10,
+      20
+    ]
+  }
+}

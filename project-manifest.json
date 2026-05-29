@@ -1,16 +1,18 @@
 {
   "name": "DDGameAss",
   "slug": "ddgameass",
-  "path": "F:/_CODEX/AI-WORKSPACE/DDGameAss",
+  "path": "F:/_CODEX/DDassistant",
   "status": "active",
   "version": "0.3.0",
   "summary": "Doomsday game assistant with macro automation, OCR, roster bootstrap, and visual automation primitives.",
   "description": "Windows desktop Doomsday game assistant with modular macro playback, scheduled execution, reusable OCR, roster bootstrap, and vision helpers.",
-  "local_agents": "F:/_CODEX/AI-WORKSPACE/DDGameAss/AGENTS.md",
+  "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
   "project_card": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/projects/ddgameass.yaml",
   "hub_root": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub",
   "capabilities": [
     "macro-automation-runtime",
+    "macro-visual-click-guard",
+    "doomsday-visual-recovery-primitives",
     "scheduled-macro-orchestration",
     "doomsday-roster-bootstrap",
     "doomsday-ocr-roster-extraction",
@@ -55,5 +57,5 @@
     "Moved into AI-WORKSPACE from F:/Zombi/macro_controller.",
     "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects."
   ],
-  "last_updated": "2026-05-26T01:00:02.736986+00:00"
+  "last_updated": "2026-05-29T13:35:00+02:00"
 }

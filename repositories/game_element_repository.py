@@ -87,6 +87,27 @@ def get_game_element_by_id(element_id):
         conn.close()
 
 
+def get_game_element_by_name(nome):
+    """Ottiene un elemento grafico specifico per nome."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """
+            SELECT id, nome, descrizione, immagine, formato_immagine, data_creazione, data_ultima_modifica
+            FROM GameElements
+            WHERE nome = ?
+            """,
+            (nome,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+        return _game_element_row_to_dict(row, include_image=True)
+    finally:
+        conn.close()
+
+
 def update_game_element(element_id, nome=None, descrizione=None, immagine_blob=None, formato_immagine=None):
     """Aggiorna un elemento grafico esistente."""
     conn = connect_db()
@@ -154,5 +175,6 @@ __all__ = [
     "delete_game_element",
     "get_all_game_elements",
     "get_game_element_by_id",
+    "get_game_element_by_name",
     "update_game_element",
 ]

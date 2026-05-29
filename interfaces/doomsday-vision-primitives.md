@@ -6,14 +6,16 @@ Provide reusable external-automation primitives for Doomsday window capture and 
 
 ## Entry points
 
-- [doomsday/vision/window_capture.py](/F:/_CODEX/AI-WORKSPACE/DDGameAss/doomsday/vision/window_capture.py)
-- [doomsday/vision/template_matcher.py](/F:/_CODEX/AI-WORKSPACE/DDGameAss/doomsday/vision/template_matcher.py)
+- [doomsday/vision/window_capture.py](/F:/_CODEX/DDassistant/doomsday/vision/window_capture.py)
+- [doomsday/vision/template_matcher.py](/F:/_CODEX/DDassistant/doomsday/vision/template_matcher.py)
 
 ## Capabilities
 
 - capture the game window as an image
+- capture and compare local click-context snapshots during macro playback
 - load legacy JSON-described templates
 - find the best on-screen match above a threshold
+- load graphic elements from the internal catalog and search them across the full game window with scale tolerance for recovery flows
 
 ## Notes
 

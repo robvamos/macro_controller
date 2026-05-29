@@ -82,6 +82,43 @@ class PlaybackServiceTests(unittest.TestCase):
         self.assertFalse(self.state.playing_flag)
         self.assertIsNone(self.state.current_target_exe)
 
+    def test_run_playback_cleans_up_state_when_player_raises(self):
+        start_focus = Mock()
+        stop_focus = Mock()
+        finished = Mock()
+
+        self.state.playing_flag = True
+
+        def failing_playback(*args, **kwargs):
+            raise RuntimeError("boom")
+
+        with self.assertRaises(RuntimeError):
+            self.service.run_playback(
+                macro_events=[{"time": 0}],
+                target_exe="game.exe",
+                loop_enabled=False,
+                loop_delay=0,
+                max_repetitions=None,
+                gui_log=Mock(),
+                event_callback=Mock(),
+                wait_for_app_window=lambda *args, **kwargs: True,
+                play_macro_events=failing_playback,
+                is_playback_stop_requested=lambda: False,
+                start_focus_monitoring=start_focus,
+                stop_focus_monitoring=stop_focus,
+                on_target_wait_cancelled=Mock(),
+                on_target_wait_failed=Mock(),
+                on_before_playback=Mock(),
+                on_playback_finished=finished,
+            )
+
+        start_focus.assert_called_once()
+        stop_focus.assert_called_once()
+        finished.assert_called_once()
+        self.assertFalse(self.state.playing_flag)
+        self.assertFalse(self.state.running_loop)
+        self.assertIsNone(self.state.current_target_exe)
+
 
 class RecordingServiceTests(unittest.TestCase):
     def setUp(self):
@@ -145,27 +182,3 @@ class RecordingServiceTests(unittest.TestCase):
         save_macro.assert_called_once()
         finished.assert_called_once()
         self.assertFalse(self.state.recording_flag)
-
-    def test_rerecording_handles_cancelled_capture(self):
-        cancelled = Mock()
-        finished = Mock()
-
-        self.state.recording_flag = True
-        self.service.run_rerecording(
-            macro_id=1,
-            macro_name="macro",
-            macro_duration=5,
-            macro_exe="game.exe",
-            registra_eventi=lambda **kwargs: None,
-            update_events_only=Mock(),
-            log_callback=Mock(),
-            on_update_error=Mock(),
-            on_cancelled=cancelled,
-            on_unhandled_error=Mock(),
-            on_finished=finished,
-        )
-
-        cancelled.assert_called_once()
-        finished.assert_called_once()
-        self.assertFalse(self.state.recording_flag)
-

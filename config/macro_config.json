@@ -6,7 +6,14 @@
     "keyboard_event_validation": true,
     "max_playback_duration": 300,
     "retry_on_focus_loss": true,
-    "max_retry_attempts": 3
+    "max_retry_attempts": 3,
+    "visual_click_guard": {
+      "enabled": true,
+      "radius_px": 48,
+      "resize_px": 32,
+      "min_similarity": 0.8,
+      "stop_on_mismatch": true
+    }
   },
   "recording": {
     "min_event_interval": 0.01,
@@ -32,8 +39,8 @@
   },
   "debug": {
     "enable_logging": true,
-    "log_level": "INFO",
-    "save_playback_logs": false,
+    "log_level": "DEBUG",
+    "save_playback_logs": true,
     "validate_events_before_playback": true
   }
 }
