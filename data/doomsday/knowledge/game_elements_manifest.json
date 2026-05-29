@@ -1,0 +1,3457 @@
+{
+  "game_elements": [
+    {
+      "created_at": "2026-05-29 11:17:48",
+      "description": "Simbolo grafico di chiusura popup per recovery macro: se trovato sulla finestra di gioco, va cliccato per tentare l’uscita dal popup e riprendere il loop.",
+      "format": "PNG",
+      "id": 1,
+      "image_path": "game_elements/0001_popup_exit_close_symbol.png",
+      "image_size": {
+        "height": 112,
+        "width": 112
+      },
+      "memory_note": "",
+      "metadata_blocks": {},
+      "name": "popup_exit_close_symbol",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 11:17:48"
+    },
+    {
+      "created_at": "2026-05-29 14:05:07",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: boot_overlay_layer\nMacro sorgente: Sistema - Boot click elements - Locale MUSICSTATION\\robva - 20260529_160450",
+      "format": "PNG",
+      "id": 2,
+      "image_path": "game_elements/0002_boot_blocking_popup_close_button.png",
+      "image_size": {
+        "height": 68,
+        "width": 69
+      },
+      "memory_note": "Questo elemento identifica spesso il controllo per liberarsi dei popup bloccanti del gioco. Solitamente basta cliccarlo per chiudere il popup e proseguire verso l'interfaccia giocabile. Usarlo come candidato di recovery per boot/startup e overlay bloccanti.",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 288,
+              "left": 1612,
+              "right": 1836,
+              "top": 64
+            },
+            "click_offset_in_crop": {
+              "x": 28,
+              "y": 41
+            },
+            "click_position": {
+              "x": 1724,
+              "y": 176
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 203,
+              "left": 1696,
+              "right": 1765,
+              "top": 135
+            },
+            "event_time_ms": 16544,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Boot click elements - Locale MUSICSTATION\\robva - 20260529_160450",
+            "normalized_position": {
+              "x": 0.8979,
+              "y": 0.163
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 68,
+              "width": 69
+            },
+            "view_node_id": "boot_overlay_layer"
+          }
+        ]
+      },
+      "name": "boot_blocking_popup_close_button",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:08:40"
+    },
+    {
+      "created_at": "2026-05-29 14:14:00",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 3,
+      "image_path": "game_elements/0003_recorded_click_sistema_general_click_elements_locale_musicstati_016113ms_1732x176.png",
+      "image_size": {
+        "height": 68,
+        "width": 69
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 288,
+              "left": 1620,
+              "right": 1844,
+              "top": 64
+            },
+            "click_offset_in_crop": {
+              "x": 36,
+              "y": 41
+            },
+            "click_position": {
+              "x": 1732,
+              "y": 176
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 203,
+              "left": 1696,
+              "right": 1765,
+              "top": 135
+            },
+            "event_time_ms": 16113,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.9021,
+              "y": 0.163
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 68,
+              "width": 69
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.9021,
+              "y": 0.163
+            },
+            "screen_zone": "top_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_016113ms_1732x176",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:00"
+    },
+    {
+      "created_at": "2026-05-29 14:14:02",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 4,
+      "image_path": "game_elements/0004_recorded_click_sistema_general_click_elements_locale_musicstati_018496ms_1180x482.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 594,
+              "left": 1068,
+              "right": 1292,
+              "top": 370
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1180,
+              "y": 482
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 594,
+              "left": 1068,
+              "right": 1292,
+              "top": 370
+            },
+            "event_time_ms": 18496,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.6146,
+              "y": 0.4463
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.6146,
+              "y": 0.4463
+            },
+            "screen_zone": "middle_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_018496ms_1180x482",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:02"
+    },
+    {
+      "created_at": "2026-05-29 14:14:05",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 5,
+      "image_path": "game_elements/0005_recorded_click_sistema_general_click_elements_locale_musicstati_021446ms_165x464.png",
+      "image_size": {
+        "height": 180,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 576,
+              "left": 53,
+              "right": 277,
+              "top": 352
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 68
+            },
+            "click_position": {
+              "x": 165,
+              "y": 464
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 576,
+              "left": 53,
+              "right": 277,
+              "top": 396
+            },
+            "event_time_ms": 21446,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0859,
+              "y": 0.4296
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 180,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0859,
+              "y": 0.4296
+            },
+            "screen_zone": "middle_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_021446ms_165x464",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:05"
+    },
+    {
+      "created_at": "2026-05-29 14:14:11",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 6,
+      "image_path": "game_elements/0006_recorded_click_sistema_general_click_elements_locale_musicstati_027360ms_231x185.png",
+      "image_size": {
+        "height": 96,
+        "width": 96
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 297,
+              "left": 119,
+              "right": 343,
+              "top": 73
+            },
+            "click_offset_in_crop": {
+              "x": 48,
+              "y": 48
+            },
+            "click_position": {
+              "x": 231,
+              "y": 185
+            },
+            "contour_confidence": 0.0,
+            "crop_bounds": {
+              "bottom": 233,
+              "left": 183,
+              "right": 279,
+              "top": 137
+            },
+            "event_time_ms": 27360,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.1203,
+              "y": 0.1713
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.1203,
+              "y": 0.1713
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_027360ms_231x185",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:12"
+    },
+    {
+      "created_at": "2026-05-29 14:14:14",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 7,
+      "image_path": "game_elements/0007_recorded_click_sistema_general_click_elements_locale_musicstati_029853ms_60x56.png",
+      "image_size": {
+        "height": 155,
+        "width": 91
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 168,
+              "left": 0,
+              "right": 172,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 43,
+              "y": 43
+            },
+            "click_position": {
+              "x": 60,
+              "y": 56
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 168,
+              "left": 17,
+              "right": 108,
+              "top": 13
+            },
+            "event_time_ms": 29853,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0312,
+              "y": 0.0519
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 155,
+              "width": 91
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0312,
+              "y": 0.0519
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_029853ms_60x56",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:14"
+    },
+    {
+      "created_at": "2026-05-29 14:14:18",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 8,
+      "image_path": "game_elements/0008_recorded_click_sistema_general_click_elements_locale_musicstati_034278ms_1419x697.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 809,
+              "left": 1307,
+              "right": 1531,
+              "top": 585
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1419,
+              "y": 697
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 809,
+              "left": 1307,
+              "right": 1531,
+              "top": 585
+            },
+            "event_time_ms": 34278,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7391,
+              "y": 0.6454
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7391,
+              "y": 0.6454
+            },
+            "screen_zone": "middle_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_034278ms_1419x697",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:18"
+    },
+    {
+      "created_at": "2026-05-29 14:14:21",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 9,
+      "image_path": "game_elements/0009_recorded_click_sistema_general_click_elements_locale_musicstati_037025ms_1082x791.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 903,
+              "left": 970,
+              "right": 1194,
+              "top": 679
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1082,
+              "y": 791
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 903,
+              "left": 970,
+              "right": 1194,
+              "top": 679
+            },
+            "event_time_ms": 37025,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5635,
+              "y": 0.7324
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5635,
+              "y": 0.7324
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_037025ms_1082x791",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:21"
+    },
+    {
+      "created_at": "2026-05-29 14:14:23",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 10,
+      "image_path": "game_elements/0010_recorded_click_sistema_general_click_elements_locale_musicstati_039715ms_962x950.png",
+      "image_size": {
+        "height": 66,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1062,
+              "left": 850,
+              "right": 1074,
+              "top": 838
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 50
+            },
+            "click_position": {
+              "x": 962,
+              "y": 950
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 850,
+              "right": 1074,
+              "top": 900
+            },
+            "event_time_ms": 39715,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.501,
+              "y": 0.8796
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 66,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.501,
+              "y": 0.8796
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_039715ms_962x950",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:24"
+    },
+    {
+      "created_at": "2026-05-29 14:14:31",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 11,
+      "image_path": "game_elements/0011_recorded_click_sistema_general_click_elements_locale_musicstati_047397ms_90x81.png",
+      "image_size": {
+        "height": 90,
+        "width": 91
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 193,
+              "left": 0,
+              "right": 202,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 73,
+              "y": 68
+            },
+            "click_position": {
+              "x": 90,
+              "y": 81
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 103,
+              "left": 17,
+              "right": 108,
+              "top": 13
+            },
+            "event_time_ms": 47397,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0469,
+              "y": 0.075
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 91
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0469,
+              "y": 0.075
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_047397ms_90x81",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:32"
+    },
+    {
+      "created_at": "2026-05-29 14:14:33",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 12,
+      "image_path": "game_elements/0012_recorded_click_sistema_general_click_elements_locale_musicstati_049043ms_80x70.png",
+      "image_size": {
+        "height": 90,
+        "width": 91
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 182,
+              "left": 0,
+              "right": 192,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 63,
+              "y": 57
+            },
+            "click_position": {
+              "x": 80,
+              "y": 70
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 103,
+              "left": 17,
+              "right": 108,
+              "top": 13
+            },
+            "event_time_ms": 49043,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0417,
+              "y": 0.0648
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 91
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0417,
+              "y": 0.0648
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_049043ms_80x70",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:33"
+    },
+    {
+      "created_at": "2026-05-29 14:14:35",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 13,
+      "image_path": "game_elements/0013_recorded_click_sistema_general_click_elements_locale_musicstati_050980ms_561x579.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 691,
+              "left": 449,
+              "right": 673,
+              "top": 467
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 561,
+              "y": 579
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 691,
+              "left": 449,
+              "right": 673,
+              "top": 467
+            },
+            "event_time_ms": 50980,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.2922,
+              "y": 0.5361
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.2922,
+              "y": 0.5361
+            },
+            "screen_zone": "middle_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_050980ms_561x579",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:35"
+    },
+    {
+      "created_at": "2026-05-29 14:14:37",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 14,
+      "image_path": "game_elements/0014_recorded_click_sistema_general_click_elements_locale_musicstati_053033ms_784x759.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 871,
+              "left": 672,
+              "right": 896,
+              "top": 647
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 784,
+              "y": 759
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 871,
+              "left": 672,
+              "right": 896,
+              "top": 647
+            },
+            "event_time_ms": 53033,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.4083,
+              "y": 0.7028
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.4083,
+              "y": 0.7028
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_053033ms_784x759",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:37"
+    },
+    {
+      "created_at": "2026-05-29 14:14:42",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 15,
+      "image_path": "game_elements/0015_recorded_click_sistema_general_click_elements_locale_musicstati_058657ms_1441x506.png",
+      "image_size": {
+        "height": 45,
+        "width": 136
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 618,
+              "left": 1329,
+              "right": 1553,
+              "top": 394
+            },
+            "click_offset_in_crop": {
+              "x": 24,
+              "y": 31
+            },
+            "click_position": {
+              "x": 1441,
+              "y": 506
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 520,
+              "left": 1417,
+              "right": 1553,
+              "top": 475
+            },
+            "event_time_ms": 58657,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7505,
+              "y": 0.4685
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 45,
+              "width": 136
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7505,
+              "y": 0.4685
+            },
+            "screen_zone": "middle_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_058657ms_1441x506",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:43"
+    },
+    {
+      "created_at": "2026-05-29 14:14:47",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 16,
+      "image_path": "game_elements/0016_recorded_click_sistema_general_click_elements_locale_musicstati_062763ms_299x227.png",
+      "image_size": {
+        "height": 27,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 339,
+              "left": 187,
+              "right": 411,
+              "top": 115
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 27
+            },
+            "click_position": {
+              "x": 299,
+              "y": 227
+            },
+            "contour_confidence": 0.55,
+            "crop_bounds": {
+              "bottom": 164,
+              "left": 187,
+              "right": 411,
+              "top": 137
+            },
+            "event_time_ms": 62763,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.1557,
+              "y": 0.2102
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 27,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.1557,
+              "y": 0.2102
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_062763ms_299x227",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:47"
+    },
+    {
+      "created_at": "2026-05-29 14:14:49",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 17,
+      "image_path": "game_elements/0017_recorded_click_sistema_general_click_elements_locale_musicstati_065212ms_1430x894.png",
+      "image_size": {
+        "height": 52,
+        "width": 162
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1006,
+              "left": 1318,
+              "right": 1542,
+              "top": 782
+            },
+            "click_offset_in_crop": {
+              "x": 100,
+              "y": 32
+            },
+            "click_position": {
+              "x": 1430,
+              "y": 894
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 914,
+              "left": 1330,
+              "right": 1492,
+              "top": 862
+            },
+            "event_time_ms": 65212,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 162
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "screen_zone": "bottom_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_065212ms_1430x894",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:49"
+    },
+    {
+      "created_at": "2026-05-29 14:14:50",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 18,
+      "image_path": "game_elements/0018_recorded_click_sistema_general_click_elements_locale_musicstati_066254ms_1430x894.png",
+      "image_size": {
+        "height": 52,
+        "width": 162
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1006,
+              "left": 1318,
+              "right": 1542,
+              "top": 782
+            },
+            "click_offset_in_crop": {
+              "x": 100,
+              "y": 32
+            },
+            "click_position": {
+              "x": 1430,
+              "y": 894
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 914,
+              "left": 1330,
+              "right": 1492,
+              "top": 862
+            },
+            "event_time_ms": 66254,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 162
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "screen_zone": "bottom_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_066254ms_1430x894",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:50"
+    },
+    {
+      "created_at": "2026-05-29 14:14:51",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 19,
+      "image_path": "game_elements/0019_recorded_click_sistema_general_click_elements_locale_musicstati_066947ms_1430x894.png",
+      "image_size": {
+        "height": 52,
+        "width": 162
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1006,
+              "left": 1318,
+              "right": 1542,
+              "top": 782
+            },
+            "click_offset_in_crop": {
+              "x": 100,
+              "y": 32
+            },
+            "click_position": {
+              "x": 1430,
+              "y": 894
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 914,
+              "left": 1330,
+              "right": 1492,
+              "top": 862
+            },
+            "event_time_ms": 66947,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 162
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "screen_zone": "bottom_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_066947ms_1430x894",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:51"
+    },
+    {
+      "created_at": "2026-05-29 14:14:52",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 20,
+      "image_path": "game_elements/0020_recorded_click_sistema_general_click_elements_locale_musicstati_068267ms_1430x894.png",
+      "image_size": {
+        "height": 52,
+        "width": 162
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1006,
+              "left": 1318,
+              "right": 1542,
+              "top": 782
+            },
+            "click_offset_in_crop": {
+              "x": 100,
+              "y": 32
+            },
+            "click_position": {
+              "x": 1430,
+              "y": 894
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 914,
+              "left": 1330,
+              "right": 1492,
+              "top": 862
+            },
+            "event_time_ms": 68267,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 162
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7448,
+              "y": 0.8278
+            },
+            "screen_zone": "bottom_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_068267ms_1430x894",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:52"
+    },
+    {
+      "created_at": "2026-05-29 14:14:54",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 21,
+      "image_path": "game_elements/0021_recorded_click_sistema_general_click_elements_locale_musicstati_070008ms_1586x128.png",
+      "image_size": {
+        "height": 155,
+        "width": 197
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 240,
+              "left": 1474,
+              "right": 1698,
+              "top": 16
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 43
+            },
+            "click_position": {
+              "x": 1586,
+              "y": 128
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 240,
+              "left": 1474,
+              "right": 1671,
+              "top": 85
+            },
+            "event_time_ms": 70008,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.826,
+              "y": 0.1185
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 155,
+              "width": 197
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.826,
+              "y": 0.1185
+            },
+            "screen_zone": "top_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_070008ms_1586x128",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:54"
+    },
+    {
+      "created_at": "2026-05-29 14:14:56",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 22,
+      "image_path": "game_elements/0022_recorded_click_sistema_general_click_elements_locale_musicstati_072713ms_58x53.png",
+      "image_size": {
+        "height": 92,
+        "width": 91
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 165,
+              "left": 0,
+              "right": 170,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 41,
+              "y": 42
+            },
+            "click_position": {
+              "x": 58,
+              "y": 53
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 103,
+              "left": 17,
+              "right": 108,
+              "top": 11
+            },
+            "event_time_ms": 72713,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0302,
+              "y": 0.0491
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 91
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0302,
+              "y": 0.0491
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_072713ms_58x53",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:57"
+    },
+    {
+      "created_at": "2026-05-29 14:14:59",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 23,
+      "image_path": "game_elements/0023_recorded_click_sistema_general_click_elements_locale_musicstati_075407ms_1085x785.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 897,
+              "left": 973,
+              "right": 1197,
+              "top": 673
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1085,
+              "y": 785
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 897,
+              "left": 973,
+              "right": 1197,
+              "top": 673
+            },
+            "event_time_ms": 75407,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5651,
+              "y": 0.7269
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5651,
+              "y": 0.7269
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_075407ms_1085x785",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:14:59"
+    },
+    {
+      "created_at": "2026-05-29 14:15:03",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 24,
+      "image_path": "game_elements/0024_recorded_click_sistema_general_click_elements_locale_musicstati_079543ms_76x54.png",
+      "image_size": {
+        "height": 159,
+        "width": 188
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 166,
+              "left": 0,
+              "right": 188,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 76,
+              "y": 47
+            },
+            "click_position": {
+              "x": 76,
+              "y": 54
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 166,
+              "left": 0,
+              "right": 188,
+              "top": 7
+            },
+            "event_time_ms": 79543,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.0396,
+              "y": 0.05
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 159,
+              "width": 188
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.0396,
+              "y": 0.05
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_079543ms_76x54",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:04"
+    },
+    {
+      "created_at": "2026-05-29 14:15:12",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 25,
+      "image_path": "game_elements/0025_recorded_click_sistema_general_click_elements_locale_musicstati_088143ms_1661x800.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 912,
+              "left": 1549,
+              "right": 1773,
+              "top": 688
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1661,
+              "y": 800
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 912,
+              "left": 1549,
+              "right": 1773,
+              "top": 688
+            },
+            "event_time_ms": 88143,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.8651,
+              "y": 0.7407
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.8651,
+              "y": 0.7407
+            },
+            "screen_zone": "bottom_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_088143ms_1661x800",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:12"
+    },
+    {
+      "created_at": "2026-05-29 14:15:17",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 26,
+      "image_path": "game_elements/0026_recorded_click_sistema_general_click_elements_locale_musicstati_093248ms_899x213.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 325,
+              "left": 787,
+              "right": 1011,
+              "top": 101
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 899,
+              "y": 213
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 325,
+              "left": 787,
+              "right": 1011,
+              "top": 101
+            },
+            "event_time_ms": 93248,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.4682,
+              "y": 0.1972
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.4682,
+              "y": 0.1972
+            },
+            "screen_zone": "top_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_093248ms_899x213",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:17"
+    },
+    {
+      "created_at": "2026-05-29 14:15:20",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 27,
+      "image_path": "game_elements/0027_recorded_click_sistema_general_click_elements_locale_musicstati_096385ms_286x325.png",
+      "image_size": {
+        "height": 29,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 437,
+              "left": 174,
+              "right": 398,
+              "top": 213
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 29
+            },
+            "click_position": {
+              "x": 286,
+              "y": 325
+            },
+            "contour_confidence": 0.55,
+            "crop_bounds": {
+              "bottom": 282,
+              "left": 174,
+              "right": 398,
+              "top": 253
+            },
+            "event_time_ms": 96385,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.149,
+              "y": 0.3009
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 29,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.149,
+              "y": 0.3009
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_096385ms_286x325",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:20"
+    },
+    {
+      "created_at": "2026-05-29 14:15:21",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 28,
+      "image_path": "game_elements/0028_recorded_click_sistema_general_click_elements_locale_musicstati_097632ms_279x183.png",
+      "image_size": {
+        "height": 28,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 295,
+              "left": 167,
+              "right": 391,
+              "top": 71
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 0
+            },
+            "click_position": {
+              "x": 279,
+              "y": 183
+            },
+            "contour_confidence": 0.55,
+            "crop_bounds": {
+              "bottom": 282,
+              "left": 167,
+              "right": 391,
+              "top": 254
+            },
+            "event_time_ms": 97632,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.1453,
+              "y": 0.1694
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 28,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.1453,
+              "y": 0.1694
+            },
+            "screen_zone": "top_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_097632ms_279x183",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:22"
+    },
+    {
+      "created_at": "2026-05-29 14:15:23",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 29,
+      "image_path": "game_elements/0029_recorded_click_sistema_general_click_elements_locale_musicstati_099557ms_1193x258.png",
+      "image_size": {
+        "height": 224,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 370,
+              "left": 1081,
+              "right": 1305,
+              "top": 146
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1193,
+              "y": 258
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 370,
+              "left": 1081,
+              "right": 1305,
+              "top": 146
+            },
+            "event_time_ms": 99557,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.6214,
+              "y": 0.2389
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.6214,
+              "y": 0.2389
+            },
+            "screen_zone": "top_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_099557ms_1193x258",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:24"
+    },
+    {
+      "created_at": "2026-05-29 14:15:25",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 30,
+      "image_path": "game_elements/0030_recorded_click_sistema_general_click_elements_locale_musicstati_101301ms_794x914.png",
+      "image_size": {
+        "height": 90,
+        "width": 189
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1026,
+              "left": 682,
+              "right": 906,
+              "top": 802
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 38
+            },
+            "click_position": {
+              "x": 794,
+              "y": 914
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 682,
+              "right": 871,
+              "top": 876
+            },
+            "event_time_ms": 101301,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.4135,
+              "y": 0.8463
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 189
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.4135,
+              "y": 0.8463
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_101301ms_794x914",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:25"
+    },
+    {
+      "created_at": "2026-05-29 14:15:26",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 31,
+      "image_path": "game_elements/0031_recorded_click_sistema_general_click_elements_locale_musicstati_102164ms_1089x923.png",
+      "image_size": {
+        "height": 90,
+        "width": 183
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1035,
+              "left": 977,
+              "right": 1201,
+              "top": 811
+            },
+            "click_offset_in_crop": {
+              "x": 71,
+              "y": 47
+            },
+            "click_position": {
+              "x": 1089,
+              "y": 923
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1018,
+              "right": 1201,
+              "top": 876
+            },
+            "event_time_ms": 102164,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5672,
+              "y": 0.8546
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 183
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5672,
+              "y": 0.8546
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_102164ms_1089x923",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:26"
+    },
+    {
+      "created_at": "2026-05-29 14:15:28",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 32,
+      "image_path": "game_elements/0032_recorded_click_sistema_general_click_elements_locale_musicstati_103903ms_1262x499.png",
+      "image_size": {
+        "height": 224,
+        "width": 195
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 611,
+              "left": 1150,
+              "right": 1374,
+              "top": 387
+            },
+            "click_offset_in_crop": {
+              "x": 83,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1262,
+              "y": 499
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 611,
+              "left": 1179,
+              "right": 1374,
+              "top": 387
+            },
+            "event_time_ms": 103903,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.6573,
+              "y": 0.462
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 195
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.6573,
+              "y": 0.462
+            },
+            "screen_zone": "middle_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_103903ms_1262x499",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:28"
+    },
+    {
+      "created_at": "2026-05-29 14:15:28",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 33,
+      "image_path": "game_elements/0033_recorded_click_sistema_general_click_elements_locale_musicstati_104726ms_741x929.png",
+      "image_size": {
+        "height": 60,
+        "width": 138
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1041,
+              "left": 629,
+              "right": 853,
+              "top": 817
+            },
+            "click_offset_in_crop": {
+              "x": 44,
+              "y": 34
+            },
+            "click_position": {
+              "x": 741,
+              "y": 929
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 955,
+              "left": 697,
+              "right": 835,
+              "top": 895
+            },
+            "event_time_ms": 104726,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.3859,
+              "y": 0.8602
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 60,
+              "width": 138
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.3859,
+              "y": 0.8602
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_104726ms_741x929",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:29"
+    },
+    {
+      "created_at": "2026-05-29 14:15:29",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 34,
+      "image_path": "game_elements/0034_recorded_click_sistema_general_click_elements_locale_musicstati_105174ms_1103x920.png",
+      "image_size": {
+        "height": 90,
+        "width": 197
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1032,
+              "left": 991,
+              "right": 1215,
+              "top": 808
+            },
+            "click_offset_in_crop": {
+              "x": 85,
+              "y": 44
+            },
+            "click_position": {
+              "x": 1103,
+              "y": 920
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1018,
+              "right": 1215,
+              "top": 876
+            },
+            "event_time_ms": 105174,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5745,
+              "y": 0.8519
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 197
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5745,
+              "y": 0.8519
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_105174ms_1103x920",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:29"
+    },
+    {
+      "created_at": "2026-05-29 14:15:30",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 35,
+      "image_path": "game_elements/0035_recorded_click_sistema_general_click_elements_locale_musicstati_106529ms_543x708.png",
+      "image_size": {
+        "height": 127,
+        "width": 103
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 820,
+              "left": 431,
+              "right": 655,
+              "top": 596
+            },
+            "click_offset_in_crop": {
+              "x": 48,
+              "y": 57
+            },
+            "click_position": {
+              "x": 543,
+              "y": 708
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 778,
+              "left": 495,
+              "right": 598,
+              "top": 651
+            },
+            "event_time_ms": 106529,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.2828,
+              "y": 0.6556
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 127,
+              "width": 103
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.2828,
+              "y": 0.6556
+            },
+            "screen_zone": "middle_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_106529ms_543x708",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:30"
+    },
+    {
+      "created_at": "2026-05-29 14:15:31",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 36,
+      "image_path": "game_elements/0036_recorded_click_sistema_general_click_elements_locale_musicstati_107262ms_638x925.png",
+      "image_size": {
+        "height": 52,
+        "width": 87
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1037,
+              "left": 526,
+              "right": 750,
+              "top": 813
+            },
+            "click_offset_in_crop": {
+              "x": 22,
+              "y": 30
+            },
+            "click_position": {
+              "x": 638,
+              "y": 925
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 947,
+              "left": 616,
+              "right": 703,
+              "top": 895
+            },
+            "event_time_ms": 107262,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.3323,
+              "y": 0.8565
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 87
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.3323,
+              "y": 0.8565
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_107262ms_638x925",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:31"
+    },
+    {
+      "created_at": "2026-05-29 14:15:32",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 37,
+      "image_path": "game_elements/0037_recorded_click_sistema_general_click_elements_locale_musicstati_107822ms_1138x921.png",
+      "image_size": {
+        "height": 90,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1033,
+              "left": 1026,
+              "right": 1250,
+              "top": 809
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 45
+            },
+            "click_position": {
+              "x": 1138,
+              "y": 921
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1026,
+              "right": 1250,
+              "top": 876
+            },
+            "event_time_ms": 107822,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5927,
+              "y": 0.8528
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5927,
+              "y": 0.8528
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_107822ms_1138x921",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:32"
+    },
+    {
+      "created_at": "2026-05-29 14:15:32",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 38,
+      "image_path": "game_elements/0038_recorded_click_sistema_general_click_elements_locale_musicstati_108766ms_403x532.png",
+      "image_size": {
+        "height": 188,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 644,
+              "left": 291,
+              "right": 515,
+              "top": 420
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 76
+            },
+            "click_position": {
+              "x": 403,
+              "y": 532
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 644,
+              "left": 291,
+              "right": 515,
+              "top": 456
+            },
+            "event_time_ms": 108766,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.2099,
+              "y": 0.4926
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 188,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.2099,
+              "y": 0.4926
+            },
+            "screen_zone": "middle_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_108766ms_403x532",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:33"
+    },
+    {
+      "created_at": "2026-05-29 14:15:33",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 39,
+      "image_path": "game_elements/0039_recorded_click_sistema_general_click_elements_locale_musicstati_109723ms_655x907.png",
+      "image_size": {
+        "height": 52,
+        "width": 87
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1019,
+              "left": 543,
+              "right": 767,
+              "top": 795
+            },
+            "click_offset_in_crop": {
+              "x": 39,
+              "y": 12
+            },
+            "click_position": {
+              "x": 655,
+              "y": 907
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 947,
+              "left": 616,
+              "right": 703,
+              "top": 895
+            },
+            "event_time_ms": 109723,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.3411,
+              "y": 0.8398
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 87
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.3411,
+              "y": 0.8398
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_109723ms_655x907",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:34"
+    },
+    {
+      "created_at": "2026-05-29 14:15:34",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 40,
+      "image_path": "game_elements/0040_recorded_click_sistema_general_click_elements_locale_musicstati_110239ms_1113x911.png",
+      "image_size": {
+        "height": 90,
+        "width": 207
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1023,
+              "left": 1001,
+              "right": 1225,
+              "top": 799
+            },
+            "click_offset_in_crop": {
+              "x": 95,
+              "y": 35
+            },
+            "click_position": {
+              "x": 1113,
+              "y": 911
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1018,
+              "right": 1225,
+              "top": 876
+            },
+            "event_time_ms": 110239,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5797,
+              "y": 0.8435
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 207
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5797,
+              "y": 0.8435
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_110239ms_1113x911",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:34"
+    },
+    {
+      "created_at": "2026-05-29 14:15:35",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 41,
+      "image_path": "game_elements/0041_recorded_click_sistema_general_click_elements_locale_musicstati_111192ms_295x581.png",
+      "image_size": {
+        "height": 224,
+        "width": 208
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 693,
+              "left": 183,
+              "right": 407,
+              "top": 469
+            },
+            "click_offset_in_crop": {
+              "x": 96,
+              "y": 112
+            },
+            "click_position": {
+              "x": 295,
+              "y": 581
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 693,
+              "left": 199,
+              "right": 407,
+              "top": 469
+            },
+            "event_time_ms": 111192,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.1536,
+              "y": 0.538
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 208
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.1536,
+              "y": 0.538
+            },
+            "screen_zone": "middle_left",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_111192ms_295x581",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:35"
+    },
+    {
+      "created_at": "2026-05-29 14:15:36",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 42,
+      "image_path": "game_elements/0042_recorded_click_sistema_general_click_elements_locale_musicstati_112010ms_644x924.png",
+      "image_size": {
+        "height": 52,
+        "width": 87
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1036,
+              "left": 532,
+              "right": 756,
+              "top": 812
+            },
+            "click_offset_in_crop": {
+              "x": 28,
+              "y": 29
+            },
+            "click_position": {
+              "x": 644,
+              "y": 924
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 947,
+              "left": 616,
+              "right": 703,
+              "top": 895
+            },
+            "event_time_ms": 112010,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.3354,
+              "y": 0.8556
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 87
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.3354,
+              "y": 0.8556
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_112010ms_644x924",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:36"
+    },
+    {
+      "created_at": "2026-05-29 14:15:36",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 43,
+      "image_path": "game_elements/0043_recorded_click_sistema_general_click_elements_locale_musicstati_112604ms_1043x924.png",
+      "image_size": {
+        "height": 90,
+        "width": 137
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1036,
+              "left": 931,
+              "right": 1155,
+              "top": 812
+            },
+            "click_offset_in_crop": {
+              "x": 25,
+              "y": 48
+            },
+            "click_position": {
+              "x": 1043,
+              "y": 924
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1018,
+              "right": 1155,
+              "top": 876
+            },
+            "event_time_ms": 112604,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5432,
+              "y": 0.8556
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 137
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5432,
+              "y": 0.8556
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_112604ms_1043x924",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:36"
+    },
+    {
+      "created_at": "2026-05-29 14:15:37",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 44,
+      "image_path": "game_elements/0044_recorded_click_sistema_general_click_elements_locale_musicstati_113744ms_1601x492.png",
+      "image_size": {
+        "height": 224,
+        "width": 208
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 604,
+              "left": 1489,
+              "right": 1713,
+              "top": 380
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 112
+            },
+            "click_position": {
+              "x": 1601,
+              "y": 492
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 604,
+              "left": 1489,
+              "right": 1697,
+              "top": 380
+            },
+            "event_time_ms": 113744,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.8339,
+              "y": 0.4556
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 224,
+              "width": 208
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.8339,
+              "y": 0.4556
+            },
+            "screen_zone": "middle_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_113744ms_1601x492",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:38"
+    },
+    {
+      "created_at": "2026-05-29 14:15:38",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 45,
+      "image_path": "game_elements/0045_recorded_click_sistema_general_click_elements_locale_musicstati_114771ms_780x917.png",
+      "image_size": {
+        "height": 90,
+        "width": 203
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1029,
+              "left": 668,
+              "right": 892,
+              "top": 805
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 41
+            },
+            "click_position": {
+              "x": 780,
+              "y": 917
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 668,
+              "right": 871,
+              "top": 876
+            },
+            "event_time_ms": 114771,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.4062,
+              "y": 0.8491
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 203
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.4062,
+              "y": 0.8491
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_114771ms_780x917",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:39"
+    },
+    {
+      "created_at": "2026-05-29 14:15:39",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 46,
+      "image_path": "game_elements/0046_recorded_click_sistema_general_click_elements_locale_musicstati_115255ms_1179x918.png",
+      "image_size": {
+        "height": 52,
+        "width": 49
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1030,
+              "left": 1067,
+              "right": 1291,
+              "top": 806
+            },
+            "click_offset_in_crop": {
+              "x": 22,
+              "y": 23
+            },
+            "click_position": {
+              "x": 1179,
+              "y": 918
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 947,
+              "left": 1157,
+              "right": 1206,
+              "top": 895
+            },
+            "event_time_ms": 115255,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.6141,
+              "y": 0.85
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 52,
+              "width": 49
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.6141,
+              "y": 0.85
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_115255ms_1179x918",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:39"
+    },
+    {
+      "created_at": "2026-05-29 14:15:40",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 47,
+      "image_path": "game_elements/0047_recorded_click_sistema_general_click_elements_locale_musicstati_116147ms_1503x195.png",
+      "image_size": {
+        "height": 180,
+        "width": 221
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 307,
+              "left": 1391,
+              "right": 1615,
+              "top": 83
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 68
+            },
+            "click_position": {
+              "x": 1503,
+              "y": 195
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 307,
+              "left": 1391,
+              "right": 1612,
+              "top": 127
+            },
+            "event_time_ms": 116147,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.7828,
+              "y": 0.1806
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 180,
+              "width": 221
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.7828,
+              "y": 0.1806
+            },
+            "screen_zone": "top_right",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_116147ms_1503x195",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:40"
+    },
+    {
+      "created_at": "2026-05-29 14:15:41",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 48,
+      "image_path": "game_elements/0048_recorded_click_sistema_general_click_elements_locale_musicstati_117294ms_760x912.png",
+      "image_size": {
+        "height": 90,
+        "width": 223
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1024,
+              "left": 648,
+              "right": 872,
+              "top": 800
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 36
+            },
+            "click_position": {
+              "x": 760,
+              "y": 912
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 648,
+              "right": 871,
+              "top": 876
+            },
+            "event_time_ms": 117294,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.3958,
+              "y": 0.8444
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 223
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.3958,
+              "y": 0.8444
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_117294ms_760x912",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:41"
+    },
+    {
+      "created_at": "2026-05-29 14:15:42",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 49,
+      "image_path": "game_elements/0049_recorded_click_sistema_general_click_elements_locale_musicstati_117822ms_1087x929.png",
+      "image_size": {
+        "height": 90,
+        "width": 181
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1041,
+              "left": 975,
+              "right": 1199,
+              "top": 817
+            },
+            "click_offset_in_crop": {
+              "x": 69,
+              "y": 53
+            },
+            "click_position": {
+              "x": 1087,
+              "y": 929
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 1018,
+              "right": 1199,
+              "top": 876
+            },
+            "event_time_ms": 117822,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5661,
+              "y": 0.8602
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 181
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5661,
+              "y": 0.8602
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_117822ms_1087x929",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:42"
+    },
+    {
+      "created_at": "2026-05-29 14:15:42",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 50,
+      "image_path": "game_elements/0050_recorded_click_sistema_general_click_elements_locale_musicstati_118789ms_1047x153.png",
+      "image_size": {
+        "height": 222,
+        "width": 224
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 265,
+              "left": 935,
+              "right": 1159,
+              "top": 41
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 110
+            },
+            "click_position": {
+              "x": 1047,
+              "y": 153
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 265,
+              "left": 935,
+              "right": 1159,
+              "top": 43
+            },
+            "event_time_ms": 118789,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.5453,
+              "y": 0.1417
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 222,
+              "width": 224
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.5453,
+              "y": 0.1417
+            },
+            "screen_zone": "top_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_118789ms_1047x153",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:43"
+    },
+    {
+      "created_at": "2026-05-29 14:15:43",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+      "format": "PNG",
+      "id": 51,
+      "image_path": "game_elements/0051_recorded_click_sistema_general_click_elements_locale_musicstati_119682ms_793x917.png",
+      "image_size": {
+        "height": 90,
+        "width": 190
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1029,
+              "left": 681,
+              "right": 905,
+              "top": 805
+            },
+            "click_offset_in_crop": {
+              "x": 112,
+              "y": 41
+            },
+            "click_position": {
+              "x": 793,
+              "y": 917
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 681,
+              "right": 871,
+              "top": 876
+            },
+            "event_time_ms": 119682,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "normalized_position": {
+              "x": 0.413,
+              "y": 0.8491
+            },
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 90,
+              "width": 190
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "normalized_position": {
+              "x": 0.413,
+              "y": 0.8491
+            },
+            "screen_zone": "bottom_center",
+            "semantic_status": "needs_human_function_label",
+            "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260529_161344",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_musicstati_119682ms_793x917",
+      "semantic_hint": "",
+      "updated_at": "2026-05-29 14:15:44"
+    }
+  ]
+}

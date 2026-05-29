@@ -1,0 +1,618 @@
+{
+  "edges": [
+    {
+      "action_name": null,
+      "description": "Il runtime può presentare la vista esterna o regionale come vista principale.",
+      "from_node_id": "game_runtime_root",
+      "to_node_id": "exterior_region_view",
+      "trigger": "region_view_active"
+    },
+    {
+      "action_name": null,
+      "description": "Il runtime può presentare la vista interna del rifugio come vista principale.",
+      "from_node_id": "game_runtime_root",
+      "to_node_id": "shelter_interior_view",
+      "trigger": "shelter_view_active"
+    },
+    {
+      "action_name": null,
+      "description": "La vista esterna espone il bottone basso sinistra di passaggio rifugio.",
+      "from_node_id": "exterior_region_view",
+      "to_node_id": "bottom_left_shelter_switch_button",
+      "trigger": "shared_navigation_controls_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Anche la vista rifugio mantiene il bottone basso sinistra per tornare o cambiare vista.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "bottom_left_shelter_switch_button",
+      "trigger": "shared_navigation_controls_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista esterna include il pannello compatto alto sinistra.",
+      "from_node_id": "exterior_region_view",
+      "to_node_id": "top_left_compact_status_panel",
+      "trigger": "shared_top_panels_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone il riquadro ritratto profilo.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_profile_portrait",
+      "trigger": "profile_portrait_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone una barra stato sotto il ritratto.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_status_bar",
+      "trigger": "status_bar_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone l'indicatore di potenza con icona pugno e valore.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_power_indicator",
+      "trigger": "power_indicator_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone il blocco VIP.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_vip_indicator",
+      "trigger": "vip_indicator_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone una prima scorciatoia rapida laterale.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_left_quick_action",
+      "trigger": "left_quick_action_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello alto sinistra espone una seconda scorciatoia rapida laterale.",
+      "from_node_id": "top_left_compact_status_panel",
+      "to_node_id": "top_left_right_quick_action",
+      "trigger": "right_quick_action_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista esterna include il pannello esteso alto destra.",
+      "from_node_id": "exterior_region_view",
+      "to_node_id": "top_right_extended_status_panel",
+      "trigger": "shared_top_panels_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista rifugio include il pannello compatto alto sinistra.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "top_left_compact_status_panel",
+      "trigger": "shared_top_panels_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista rifugio include il pannello esteso alto destra.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "top_right_extended_status_panel",
+      "trigger": "shared_top_panels_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista rifugio espone un pannellino di controlli sul margine sinistro sopra il bottone di cambio vista.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "shelter_left_side_controls_panel",
+      "trigger": "shelter_aux_left_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista esterna espone il pannello basso destra condiviso con le sezioni principali.",
+      "from_node_id": "exterior_region_view",
+      "to_node_id": "shelter_bottom_right_sections_panel",
+      "trigger": "shared_bottom_right_sections_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista rifugio espone lo stesso pannello basso destra condiviso con le sezioni principali.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "shelter_bottom_right_sections_panel",
+      "trigger": "shared_bottom_right_sections_visible"
+    },
+    {
+      "action_name": "open_campaign_section",
+      "description": "Il pannello condiviso espone la sezione Campagna.",
+      "from_node_id": "shelter_bottom_right_sections_panel",
+      "to_node_id": "campaign_section_button",
+      "trigger": "campaign_slot_visible"
+    },
+    {
+      "action_name": "open_backpack_section",
+      "description": "Il pannello condiviso espone la sezione Zaino.",
+      "from_node_id": "shelter_bottom_right_sections_panel",
+      "to_node_id": "backpack_section_button",
+      "trigger": "backpack_slot_visible"
+    },
+    {
+      "action_name": "open_alliance_section",
+      "description": "Il pannello condiviso espone la sezione Alleanza.",
+      "from_node_id": "shelter_bottom_right_sections_panel",
+      "to_node_id": "alliance_section_button",
+      "trigger": "alliance_slot_visible"
+    },
+    {
+      "action_name": "open_beast_section",
+      "description": "Il pannello condiviso espone la sezione Bestia.",
+      "from_node_id": "shelter_bottom_right_sections_panel",
+      "to_node_id": "beast_section_button",
+      "trigger": "beast_slot_visible"
+    },
+    {
+      "action_name": "open_hero_section",
+      "description": "Il pannello condiviso espone la sezione Eroe.",
+      "from_node_id": "shelter_bottom_right_sections_panel",
+      "to_node_id": "hero_section_button",
+      "trigger": "hero_slot_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La vista rifugio espone il pannellino destro con controlli e avvisi.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "shelter_right_edge_alerts_panel",
+      "trigger": "shelter_alerts_visible"
+    },
+    {
+      "action_name": "open_shelter_view",
+      "description": "Usando il bottone basso sinistra dalla vista esterna si entra nel rifugio.",
+      "from_node_id": "bottom_left_shelter_switch_button",
+      "to_node_id": "shelter_interior_view",
+      "trigger": "enter_shelter"
+    },
+    {
+      "action_name": "open_region_view",
+      "description": "Usando il bottone basso sinistra dalla vista rifugio si torna alla vista esterna o regionale.",
+      "from_node_id": "bottom_left_shelter_switch_button",
+      "to_node_id": "exterior_region_view",
+      "trigger": "exit_shelter"
+    },
+    {
+      "action_name": null,
+      "description": "Il runtime del gioco può presentare un layer overlay durante fasi di boot o popup.",
+      "from_node_id": "game_runtime_root",
+      "to_node_id": "boot_overlay_layer",
+      "trigger": "boot_overlay_visible"
+    },
+    {
+      "action_name": "resume_boot_flow",
+      "description": "Una volta chiuso il popup bloccante il boot può proseguire verso la vista giocabile.",
+      "from_node_id": "initial_blocking_popup_close_symbol",
+      "to_node_id": "playable_interface_without_boot_popup",
+      "trigger": "popup_closed"
+    },
+    {
+      "action_name": "resume_after_empty_space_popup_dismissal",
+      "description": "Fallback appreso: click su spazio vuoto nella fascia 4 dal basso per chiudere popup senza identificatori.",
+      "from_node_id": "empty_space_popup_dismissal_band_4",
+      "to_node_id": "playable_interface_without_boot_popup",
+      "trigger": "empty_space_dismissal_clicked"
+    }
+  ],
+  "graph_id": "doomsday-default-ui-graph",
+  "name": "Doomsday Default UI Graph",
+  "nodes": [
+    {
+      "conditions": [],
+      "kind": "view",
+      "label": "Runtime gioco",
+      "layout_role": "root",
+      "node_id": "game_runtime_root",
+      "notes": "Nodo radice logico dell'interfaccia di gioco usato per collegare viste, layer e popup.",
+      "parent_node_id": null,
+      "recovery_action": null,
+      "tags": [
+        "runtime",
+        "root"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "view",
+      "label": "Vista esterna o regionale",
+      "layout_role": "main_view",
+      "node_id": "exterior_region_view",
+      "notes": "Vista esterna o regionale del gioco. Condivide pannelli superiori comuni con il rifugio e usa il pulsante in basso a sinistra per entrare nel rifugio.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "region",
+        "exterior",
+        "navigation"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "view",
+      "label": "Vista interna rifugio",
+      "layout_role": "main_view",
+      "node_id": "shelter_interior_view",
+      "notes": "Vista interna del rifugio. Condivide i pannelli superiori comuni ma aggiunge controlli specifici sul lato basso sinistro e destro.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shelter",
+        "interior",
+        "navigation"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Pannello compatto alto sinistra",
+      "layout_role": "top_left_compact",
+      "node_id": "top_left_compact_status_panel",
+      "notes": "Riquadro rettangolare compatto in alto a sinistra, comune sia alla vista esterna sia alla vista rifugio.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "status"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Riquadro eroe profilo alto sinistra",
+      "layout_role": "portrait_anchor",
+      "node_id": "top_left_profile_portrait",
+      "notes": "Primo riquadro quadrato del pannello alto sinistra, associato all'eroe o profilo. L'immagine interna puo' essere casuale o personalizzata dall'utente del gioco, quindi non e' un riferimento stabile. Per il matching contano soprattutto cornice, posizione, forma del riquadro e struttura generale del blocco.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "profile",
+        "portrait",
+        "hero",
+        "user-customizable"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Barra stato profilo alto sinistra",
+      "layout_role": "status_bar",
+      "node_id": "top_left_status_bar",
+      "notes": "Barra orizzontale sotto il ritratto profilo. Il livello di riempimento puo' variare e non va confrontato in modo rigido.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "status-bar"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Indicatore potenza alto sinistra",
+      "layout_role": "power_indicator",
+      "node_id": "top_left_power_indicator",
+      "notes": "Area con icona pugno e valore numerico della potenza. Il numero cambia spesso, quindi il riferimento stabile e' l'icona e la posizione, non il valore. Serve soprattutto a sapere dove si trova l'indicatore, cosi' da poterne eventualmente leggere il numero come dato separato.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "power",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Indicatore VIP alto sinistra",
+      "layout_role": "vip_indicator",
+      "node_id": "top_left_vip_indicator",
+      "notes": "Indicatore VIP nel pannello alto sinistra, tipicamente composto dalla scritta VIP e da un numero. Il numero del livello puo' cambiare, quindi il riferimento stabile resta il blocco VIP nella sua posizione e non il valore numerico preciso.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "vip",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Scorciatoia sinistra alto sinistra",
+      "layout_role": "quick_action",
+      "node_id": "top_left_left_quick_action",
+      "notes": "Primo piccolo pulsante rapido sulla destra del pannello alto sinistra.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "quick-action",
+        "left"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Scorciatoia destra alto sinistra",
+      "layout_role": "quick_action",
+      "node_id": "top_left_right_quick_action",
+      "notes": "Secondo piccolo pulsante rapido sulla destra del pannello alto sinistra.",
+      "parent_node_id": "top_left_compact_status_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "quick-action",
+        "right"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Pannello esteso alto destra",
+      "layout_role": "top_right_extended",
+      "node_id": "top_right_extended_status_panel",
+      "notes": "Riquadro rettangolare più esteso in alto a destra, circa triplo del pannello compatto alto sinistra, comune alle due viste principali.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "hud",
+        "resources"
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "condition_id": "view_switch_icon_visible",
+          "description": "E' visibile una delle due icone del cambio vista in basso a sinistra: globo per andare in regione oppure rifugio per entrare nel shelter. La scritta puo' cambiare con la lingua, quindi il matching si basa sul simbolo.",
+          "element_names": [
+            "region_view_switch_globe_icon",
+            "shelter_view_switch_home_icon"
+          ],
+          "expected_presence": true,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "control",
+      "label": "Bottone passaggio vista rifugio",
+      "layout_role": "bottom_left_primary",
+      "node_id": "bottom_left_shelter_switch_button",
+      "notes": "Bottone importante in basso a sinistra usato per passare dalla vista esterna alla vista rifugio e viceversa. Nella vista rifugio puo' mostrare il globo con la scritta Regione o equivalenti in altre lingue; nella vista regione puo' mostrare l'icona del rifugio con la scritta Rifugio o equivalenti. Per questo il riferimento semantico corretto e' l'icona, non il testo.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "navigation",
+        "shelter-switch",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Pannellino controlli sinistra rifugio",
+      "layout_role": "left_side_aux",
+      "node_id": "shelter_left_side_controls_panel",
+      "notes": "Pannellino appoggiato al margine sinistro nella vista rifugio, appena sopra il bottone di passaggio vista, con controlli aggiuntivi.",
+      "parent_node_id": "shelter_interior_view",
+      "recovery_action": null,
+      "tags": [
+        "shelter",
+        "controls",
+        "left"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Pannello sezioni basso destra condiviso",
+      "layout_role": "bottom_right_sections",
+      "node_id": "shelter_bottom_right_sections_panel",
+      "notes": "Pannellino esteso in basso a destra presente sia nella vista regione sia nella vista rifugio con le sezioni campagna, zaino, alleanza, bestie ed eroe. I badge rossi e i numeri di eventi in sospeso sono variabili e non devono far parte del riferimento grafico stabile. Anche le scritte possono cambiare lingua, quindi il matching dovrebbe privilegiare icone, disposizione e struttura del pannello.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "sections",
+        "campagna",
+        "zaino",
+        "alleanza",
+        "bestie",
+        "eroe",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Campagna",
+      "layout_role": "section_slot",
+      "node_id": "campaign_section_button",
+      "notes": "Sezione Campagna del pannello basso destra condiviso. Il badge rosso eventi e la scritta non sono il riferimento principale: conta soprattutto l'icona stabile.",
+      "parent_node_id": "shelter_bottom_right_sections_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "section",
+        "campaign",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Zaino",
+      "layout_role": "section_slot",
+      "node_id": "backpack_section_button",
+      "notes": "Sezione Zaino del pannello basso destra condiviso, da riconoscere soprattutto tramite icona.",
+      "parent_node_id": "shelter_bottom_right_sections_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "section",
+        "backpack",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Alleanza",
+      "layout_role": "section_slot",
+      "node_id": "alliance_section_button",
+      "notes": "Sezione Alleanza del pannello basso destra condiviso. I numeri rossi variabili non fanno parte del riferimento stabile.",
+      "parent_node_id": "shelter_bottom_right_sections_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "section",
+        "alliance",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Bestia",
+      "layout_role": "section_slot",
+      "node_id": "beast_section_button",
+      "notes": "Sezione Bestia del pannello basso destra condiviso, con matching basato soprattutto sull'icona.",
+      "parent_node_id": "shelter_bottom_right_sections_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "section",
+        "beast",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Eroe",
+      "layout_role": "section_slot",
+      "node_id": "hero_section_button",
+      "notes": "Sezione Eroe del pannello basso destra condiviso, con riferimento principale sull'icona.",
+      "parent_node_id": "shelter_bottom_right_sections_panel",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "section",
+        "hero",
+        "language-agnostic"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Pannellino destro controlli e avvisi",
+      "layout_role": "right_edge_aux",
+      "node_id": "shelter_right_edge_alerts_panel",
+      "notes": "Pannellino appoggiato sul bordo destro appena sopra il pannello sezioni basso destra, dedicato a controlli e avvisi della vista rifugio.",
+      "parent_node_id": "shelter_interior_view",
+      "recovery_action": null,
+      "tags": [
+        "shelter",
+        "alerts",
+        "controls",
+        "right"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Layer overlay boot",
+      "layout_role": "overlay",
+      "node_id": "boot_overlay_layer",
+      "notes": "Layer logico che ospita popup e blocchi temporanei durante boot e caricamento.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "boot",
+        "overlay"
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "condition_id": "close_symbol_visible",
+          "description": "Il simbolo o bottone di chiusura del popup è visibile sulla schermata.",
+          "element_names": [
+            "popup_exit_close_symbol",
+            "boot_blocking_popup_close_button"
+          ],
+          "expected_presence": true,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "popup",
+      "label": "Popup bloccante iniziale",
+      "layout_role": "modal",
+      "node_id": "initial_blocking_popup_close_symbol",
+      "notes": "Popup bloccante che appare dopo il caricamento del gioco. Quando è visibile, di norma basta cliccare l'elemento di chiusura catalogato per liberare la schermata.",
+      "parent_node_id": "boot_overlay_layer",
+      "recovery_action": "click_popup_exit_close_symbol",
+      "tags": [
+        "boot",
+        "blocking",
+        "popup"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "spatial_action",
+      "label": "Dismiss popup con spazio vuoto fascia 4",
+      "layout_role": "empty_space_recovery",
+      "node_id": "empty_space_popup_dismissal_band_4",
+      "notes": "Regola appresa: alcuni popup bloccanti non espongono un identificatore stabile e si chiudono cliccando in uno spazio vuoto dello schermo. Dividendo lo schermo in 5 bande orizzontali contate dal basso, la fascia 4 e' spesso una zona utile per tentare il dismiss senza colpire controlli principali. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni di chiusura riconoscibili.",
+      "parent_node_id": "boot_overlay_layer",
+      "recovery_action": "click_empty_space_band_4_from_bottom",
+      "tags": [
+        "boot",
+        "blocking",
+        "popup",
+        "empty-space",
+        "fallback",
+        "learned"
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "condition_id": "close_symbol_not_visible",
+          "description": "Il simbolo di chiusura popup non è presente, quindi la vista è libera da quel blocco.",
+          "element_names": [
+            "popup_exit_close_symbol",
+            "boot_blocking_popup_close_button"
+          ],
+          "expected_presence": false,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "view",
+      "label": "Interfaccia pronta senza popup iniziale",
+      "layout_role": "main_view",
+      "node_id": "playable_interface_without_boot_popup",
+      "notes": "Vista libera dal popup di boot; non garantisce ancora il completamento di tutto il flusso.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "boot",
+        "playable"
+      ]
+    }
+  ],
+  "notes": "Grafo iniziale dell'architettura UI del gioco: distingue vista esterna e rifugio, pannelli comuni superiori, controlli di cambio vista, sezioni del rifugio e popup di boot.",
+  "schema": "doomsday.ui_semantic_graph.v1"
+}
