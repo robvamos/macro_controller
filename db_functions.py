@@ -17,6 +17,7 @@ from repositories.database import (
     setup_main_table,
     setup_scheduled_tasks_table,
     setup_task_macro_sequence_table,
+    setup_ui_graph_macro_links_table,
 )
 from repositories.game_element_repository import (
     create_game_element,
@@ -96,6 +97,7 @@ __all__ = [
     "setup_main_table",
     "setup_scheduled_tasks_table",
     "setup_task_macro_sequence_table",
+    "setup_ui_graph_macro_links_table",
     "start_task_scheduling",
     "stop_task_scheduling",
     "update_game_element",

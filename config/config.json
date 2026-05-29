@@ -18,6 +18,12 @@
     "listbox_height": 8,
     "loop_interval_sec_default": 2.0
   },
+  "new_macro_dialog": {
+    "window_title": "Nuova Macro",
+    "default_exe_name": "Doomsday.exe",
+    "default_duration_sec": 10
+  },
+  "selected_style": "dark_blue",
   "system_macros": {
     "launch_game": {
       "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
@@ -29,12 +35,6 @@
       "blocking_popup_match_threshold": 0.85
     }
   },
-  "new_macro_dialog": {
-    "window_title": "Nuova Macro",
-    "default_exe_name": "Doomsday.exe",
-    "default_duration_sec": 10
-  },
-  "selected_style": "dark_blue",
   "macro_editor_layout": {
     "left_column_weight": 3,
     "right_column_weight": 1

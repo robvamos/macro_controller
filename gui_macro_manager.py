@@ -107,6 +107,7 @@ from repositories.database import (
     setup_main_table,
     setup_scheduled_tasks_table,
     setup_task_macro_sequence_table,
+    setup_ui_graph_macro_links_table,
 )
 from repositories.game_element_repository import (
     create_game_element,
@@ -209,6 +210,11 @@ from services.audio_sample_service import (
 from services.learning_test_service import LearningTestService
 from services.learning_configuration_service import LearningConfigurationService
 from services.preprocessing_pipeline_service import PreprocessingPipelineService
+from services.game_element_ingestion_service import (
+    build_game_element_ingestion_guidelines,
+    build_prepared_asset_summary,
+    prepare_game_element_asset,
+)
 # CORREZIONE: Cambiato 'wait_for_target_window_active_only' a 'wait_for_app_window'
 from macro_controller import (
     get_game_window_rect,
@@ -1472,6 +1478,7 @@ def initialize_runtime_components():
     setup_scheduled_tasks_table()
     setup_task_macro_sequence_table()
     setup_game_elements_table()
+    setup_ui_graph_macro_links_table()
     ensure_launch_game_system_macro()
     refresh_macro_list()
     task_controller.start_scheduler(log_callback=console_log, root_callback=lambda: root and root.winfo_exists())
@@ -3302,8 +3309,10 @@ def create_new_game_element_dialog():
     # Variabili
     nome_var = tk.StringVar()
     descrizione_var = tk.StringVar()
+    semantic_hint_var = tk.StringVar()
     current_image = None
     current_formato = None
+    prepared_asset = None
     
     # Nome elemento
     ttk.Label(dialog, text="Nome Elemento:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
@@ -3311,36 +3320,53 @@ def create_new_game_element_dialog():
     nome_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
     
     # Descrizione
-    ttk.Label(dialog, text="Descrizione:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+    ttk.Label(dialog, text="Descrizione / contesto:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
     descrizione_entry = ttk.Entry(dialog, textvariable=descrizione_var, width=40)
     descrizione_entry.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+
+    ttk.Label(dialog, text="Ruolo semantico:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+    semantic_hint_entry = ttk.Entry(dialog, textvariable=semantic_hint_var, width=40)
+    semantic_hint_entry.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
+
+    procedure_frame = ttk.LabelFrame(dialog, text="Procedura Consigliata", padding="8")
+    procedure_frame.grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=(8, 4))
+    procedure_text = "\n".join(f"• {line}" for line in build_game_element_ingestion_guidelines())
+    ttk.Label(procedure_frame, text=procedure_text, justify="left", wraplength=440).pack(fill="x")
     
     # Frame per i pulsanti di upload
     upload_frame = ttk.LabelFrame(dialog, text="Carica Immagine", padding="10")
-    upload_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=5, pady=10)
+    upload_frame.grid(row=4, column=0, columnspan=2, sticky="ew", padx=5, pady=10)
     
     image_preview_label = ttk.Label(upload_frame, text="Nessuna immagine caricata", 
                                    background=config['theme']['border_color'], width=40)
     image_preview_label.pack(pady=10)
+    asset_summary_var = tk.StringVar(value="Nessun elemento preparato.")
+    ttk.Label(upload_frame, textvariable=asset_summary_var, justify="left", wraplength=420).pack(fill="x", pady=(0, 8))
     
     buttons_upload_frame = ttk.Frame(upload_frame)
     buttons_upload_frame.pack(fill="x", pady=5)
     
+    def refresh_prepared_asset(image, formato):
+        nonlocal current_image, current_formato, prepared_asset
+        prepared_asset = prepare_game_element_asset(
+            image,
+            source_format=formato,
+            semantic_hint=semantic_hint_var.get(),
+        )
+        current_image = prepared_asset.image
+        current_formato = prepared_asset.storage_format
+        render_preview_image(current_image, image_preview_label, max_size=(200, 200))
+        asset_summary_var.set(build_prepared_asset_summary(prepared_asset))
+
     def load_from_file():
-        nonlocal current_image, current_formato
         image, formato = load_image_from_file()
         if image:
-            current_image = image
-            current_formato = formato
-            render_preview_image(image, image_preview_label, max_size=(200, 200))
+            refresh_prepared_asset(image, formato)
 
     def paste_from_clipboard():
-        nonlocal current_image, current_formato
         image, formato = paste_image_from_clipboard()
         if image:
-            current_image = image
-            current_formato = formato
-            render_preview_image(image, image_preview_label, max_size=(200, 200))
+            refresh_prepared_asset(image, formato)
     
     ttk.Button(buttons_upload_frame, text="📁 Carica da File", command=load_from_file).pack(side="left", padx=5)
     ttk.Button(buttons_upload_frame, text="📋 Incolla da Clipboard", command=paste_from_clipboard).pack(side="left", padx=5)
@@ -3360,9 +3386,13 @@ def create_new_game_element_dialog():
         try:
             # Converti immagine in BLOB
             immagine_blob = image_to_blob(current_image, current_formato or 'PNG')
+            semantic_hint = semantic_hint_var.get().strip()
+            full_description = descrizione
+            if semantic_hint:
+                full_description = f"{descrizione}\n[semantic_hint] {semantic_hint}".strip()
             
             # Crea l'elemento
-            element_id = create_game_element(nome, descrizione, immagine_blob, current_formato or 'PNG')
+            element_id = create_game_element(nome, full_description, immagine_blob, current_formato or 'PNG')
             console_log(f"✅ Elemento '{nome}' creato con successo (ID: {element_id}).")
             dialog.destroy()
             refresh_game_elements_list()
@@ -3371,7 +3401,14 @@ def create_new_game_element_dialog():
         except Exception as e:
             messagebox.showerror("Errore Creazione", f"Errore generico: {e}", parent=dialog)
     
-    ttk.Button(dialog, text="Crea Elemento", command=validate_and_create).grid(row=3, column=0, columnspan=2, pady=10)
+    semantic_hint_entry.bind(
+        "<FocusOut>",
+        lambda event: asset_summary_var.set(build_prepared_asset_summary(
+            prepare_game_element_asset(current_image, source_format=current_formato, semantic_hint=semantic_hint_var.get())
+        )) if current_image else None,
+    )
+
+    ttk.Button(dialog, text="Crea Elemento", command=validate_and_create).grid(row=5, column=0, columnspan=2, pady=10)
     dialog.columnconfigure(1, weight=1)
 
 def edit_selected_game_element():
@@ -3402,9 +3439,19 @@ def edit_selected_game_element():
         
         # Variabili precompilate
         nome_var = tk.StringVar(value=element['nome'])
-        descrizione_var = tk.StringVar(value=element['descrizione'] or "")
+        raw_description = element['descrizione'] or ""
+        semantic_hint_value = ""
+        if "[semantic_hint]" in raw_description:
+            parts = raw_description.split("[semantic_hint]", 1)
+            raw_description = parts[0].strip()
+            semantic_hint_value = parts[1].strip()
+        descrizione_var = tk.StringVar(value=raw_description)
+        semantic_hint_var = tk.StringVar(value=semantic_hint_value)
         current_image = blob_to_image(element['immagine'], element['formato_immagine'])
         current_formato = element['formato_immagine']
+        prepared_asset = prepare_game_element_asset(current_image, source_format=current_formato, semantic_hint=semantic_hint_value)
+        current_image = prepared_asset.image
+        current_formato = prepared_asset.storage_format
         
         # Nome elemento
         ttk.Label(dialog, text="Nome Elemento:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
@@ -3412,16 +3459,27 @@ def edit_selected_game_element():
         nome_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         
         # Descrizione
-        ttk.Label(dialog, text="Descrizione:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        ttk.Label(dialog, text="Descrizione / contesto:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
         descrizione_entry = ttk.Entry(dialog, textvariable=descrizione_var, width=40)
         descrizione_entry.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+
+        ttk.Label(dialog, text="Ruolo semantico:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        semantic_hint_entry = ttk.Entry(dialog, textvariable=semantic_hint_var, width=40)
+        semantic_hint_entry.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
+
+        procedure_frame = ttk.LabelFrame(dialog, text="Procedura Consigliata", padding="8")
+        procedure_frame.grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=(8, 4))
+        procedure_text = "\n".join(f"• {line}" for line in build_game_element_ingestion_guidelines())
+        ttk.Label(procedure_frame, text=procedure_text, justify="left", wraplength=440).pack(fill="x")
         
         # Frame per i pulsanti di upload
         upload_frame = ttk.LabelFrame(dialog, text="Immagine", padding="10")
-        upload_frame.grid(row=2, column=0, columnspan=2, sticky="ew", padx=5, pady=10)
+        upload_frame.grid(row=4, column=0, columnspan=2, sticky="ew", padx=5, pady=10)
         
         image_preview_label = ttk.Label(upload_frame, background=config['theme']['border_color'], width=40)
         image_preview_label.pack(pady=10)
+        asset_summary_var = tk.StringVar(value=build_prepared_asset_summary(prepared_asset))
+        ttk.Label(upload_frame, textvariable=asset_summary_var, justify="left", wraplength=420).pack(fill="x", pady=(0, 8))
         
         # Mostra anteprima corrente
         render_preview_image(current_image, image_preview_label, max_size=(200, 200), clear_text=False)
@@ -3429,21 +3487,27 @@ def edit_selected_game_element():
         buttons_upload_frame = ttk.Frame(upload_frame)
         buttons_upload_frame.pack(fill="x", pady=5)
         
+        def refresh_prepared_asset(image, formato):
+            nonlocal current_image, current_formato, prepared_asset
+            prepared_asset = prepare_game_element_asset(
+                image,
+                source_format=formato,
+                semantic_hint=semantic_hint_var.get(),
+            )
+            current_image = prepared_asset.image
+            current_formato = prepared_asset.storage_format
+            render_preview_image(current_image, image_preview_label, max_size=(200, 200), clear_text=False)
+            asset_summary_var.set(build_prepared_asset_summary(prepared_asset))
+
         def load_from_file():
-            nonlocal current_image, current_formato
             image, formato = load_image_from_file()
             if image:
-                current_image = image
-                current_formato = formato
-                render_preview_image(image, image_preview_label, max_size=(200, 200), clear_text=False)
+                refresh_prepared_asset(image, formato)
         
         def paste_from_clipboard():
-            nonlocal current_image, current_formato
             image, formato = paste_image_from_clipboard()
             if image:
-                current_image = image
-                current_formato = formato
-                render_preview_image(image, image_preview_label, max_size=(200, 200), clear_text=False)
+                refresh_prepared_asset(image, formato)
         
         ttk.Button(buttons_upload_frame, text="📁 Carica da File", command=load_from_file).pack(side="left", padx=5)
         ttk.Button(buttons_upload_frame, text="📋 Incolla da Clipboard", command=paste_from_clipboard).pack(side="left", padx=5)
@@ -3458,7 +3522,11 @@ def edit_selected_game_element():
             
             try:
                 # Prepara i parametri di update
-                update_params = {'nome': nome, 'descrizione': descrizione}
+                semantic_hint = semantic_hint_var.get().strip()
+                full_description = descrizione
+                if semantic_hint:
+                    full_description = f"{descrizione}\n[semantic_hint] {semantic_hint}".strip()
+                update_params = {'nome': nome, 'descrizione': full_description}
                 
                 # Se l'immagine è cambiata, aggiorna anche quella
                 if current_image:
@@ -3475,7 +3543,14 @@ def edit_selected_game_element():
             except Exception as e:
                 messagebox.showerror("Errore Modifica", f"Errore generico: {e}", parent=dialog)
         
-        ttk.Button(dialog, text="Salva Modifiche", command=validate_and_update).grid(row=3, column=0, columnspan=2, pady=10)
+        semantic_hint_entry.bind(
+            "<FocusOut>",
+            lambda event: asset_summary_var.set(build_prepared_asset_summary(
+                prepare_game_element_asset(current_image, source_format=current_formato, semantic_hint=semantic_hint_var.get())
+            )) if current_image else None,
+        )
+
+        ttk.Button(dialog, text="Salva Modifiche", command=validate_and_update).grid(row=5, column=0, columnspan=2, pady=10)
         dialog.columnconfigure(1, weight=1)
         
     except Exception as e:

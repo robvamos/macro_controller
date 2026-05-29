@@ -4,7 +4,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 from repositories import backup_repository, database, game_element_repository, macro_repository, task_repository
+from repositories import ui_graph_macro_link_repository
 from services.system_macro_service import ensure_launch_game_system_macro, save_launch_game_local_variant
+from services.ui_graph_macro_link_service import get_macro_plan_for_ui_node, link_macro_to_ui_node
 
 
 def sample_events(prefix="base"):
@@ -59,6 +61,7 @@ class RepositoryTestCase(unittest.TestCase):
         database.setup_scheduled_tasks_table()
         database.setup_task_macro_sequence_table()
         database.setup_game_elements_table()
+        database.setup_ui_graph_macro_links_table()
 
     def tearDown(self):
         for active_patch in reversed(self.patches):
@@ -283,6 +286,39 @@ class GameElementRepositoryTests(RepositoryTestCase):
 
         game_element_repository.delete_game_element(element_id)
         self.assertIsNone(game_element_repository.get_game_element_by_id(element_id))
+
+
+class UIGraphMacroLinkRepositoryTests(RepositoryTestCase):
+    def test_ui_graph_macro_link_repository_and_service_produce_macro_plan(self):
+        macro_id = self.create_macro(name="EntraNelRifugio")
+
+        link_id = link_macro_to_ui_node(
+            graph_id="doomsday-default-ui-graph",
+            node_id="playable_interface_without_boot_popup",
+            macro_id=macro_id,
+            intent_key="enter_shelter",
+            relation_type="preferred",
+            priority=10,
+            notes="Macro primaria per entrare nel rifugio.",
+        )
+
+        links = ui_graph_macro_link_repository.get_ui_graph_macro_links(
+            graph_id="doomsday-default-ui-graph",
+            node_id="playable_interface_without_boot_popup",
+            intent_key="enter_shelter",
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0]["id"], link_id)
+        self.assertEqual(links[0]["relation_type"], "preferred")
+
+        plan = get_macro_plan_for_ui_node(
+            graph_id="doomsday-default-ui-graph",
+            node_id="playable_interface_without_boot_popup",
+            intent_key="enter_shelter",
+        )
+        self.assertEqual(plan.target_node_id, "playable_interface_without_boot_popup")
+        self.assertEqual(len(plan.candidate_links), 1)
+        self.assertEqual(plan.candidate_links[0].macro_name, "EntraNelRifugio")
 
 
 if __name__ == "__main__":

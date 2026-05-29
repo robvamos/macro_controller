@@ -147,11 +147,18 @@ class SystemMacroServiceTests(unittest.TestCase):
 
         with (
             patch.object(system_macro_service, "get_process_client_rect", return_value=(0, 0, 1920, 1080)),
-            patch.object(system_macro_service, "search_game_window_elements", return_value=Mock(
-                found=True,
-                score=0.93,
-                center=(1200, 700),
-                matched_element_name="popup_exit_close_symbol",
+            patch.object(system_macro_service, "evaluate_ui_graph", return_value=Mock(
+                graph_id="doomsday-default-ui-graph",
+                active_node_ids=("initial_blocking_popup_close_symbol",),
+                get_node_result=Mock(return_value=Mock(
+                    active=True,
+                    condition_results=(Mock(search_result=Mock(
+                        found=True,
+                        score=0.93,
+                        center=(1200, 700),
+                        matched_element_name="popup_exit_close_symbol",
+                    )),),
+                )),
             )) as match_mock,
         ):
             result = system_macro_service.wait_for_initial_blocking_popup(
@@ -166,6 +173,7 @@ class SystemMacroServiceTests(unittest.TestCase):
         self.assertTrue(result["blocking_popup_detected"])
         self.assertEqual(result["next_step"], "dismiss_initial_blocking_popup")
         self.assertEqual(result["blocking_popup_center"], (1200, 700))
+        self.assertEqual(result["ui_graph_id"], "doomsday-default-ui-graph")
         match_mock.assert_called_once()
 
 

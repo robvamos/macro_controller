@@ -207,6 +207,45 @@ def setup_game_elements_table():
         conn.close()
 
 
+def setup_ui_graph_macro_links_table():
+    """Crea la tabella che collega nodi del grafo UI e intenti alle macro disponibili."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS UIGraphMacroLinks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                graph_id TEXT NOT NULL,
+                node_id TEXT NOT NULL,
+                intent_key TEXT,
+                relation_type TEXT NOT NULL DEFAULT 'candidate' CHECK(relation_type IN ('candidate', 'preferred', 'fallback', 'recovery', 'composed_step')),
+                macro_id INTEGER,
+                macro_name_snapshot TEXT,
+                priority INTEGER NOT NULL DEFAULT 100,
+                enabled INTEGER NOT NULL DEFAULT 1,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (macro_id) REFERENCES Macro(id) ON DELETE SET NULL
+            );
+            """
+        )
+        cursor.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS idx_ui_graph_macro_links_unique ON UIGraphMacroLinks (graph_id, node_id, COALESCE(intent_key, ''), relation_type, COALESCE(macro_id, -1));"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_ui_graph_macro_links_lookup ON UIGraphMacroLinks (graph_id, node_id, intent_key, enabled, priority);"
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"Errore durante l'inizializzazione della tabella UIGraphMacroLinks: {e}")
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+
 def setup_backup_table():
     conn = connect_db()
     cursor = conn.cursor()
@@ -239,4 +278,5 @@ __all__ = [
     "setup_main_table",
     "setup_scheduled_tasks_table",
     "setup_task_macro_sequence_table",
+    "setup_ui_graph_macro_links_table",
 ]

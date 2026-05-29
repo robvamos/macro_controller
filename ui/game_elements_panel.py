@@ -15,9 +15,18 @@ def build_game_element_row(element):
 
 def build_game_element_details_text(element):
     """Restituisce il testo descrittivo da mostrare nell'anteprima."""
+    descrizione = element["descrizione"] or ""
+    semantic_hint = ""
+    if "[semantic_hint]" in descrizione:
+        parts = descrizione.split("[semantic_hint]", 1)
+        descrizione = parts[0].strip()
+        semantic_hint = parts[1].strip()
+
     details_text = f"Nome: {element['nome']}\n"
-    if element["descrizione"]:
-        details_text += f"Descrizione: {element['descrizione']}\n"
+    if descrizione:
+        details_text += f"Descrizione: {descrizione}\n"
+    if semantic_hint:
+        details_text += f"Ruolo semantico: {semantic_hint}\n"
     details_text += f"Formato: {element['formato_immagine']}\n"
     details_text += f"ID: {element['id']}"
     return details_text

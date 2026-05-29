@@ -169,6 +169,19 @@ La tab `Learning Lab` propone anche una valutazione della configurazione corrent
 - lo storico viene riusato per capire quali assetti funzionano meglio
 - questo permette al sistema di imparare non solo dal segnale, ma anche dal feedback dell'utilizzatore
 
+## Elementi grafici del gioco
+
+La tab `Elementi` e' stata impostata per acquisire elementi grafici senza distorsioni:
+
+- l'immagine salvata viene preservata nelle dimensioni originali
+- lo storage viene normalizzato in `PNG` lossless
+- l'anteprima e' ridotta solo a scopo visivo, senza alterare il file memorizzato
+- oltre a nome e descrizione, e' possibile annotare anche il ruolo semantico dell'elemento
+
+Procedura consigliata:
+
+- [docs/GAME_ELEMENT_INGESTION_WORKFLOW.md](/F:/_CODEX/DDassistant/docs/GAME_ELEMENT_INGESTION_WORKFLOW.md)
+
 Per rigenerare il campione base o crearne altri con un nome dedicato:
 
 ```powershell

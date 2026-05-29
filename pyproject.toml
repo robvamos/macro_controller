@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ddgameass"
-version = "0.3.1"
+version = "0.4.0"
 description = "Windows desktop macro manager and Doomsday automation assistant."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -57,4 +57,3 @@ include = ["core*", "doomsday*", "repositories*", "services*", "ui*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

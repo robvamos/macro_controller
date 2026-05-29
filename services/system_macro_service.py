@@ -7,7 +7,7 @@ from datetime import datetime
 import psutil
 
 from core.config_store import load_app_config, save_app_config
-from doomsday.vision.game_element_recovery import search_game_window_elements
+from doomsday.vision.ui_graph import build_default_doomsday_ui_graph, evaluate_ui_graph
 from repositories.macro_repository import (
     SYSTEM_MACRO_KIND,
     get_all_macros,
@@ -334,6 +334,7 @@ def wait_for_game_fullscreen(target_exe, *, poll_interval_sec, timeout_sec, log_
 
 def wait_for_initial_blocking_popup(target_exe, *, poll_interval_sec, element_name, match_threshold, log_callback, base_result):
     """Dopo il fullscreen osserva tutta la finestra di gioco finché compare il popup bloccante iniziale."""
+    ui_graph = build_default_doomsday_ui_graph()
     if log_callback:
         log_callback(
             (
@@ -346,13 +347,12 @@ def wait_for_initial_blocking_popup(target_exe, *, poll_interval_sec, element_na
     while True:
         window_rect = get_process_client_rect(target_exe)
         if window_rect:
-            search_result = search_game_window_elements(
-                window_rect,
-                element_names=(element_name,),
-                threshold=match_threshold,
-                expected_presence=True,
-            )
-            if search_result.found:
+            graph_evaluation = evaluate_ui_graph(ui_graph, window_rect)
+            popup_node_result = graph_evaluation.get_node_result("initial_blocking_popup_close_symbol")
+            search_result = None
+            if popup_node_result and popup_node_result.condition_results:
+                search_result = popup_node_result.condition_results[0].search_result
+            if popup_node_result and popup_node_result.active and search_result and search_result.found:
                 if log_callback:
                     log_callback(
                         (
@@ -373,6 +373,8 @@ def wait_for_initial_blocking_popup(target_exe, *, poll_interval_sec, element_na
                         "blocking_popup_center": search_result.center,
                         "blocking_popup_element_name": search_result.matched_element_name or element_name,
                         "blocking_popup_search_result": search_result,
+                        "ui_graph_id": graph_evaluation.graph_id,
+                        "ui_graph_active_nodes": graph_evaluation.active_node_ids,
                     }
                 )
                 return result
