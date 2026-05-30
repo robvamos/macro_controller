@@ -1,0 +1,70 @@
+{
+  "program": {
+    "name": "Doomsday: Last Survivors Creator Turf",
+    "official_site": "https://dls.igg.com/index.php?lang=eng",
+    "creator_portal": "https://dls.igg.com/creatorspace/?lang=eng",
+    "official_message": "WIN THE PRIZE FOR YOUR CREATIVITY",
+    "verification_date": "2026-05-30"
+  },
+  "community_channels": [
+    {
+      "name": "Discord",
+      "url": "https://discord.gg/doomsdaylastsurvivors",
+      "role": "community coordination"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://www.tiktok.com/@doomsdaylastsurvivor",
+      "role": "short-form video"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/DoomsdayLastSurvivors",
+      "role": "official social amplification"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/channel/UCh3yKGArimXH1VfJ2sTTaww",
+      "role": "long-form and shorts"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/doomsdaylastsurvivorsofficial/",
+      "role": "visual promotional layer"
+    }
+  ],
+  "content_tracks": [
+    {
+      "id": "beginner-guides",
+      "label": "Beginner Guides",
+      "priority": "high"
+    },
+    {
+      "id": "hero-spotlights",
+      "label": "Hero Spotlights",
+      "priority": "high"
+    },
+    {
+      "id": "event-recaps",
+      "label": "Event Recaps",
+      "priority": "high"
+    },
+    {
+      "id": "alliance-operations",
+      "label": "Alliance Operations",
+      "priority": "medium"
+    },
+    {
+      "id": "tactical-shorts",
+      "label": "Tactical Shorts",
+      "priority": "high"
+    }
+  ],
+  "local_pipeline_goals": [
+    "capture repeatable media",
+    "tag content by event and hero",
+    "prepare creator-ready bundles",
+    "track performance scores",
+    "learn best-performing formats over time"
+  ]
+}

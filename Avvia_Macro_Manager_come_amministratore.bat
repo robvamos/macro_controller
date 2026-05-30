@@ -10,13 +10,17 @@ if %errorlevel% neq 0 (
 )
 
 set "PY_CMD="
-where py >nul 2>&1
-if %errorlevel% equ 0 (
-    set "PY_CMD=py -3"
+if exist "F:\phyton3.131\python.exe" (
+    set "PY_CMD=F:\phyton3.131\python.exe"
 ) else (
-    where python >nul 2>&1
+    where py >nul 2>&1
     if %errorlevel% equ 0 (
-        set "PY_CMD=python"
+        set "PY_CMD=py -3"
+    ) else (
+        where python >nul 2>&1
+        if %errorlevel% equ 0 (
+            set "PY_CMD=python"
+        )
     )
 )
 

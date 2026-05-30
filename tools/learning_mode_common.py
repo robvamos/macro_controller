@@ -104,6 +104,19 @@ def prepare_repo_imports():
         sys.path.insert(0, str(REPO_ROOT))
 
 
+def resolve_learning_shortcut_path(default_shortcut=SHORTCUT_PATH):
+    prepare_repo_imports()
+    try:
+        from services.system_macro_service import resolve_launch_shortcut_for_current_context
+
+        resolved = (resolve_launch_shortcut_for_current_context() or "").strip()
+        if resolved:
+            return resolved
+    except Exception:
+        pass
+    return default_shortcut
+
+
 __all__ = [
     "REPO_ROOT",
     "SHORTCUT_PATH",

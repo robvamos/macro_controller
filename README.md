@@ -16,7 +16,7 @@ Applicazione desktop Python per registrare, modificare e riprodurre macro su Win
 ### Avvio normale
 
 ```powershell
-py -3 gui_macro_manager.py
+F:\phyton3.131\python.exe gui_macro_manager.py
 ```
 
 In alternativa:
@@ -32,6 +32,7 @@ Con doppio clic su:
 - [Avvia_Macro_Manager_come_amministratore.bat](/F:/_CODEX/DDassistant/Avvia_Macro_Manager_come_amministratore.bat)
 
 Questo launcher chiede i permessi amministrativi e avvia l'interfaccia principale.
+Se disponibile, usa in priorità il runtime locale su `F:\phyton3.131` per evitare problemi col launcher `py`.
 
 ## Dipendenze e packaging
 
@@ -92,6 +93,7 @@ Le interfacce Doomsday condivise verso altri progetti sono documentate in:
 
 - [interfaces/doomsday-roster-bootstrap.md](/F:/_CODEX/DDassistant/interfaces/doomsday-roster-bootstrap.md)
 - [interfaces/doomsday-vision-primitives.md](/F:/_CODEX/DDassistant/interfaces/doomsday-vision-primitives.md)
+- [interfaces/doomsday-creators-pipeline.md](/F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md)
 
 ## Test automatici
 
@@ -138,6 +140,7 @@ Procedura consigliata:
 - [docs/IMPLEMENTATION_SUMMARY.md](/F:/_CODEX/DDassistant/docs/IMPLEMENTATION_SUMMARY.md)
 - [docs/README_FOCUS_FIX.md](/F:/_CODEX/DDassistant/docs/README_FOCUS_FIX.md)
 - [docs/SOLUZIONE_MACRO_PLAYBACK.md](/F:/_CODEX/DDassistant/docs/SOLUZIONE_MACRO_PLAYBACK.md)
+- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](/F:/_CODEX/DDassistant/docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
 - [CHANGELOG.md](/F:/_CODEX/DDassistant/CHANGELOG.md)
 - [ROADMAP.md](/F:/_CODEX/DDassistant/ROADMAP.md)
 
@@ -152,3 +155,13 @@ Il progetto è stato ripulito e modularizzato nelle aree principali:
 - test automatici introdotti sui componenti più importanti
 
 È una buona base per continuare con nuove funzioni o ulteriori rifiniture.
+
+## Creator publication branch
+
+Il progetto ora include anche un filone dedicato alla pubblicazione creator per `Doomsday: Last Survivors`, pensato per usare il contesto ufficiale `Creator Turf` come sbocco reale per contenuti multimediali prodotti col supporto del progetto.
+
+Riferimenti principali:
+
+- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](/F:/_CODEX/DDassistant/docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
+- [interfaces/doomsday-creators-pipeline.md](/F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md)
+- [data/doomsday/creator_turf/creator-program-plan.json](/F:/_CODEX/DDassistant/data/doomsday/creator_turf/creator-program-plan.json)

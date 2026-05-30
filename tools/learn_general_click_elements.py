@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 from datetime import datetime
 import json
 import os
@@ -23,6 +24,7 @@ from learning_mode_common import (
     point_inside_rect as _point_inside_rect,
     prepare_repo_imports,
     relaunch_as_admin as _relaunch_as_admin,
+    resolve_learning_shortcut_path as _resolve_learning_shortcut_path,
     stop_hotkey_pressed as _stop_hotkey_pressed,
     wait_for_window_rect as _wait_for_window_rect,
 )
@@ -32,9 +34,17 @@ SESSION_SECONDS = 120
 _log = make_file_logger(LOG_PATH)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Sessione elevata di learning generale sugli elementi cliccati.")
+    parser.add_argument("--seconds", type=int, default=SESSION_SECONDS, help="Durata sessione in secondi.")
+    return parser.parse_args()
+
+
 def main() -> int:
     os.chdir(REPO_ROOT)
     prepare_repo_imports()
+    args = parse_args()
+    session_seconds = max(10, int(args.seconds))
 
     if not _is_admin():
         return _relaunch_as_admin(__file__)
@@ -74,16 +84,18 @@ def main() -> int:
 
     context = remember_local_workstation_context()
     ensure_launch_game_system_macro()
-    save_launch_game_local_variant(SHORTCUT_PATH)
+    shortcut_path = _resolve_learning_shortcut_path(SHORTCUT_PATH)
+    save_launch_game_local_variant(shortcut_path)
 
     _log("=" * 76)
     _log("Doomsday general click element learner - sessione elevata")
     _log(f"Postazione: {context['host_name']}\\{context['user_name']}")
+    _log(f"Collegamento usato: {shortcut_path}")
     _log("=" * 76)
 
     if not is_process_running(TARGET_EXE):
-        _launch_shortcut_elevated(SHORTCUT_PATH)
-        _log(f"Avvio elevato richiesto tramite {SHORTCUT_PATH}")
+        _launch_shortcut_elevated(shortcut_path)
+        _log(f"Avvio elevato richiesto tramite {shortcut_path}")
     else:
         _log(f"{TARGET_EXE} risulta gia' in esecuzione: uso la finestra esistente per evitare doppio avvio.")
 
@@ -92,7 +104,7 @@ def main() -> int:
         return 1
 
     _log("")
-    _log(f"Monitoraggio click attivo per {SESSION_SECONDS} secondi.")
+    _log(f"Monitoraggio click attivo per {session_seconds} secondi.")
     _log(f"Puoi fermare prima con {STOP_HOTKEY_TEXT}.")
     _log("Clicca liberamente elementi utili del gioco: li censisco con immagine, vista e zona schermo.")
     _log("")
@@ -103,7 +115,7 @@ def main() -> int:
         f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     )
     started_at = time.monotonic()
-    deadline = started_at + SESSION_SECONDS
+    deadline = started_at + session_seconds
     events = []
     observations = []
     previous_element_id = None
@@ -208,11 +220,11 @@ def main() -> int:
         "variant_scope": "local_workstation",
         "host_name": context["host_name"],
         "user_name": context["user_name"],
-        "shortcut_path": SHORTCUT_PATH,
+        "shortcut_path": shortcut_path,
         "target_exe": TARGET_EXE,
         "recorded_click_element_ids": [item.element_id for item in observations],
         "recorded_at": datetime.now().isoformat(timespec="seconds"),
-        "duration_seconds": SESSION_SECONDS,
+        "duration_seconds": session_seconds,
         "stop_hotkey": STOP_HOTKEY_TEXT,
         "objective": "Censire elementi grafici utili generici, con vista e zona semantica.",
     }

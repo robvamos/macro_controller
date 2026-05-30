@@ -94,6 +94,57 @@ class SystemMacroServiceTests(unittest.TestCase):
         wait_mock.assert_called_once()
         popup_wait_mock.assert_called_once()
 
+    def test_run_system_macro_prefers_db_local_variant_for_current_workstation(self):
+        metadata = {
+            "system_key": "launch_game",
+            "eseguibile": "Doomsday.exe",
+            "system_payload": {
+                "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "target_exe": "Doomsday.exe",
+            },
+        }
+        local_variant = {
+            "system_key": "launch_game",
+            "eseguibile": "Doomsday.exe",
+            "system_payload": {
+                "shortcut_path": "D:/Custom/StationDoomsday.lnk",
+                "target_exe": "Doomsday.exe",
+                "variant_scope": "local_workstation",
+                "host_name": "TESTPC",
+                "user_name": "Rob",
+            },
+        }
+        log_callback = Mock()
+
+        with (
+            patch.object(system_macro_service, "get_local_launch_game_variant_for_current_context", return_value=local_variant),
+            patch.object(system_macro_service, "is_process_running", return_value=False),
+            patch("services.system_macro_service.os.path.exists", return_value=True),
+            patch("services.system_macro_service.os.startfile") as startfile_mock,
+            patch.object(system_macro_service, "wait_for_game_fullscreen", return_value={
+                "launched": True,
+                "already_running": False,
+                "fullscreen_ready": True,
+                "fallback_required": False,
+                "game_interface_ready": False,
+                "next_step": "wait_for_initial_blocking_popup",
+                "blocking_popups_pending": True,
+            }),
+            patch.object(system_macro_service, "wait_for_initial_blocking_popup", return_value={
+                "launched": True,
+                "already_running": False,
+                "fullscreen_ready": True,
+                "fallback_required": False,
+                "game_interface_ready": False,
+                "next_step": "dismiss_initial_blocking_popup",
+                "blocking_popups_pending": True,
+                "blocking_popup_detected": True,
+            }),
+        ):
+            system_macro_service.run_system_macro(metadata, log_callback)
+
+        startfile_mock.assert_called_once_with("D:/Custom/StationDoomsday.lnk")
+
     def test_wait_for_game_fullscreen_requires_fallback_after_timeout(self):
         log_callback = Mock()
 
@@ -114,6 +165,18 @@ class SystemMacroServiceTests(unittest.TestCase):
         self.assertTrue(result["fallback_required"])
         self.assertFalse(result["game_interface_ready"])
         self.assertEqual(result["next_step"], "fallback_required")
+
+    def test_resolve_launch_shortcut_for_current_context_prefers_local_variant(self):
+        local_variant = {
+            "system_payload": {
+                "shortcut_path": "D:/Custom/StationDoomsday.lnk",
+                "variant_scope": "local_workstation",
+            }
+        }
+        with patch.object(system_macro_service, "get_local_launch_game_variant_for_current_context", return_value=local_variant):
+            result = system_macro_service.resolve_launch_shortcut_for_current_context()
+
+        self.assertEqual(result, "D:/Custom/StationDoomsday.lnk")
 
     def test_launch_game_definition_exposes_full_interface_objective(self):
         definition = system_macro_service.get_launch_game_system_macro_definition()

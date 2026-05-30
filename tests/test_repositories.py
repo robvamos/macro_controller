@@ -196,7 +196,7 @@ class MacroRepositoryTests(RepositoryTestCase):
                     "target_exe": "Doomsday.exe",
                 }
             }
-        }), patch("services.system_macro_service.save_app_config"):
+        }):
             ensure_launch_game_system_macro()
 
             with patch("services.system_macro_service.get_local_launch_context", return_value={

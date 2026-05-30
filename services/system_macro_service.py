@@ -20,6 +20,7 @@ from repositories.macro_repository import (
 LAUNCH_GAME_SYSTEM_KEY = "launch_game"
 LAUNCH_GAME_SYSTEM_NAME = "Sistema · Avvia Doomsday"
 LOCAL_WORKSTATION_VARIANT_SCOPE = "local_workstation"
+DEFAULT_LAUNCH_SHORTCUT_PATH = "C:/Users/Public/Desktop/Doomsday.lnk"
 DEFAULT_BLOCKING_POPUP_ELEMENT_NAME = "popup_exit_close_symbol"
 LAUNCH_GAME_OBJECTIVE = (
     "Arrivare all'interfaccia del gioco pronta all'uso dopo avvio, fullscreen, caricamento "
@@ -30,7 +31,7 @@ LAUNCH_GAME_OBJECTIVE = (
 def get_launch_game_system_macro_definition():
     config = load_app_config()
     settings = config.get("system_macros", {}).get("launch_game", {})
-    shortcut_path = settings.get("shortcut_path", "C:/Users/Public/Desktop/Doomsday.lnk")
+    shortcut_path = settings.get("shortcut_path", DEFAULT_LAUNCH_SHORTCUT_PATH)
     target_exe = settings.get("target_exe", "Doomsday.exe")
     return {
         "name": LAUNCH_GAME_SYSTEM_NAME,
@@ -148,6 +149,7 @@ def build_local_launch_game_macro_name(*, host_name, user_name):
 
 def get_local_launch_game_variant_for_current_context():
     context = get_local_launch_context()
+    matching_variants = []
     for macro in get_all_macros():
         if macro.get("system_key") != LAUNCH_GAME_SYSTEM_KEY or macro.get("macro_kind") != SYSTEM_MACRO_KIND:
             continue
@@ -155,8 +157,18 @@ def get_local_launch_game_variant_for_current_context():
         if payload.get("variant_scope") != LOCAL_WORKSTATION_VARIANT_SCOPE:
             continue
         if payload.get("host_name") == context["host_name"] and payload.get("user_name") == context["user_name"]:
-            return macro
-    return None
+            matching_variants.append(macro)
+    if not matching_variants:
+        return None
+    matching_variants.sort(
+        key=lambda item: (
+            item.get("data_ultima_modifica") or "",
+            item.get("data_creazione") or "",
+            int(item.get("id") or 0),
+        ),
+        reverse=True,
+    )
+    return matching_variants[0]
 
 
 def save_launch_game_local_variant(shortcut_path, source_macro_metadata=None):
@@ -203,7 +215,6 @@ def save_launch_game_local_variant(shortcut_path, source_macro_metadata=None):
             save_backup=False,
         )
         _update_system_fields(existing["id"], LAUNCH_GAME_SYSTEM_KEY, payload, is_protected=False)
-        _remember_preferred_local_variant(existing["id"], normalized_shortcut, context)
         return existing["id"], existing["nome"] or local_name, False
 
     macro_id = salva_macro_test(
@@ -217,21 +228,38 @@ def save_launch_game_local_variant(shortcut_path, source_macro_metadata=None):
         system_key=LAUNCH_GAME_SYSTEM_KEY,
         system_payload=payload,
     )
-    _remember_preferred_local_variant(macro_id, normalized_shortcut, context)
     return macro_id, local_name, True
 
 
-def _remember_preferred_local_variant(macro_id, shortcut_path, context):
-    config = load_app_config()
-    launch_settings = config.setdefault("system_macros", {}).setdefault("launch_game", {})
-    launch_settings["preferred_local_variant"] = {
-        "macro_id": macro_id,
-        "shortcut_path": shortcut_path,
-        "host_name": context["host_name"],
-        "user_name": context["user_name"],
-        "remembered_state": True,
-    }
-    save_app_config(config)
+def resolve_launch_game_macro_for_current_context(macro_metadata):
+    """Se esiste una variante locale DB per questa postazione, usa quella come sorgente reale."""
+    if macro_metadata.get("system_key") != LAUNCH_GAME_SYSTEM_KEY:
+        return macro_metadata
+
+    payload = macro_metadata.get("system_payload") or {}
+    if payload.get("variant_scope") == LOCAL_WORKSTATION_VARIANT_SCOPE:
+        return macro_metadata
+
+    local_variant = get_local_launch_game_variant_for_current_context()
+    return local_variant or macro_metadata
+
+
+def resolve_launch_shortcut_for_current_context(source_macro_metadata=None):
+    """Restituisce il collegamento di avvio da usare per questa postazione."""
+    local_variant = get_local_launch_game_variant_for_current_context()
+    if local_variant:
+        payload = local_variant.get("system_payload") or {}
+        shortcut_path = (payload.get("shortcut_path") or "").strip()
+        if shortcut_path:
+            return shortcut_path
+
+    source_payload = (source_macro_metadata or {}).get("system_payload") or {}
+    source_shortcut = (source_payload.get("shortcut_path") or "").strip()
+    if source_shortcut:
+        return source_shortcut
+
+    definition = get_launch_game_system_macro_definition()
+    return (definition["payload"].get("shortcut_path") or DEFAULT_LAUNCH_SHORTCUT_PATH).strip()
 
 
 def is_process_running(exe_name):
@@ -251,9 +279,20 @@ def run_system_macro(macro_metadata, log_callback):
     if macro_metadata.get("system_key") != LAUNCH_GAME_SYSTEM_KEY:
         raise ValueError(f"Macro di sistema non gestita: {macro_metadata.get('system_key')}")
 
-    payload = macro_metadata.get("system_payload") or {}
+    effective_macro = resolve_launch_game_macro_for_current_context(macro_metadata)
+    if effective_macro is not macro_metadata and log_callback:
+        effective_payload = effective_macro.get("system_payload") or {}
+        log_callback(
+            (
+                "ℹ️ Trovata variante locale per questa postazione. "
+                f"Uso il collegamento ricordato: '{effective_payload.get('shortcut_path')}'."
+            ),
+            level="INFO",
+        )
+
+    payload = effective_macro.get("system_payload") or {}
     shortcut_path = payload.get("shortcut_path")
-    target_exe = payload.get("target_exe") or macro_metadata.get("eseguibile")
+    target_exe = payload.get("target_exe") or effective_macro.get("eseguibile")
     poll_interval_sec = max(1, int(payload.get("fullscreen_poll_interval_sec", 1)))
     timeout_sec = max(1, int(payload.get("fullscreen_timeout_sec", 180)))
     initial_popup_poll_interval_sec = max(1, int(payload.get("initial_popup_poll_interval_sec", 10)))

@@ -156,6 +156,7 @@ from ui.scheduled_tasks_panel import (
 from ui.game_elements_panel import (
     build_game_element_details_text,
     build_game_element_row,
+    render_fullsize_image_on_canvas,
     render_preview_image,
 )
 from ui.macro_management_panel import build_macro_management_tab
@@ -198,8 +199,10 @@ from services.system_macro_service import (
 )
 from services.ui_graph_macro_link_service import get_macro_plan_for_ui_node
 from services.game_element_ingestion_service import (
+    build_game_element_description,
     build_game_element_ingestion_guidelines,
     build_prepared_asset_summary,
+    create_or_merge_game_element,
     prepare_game_element_asset,
 )
 from doomsday.vision.ui_graph import build_default_doomsday_ui_graph
@@ -2782,6 +2785,8 @@ game_elements_card_photos = {}
 game_elements_selected_id = None
 game_elements_image_label = None
 game_elements_details_label = None
+game_elements_preview_canvas = None
+game_elements_preview_size_label = None
 ui_graph_tree = None
 ui_graph_details_text = None
 ui_graph_relations_text = None
@@ -2792,6 +2797,7 @@ def setup_game_elements_interface(parent):
     """Configura l'interfaccia per gli elementi grafici del gioco"""
     global game_elements_gallery_canvas, game_elements_gallery_frame
     global game_elements_image_label, game_elements_details_label
+    global game_elements_preview_canvas, game_elements_preview_size_label
     
     main_frame = ttk.Frame(parent)
     main_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -2846,10 +2852,43 @@ def setup_game_elements_interface(parent):
     right_frame.pack(side="right", fill="both", expand=False, padx=(5, 0))
     right_frame.configure(width=400)
     
-    # Label per l'anteprima immagine
-    game_elements_image_label = ttk.Label(right_frame, text="Seleziona un elemento per vedere l'anteprima", 
-                                         background=config['theme']['border_color'])
-    game_elements_image_label.pack(fill="both", expand=True, pady=10)
+    preview_hint_label = ttk.Label(
+        right_frame,
+        text="Anteprima 1:1 senza ridimensionamento. Usa le barre per scorrere.",
+        justify="left",
+        wraplength=360,
+    )
+    preview_hint_label.pack(fill="x", pady=(0, 6))
+
+    preview_canvas_frame = ttk.Frame(right_frame)
+    preview_canvas_frame.pack(fill="both", expand=True, pady=(0, 8))
+
+    game_elements_preview_canvas = tk.Canvas(
+        preview_canvas_frame,
+        bg=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['border_color'],
+    )
+    preview_v_scroll = ttk.Scrollbar(preview_canvas_frame, orient="vertical", command=game_elements_preview_canvas.yview)
+    preview_h_scroll = ttk.Scrollbar(preview_canvas_frame, orient="horizontal", command=game_elements_preview_canvas.xview)
+    game_elements_preview_canvas.configure(
+        yscrollcommand=preview_v_scroll.set,
+        xscrollcommand=preview_h_scroll.set,
+    )
+
+    preview_canvas_frame.rowconfigure(0, weight=1)
+    preview_canvas_frame.columnconfigure(0, weight=1)
+    game_elements_preview_canvas.grid(row=0, column=0, sticky="nsew")
+    preview_v_scroll.grid(row=0, column=1, sticky="ns")
+    preview_h_scroll.grid(row=1, column=0, sticky="ew")
+
+    game_elements_image_label = None
+    game_elements_preview_size_label = ttk.Label(
+        right_frame,
+        text="Seleziona un elemento per vedere l'anteprima 1:1.",
+        justify="left",
+    )
+    game_elements_preview_size_label.pack(fill="x", pady=(0, 6))
     
     # Label per i dettagli
     game_elements_details_label = ttk.Label(right_frame, text="", foreground=config['theme']['text_color'], wraplength=360)
@@ -2965,9 +3004,12 @@ def clear_game_element_preview():
     """Svuota anteprima e dettagli dopo cancellazione o refresh."""
     global game_elements_selected_id
     game_elements_selected_id = None
-    if game_elements_image_label:
-        game_elements_image_label.configure(image="", text="Seleziona un elemento per vedere l'anteprima")
-        game_elements_image_label.image = None
+    if game_elements_preview_canvas:
+        game_elements_preview_canvas.delete("all")
+        game_elements_preview_canvas.configure(scrollregion=(0, 0, 1, 1))
+        game_elements_preview_canvas.image = None
+    if game_elements_preview_size_label:
+        game_elements_preview_size_label.configure(text="Seleziona un elemento per vedere l'anteprima 1:1.")
     if game_elements_details_label:
         game_elements_details_label.configure(text="")
 
@@ -2993,7 +3035,15 @@ def select_game_element_by_id(element_id):
         element = get_game_element_by_id(element_id)
         if element:
             image = blob_to_image(element['immagine'], element['formato_immagine'])
-            render_preview_image(image, game_elements_image_label, max_size=(350, 350))
+            render_fullsize_image_on_canvas(
+                image,
+                game_elements_preview_canvas,
+                background=config['theme']['border_color'],
+            )
+            if game_elements_preview_size_label:
+                game_elements_preview_size_label.configure(
+                    text=f"Dimensione reale: {image.width}x{image.height}px"
+                )
             details_text = build_game_element_details_text(element)
             if game_elements_details_label:
                 game_elements_details_label.configure(text=details_text)
@@ -3092,18 +3142,23 @@ def create_new_game_element_dialog():
             return
         
         try:
-            # Converti immagine in BLOB
-            immagine_blob = image_to_blob(current_image, current_formato or 'PNG')
             semantic_hint = semantic_hint_var.get().strip()
-            full_description = descrizione
-            if semantic_hint:
-                full_description = f"{descrizione}\n[semantic_hint] {semantic_hint}".strip()
-            
-            # Crea l'elemento
-            element_id = create_game_element(nome, full_description, immagine_blob, current_formato or 'PNG')
-            console_log(f"✅ Elemento '{nome}' creato con successo (ID: {element_id}).")
+            full_description = build_game_element_description(descrizione, semantic_hint)
+            upsert_result = create_or_merge_game_element(
+                nome,
+                full_description,
+                current_image,
+                current_formato or 'PNG',
+            )
+            if upsert_result.reused_existing:
+                console_log(
+                    f"♻️ Elemento gia' censito: riusato '{upsert_result.element_name}' (ID: {upsert_result.element_id})."
+                )
+            else:
+                console_log(f"✅ Elemento '{upsert_result.element_name}' creato con successo (ID: {upsert_result.element_id}).")
             dialog.destroy()
             refresh_game_elements_list()
+            select_game_element_by_id(upsert_result.element_id)
         except ValueError as e:
             messagebox.showerror("Errore Creazione", f"Errore: {e}", parent=dialog)
         except Exception as e:
@@ -3227,13 +3282,31 @@ def edit_selected_game_element():
             try:
                 # Prepara i parametri di update
                 semantic_hint = semantic_hint_var.get().strip()
-                full_description = descrizione
-                if semantic_hint:
-                    full_description = f"{descrizione}\n[semantic_hint] {semantic_hint}".strip()
+                full_description = build_game_element_description(descrizione, semantic_hint)
                 update_params = {'nome': nome, 'descrizione': full_description}
                 
                 # Se l'immagine è cambiata, aggiorna anche quella
                 if current_image:
+                    matched_element = create_or_merge_game_element(
+                        nome,
+                        full_description,
+                        current_image,
+                        current_formato or 'PNG',
+                        ignore_element_id=element_id,
+                    )
+                    if matched_element.reused_existing:
+                        messagebox.showinfo(
+                            "Elemento gia' presente",
+                            (
+                                "L'immagine caricata corrisponde a un elemento gia' censito.\n\n"
+                                f"Sara' riusato: {matched_element.element_name} (ID: {matched_element.element_id})."
+                            ),
+                            parent=dialog,
+                        )
+                        dialog.destroy()
+                        refresh_game_elements_list()
+                        select_game_element_by_id(matched_element.element_id)
+                        return
                     immagine_blob = image_to_blob(current_image, current_formato or 'PNG')
                     update_params['immagine_blob'] = immagine_blob
                     update_params['formato_immagine'] = current_formato or 'PNG'
@@ -3242,6 +3315,7 @@ def edit_selected_game_element():
                 console_log(f"✅ Elemento '{nome}' aggiornato con successo.")
                 dialog.destroy()
                 refresh_game_elements_list()
+                select_game_element_by_id(element_id)
             except ValueError as e:
                 messagebox.showerror("Errore Modifica", f"Errore: {e}", parent=dialog)
             except Exception as e:

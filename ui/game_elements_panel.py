@@ -1,5 +1,7 @@
 """Helper UI per il pannello degli elementi grafici."""
 
+import tkinter as tk
+
 from PIL import Image, ImageTk
 
 
@@ -39,4 +41,21 @@ def render_preview_image(image, image_label, max_size=(350, 350), clear_text=Tru
     photo = ImageTk.PhotoImage(preview)
     image_label.configure(image=photo, text="" if clear_text else image_label.cget("text"))
     image_label.image = photo
+    return photo
+
+
+def render_fullsize_image_on_canvas(image, canvas, *, background="#000000"):
+    """Mostra l'immagine 1:1 su canvas con area scrollabile, senza ridimensionarla."""
+    if image is None:
+        canvas.delete("all")
+        canvas.configure(scrollregion=(0, 0, 1, 1), background=background)
+        canvas.image = None
+        return None
+
+    photo = ImageTk.PhotoImage(image.copy())
+    canvas.delete("all")
+    canvas.configure(background=background)
+    canvas.create_image(0, 0, image=photo, anchor="nw", tags=("preview_image",))
+    canvas.configure(scrollregion=(0, 0, image.width, image.height))
+    canvas.image = photo
     return photo

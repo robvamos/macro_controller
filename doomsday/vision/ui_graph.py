@@ -504,7 +504,7 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
     )
     empty_space_dismissal_node = UIGraphNode(
         node_id="empty_space_popup_dismissal_band_4",
-        label="Dismiss popup con spazio vuoto fascia 4",
+        label="Dismiss popup con spazio vuoto fascia medio alta",
         kind="spatial_action",
         conditions=(),
         parent_node_id="boot_overlay_layer",
@@ -514,8 +514,9 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         notes=(
             "Regola appresa: alcuni popup bloccanti non espongono un identificatore stabile e si chiudono "
             "cliccando in uno spazio vuoto dello schermo. Dividendo lo schermo in 5 bande orizzontali "
-            "contate dal basso, la fascia 4 e' spesso una zona utile per tentare il dismiss senza colpire "
-            "controlli principali. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni "
+            "contate dal basso, la fascia 4 corrisponde di solito a una zona medio alta utile per tentare il dismiss "
+            "senza colpire controlli principali. Semanticamente questa azione e' lo stesso elemento logico anche quando "
+            "compare su popup diversi. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni "
             "di chiusura riconoscibili."
         ),
     )

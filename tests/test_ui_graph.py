@@ -45,6 +45,8 @@ class UIGraphTests(unittest.TestCase):
             "click_empty_space_band_4_from_bottom",
         )
         self.assertIn("fascia 4", graph.get_node("empty_space_popup_dismissal_band_4").notes)
+        self.assertIn("medio alta", graph.get_node("empty_space_popup_dismissal_band_4").notes)
+        self.assertIn("stesso elemento logico", graph.get_node("empty_space_popup_dismissal_band_4").notes)
         self.assertEqual(graph.get_node("shelter_left_side_controls_panel").parent_node_id, "shelter_interior_view")
         self.assertEqual(graph.get_node("top_right_extended_status_panel").layout_role, "top_right_extended")
         self.assertEqual(graph.get_node("top_left_profile_portrait").parent_node_id, "top_left_compact_status_panel")

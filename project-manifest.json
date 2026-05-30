@@ -3,7 +3,7 @@
   "slug": "ddgameass",
   "path": "F:/_CODEX/DDassistant",
   "status": "active",
-  "version": "0.4.9",
+  "version": "0.4.14",
   "summary": "Doomsday game assistant with macro automation, OCR, roster bootstrap, and visual automation primitives.",
   "description": "Windows desktop Doomsday game assistant with modular macro playback, scheduled execution, reusable OCR, roster bootstrap, and vision helpers.",
   "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
@@ -23,7 +23,9 @@
     "doomsday-roster-bootstrap",
     "doomsday-ocr-roster-extraction",
     "doomsday-vision-template-matching",
-    "doomsday-catalog-ingestion"
+    "doomsday-catalog-ingestion",
+    "doomsday-creator-turf-publication",
+    "doomsday-community-content-pipeline"
   ],
   "interfaces": [
     {
@@ -39,6 +41,25 @@
       "status": "draft",
       "version": "0.3.3",
       "consumers": []
+    },
+    {
+      "name": "doomsday-creators-pipeline",
+      "path": "../interfaces/doomsday-creators-pipeline.md",
+      "status": "draft",
+      "version": "0.1.0",
+      "consumers": [
+        "knowledge",
+        "audiovideopal"
+      ]
+    },
+    {
+      "name": "doomsday-crawler",
+      "path": "../interfaces/doomsday-crawler.md",
+      "status": "draft",
+      "version": "0.1.0",
+      "consumers": [
+        "knowledge"
+      ]
     }
   ],
   "reusable_skills": [
@@ -61,7 +82,8 @@
   "notes": [
     "Bootstrapped with the project-bootstrap skill.",
     "Moved into AI-WORKSPACE from F:/Zombi/macro_controller.",
-    "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects."
+    "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects.",
+    "An emerging Doomsday crawler service for roster discovery and provider-aware hero enrichment is now explicitly exposed for Knowledge support and integration."
   ],
-  "last_updated": "2026-05-29T22:48:00+02:00"
+  "last_updated": "2026-05-30T11:28:00+02:00"
 }

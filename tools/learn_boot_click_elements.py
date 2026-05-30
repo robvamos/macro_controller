@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 from datetime import datetime
 import os
 import time
@@ -22,6 +23,7 @@ from learning_mode_common import (
     point_inside_rect as _point_inside_rect,
     prepare_repo_imports,
     relaunch_as_admin as _relaunch_as_admin,
+    resolve_learning_shortcut_path as _resolve_learning_shortcut_path,
     stop_hotkey_pressed as _stop_hotkey_pressed,
     wait_for_window_rect as _wait_for_window_rect,
 )
@@ -30,9 +32,16 @@ LOG_PATH = REPO_ROOT / "logs" / "boot_click_elements_learner.log"
 _log = make_file_logger(LOG_PATH)
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Sessione elevata di learning sugli elementi di boot del gioco.")
+    parser.add_argument("--shortcut", default=None, help="Collegamento esplicito da usare al posto di quello risolto per la postazione.")
+    return parser.parse_args()
+
+
 def main() -> int:
     os.chdir(REPO_ROOT)
     prepare_repo_imports()
+    args = parse_args()
 
     if not _is_admin():
         return _relaunch_as_admin(__file__)
@@ -65,16 +74,18 @@ def main() -> int:
 
     context = remember_local_workstation_context()
     ensure_launch_game_system_macro()
-    save_launch_game_local_variant(SHORTCUT_PATH)
+    shortcut_path = (args.shortcut or _resolve_learning_shortcut_path(SHORTCUT_PATH)).strip()
+    save_launch_game_local_variant(shortcut_path)
 
     _log("=" * 76)
     _log("Doomsday boot click element learner - sessione elevata")
     _log(f"Postazione: {context['host_name']}\\{context['user_name']}")
+    _log(f"Collegamento usato: {shortcut_path}")
     _log("=" * 76)
 
     if not is_process_running(TARGET_EXE):
-        _launch_shortcut_elevated(SHORTCUT_PATH)
-        _log(f"Avvio elevato richiesto tramite {SHORTCUT_PATH}")
+        _launch_shortcut_elevated(shortcut_path)
+        _log(f"Avvio elevato richiesto tramite {shortcut_path}")
     else:
         _log(f"{TARGET_EXE} risulta gia' in esecuzione: uso la finestra esistente per evitare doppio avvio.")
 
@@ -171,7 +182,7 @@ def main() -> int:
         "variant_scope": "local_workstation",
         "host_name": context["host_name"],
         "user_name": context["user_name"],
-        "shortcut_path": SHORTCUT_PATH,
+        "shortcut_path": shortcut_path,
         "target_exe": TARGET_EXE,
         "recorded_click_element_ids": [item.element_id for item in observations],
         "recorded_at": datetime.now().isoformat(timespec="seconds"),
