@@ -3,6 +3,10 @@ Modulo per la gestione degli elementi grafici del gioco.
 Gestisce l'upload di immagini da file o clipboard Windows.
 """
 
+from runtime_env import sanitize_runtime_env
+
+sanitize_runtime_env()
+
 import tkinter as tk
 from tkinter import messagebox, filedialog, ttk
 from PIL import Image, ImageTk

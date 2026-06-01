@@ -180,8 +180,25 @@ def delete_game_element(element_id):
         conn.close()
 
 
+def delete_all_game_elements():
+    """Elimina tutto il catalogo elementi di gioco."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM GameElements")
+        deleted_count = cursor.rowcount or 0
+        conn.commit()
+        return deleted_count
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+
 __all__ = [
     "create_game_element",
+    "delete_all_game_elements",
     "delete_game_element",
     "get_all_game_elements",
     "get_game_element_by_id",

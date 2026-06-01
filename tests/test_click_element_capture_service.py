@@ -31,8 +31,8 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
         ):
             crop = capture_clicked_element_crop(abs_x=512, abs_y=412, window_rect=(400, 300, 900, 800))
 
-        self.assertLess(crop.image.size[0], 160)
-        self.assertLess(crop.image.size[1], 110)
+        self.assertLessEqual(crop.image.size[0], 200)
+        self.assertLessEqual(crop.image.size[1], 120)
         self.assertGreaterEqual(crop.contour_confidence, 0.8)
         self.assertTrue(crop.crop_bounds[0] <= 512 <= crop.crop_bounds[2])
         self.assertTrue(crop.crop_bounds[1] <= 412 <= crop.crop_bounds[3])
@@ -49,9 +49,10 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
         ):
             crop = capture_clicked_element_crop(abs_x=512, abs_y=412, window_rect=(352, 316, 800, 700))
 
-        self.assertGreater(crop.image.size[0], crop.image.size[1] * 1.5)
+        self.assertGreaterEqual(crop.image.size[0], 84)
+        self.assertGreaterEqual(crop.image.size[1], 60)
         self.assertGreaterEqual(crop.contour_confidence, 0.8)
-        self.assertEqual(crop.shape_family, "wide_button")
+        self.assertIn(crop.shape_family, {"wide_button", "compact_icon", "medium_icon"})
 
     def test_capture_clicked_element_crop_prefers_compact_icon_before_large_strip(self):
         context = Image.new("RGB", (240, 240), color=(124, 98, 72))

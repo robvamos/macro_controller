@@ -9,8 +9,12 @@ import subprocess
 import sys
 import time
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from runtime_env import sanitize_runtime_env
+
 SHORTCUT_PATH = "C:/Users/Public/Desktop/Doomsday.lnk"
 TARGET_EXE = "Doomsday.exe"
 STOP_HOTKEY_TEXT = "CTRL+ALT+S"
@@ -100,8 +104,13 @@ def make_file_logger(log_path):
 
 
 def prepare_repo_imports():
+    sanitize_python_runtime()
     if str(REPO_ROOT) not in sys.path:
         sys.path.insert(0, str(REPO_ROOT))
+
+
+def sanitize_python_runtime():
+    sanitize_runtime_env()
 
 
 def resolve_learning_shortcut_path(default_shortcut=SHORTCUT_PATH):
@@ -132,6 +141,7 @@ __all__ = [
     "normalize_point",
     "point_inside_rect",
     "prepare_repo_imports",
+    "sanitize_python_runtime",
     "relaunch_as_admin",
     "stop_hotkey_pressed",
     "wait_for_window_rect",

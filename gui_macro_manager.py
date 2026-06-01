@@ -156,6 +156,8 @@ from ui.scheduled_tasks_panel import (
 from ui.game_elements_panel import (
     build_game_element_details_text,
     build_game_element_row,
+    compute_crop_display_size,
+    map_display_selection_to_original,
     render_fullsize_image_on_canvas,
     render_preview_image,
 )
@@ -203,6 +205,7 @@ from services.game_element_ingestion_service import (
     build_game_element_ingestion_guidelines,
     build_prepared_asset_summary,
     create_or_merge_game_element,
+    find_matching_game_element,
     prepare_game_element_asset,
 )
 from doomsday.vision.ui_graph import build_default_doomsday_ui_graph
@@ -2816,6 +2819,7 @@ def setup_game_elements_interface(parent):
     
     ttk.Button(buttons_frame, text="➕ Nuovo Elemento", command=create_new_game_element_dialog).pack(side="left", padx=5)
     ttk.Button(buttons_frame, text="✏️ Modifica", command=edit_selected_game_element).pack(side="left", padx=5)
+    ttk.Button(buttons_frame, text="✂️ Ritaglia", command=crop_selected_game_element).pack(side="left", padx=5)
     ttk.Button(buttons_frame, text="🗑️ Elimina", command=delete_selected_game_element).pack(side="left", padx=5)
     ttk.Button(buttons_frame, text="🔄 Aggiorna", command=refresh_game_elements_list).pack(side="left", padx=5)
     
@@ -3055,6 +3059,239 @@ def open_game_element_from_gallery(element_id):
     select_game_element_by_id(element_id)
     edit_selected_game_element()
 
+
+def open_game_element_crop_dialog(source_image, *, title):
+    """Apre un piccolo editor per ritagliare meglio un elemento senza deformarlo."""
+    if source_image is None:
+        return None
+
+    dialog = tk.Toplevel(root)
+    dialog.title(title)
+    dialog.transient(root)
+    dialog.grab_set()
+    dialog.geometry("920x760")
+    apply_dialog_styles(dialog)
+
+    ttk.Label(
+        dialog,
+        text=(
+            "Seleziona il riquadro da tenere. La vista qui sotto serve solo per lavorare meglio: "
+            "il salvataggio usera' sempre i pixel originali senza ridimensionare l'elemento."
+        ),
+        wraplength=860,
+        justify="left",
+    ).pack(fill="x", padx=12, pady=(12, 6))
+
+    original_image = source_image.copy()
+    display_size = compute_crop_display_size(original_image.size, (860, 560))
+    display_image = original_image.copy()
+    if display_image.size != display_size:
+        display_image = display_image.resize(display_size, game_elements.Image.Resampling.LANCZOS)
+
+    photo = game_elements.ImageTk.PhotoImage(display_image)
+    canvas_frame = ttk.Frame(dialog)
+    canvas_frame.pack(fill="both", expand=True, padx=12, pady=8)
+    canvas = tk.Canvas(
+        canvas_frame,
+        width=display_size[0],
+        height=display_size[1],
+        bg=config['theme']['border_color'],
+        highlightthickness=1,
+        highlightbackground=config['theme']['border_color'],
+    )
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, image=photo, anchor="nw")
+    canvas.image = photo
+
+    info_var = tk.StringVar(
+        value=(
+            f"Originale: {original_image.width}x{original_image.height}px  |  "
+            f"Vista di lavoro: {display_size[0]}x{display_size[1]}px"
+        )
+    )
+    ttk.Label(dialog, textvariable=info_var, justify="left").pack(fill="x", padx=12, pady=(0, 6))
+
+    result = {"image": None}
+    selection_state = {
+        "start": None,
+        "box": None,
+        "rect": None,
+    }
+
+    def clamp_point(x, y):
+        return (
+            max(0, min(display_size[0], int(round(x)))),
+            max(0, min(display_size[1], int(round(y)))),
+        )
+
+    def update_selection_box(x1, y1, x2, y2):
+        left, top = clamp_point(min(x1, x2), min(y1, y2))
+        right, bottom = clamp_point(max(x1, x2), max(y1, y2))
+        selection_state["box"] = (left, top, right, bottom)
+        if selection_state["rect"] is None:
+            selection_state["rect"] = canvas.create_rectangle(
+                left,
+                top,
+                right,
+                bottom,
+                outline="#00E0FF",
+                width=2,
+                dash=(5, 3),
+            )
+        else:
+            canvas.coords(selection_state["rect"], left, top, right, bottom)
+
+        width = max(0, right - left)
+        height = max(0, bottom - top)
+        info_var.set(
+            f"Originale: {original_image.width}x{original_image.height}px  |  "
+            f"Selezione vista: {width}x{height}px"
+        )
+
+    def start_selection(event):
+        selection_state["start"] = clamp_point(event.x, event.y)
+        update_selection_box(*selection_state["start"], *selection_state["start"])
+
+    def drag_selection(event):
+        if not selection_state["start"]:
+            return
+        update_selection_box(*selection_state["start"], event.x, event.y)
+
+    def end_selection(event):
+        if not selection_state["start"]:
+            return
+        update_selection_box(*selection_state["start"], event.x, event.y)
+        selection_state["start"] = None
+
+    def reset_selection():
+        selection_state["start"] = None
+        selection_state["box"] = None
+        if selection_state["rect"] is not None:
+            canvas.delete(selection_state["rect"])
+            selection_state["rect"] = None
+        info_var.set(
+            f"Originale: {original_image.width}x{original_image.height}px  |  "
+            f"Vista di lavoro: {display_size[0]}x{display_size[1]}px"
+        )
+
+    def use_entire_image():
+        result["image"] = original_image.copy()
+        dialog.destroy()
+
+    def apply_crop():
+        selection_box = selection_state["box"]
+        if not selection_box:
+            messagebox.showwarning("Ritaglio elemento", "Disegna prima il riquadro da tenere.", parent=dialog)
+            return
+        try:
+            crop_bounds = map_display_selection_to_original(
+                selection_box,
+                original_size=original_image.size,
+                display_size=display_size,
+            )
+        except ValueError as exc:
+            messagebox.showwarning("Ritaglio elemento", str(exc), parent=dialog)
+            return
+
+        if (crop_bounds[2] - crop_bounds[0]) < 8 or (crop_bounds[3] - crop_bounds[1]) < 8:
+            messagebox.showwarning(
+                "Ritaglio elemento",
+                "Il ritaglio e' troppo piccolo. Allarga un po' la selezione.",
+                parent=dialog,
+            )
+            return
+        result["image"] = original_image.crop(crop_bounds)
+        dialog.destroy()
+
+    canvas.bind("<ButtonPress-1>", start_selection)
+    canvas.bind("<B1-Motion>", drag_selection)
+    canvas.bind("<ButtonRelease-1>", end_selection)
+
+    buttons_frame = ttk.Frame(dialog)
+    buttons_frame.pack(fill="x", padx=12, pady=(4, 12))
+    ttk.Button(buttons_frame, text="✂️ Applica Ritaglio", command=apply_crop).pack(side="left", padx=4)
+    ttk.Button(buttons_frame, text="🧹 Reset", command=reset_selection).pack(side="left", padx=4)
+    ttk.Button(buttons_frame, text="🖼️ Tieni Immagine Intera", command=use_entire_image).pack(side="left", padx=4)
+    ttk.Button(buttons_frame, text="Annulla", command=dialog.destroy).pack(side="right", padx=4)
+
+    dialog.wait_window()
+    return result["image"]
+
+
+def save_cropped_game_element_image(element_id, *, nome, descrizione, source_image, source_format):
+    """Salva un ritaglio aggiornando l'elemento o riusando un duplicato gia' noto."""
+    semantic_hint = ""
+    if "[semantic_hint]" in (descrizione or ""):
+        _, semantic_hint = (descrizione or "").split("[semantic_hint]", 1)
+        semantic_hint = semantic_hint.strip()
+
+    prepared_asset = prepare_game_element_asset(
+        source_image,
+        source_format=source_format,
+        semantic_hint=semantic_hint,
+    )
+    matched_element = find_matching_game_element(
+        prepared_asset.image,
+        ignore_element_id=element_id,
+    )
+    if matched_element is not None:
+        messagebox.showinfo(
+            "Elemento gia' presente",
+            (
+                "Questo ritaglio corrisponde a un elemento gia' censito.\n\n"
+                f"Sara' riusato: {matched_element['nome']} (ID: {matched_element['id']})."
+            ),
+            parent=root,
+        )
+        refresh_game_elements_list()
+        select_game_element_by_id(int(matched_element["id"]))
+        return
+
+    image_blob = image_to_blob(prepared_asset.image, prepared_asset.storage_format)
+    update_game_element(
+        element_id,
+        nome=nome,
+        descrizione=descrizione,
+        immagine_blob=image_blob,
+        formato_immagine=prepared_asset.storage_format,
+    )
+    console_log(f"✅ Ritaglio aggiornato per '{nome}'.")
+    refresh_game_elements_list()
+    select_game_element_by_id(element_id)
+
+
+def crop_selected_game_element():
+    """Permette di rifinire il ritaglio di un elemento senza eliminarlo."""
+    global game_elements_selected_id
+    if not game_elements_selected_id:
+        messagebox.showwarning("Ritaglia Elemento", "Seleziona un elemento da ritagliare.")
+        return
+
+    try:
+        element_id = int(game_elements_selected_id)
+        element = get_game_element_by_id(element_id)
+        if not element:
+            messagebox.showerror("Ritaglia Elemento", "Elemento non trovato.")
+            return
+
+        current_image = blob_to_image(element['immagine'], element['formato_immagine'])
+        cropped_image = open_game_element_crop_dialog(
+            current_image,
+            title=f"Ritaglia Elemento: {element['nome']}",
+        )
+        if cropped_image is None:
+            return
+
+        save_cropped_game_element_image(
+            element_id,
+            nome=element['nome'],
+            descrizione=element.get('descrizione') or "",
+            source_image=cropped_image,
+            source_format=element['formato_immagine'] or "PNG",
+        )
+    except Exception as e:
+        messagebox.showerror("Ritaglia Elemento", f"Errore: {e}")
+
 def create_new_game_element_dialog():
     """Dialog per creare un nuovo elemento grafico"""
     dialog = tk.Toplevel(root)
@@ -3125,9 +3362,22 @@ def create_new_game_element_dialog():
         image, formato = paste_image_from_clipboard()
         if image:
             refresh_prepared_asset(image, formato)
+
+    def crop_current_image():
+        nonlocal current_image, current_formato
+        if not current_image:
+            messagebox.showwarning("Ritaglia Elemento", "Carica prima un'immagine.", parent=dialog)
+            return
+        cropped_image = open_game_element_crop_dialog(
+            current_image,
+            title="Ritaglia Nuovo Elemento",
+        )
+        if cropped_image is not None:
+            refresh_prepared_asset(cropped_image, current_formato or "PNG")
     
     ttk.Button(buttons_upload_frame, text="📁 Carica da File", command=load_from_file).pack(side="left", padx=5)
     ttk.Button(buttons_upload_frame, text="📋 Incolla da Clipboard", command=paste_from_clipboard).pack(side="left", padx=5)
+    ttk.Button(buttons_upload_frame, text="✂️ Ritaglia", command=crop_current_image).pack(side="left", padx=5)
     
     def validate_and_create():
         nome = nome_var.get().strip()
@@ -3267,9 +3517,22 @@ def edit_selected_game_element():
             image, formato = paste_image_from_clipboard()
             if image:
                 refresh_prepared_asset(image, formato)
+
+        def crop_current_image():
+            nonlocal current_image, current_formato
+            if not current_image:
+                messagebox.showwarning("Ritaglia Elemento", "Nessuna immagine disponibile.", parent=dialog)
+                return
+            cropped_image = open_game_element_crop_dialog(
+                current_image,
+                title=f"Ritaglia Elemento: {element['nome']}",
+            )
+            if cropped_image is not None:
+                refresh_prepared_asset(cropped_image, current_formato or "PNG")
         
         ttk.Button(buttons_upload_frame, text="📁 Carica da File", command=load_from_file).pack(side="left", padx=5)
         ttk.Button(buttons_upload_frame, text="📋 Incolla da Clipboard", command=paste_from_clipboard).pack(side="left", padx=5)
+        ttk.Button(buttons_upload_frame, text="✂️ Ritaglia", command=crop_current_image).pack(side="left", padx=5)
         
         def validate_and_update():
             nome = nome_var.get().strip()

@@ -16,8 +16,8 @@ from services.game_element_ingestion_service import (
 )
 
 
-DEFAULT_CLICK_CAPTURE_RADIUS_PX = 120
-DEFAULT_CONTOUR_PADDING_PX = 8
+DEFAULT_CLICK_CAPTURE_RADIUS_PX = 180
+DEFAULT_CONTOUR_PADDING_PX = 14
 DOOMSDAY_GRAPH_ID = "doomsday-default-ui-graph"
 UNKNOWN_VIEW_NODE_ID = "unknown_main_view"
 REGION_VIEW_NODE_ID = "exterior_region_view"
@@ -472,17 +472,27 @@ def _find_probable_element_box(image, *, local_click, padding_px):
         return _fallback_click_box(image.size, local_click), 0.0, "fallback"
 
     score, x, y, width, height, contains_click, _shape_family = _select_best_candidate(candidates, image.size)
-    left = max(0, x - padding_px)
-    top = max(0, y - padding_px)
-    right = min(image_width, x + width + padding_px)
-    bottom = min(image_height, y + height + padding_px)
-    shape_family = _classify_shape_family(right - left, bottom - top, image_width, image_height)
+    shape_family = _classify_shape_family(width, height, image_width, image_height)
+    shape_padding = _padding_for_shape_family(shape_family, base_padding=padding_px)
+    left = max(0, x - shape_padding)
+    top = max(0, y - shape_padding)
+    right = min(image_width, x + width + shape_padding)
+    bottom = min(image_height, y + height + shape_padding)
+    left, top, right, bottom = _normalize_crop_box_for_shape(
+        left,
+        top,
+        right,
+        bottom,
+        image_width=image_width,
+        image_height=image_height,
+        shape_family=shape_family,
+    )
     confidence = 0.85 if contains_click else 0.55
     return (left, top, right, bottom), confidence, shape_family
 
 
 def _iter_expanding_windows(image_width, image_height):
-    base_windows = (18, 28, 40, 56, 78, 104, 132, 164)
+    base_windows = (28, 42, 60, 82, 108, 138, 172, 210)
     max_radius = max(8, min(image_width, image_height) // 2)
     for radius in base_windows:
         yield min(radius, max_radius)
@@ -579,14 +589,26 @@ def _shape_bonus(width, height, *, shape_family):
     return 0.0
 
 
+def _padding_for_shape_family(shape_family, *, base_padding):
+    if shape_family == "compact_icon":
+        return max(base_padding, 18)
+    if shape_family == "medium_icon":
+        return max(base_padding, 22)
+    if shape_family == "large_panel":
+        return max(base_padding, 24)
+    if shape_family == "wide_button":
+        return max(base_padding, 18)
+    return max(base_padding, 16)
+
+
 def _classify_shape_family(width, height, image_width, image_height):
     ratio = width / float(max(1, height))
     area_ratio = (width * height) / float(max(1, image_width * image_height))
-    if ratio >= 1.9 and height >= 20:
+    if ratio >= 1.6 and height >= 20:
         return "wide_button"
-    if area_ratio >= 0.09 or height >= int(image_height * 0.34):
+    if area_ratio >= 0.14 or height >= int(image_height * 0.40):
         return "large_panel"
-    if 0.68 <= ratio <= 1.55 and width <= int(image_width * 0.55):
+    if 0.72 <= ratio <= 1.40 and width <= int(image_width * 0.48):
         return "compact_icon"
     if 0.55 <= ratio <= 1.8:
         return "medium_icon"
@@ -595,8 +617,8 @@ def _classify_shape_family(width, height, image_width, image_height):
 
 def _wide_strip_penalty(width, height, image_height):
     ratio = width / float(max(1, height))
-    if ratio >= 4.4 and height <= max(16, int(image_height * 0.30)):
-        return 0.35
+    if ratio >= 4.0 and height <= max(18, int(image_height * 0.32)):
+        return 0.42
     return 0.0
 
 
@@ -646,14 +668,81 @@ def _pick_progressive_candidate(candidates, image_width, image_height):
         for candidate in candidates
         if not _looks_like_wide_strip(candidate[3], candidate[4], image_width, image_height)
     ]
-    for candidate in non_strip_candidates or candidates:
+    pool = non_strip_candidates or candidates
+    accepted = []
+    for candidate in pool:
         threshold = accepted_thresholds.get(candidate[6], 1.12)
         if candidate[0] >= threshold:
+            accepted.append(candidate)
+    if not accepted:
+        return None
+
+    best_candidate = accepted[0]
+    wide_candidates = [candidate for candidate in accepted if candidate[6] == "wide_button"]
+    if wide_candidates and best_candidate[6] != "wide_button":
+        best_wide = wide_candidates[0]
+        if best_wide[0] >= best_candidate[0] - 0.35 and best_wide[3] >= int(best_candidate[3] * 1.4):
+            return best_wide
+    for candidate in accepted:
+        if candidate[6] == best_candidate[6]:
             return candidate
     return None
 
 
-def _fallback_click_box(image_size, local_click, fallback_radius=48):
+def _normalize_crop_box_for_shape(left, top, right, bottom, *, image_width, image_height, shape_family):
+    width = max(1, right - left)
+    height = max(1, bottom - top)
+    center_x = left + width / 2.0
+    center_y = top + height / 2.0
+
+    if shape_family == "compact_icon":
+        target_side = max(84, width, height)
+        return _build_centered_box(center_x, center_y, target_side, target_side, image_width, image_height)
+    if shape_family == "medium_icon":
+        target_side = max(104, width, height)
+        return _build_centered_box(center_x, center_y, target_side, target_side, image_width, image_height)
+    if shape_family == "large_panel":
+        target_side = max(132, width, height)
+        return _build_centered_box(center_x, center_y, target_side, target_side, image_width, image_height)
+    if shape_family == "wide_button":
+        target_width = max(180, width)
+        target_height = max(64, height)
+        return _build_centered_box(center_x, center_y, target_width, target_height, image_width, image_height)
+    target_side = max(96, width, height)
+    return _build_centered_box(center_x, center_y, target_side, target_side, image_width, image_height)
+
+
+def _build_centered_box(center_x, center_y, target_width, target_height, image_width, image_height):
+    half_width = target_width / 2.0
+    half_height = target_height / 2.0
+    left = int(round(center_x - half_width))
+    top = int(round(center_y - half_height))
+    right = int(round(center_x + half_width))
+    bottom = int(round(center_y + half_height))
+
+    if left < 0:
+        right -= left
+        left = 0
+    if top < 0:
+        bottom -= top
+        top = 0
+    if right > image_width:
+        shift = right - image_width
+        left = max(0, left - shift)
+        right = image_width
+    if bottom > image_height:
+        shift = bottom - image_height
+        top = max(0, top - shift)
+        bottom = image_height
+
+    if right <= left:
+        right = min(image_width, left + 1)
+    if bottom <= top:
+        bottom = min(image_height, top + 1)
+    return left, top, right, bottom
+
+
+def _fallback_click_box(image_size, local_click, fallback_radius=72):
     image_width, image_height = image_size
     click_x, click_y = local_click
     return (

@@ -24,7 +24,8 @@ $arguments = if ($Mode -eq "boot") {
 }
 
 Start-Process -Verb RunAs -FilePath "powershell.exe" -ArgumentList @(
+    "-NoProfile",
     "-NoExit",
     "-Command",
-    ("Set-Location '{0}'; & '{1}' {2}" -f $repoRoot, $python, (($arguments | ForEach-Object { "'$_'" }) -join ' '))
+    ("Set-Location '{0}'; Remove-Item Env:PYTHONPATH -ErrorAction SilentlyContinue; Remove-Item Env:PYTHONHOME -ErrorAction SilentlyContinue; & '{1}' {2}" -f $repoRoot, $python, (($arguments | ForEach-Object { "'$_'" }) -join ' '))
 ) -WorkingDirectory $repoRoot
