@@ -572,10 +572,10 @@
     {
       "conditions": [],
       "kind": "spatial_action",
-      "label": "Dismiss popup con spazio vuoto fascia 4",
+      "label": "Dismiss popup con spazio vuoto fascia medio alta",
       "layout_role": "empty_space_recovery",
       "node_id": "empty_space_popup_dismissal_band_4",
-      "notes": "Regola appresa: alcuni popup bloccanti non espongono un identificatore stabile e si chiudono cliccando in uno spazio vuoto dello schermo. Dividendo lo schermo in 5 bande orizzontali contate dal basso, la fascia 4 e' spesso una zona utile per tentare il dismiss senza colpire controlli principali. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni di chiusura riconoscibili.",
+      "notes": "Regola appresa: alcuni popup bloccanti non espongono un identificatore stabile e si chiudono cliccando in uno spazio vuoto dello schermo. Dividendo lo schermo in 5 bande orizzontali contate dal basso, la fascia 4 corrisponde di solito a una zona medio alta utile per tentare il dismiss senza colpire controlli principali. Semanticamente questa azione e' lo stesso elemento logico anche quando compare su popup diversi. Questa e' una recovery spaziale non vincolante, da usare dopo i bottoni di chiusura riconoscibili.",
       "parent_node_id": "boot_overlay_layer",
       "recovery_action": "click_empty_space_band_4_from_bottom",
       "tags": [
