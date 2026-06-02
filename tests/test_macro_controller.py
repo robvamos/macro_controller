@@ -77,6 +77,7 @@ class MacroControllerRobustnessTests(unittest.TestCase):
             patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
             patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
             patch.object(macro_controller, "_create_visual_click_guard", return_value=fake_guard),
+            patch.object(macro_controller, "_attempt_popup_recovery", return_value=(False, None, None)) as recovery,
             patch.object(macro_controller, "_move_mouse_absolute"),
             patch.object(macro_controller, "_dispatch_mouse_button"),
         ):
@@ -91,8 +92,183 @@ class MacroControllerRobustnessTests(unittest.TestCase):
             )
 
         self.assertEqual(fake_guard.verify_or_prime.call_count, 2)
+        recovery.assert_called_once()
         logged_messages = [call.args[0] for call in log_callback.call_args_list if call.args]
         self.assertTrue(any("Contesto visivo non compatibile all'avvio dell'iterazione" in message for message in logged_messages))
+        self.assertTrue(any("tentativo di recovery non ha ripristinato il riferimento" in message for message in logged_messages))
+
+    def test_playback_recovers_from_visual_mismatch_and_continues_when_popup_recovery_succeeds(self):
+        log_callback = Mock()
+        events = [
+            {"time": 0, "type": "mouse", "event": "down", "button": "left", "normalized_x": 0.5, "normalized_y": 0.25},
+        ]
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.side_effect = [
+            {"ok": True, "primed": True, "score": 1.0, "threshold": 0.8},
+            {"ok": False, "primed": False, "score": 0.42, "threshold": 0.8},
+        ]
+
+        with (
+            patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
+            patch.object(macro_controller, "_create_visual_click_guard", return_value=fake_guard),
+            patch.object(
+                macro_controller,
+                "_attempt_popup_recovery",
+                return_value=(True, "back_return_symbol", {"ok": True, "primed": False, "score": 0.91, "threshold": 0.8}),
+            ) as recovery,
+            patch.object(macro_controller, "_move_mouse_absolute"),
+            patch.object(macro_controller, "_dispatch_mouse_button") as dispatch_button,
+        ):
+            macro_controller.clear_playback_stop_request()
+            macro_controller.play_macro_events(
+                events,
+                "Doomsday.exe",
+                log_callback=log_callback,
+                loop_enabled=True,
+                loop_delay=0,
+                max_repetitions=2,
+            )
+
+        recovery.assert_called_once()
+        self.assertEqual(dispatch_button.call_count, 2)
+        logged_messages = [call.args[0] for call in log_callback.call_args_list if call.args]
+        self.assertTrue(any("visual_guard_recovered strategy='back_return_symbol'" in message for message in logged_messages))
+
+    def test_playback_primes_fixed_visual_reference_from_recorded_element(self):
+        log_callback = Mock()
+        events = [
+            {
+                "time": 0,
+                "type": "mouse",
+                "event": "down",
+                "button": "left",
+                "normalized_x": 0.5,
+                "normalized_y": 0.25,
+                "game_element_id": 12,
+            },
+        ]
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.return_value = {"ok": True, "primed": False, "score": 1.0, "threshold": 0.8}
+
+        with (
+            patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
+            patch.object(macro_controller, "_create_visual_click_guard", return_value=fake_guard),
+            patch.object(macro_controller, "_move_mouse_absolute"),
+            patch.object(macro_controller, "_dispatch_mouse_button"),
+            patch.object(macro_controller, "get_game_element_by_id", return_value={"id": 12, "nome": "ref", "immagine": b"blob", "formato_immagine": "PNG"}),
+            patch.object(macro_controller, "blob_to_image", return_value=Mock(copy=Mock(return_value=Mock()), close=Mock())),
+        ):
+            macro_controller.clear_playback_stop_request()
+            macro_controller.play_macro_events(events, "Doomsday.exe", log_callback=log_callback)
+
+        fake_guard.set_reference_image.assert_called_once()
+
+    def test_playback_loop_freezes_runtime_reference_after_first_prime(self):
+        log_callback = Mock()
+        events = [
+            {"time": 0, "type": "mouse", "event": "down", "button": "left", "normalized_x": 0.5, "normalized_y": 0.25},
+        ]
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.return_value = {"ok": True, "primed": True, "score": 1.0, "threshold": 0.8}
+        fake_guard.has_reference.return_value = False
+
+        with (
+            patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
+            patch.object(macro_controller, "_create_visual_click_guard", return_value=fake_guard),
+            patch.object(macro_controller, "_move_mouse_absolute"),
+            patch.object(macro_controller, "_dispatch_mouse_button"),
+            patch.object(macro_controller, "_prime_visual_guard_from_recorded_macro", return_value=False),
+        ):
+            macro_controller.clear_playback_stop_request()
+            macro_controller.play_macro_events(
+                events,
+                "Doomsday.exe",
+                log_callback=log_callback,
+                loop_enabled=True,
+                loop_delay=0,
+                max_repetitions=1,
+            )
+
+        fake_guard.freeze_current_reference.assert_called_once()
+
+    def test_popup_recovery_uses_close_symbol_when_available(self):
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.return_value = {"ok": True, "primed": False, "score": 0.92, "threshold": 0.8}
+        no_match = Mock(found=False, center=None, matched_element_name=None)
+        search_result = Mock(found=True, center=(700, 400), matched_element_name="popup_exit_close_symbol")
+
+        with (
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, search_result]),
+            patch.object(macro_controller, "_left_click_at") as left_click,
+        ):
+            recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(
+                target_exe="Doomsday.exe",
+                game_rect=(100, 100, 1100, 900),
+                expected_abs_x=300,
+                expected_abs_y=250,
+                click_context_guard=fake_guard,
+                log_callback=Mock(),
+            )
+
+        self.assertTrue(recovered)
+        self.assertEqual(strategy, "close_symbol")
+        self.assertEqual(verify_result["ok"], True)
+        left_click.assert_called_once_with(700, 400)
+
+    def test_popup_recovery_clicks_back_return_symbol_multiple_times_until_reference_is_back(self):
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.side_effect = [
+            {"ok": False, "primed": False, "score": 0.44, "threshold": 0.8},
+            {"ok": True, "primed": False, "score": 0.90, "threshold": 0.8},
+        ]
+        back_return_match = Mock(found=True, center=(440, 160), matched_element_name="popup_back_return_symbol")
+
+        with (
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[back_return_match, back_return_match]),
+            patch.object(macro_controller, "_left_click_at") as left_click,
+        ):
+            recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(
+                target_exe="Doomsday.exe",
+                game_rect=(100, 100, 1100, 900),
+                expected_abs_x=300,
+                expected_abs_y=250,
+                click_context_guard=fake_guard,
+                log_callback=Mock(),
+            )
+
+        self.assertTrue(recovered)
+        self.assertEqual(strategy, "back_return_symbol")
+        self.assertEqual(verify_result["ok"], True)
+        self.assertEqual(left_click.call_count, 2)
+
+    def test_popup_recovery_falls_back_to_empty_space_band(self):
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.side_effect = [
+            {"ok": False, "primed": False, "score": 0.30, "threshold": 0.8},
+            {"ok": True, "primed": False, "score": 0.88, "threshold": 0.8},
+        ]
+        no_match = Mock(found=False, center=None, matched_element_name=None)
+
+        with (
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, no_match]),
+            patch.object(macro_controller, "_left_click_at") as left_click,
+        ):
+            recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(
+                target_exe="Doomsday.exe",
+                game_rect=(100, 100, 1100, 900),
+                expected_abs_x=300,
+                expected_abs_y=250,
+                click_context_guard=fake_guard,
+                log_callback=Mock(),
+            )
+
+        self.assertTrue(recovered)
+        self.assertEqual(strategy, "empty_space_band_4")
+        self.assertEqual(verify_result["ok"], True)
+        self.assertGreaterEqual(left_click.call_count, 2)
 
     def test_mouse_down_recording_captures_clicked_element_observation(self):
         observation = Mock(

@@ -31,6 +31,7 @@ class UIGraphTests(unittest.TestCase):
         self.assertIn("shelter_right_edge_alerts_panel", node_ids)
         self.assertIn("boot_overlay_layer", node_ids)
         self.assertIn("initial_blocking_popup_close_symbol", node_ids)
+        self.assertIn("popup_back_return_symbol", node_ids)
         self.assertIn("empty_space_popup_dismissal_band_4", node_ids)
         self.assertIn("playable_interface_without_boot_popup", node_ids)
         self.assertEqual(graph.get_node("initial_blocking_popup_close_symbol").recovery_action, "click_popup_exit_close_symbol")
@@ -40,6 +41,15 @@ class UIGraphTests(unittest.TestCase):
             graph.get_node("initial_blocking_popup_close_symbol").conditions[0].element_names,
         )
         self.assertIn("basta cliccare", graph.get_node("initial_blocking_popup_close_symbol").notes)
+        self.assertEqual(
+            graph.get_node("popup_back_return_symbol").recovery_action,
+            "click_popup_back_return_symbol_until_gone",
+        )
+        self.assertIn("2 o 3 volte", graph.get_node("popup_back_return_symbol").notes)
+        self.assertIn(
+            "popup_back_return_symbol",
+            graph.get_node("playable_interface_without_boot_popup").conditions[1].element_names,
+        )
         self.assertEqual(
             graph.get_node("empty_space_popup_dismissal_band_4").recovery_action,
             "click_empty_space_band_4_from_bottom",
@@ -112,7 +122,7 @@ class UIGraphTests(unittest.TestCase):
 
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[default_result, found_result, absent_result],
+            side_effect=[default_result, found_result, default_result, absent_result, default_result],
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 
@@ -129,7 +139,7 @@ class UIGraphTests(unittest.TestCase):
 
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[default_result, present_result, absent_result],
+            side_effect=[default_result, present_result, default_result, absent_result, absent_result],
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 

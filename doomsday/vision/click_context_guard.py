@@ -11,7 +11,7 @@ class ClickContextGuardConfig:
     enabled: bool = True
     radius_px: int = 48
     resize_px: int = 32
-    min_similarity: float = 0.55
+    min_similarity: float = 0.8
     stop_on_mismatch: bool = True
     max_reference_images: int = 3
     translation_tolerance_px: int = 2
@@ -142,14 +142,52 @@ def _compute_single_similarity(reference_image, candidate_image):
     return max(0.0, 1.0 - (mean_abs_diff / 255.0))
 
 
+def _compute_histogram_similarity(reference_image, candidate_image):
+    reference_histogram = reference_image.histogram()
+    candidate_histogram = candidate_image.histogram()
+    total_reference = max(1, sum(reference_histogram))
+    total_candidate = max(1, sum(candidate_histogram))
+
+    distance = 0.0
+    for ref_value, cand_value in zip(reference_histogram, candidate_histogram):
+        distance += abs((ref_value / total_reference) - (cand_value / total_candidate))
+    return max(0.0, 1.0 - min(1.0, distance / 2.0))
+
+
+def _compute_edge_similarity(reference_image, candidate_image):
+    try:
+        from PIL import ImageFilter
+    except ImportError as exc:
+        raise RuntimeError("Pillow non disponibile per il confronto edge.") from exc
+
+    reference_edges = reference_image.filter(ImageFilter.FIND_EDGES)
+    candidate_edges = candidate_image.filter(ImageFilter.FIND_EDGES)
+    try:
+        return _compute_single_similarity(reference_edges, candidate_edges)
+    finally:
+        close_image(reference_edges)
+        close_image(candidate_edges)
+
+
+def _combine_similarity_scores(reference_image, candidate_image):
+    intensity_score = _compute_single_similarity(reference_image, candidate_image)
+    edge_score = _compute_edge_similarity(reference_image, candidate_image)
+    histogram_score = _compute_histogram_similarity(reference_image, candidate_image)
+    return (
+        (intensity_score * 0.60)
+        + (edge_score * 0.25)
+        + (histogram_score * 0.15)
+    )
+
+
 def compute_context_similarity(reference_image, candidate_image, resize_px=32, translation_tolerance_px=2):
-    """Restituisce uno score 0..1 tollerante a micro-shift e vibrazioni."""
+    """Restituisce uno score 0..1 più robusto a micro-shift ma più severo sui contenuti diversi."""
     reference = normalize_context_image(reference_image, resize_px=resize_px)
     candidate = normalize_context_image(candidate_image, resize_px=resize_px)
     try:
         best_score = 0.0
         for shifted_candidate in _iter_shifted_candidates(candidate, translation_tolerance_px):
-            best_score = max(best_score, _compute_single_similarity(reference, shifted_candidate))
+            best_score = max(best_score, _combine_similarity_scores(reference, shifted_candidate))
         return best_score
     finally:
         close_image(reference)
@@ -163,6 +201,7 @@ class ClickContextGuard:
         self.config = config or ClickContextGuardConfig()
         self.reference_images = []
         self.reference_position = None
+        self.fixed_reference_mode = False
 
     def reset(self):
         """Cancella lo stato precedente mantenendo tutto in memoria volatile."""
@@ -170,6 +209,24 @@ class ClickContextGuard:
             close_image(reference_image)
         self.reference_images = []
         self.reference_position = None
+        self.fixed_reference_mode = False
+
+    def has_reference(self):
+        return bool(self.reference_images)
+
+    def set_reference_image(self, image, *, abs_x=None, abs_y=None):
+        """Imposta un riferimento fisso, senza farlo evolvere durante il playback."""
+        if image is None:
+            raise ValueError("Immagine di riferimento non valida.")
+        self.reset()
+        self.reference_images = [image.copy()]
+        self.reference_position = (abs_x, abs_y) if abs_x is not None and abs_y is not None else None
+        self.fixed_reference_mode = True
+
+    def freeze_current_reference(self):
+        """Congela il riferimento gia' acquisito, impedendo che venga aggiornato nei loop successivi."""
+        if self.reference_images:
+            self.fixed_reference_mode = True
 
     def prime_reference(self, abs_x, abs_y, *, screen_bounds=None):
         reference_image = capture_context_image(
@@ -232,7 +289,7 @@ class ClickContextGuard:
             candidate_preview = candidate_image.copy()
 
             accepted = best_score >= self.config.min_similarity
-            if accepted and len(self.reference_images) < self.config.max_reference_images:
+            if accepted and not self.fixed_reference_mode and len(self.reference_images) < self.config.max_reference_images:
                 self.prime_reference(abs_x, abs_y, screen_bounds=screen_bounds)
 
             score = max(

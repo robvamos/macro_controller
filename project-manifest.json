@@ -3,7 +3,7 @@
   "slug": "ddgameass",
   "path": "F:/_CODEX/DDassistant",
   "status": "active",
-  "version": "0.4.16",
+  "version": "0.4.19",
   "summary": "Doomsday game assistant with macro automation, OCR, roster bootstrap, and visual automation primitives.",
   "description": "Windows desktop Doomsday game assistant with modular macro playback, scheduled execution, reusable OCR, roster bootstrap, and vision helpers.",
   "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
@@ -86,5 +86,5 @@
     "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects.",
     "An emerging Doomsday crawler service for roster discovery and provider-aware hero enrichment is now explicitly exposed for Knowledge support and integration."
   ],
-  "last_updated": "2026-06-01T23:28:00+02:00"
+  "last_updated": "2026-06-02T01:35:00+02:00"
 }

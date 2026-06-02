@@ -1260,7 +1260,7 @@ def refresh_macro_list():
         if macro_list_tree and macro_list_tree.winfo_exists(): # Assicurati che macro_list_tree esista e sia valido
             for iid in macro_list_tree.get_children():
                 macro_list_tree.delete(iid)
-            macros = get_all_macros()
+            macros = get_user_visible_macros()
             logger.info(f"Trovate {len(macros)} macro nel database")
             for macro in macros:
                 # Usa l'ID della macro come iid della Treeview
@@ -2190,7 +2190,7 @@ def concat_macros_dialog():
     # Label e combobox per la prima macro
     ttk.Label(dialog, text="Prima Macro:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
     macro_options = []
-    for macro in get_all_macros():
+    for macro in get_user_visible_macros():
         macro_options.append(f"{macro['id']} - {macro['nome']} ({macro['eseguibile']})")
     
     macro1_combobox = ttk.Combobox(dialog, values=macro_options, textvariable=macro1_var, width=40, state="readonly")
@@ -2975,6 +2975,11 @@ def _refresh_knowledge_linked_items(item_kind, item):
             "end",
             values=(click.get("macro_id"), "click", click.get("macro_name")),
         )
+
+
+def get_user_visible_macros():
+    """Restituisce solo le macro normali selezionabili dall'utente nelle liste UI."""
+    return [macro for macro in get_all_macros() if macro.get("macro_kind") != "system"]
 
 def setup_game_elements_interface(parent):
     """Configura l'interfaccia per gli elementi grafici del gioco"""
@@ -4043,7 +4048,7 @@ def create_new_scheduled_task_dialog():
     # Macro da associare - ComboBox
     ttk.Label(dialog, text="Macro principale:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
     macro_options = []
-    for macro in get_all_macros():
+    for macro in get_user_visible_macros():
         macro_options.append(f"{macro['id']} - {macro['nome']} ({macro['eseguibile']})")
     
     macro_combobox = ttk.Combobox(dialog, values=macro_options, textvariable=macro_id_var, width=37, state="readonly")
@@ -4083,7 +4088,7 @@ def create_new_scheduled_task_dialog():
         
         ttk.Label(add_dialog, text="Macro:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
         macro_options_add = []
-        for macro in get_all_macros():
+        for macro in get_user_visible_macros():
             macro_options_add.append(f"{macro['id']} - {macro['nome']} ({macro['eseguibile']})")
         
         macro_combobox_add = ttk.Combobox(add_dialog, values=macro_options_add, width=40, state="readonly")
@@ -4343,7 +4348,7 @@ def edit_selected_scheduled_task():
         macro_id_current = task_data['macro_id']
         current_macro_str = None
         
-        for i, macro in enumerate(get_all_macros()):
+        for i, macro in enumerate(get_user_visible_macros()):
             macro_str = f"{macro['id']} - {macro['nome']} ({macro['eseguibile']})"
             macro_options.append(macro_str)
             if macro['id'] == macro_id_current:
@@ -4400,7 +4405,7 @@ def edit_selected_scheduled_task():
             
             ttk.Label(add_dialog, text="Macro:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
             macro_options_add = []
-            for macro in get_all_macros():
+            for macro in get_user_visible_macros():
                 macro_options_add.append(f"{macro['id']} - {macro['nome']} ({macro['eseguibile']})")
             
             macro_combobox_add = ttk.Combobox(add_dialog, values=macro_options_add, width=40, state="readonly")

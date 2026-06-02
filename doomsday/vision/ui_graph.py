@@ -502,6 +502,32 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             "di norma basta cliccare l'elemento di chiusura catalogato per liberare la schermata."
         ),
     )
+    popup_back_return_node = UIGraphNode(
+        node_id="popup_back_return_symbol",
+        label="Simbolo popup di ritorno alto sinistra",
+        kind="popup",
+        conditions=(
+            UIGraphCondition(
+                condition_id="back_return_symbol_visible",
+                element_names=("popup_back_return_symbol",),
+                expected_presence=True,
+                threshold=0.85,
+                description=(
+                    "Il simbolo grafico di ritorno alto sinistra è visibile sul popup e può essere "
+                    "cliccato più volte finché resta presente."
+                ),
+            ),
+        ),
+        parent_node_id="boot_overlay_layer",
+        layout_role="modal",
+        recovery_action="click_popup_back_return_symbol_until_gone",
+        tags=("boot", "blocking", "popup", "return", "recovery"),
+        notes=(
+            "Alcuni popup bloccanti non mostrano un bottone classico di chiusura ma questo simbolo "
+            "di ritorno in alto a sinistra. La strategia corretta è cliccarlo 2 o 3 volte finché "
+            "resta presente, verificando dopo ogni tentativo se il riferimento visivo della macro è tornato compatibile."
+        ),
+    )
     empty_space_dismissal_node = UIGraphNode(
         node_id="empty_space_popup_dismissal_band_4",
         label="Dismiss popup con spazio vuoto fascia medio alta",
@@ -531,6 +557,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
                 expected_presence=False,
                 threshold=0.85,
                 description="Il simbolo di chiusura popup non è presente, quindi la vista è libera da quel blocco.",
+            ),
+            UIGraphCondition(
+                condition_id="back_return_symbol_not_visible",
+                element_names=("popup_back_return_symbol",),
+                expected_presence=False,
+                threshold=0.85,
+                description="Il simbolo popup di ritorno non è presente, quindi quel blocco non è attivo.",
             ),
         ),
         parent_node_id="game_runtime_root",
@@ -730,6 +763,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="Una volta chiuso il popup bloccante il boot può proseguire verso la vista giocabile.",
         ),
         UIGraphEdge(
+            from_node_id="popup_back_return_symbol",
+            to_node_id="playable_interface_without_boot_popup",
+            trigger="popup_back_return_clicked",
+            action_name="resume_after_popup_back_return",
+            description="Il popup viene chiuso con il simbolo di ritorno e il flusso può riprendere.",
+        ),
+        UIGraphEdge(
             from_node_id="empty_space_popup_dismissal_band_4",
             to_node_id="playable_interface_without_boot_popup",
             trigger="empty_space_dismissal_clicked",
@@ -763,6 +803,7 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             shelter_right_edge_alerts_panel,
             boot_overlay_node,
             popup_node,
+            popup_back_return_node,
             empty_space_dismissal_node,
             playable_node,
         ),

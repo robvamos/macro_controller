@@ -22,6 +22,7 @@ Provide reusable external-automation primitives for Doomsday window capture and 
 - enrich a growing knowledge layer that reconstructs how views, panels, overlays, and blocking popups relate to each other over time, including parent/child structure, seen frequency, confidence, and recovery paths
 - link graph nodes and high-level intents to candidate macros so future orchestration can choose, combine, or generate the right macro flow for a requested in-game objective
 - ingest pasted or loaded game elements in a lossless, non-distorted way with semantic hints suitable for UI graphs, matching, and recovery
+- recover from blocking popups by trying reusable semantic strategies such as a classic close symbol, a repeated back-return symbol in alto a sinistra, or a learned empty-space dismiss band
 
 Default matching guidance:
 - for in-game graphic element search, matches above `0.85` are considered acceptable unless a caller overrides the threshold

@@ -11,13 +11,16 @@ import win32con # Aggiunto import per win32con
 import logging
 
 from doomsday.vision.click_context_guard import ClickContextGuard, ClickContextGuardConfig
+from doomsday.vision.game_element_recovery import search_game_window_elements
 from macro_config import get_focus_check_interval, get_visual_click_guard_config
+from repositories.game_element_repository import get_game_element_by_id
 from services.click_element_capture_service import (
     DOOMSDAY_GRAPH_ID,
     UNKNOWN_VIEW_NODE_ID,
     classify_doomsday_view,
     register_recorded_click_element,
 )
+from game_elements import blob_to_image
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +38,55 @@ def _create_visual_click_guard():
     )
 
 
+def _prime_visual_guard_from_recorded_macro(click_context_guard, macro_events, log_callback=None):
+    """Carica il primo riferimento visivo salvato in registrazione, se presente."""
+    first_click_event = next(
+        (
+            event for event in macro_events
+            if event.get("type") == "mouse"
+            and event.get("event") == "down"
+            and event.get("game_element_id")
+        ),
+        None,
+    )
+    if not first_click_event:
+        return False
+
+    element_id = first_click_event.get("game_element_id")
+    if not element_id:
+        return False
+
+    element = get_game_element_by_id(int(element_id))
+    if not element or not element.get("immagine"):
+        return False
+
+    image = None
+    try:
+        image = blob_to_image(element["immagine"], element.get("formato_immagine") or "PNG")
+        click_context_guard.set_reference_image(
+            image,
+            abs_x=first_click_event.get("x"),
+            abs_y=first_click_event.get("y"),
+        )
+        if log_callback:
+            log_callback(
+                f"🧷 Riferimento visivo fisso caricato dalla registrazione: {element['nome']} (ID {element_id}).",
+                level="DEBUG",
+            )
+        return True
+    except Exception as exc:
+        if log_callback:
+            log_callback(
+                f"⚠️ Impossibile caricare il riferimento visivo registrato (ID {element_id}): {exc}",
+                level="WARNING",
+            )
+        return False
+    finally:
+        close_fn = getattr(image, "close", None)
+        if callable(close_fn):
+            close_fn()
+
+
 def _emit_playback_event_debug(log_callback, index, total, message):
     """Invia un messaggio di debug per l'esecuzione di un evento playback."""
     debug_message = f"DEBUG PLAYBACK [{index + 1}/{total}] {message}"
@@ -50,6 +102,142 @@ def _format_actual_mouse_position():
         return f" actual=({actual_x},{actual_y})"
     except Exception as exc:
         return f" actual=(unavailable:{exc})"
+
+
+def _left_click_at(abs_x, abs_y):
+    _move_mouse_absolute(abs_x, abs_y)
+    _dispatch_mouse_button("left", is_press=True)
+    time.sleep(0.03)
+    _dispatch_mouse_button("left", is_press=False)
+
+
+def _compute_empty_space_recovery_points(window_rect):
+    left, top, right, bottom = window_rect
+    width = max(1, right - left)
+    height = max(1, bottom - top)
+    bands = 5
+    band_index_from_bottom = 4
+    band_height = height / float(bands)
+    center_y = int(round(bottom - ((band_index_from_bottom - 0.5) * band_height)))
+    return (
+        (left + int(width * 0.50), center_y),
+        (left + int(width * 0.35), center_y),
+        (left + int(width * 0.65), center_y),
+    )
+
+
+def _attempt_repeated_symbol_recovery(
+    *,
+    element_names,
+    strategy_name,
+    strategy_label,
+    game_rect,
+    expected_abs_x,
+    expected_abs_y,
+    click_context_guard,
+    log_callback=None,
+    threshold=0.85,
+    max_attempts=3,
+):
+    """Prova a cliccare un simbolo di recovery più volte finché resta presente."""
+    for attempt_index in range(max_attempts):
+        search_result = search_game_window_elements(
+            game_rect,
+            element_names=element_names,
+            threshold=threshold,
+            expected_presence=True,
+        )
+        if not search_result.found or not search_result.center:
+            break
+
+        if log_callback:
+            log_callback(
+                (
+                    f"🧩 Recovery popup: provo '{search_result.matched_element_name}' "
+                    f"in {search_result.center} ({attempt_index + 1}/{max_attempts})."
+                ),
+                level="WARNING",
+            )
+
+        _left_click_at(*search_result.center)
+        time.sleep(0.35)
+
+        verify_result = click_context_guard.verify_or_prime(
+            expected_abs_x,
+            expected_abs_y,
+            screen_bounds=game_rect,
+        )
+        if verify_result["ok"]:
+            if log_callback:
+                log_callback(
+                    f"✅ Popup chiuso con {strategy_label}. Rientro nel flusso della macro.",
+                    level="INFO",
+                )
+            return True, strategy_name, verify_result
+
+    return False, None, None
+
+
+def _attempt_popup_recovery(*, target_exe, game_rect, expected_abs_x, expected_abs_y, click_context_guard, log_callback=None):
+    """Tenta piu' strategie di recovery quando il contesto visivo non torna."""
+    try:
+        recovered, strategy_name, verify_result = _attempt_repeated_symbol_recovery(
+            element_names=("popup_back_return_symbol",),
+            strategy_name="back_return_symbol",
+            strategy_label="simbolo grafico di ritorno",
+            game_rect=game_rect,
+            expected_abs_x=expected_abs_x,
+            expected_abs_y=expected_abs_y,
+            click_context_guard=click_context_guard,
+            log_callback=log_callback,
+        )
+        if recovered:
+            return recovered, strategy_name, verify_result
+    except Exception as exc:
+        if log_callback:
+            log_callback(f"⚠️ Recovery popup con simbolo di ritorno non disponibile: {exc}", level="WARNING")
+
+    try:
+        recovered, strategy_name, verify_result = _attempt_repeated_symbol_recovery(
+            element_names=("popup_exit_close_symbol", "boot_blocking_popup_close_button"),
+            strategy_name="close_symbol",
+            strategy_label="bottone grafico",
+            game_rect=game_rect,
+            expected_abs_x=expected_abs_x,
+            expected_abs_y=expected_abs_y,
+            click_context_guard=click_context_guard,
+            log_callback=log_callback,
+            max_attempts=1,
+        )
+        if recovered:
+            return recovered, strategy_name, verify_result
+    except Exception as exc:
+        if log_callback:
+            log_callback(f"⚠️ Ricerca bottone chiusura popup non disponibile: {exc}", level="WARNING")
+
+    for point in _compute_empty_space_recovery_points(game_rect):
+        try:
+            if log_callback:
+                log_callback(
+                    f"🧭 Provo dismiss del popup cliccando spazio vuoto in {point}.",
+                    level="WARNING",
+                )
+            _left_click_at(*point)
+            time.sleep(0.35)
+            verify_result = click_context_guard.verify_or_prime(
+                expected_abs_x,
+                expected_abs_y,
+                screen_bounds=game_rect,
+            )
+            if verify_result["ok"]:
+                if log_callback:
+                    log_callback("✅ Popup chiuso con click nello spazio vuoto. Rientro nel flusso della macro.", level="INFO")
+                return True, "empty_space_band_4", verify_result
+        except Exception as exc:
+            if log_callback:
+                log_callback(f"⚠️ Tentativo di dismiss nello spazio vuoto non riuscito: {exc}", level="WARNING")
+
+    return False, None, None
 
 
 def _get_actual_mouse_position():
@@ -820,6 +1008,7 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
     last_focus_check_result = True
     click_context_guard = _create_visual_click_guard()
     click_context_guard.reset()
+    _prime_visual_guard_from_recorded_macro(click_context_guard, macro_events, log_callback=log_callback)
 
     def is_target_window_active(force=False):
         nonlocal last_focus_check_at, last_focus_check_result
@@ -856,7 +1045,6 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
             return True
         return False
 
-    click_context_guard.reset()
     while playing_flag and (loop_enabled or iteration_count == 0):
         if should_stop():
             break
@@ -989,6 +1177,8 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                                 playing_flag = False
                                 break
                             if guard_result["primed"]:
+                                if loop_enabled:
+                                    click_context_guard.freeze_current_reference()
                                 _emit_playback_event_debug(
                                     log_callback,
                                     i,
@@ -996,20 +1186,44 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                                     f"visual_guard_reference_set abs=({abs_x},{abs_y}) threshold={guard_result['threshold']:.2f}",
                                 )
                             elif not guard_result["ok"]:
-                                stop_reason = "visual_context_mismatch"
-                                message = (
-                                    f"❌ Contesto visivo non compatibile all'avvio dell'iterazione su ({abs_x},{abs_y}). "
-                                    f"Compatibilità {guard_result['score']:.2f} < soglia {guard_result['threshold']:.2f}. "
-                                    "Macro fermata per evitare click sulla schermata sbagliata."
-                                )
-                                if log_callback:
-                                    log_callback(message, level="ERROR")
-                                    log_callback(
-                                        "💡 Il contesto iniziale non è recuperabile automaticamente: la macro si ferma in sicurezza.",
-                                        level="WARNING",
+                                recovered = False
+                                try:
+                                    recovered, recovery_strategy, recovery_verify_result = _attempt_popup_recovery(
+                                        target_exe=target_exe,
+                                        game_rect=game_rect,
+                                        expected_abs_x=abs_x,
+                                        expected_abs_y=abs_y,
+                                        click_context_guard=click_context_guard,
+                                        log_callback=log_callback,
                                     )
-                                playing_flag = False
-                                break
+                                    if recovered:
+                                        guard_result = recovery_verify_result
+                                        _emit_playback_event_debug(
+                                            log_callback,
+                                            i,
+                                            len(macro_events),
+                                            f"visual_guard_recovered strategy='{recovery_strategy}' score={guard_result['score']:.2f}",
+                                        )
+                                except Exception as exc:
+                                    if log_callback:
+                                        log_callback(
+                                            f"⚠️ Tentativo di recovery popup non disponibile: {exc}",
+                                            level="WARNING",
+                                        )
+
+                                if not recovered:
+                                    stop_reason = "visual_context_mismatch"
+                                    if log_callback:
+                                        log_callback(
+                                            (
+                                                f"❌ Contesto visivo non compatibile all'avvio dell'iterazione su ({abs_x},{abs_y}). "
+                                                f"Compatibilità {guard_result['score']:.2f} < soglia {guard_result['threshold']:.2f}. "
+                                                "Possibile popup bloccante: il tentativo di recovery non ha ripristinato il riferimento, quindi la macro si ferma."
+                                            ),
+                                            level="ERROR",
+                                        )
+                                    playing_flag = False
+                                    break
 
                         _emit_playback_event_debug(
                             log_callback,
