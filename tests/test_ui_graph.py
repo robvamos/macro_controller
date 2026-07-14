@@ -5,6 +5,14 @@ from doomsday.vision.ui_graph import build_default_doomsday_ui_graph, evaluate_u
 
 
 class UIGraphTests(unittest.TestCase):
+    def test_structural_nodes_without_conditions_remain_unknown(self):
+        evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
+        root = evaluation.get_node_result("game_runtime_root")
+        self.assertIsNotNone(root)
+        self.assertFalse(root.observable)
+        self.assertFalse(root.active)
+        self.assertNotIn("game_runtime_root", evaluation.active_node_ids)
+
     def test_default_graph_exposes_boot_popup_and_playable_nodes(self):
         graph = build_default_doomsday_ui_graph()
 
@@ -29,9 +37,11 @@ class UIGraphTests(unittest.TestCase):
         self.assertIn("beast_section_button", node_ids)
         self.assertIn("hero_section_button", node_ids)
         self.assertIn("shelter_right_edge_alerts_panel", node_ids)
+        self.assertIn("troop_heal_action_symbol", node_ids)
         self.assertIn("boot_overlay_layer", node_ids)
         self.assertIn("initial_blocking_popup_close_symbol", node_ids)
         self.assertIn("popup_back_return_symbol", node_ids)
+        self.assertIn("popup_crossed_circle_symbol", node_ids)
         self.assertIn("empty_space_popup_dismissal_band_4", node_ids)
         self.assertIn("playable_interface_without_boot_popup", node_ids)
         self.assertEqual(graph.get_node("initial_blocking_popup_close_symbol").recovery_action, "click_popup_exit_close_symbol")
@@ -46,9 +56,18 @@ class UIGraphTests(unittest.TestCase):
             "click_popup_back_return_symbol_until_gone",
         )
         self.assertIn("2 o 3 volte", graph.get_node("popup_back_return_symbol").notes)
+        self.assertEqual(
+            graph.get_node("popup_crossed_circle_symbol").recovery_action,
+            "click_popup_crossed_circle_symbol_until_gone",
+        )
+        self.assertIn("cerchio barrato", graph.get_node("popup_crossed_circle_symbol").notes)
         self.assertIn(
             "popup_back_return_symbol",
             graph.get_node("playable_interface_without_boot_popup").conditions[1].element_names,
+        )
+        self.assertIn(
+            "popup_crossed_circle_symbol",
+            graph.get_node("playable_interface_without_boot_popup").conditions[2].element_names,
         )
         self.assertEqual(
             graph.get_node("empty_space_popup_dismissal_band_4").recovery_action,
@@ -65,6 +84,8 @@ class UIGraphTests(unittest.TestCase):
         self.assertIn("numero cambia", graph.get_node("top_left_power_indicator").notes)
         self.assertIn("leggere il numero", graph.get_node("top_left_power_indicator").notes)
         self.assertIn("scritta VIP e da un numero", graph.get_node("top_left_vip_indicator").notes)
+        self.assertEqual(graph.get_node("troop_heal_action_symbol").parent_node_id, "shelter_interior_view")
+        self.assertIn("riferimento visivo", graph.get_node("troop_heal_action_symbol").notes)
         self.assertEqual(graph.get_node("shelter_bottom_right_sections_panel").parent_node_id, "game_runtime_root")
         self.assertIn("badge rossi", graph.get_node("shelter_bottom_right_sections_panel").notes)
         self.assertEqual(graph.get_node("campaign_section_button").parent_node_id, "shelter_bottom_right_sections_panel")
@@ -116,13 +137,23 @@ class UIGraphTests(unittest.TestCase):
 
     def test_evaluate_ui_graph_marks_popup_node_active_when_symbol_is_found(self):
         found_result = Mock(condition_satisfied=True, found=True, score=0.91)
-        absent_result = Mock(condition_satisfied=False, found=True, score=0.91)
-
+        absent_due_to_presence_result = Mock(condition_satisfied=False, found=True, score=0.91)
+        absent_ok_result = Mock(condition_satisfied=True, found=False, score=None)
         default_result = Mock(condition_satisfied=False, found=False, score=None)
+
+        def fake_search(_window_rect, *, element_names, expected_presence, **_kwargs):
+            names = tuple(element_names)
+            if "popup_exit_close_symbol" in names:
+                return found_result if expected_presence else absent_due_to_presence_result
+            if "popup_back_return_symbol" in names:
+                return default_result if expected_presence else absent_ok_result
+            if "popup_crossed_circle_symbol" in names:
+                return default_result if expected_presence else absent_ok_result
+            return default_result
 
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[default_result, found_result, default_result, absent_result, default_result],
+            side_effect=fake_search,
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 
@@ -137,9 +168,19 @@ class UIGraphTests(unittest.TestCase):
 
         default_result = Mock(condition_satisfied=False, found=False, score=None)
 
+        def fake_search(_window_rect, *, element_names, expected_presence, **_kwargs):
+            names = tuple(element_names)
+            if "popup_exit_close_symbol" in names:
+                return present_result if expected_presence else absent_result
+            if "popup_back_return_symbol" in names:
+                return present_result if expected_presence else absent_result
+            if "popup_crossed_circle_symbol" in names:
+                return present_result if expected_presence else absent_result
+            return default_result
+
         with patch(
             "doomsday.vision.ui_graph.search_game_window_elements",
-            side_effect=[default_result, present_result, default_result, absent_result, absent_result],
+            side_effect=fake_search,
         ):
             evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
 

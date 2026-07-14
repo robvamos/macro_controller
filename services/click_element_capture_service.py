@@ -139,14 +139,17 @@ def register_recorded_click_element(
     view_node_id=None,
     sequence_index=None,
     previous_element_id=None,
+    infer_spatial_semantic_actions=True,
 ) -> ClickedElementObservation:
     """Persist the clicked visual element and attach semantic graph context in metadata."""
     view_node_id = view_node_id or classify_doomsday_view(window_rect)
-    semantic_action = _infer_semantic_action(
-        normalized_x=normalized_x,
-        normalized_y=normalized_y,
-        view_node_id=view_node_id,
-    )
+    semantic_action = None
+    if infer_spatial_semantic_actions:
+        semantic_action = _infer_semantic_action(
+            normalized_x=normalized_x,
+            normalized_y=normalized_y,
+            view_node_id=view_node_id,
+        )
     if semantic_action is not None:
         return _register_semantic_click_action(
             macro_name=macro_name,

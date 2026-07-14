@@ -336,6 +336,43 @@ class GameElementRepositoryTests(RepositoryTestCase):
         game_element_repository.delete_game_element(element_id)
         self.assertIsNone(game_element_repository.get_game_element_by_id(element_id))
 
+    def test_system_game_element_requires_explicit_delete(self):
+        element_id = game_element_repository.create_game_element(
+            "ElementoSistema",
+            "desc\nSYSTEM_GAME_ELEMENT: true",
+            b"binary-image",
+            "png",
+        )
+
+        element = game_element_repository.get_game_element_by_id(element_id)
+        self.assertTrue(game_element_repository.is_system_game_element(element))
+        with self.assertRaises(PermissionError):
+            game_element_repository.delete_game_element(element_id)
+
+        self.assertIsNotNone(game_element_repository.get_game_element_by_id(element_id))
+        game_element_repository.delete_game_element(element_id, include_system=True)
+        self.assertIsNone(game_element_repository.get_game_element_by_id(element_id))
+
+    def test_delete_all_game_elements_preserves_system_by_default(self):
+        regular_id = game_element_repository.create_game_element(
+            "ElementoNormale",
+            "desc",
+            b"regular-image",
+            "png",
+        )
+        system_id = game_element_repository.create_game_element(
+            "ElementoSistema",
+            "desc\nSYSTEM_GAME_ELEMENT: true",
+            b"system-image",
+            "png",
+        )
+
+        deleted_count = game_element_repository.delete_all_game_elements()
+
+        self.assertEqual(deleted_count, 1)
+        self.assertIsNone(game_element_repository.get_game_element_by_id(regular_id))
+        self.assertIsNotNone(game_element_repository.get_game_element_by_id(system_id))
+
 
 class UIGraphMacroLinkRepositoryTests(RepositoryTestCase):
     def test_ui_graph_macro_link_repository_and_service_produce_macro_plan(self):

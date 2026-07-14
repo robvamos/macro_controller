@@ -51,6 +51,7 @@ class UIGraphNodeEvaluation:
     label: str
     kind: str
     active: bool
+    observable: bool
     confidence: float
     condition_results: tuple[UIGraphConditionEvaluation, ...]
     recovery_action: str | None = None
@@ -141,7 +142,9 @@ def evaluate_ui_graph(graph: UIGraphDefinition, window_rect: tuple[int, int, int
     for node in graph.nodes:
         condition_results: list[UIGraphConditionEvaluation] = []
         confidence_values: list[float] = []
-        all_satisfied = True
+        # A structural node expresses the taxonomy of the interface, not a live
+        # observation. It must remain unknown until it has visual conditions.
+        all_satisfied = bool(node.conditions)
 
         for condition in node.conditions:
             search_result = search_game_window_elements(
@@ -171,6 +174,7 @@ def evaluate_ui_graph(graph: UIGraphDefinition, window_rect: tuple[int, int, int
             label=node.label,
             kind=node.kind,
             active=all_satisfied,
+            observable=bool(node.conditions),
             confidence=confidence,
             condition_results=tuple(condition_results),
             recovery_action=node.recovery_action,
@@ -469,6 +473,28 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             "dedicato a controlli e avvisi della vista rifugio."
         ),
     )
+    troop_heal_action_symbol = UIGraphNode(
+        node_id="troop_heal_action_symbol",
+        label="Azione cura truppe",
+        kind="control",
+        conditions=(
+            UIGraphCondition(
+                condition_id="troop_heal_action_symbol_visible",
+                element_names=("troop_heal_action_symbol",),
+                expected_presence=True,
+                threshold=0.85,
+                description="Il simbolo grafico della cura truppe è visibile nella schermata.",
+            ),
+        ),
+        parent_node_id="shelter_interior_view",
+        layout_role="action_symbol",
+        recovery_action=None,
+        tags=("shelter", "troops", "healing", "macro-reference", "visual-guard"),
+        notes=(
+            "Elemento operativo per la cura delle truppe. Può essere usato come riferimento visivo "
+            "alternativo quando una macro di cura contiene questo elemento tra i click registrati."
+        ),
+    )
     boot_overlay_node = UIGraphNode(
         node_id="boot_overlay_layer",
         label="Layer overlay boot",
@@ -528,6 +554,32 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             "resta presente, verificando dopo ogni tentativo se il riferimento visivo della macro è tornato compatibile."
         ),
     )
+    popup_crossed_circle_node = UIGraphNode(
+        node_id="popup_crossed_circle_symbol",
+        label="Simbolo popup cerchio barrato",
+        kind="popup",
+        conditions=(
+            UIGraphCondition(
+                condition_id="crossed_circle_symbol_visible",
+                element_names=("popup_crossed_circle_symbol",),
+                expected_presence=True,
+                threshold=0.85,
+                description=(
+                    "Il simbolo grafico cerchio barrato è visibile sul popup e può essere usato come chiusura "
+                    "ripetuta finché resta presente."
+                ),
+            ),
+        ),
+        parent_node_id="boot_overlay_layer",
+        layout_role="modal",
+        recovery_action="click_popup_crossed_circle_symbol_until_gone",
+        tags=("boot", "blocking", "popup", "crossed-circle", "recovery"),
+        notes=(
+            "Alcuni popup bloccanti possono essere chiusi quando compare questo simbolo grafico cerchio barrato. "
+            "La strategia è cliccarlo 2 o 3 volte finché resta presente e verificare dopo ogni tentativo "
+            "se il riferimento visivo della macro è tornato compatibile."
+        ),
+    )
     empty_space_dismissal_node = UIGraphNode(
         node_id="empty_space_popup_dismissal_band_4",
         label="Dismiss popup con spazio vuoto fascia medio alta",
@@ -564,6 +616,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
                 expected_presence=False,
                 threshold=0.85,
                 description="Il simbolo popup di ritorno non è presente, quindi quel blocco non è attivo.",
+            ),
+            UIGraphCondition(
+                condition_id="crossed_circle_symbol_not_visible",
+                element_names=("popup_crossed_circle_symbol",),
+                expected_presence=False,
+                threshold=0.85,
+                description="Il simbolo popup con cerchio barrato non è presente, quindi quel blocco non è attivo.",
             ),
         ),
         parent_node_id="game_runtime_root",
@@ -735,6 +794,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="La vista rifugio espone il pannellino destro con controlli e avvisi.",
         ),
         UIGraphEdge(
+            from_node_id="shelter_interior_view",
+            to_node_id="troop_heal_action_symbol",
+            trigger="troop_heal_available",
+            action_name="open_troop_healing_flow",
+            description="La vista rifugio può esporre il simbolo di cura truppe come azione operativa.",
+        ),
+        UIGraphEdge(
             from_node_id="bottom_left_shelter_switch_button",
             to_node_id="shelter_interior_view",
             trigger="enter_shelter",
@@ -770,6 +836,13 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="Il popup viene chiuso con il simbolo di ritorno e il flusso può riprendere.",
         ),
         UIGraphEdge(
+            from_node_id="popup_crossed_circle_symbol",
+            to_node_id="playable_interface_without_boot_popup",
+            trigger="popup_crossed_circle_clicked",
+            action_name="resume_after_popup_crossed_circle",
+            description="Il popup viene chiuso con il simbolo cerchio barrato e il flusso può riprendere.",
+        ),
+        UIGraphEdge(
             from_node_id="empty_space_popup_dismissal_band_4",
             to_node_id="playable_interface_without_boot_popup",
             trigger="empty_space_dismissal_clicked",
@@ -801,9 +874,11 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             beast_section_button,
             hero_section_button,
             shelter_right_edge_alerts_panel,
+            troop_heal_action_symbol,
             boot_overlay_node,
             popup_node,
             popup_back_return_node,
+            popup_crossed_circle_node,
             empty_space_dismissal_node,
             playable_node,
         ),

@@ -1,0 +1,187 @@
+{
+  "version": 2,
+  "updated_at": "2026-07-14",
+  "context": "Cinque marce da campo aperto aggiornate: Maxwell + Daryl e Felix + Chasey sono le due priorita rider. Rubina conserva la sua marcia mobile perche ha l'arma speciale sviluppata 2 volte. Metok Tso resta un investimento da valutare solo dopo uno sviluppo reale.",
+  "current_pairs": [
+    {
+      "slot": 1,
+      "label": "Marcia rider solida",
+      "front_hero": "Daryl",
+      "back_hero": "Felix",
+      "front_beast": "Tigre",
+      "support_beast": "Toro non-morto",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "campo aperto, scambi medi",
+      "strengths": ["CRIT", "Combo", "riduzione danni"],
+      "concerns": ["Felix potrebbe rendere di piu con Chasey risvegliata"],
+      "notes": "Setup solido, ma e' il punto naturale dove testare Felix + Chasey."
+    },
+    {
+      "slot": 2,
+      "label": "Pressione rider",
+      "front_hero": "Cynthia",
+      "back_hero": "Catherine",
+      "front_beast": "Medusa di Plutone",
+      "support_beast": "Pangolino di cristallo",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "combo, contrattacco, scambi lunghi",
+      "strengths": ["Combo", "Contrattacco", "tenuta"],
+      "concerns": ["coppia meno moderna dei nuovi rider"],
+      "notes": "Buona coerenza meccanica tra Medusa e Pangolino."
+    },
+    {
+      "slot": 3,
+      "label": "Crit + Combo",
+      "front_hero": "Janet",
+      "back_hero": "Bianca",
+      "front_beast": "Vulcarhino",
+      "support_beast": "Drago uragano",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "marcia offensiva/supporto",
+      "strengths": ["DAN CRIT", "CRIT", "Combo"],
+      "concerns": ["ibrida; Daryl potrebbe sostituire Bianca per piu presenza in campo"],
+      "notes": "Da confrontare con Janet + Daryl."
+    },
+    {
+      "slot": 4,
+      "label": "Taxi offensivo per Rubina",
+      "front_hero": "Claude LeBlanc",
+      "back_hero": "Rubina",
+      "front_beast": "Granchio comune",
+      "support_beast": "Toro cadavere",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "sviluppata 2 volte" },
+      "role": "mobilita, hit and run, Rubina protetta",
+      "strengths": ["velocita", "Combo", "DAN combo", "riduzione danni"],
+      "concerns": ["non massimizza il danno puro di Rubina"],
+      "notes": "Da mantenere: Rubina e' il pezzo piu investito sull'arma speciale."
+    },
+    {
+      "slot": 5,
+      "label": "Quinta marcia di servizio",
+      "front_hero": "Elena",
+      "back_hero": "Isabella",
+      "front_beast": "Pangolino martello",
+      "support_beast": "Zanne di cenere",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "supporto campo, scambi lunghi",
+      "strengths": ["CRIT", "Contrattacco", "tenuta"],
+      "concerns": ["prima candidata a uscire quando Maxwell + Metok Tso diventano competitivi"],
+      "notes": "Marcia onesta, ma meno prioritaria."
+    }
+  ],
+  "recommended_pairs": [
+    {
+      "slot": 1,
+      "label": "Caccia rapida",
+      "front_hero": "Maxwell",
+      "back_hero": "Daryl",
+      "front_beast": "Tigre",
+      "support_beast": "Toro non-morto",
+      "special_weapons": { "front_hero": "non sviluppata / non specificata", "back_hero": "non sviluppata / non specificata" },
+      "role": "inseguimento, intervento rapido, bersagli isolati",
+      "priority": "massima",
+      "why": "Maxwell davanti usa il suo valore da leader mobile; Daryl dietro aggiunge danno e presenza in campo senza sacrificare Felix.",
+      "tradeoff": "Da attivare quando Maxwell raggiunge una soglia competitiva di abilita e armamenti.",
+      "notes": "Prima evoluzione. Mantieni Tigre + Toro non-morto, gia pronti per una coppia offensiva mobile."
+    },
+    {
+      "slot": 2,
+      "label": "Rider stabile",
+      "front_hero": "Felix",
+      "back_hero": "Chasey",
+      "front_beast": "Medusa di Plutone",
+      "support_beast": "Pangolino di cristallo",
+      "special_weapons": { "front_hero": "non sviluppata / non specificata", "back_hero": "non sviluppata" },
+      "role": "campo aggressivo, danno continuo, tenuta",
+      "priority": "alta",
+      "why": "Chasey risvegliata valorizza Felix e permette di tenere Daryl nella marcia Maxwell.",
+      "tradeoff": "Richiede di spostare Medusa e Pangolino da Cynthia + Catherine.",
+      "notes": "Se la tenuta e inferiore alle aspettative, prova Pangolino martello + Zanne di cenere prima di cambiare gli eroi."
+    },
+    {
+      "slot": 3,
+      "label": "Rubina investita",
+      "front_hero": "Claude LeBlanc",
+      "back_hero": "Rubina",
+      "front_beast": "Granchio comune",
+      "support_beast": "Toro cadavere",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "sviluppata 2 volte" },
+      "role": "mobilita, pressione combo, sopravvivenza",
+      "priority": "alta",
+      "why": "Rubina ha il miglior investimento arma speciale: va tenuta in una marcia forte e mobile.",
+      "tradeoff": "Non e la massima resa DPS, ma e molto comoda in campo."
+    },
+    {
+      "slot": 4,
+      "label": "Crit + Combo",
+      "front_hero": "Janet",
+      "back_hero": "Bianca",
+      "front_beast": "Vulcarhino",
+      "support_beast": "Drago uragano",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "marcia offensiva, CRIT + Combo",
+      "priority": "media",
+      "why": "E una coppia gia costruita con bestie coerenti; non spostarla prima di aver consolidato le prime due marce.",
+      "tradeoff": "Meno esplosiva delle prime tre marce."
+    },
+    {
+      "slot": 5,
+      "label": "Marcia di tenuta",
+      "front_hero": "Elena",
+      "back_hero": "Isabella",
+      "front_beast": "Pangolino martello",
+      "support_beast": "Zanne di cenere",
+      "special_weapons": { "front_hero": "non specificata", "back_hero": "non specificata" },
+      "role": "supporto campo, scambi lunghi",
+      "priority": "media",
+      "why": "E pronta, resistente e non sottrae pezzi alle quattro marce principali.",
+      "tradeoff": "Cynthia + Catherine puo rientrare qui se i loro livelli, armamenti o risultati di campo sono nettamente superiori."
+    }
+  ],
+  "bench_and_development": [
+    {
+      "name": "Chasey",
+      "status": "risvegliata",
+      "special_weapon": "non sviluppata",
+      "recommendation": "Seconda marcia con Felix davanti. Priorita armamento dopo Maxwell e Daryl."
+    },
+    {
+      "name": "Daryl",
+      "status": "core della prima marcia",
+      "special_weapon": "non specificata",
+      "recommendation": "Metterlo dietro Maxwell appena Maxwell e competitivo; non usare Janet + Daryl come assetto principale."
+    },
+    {
+      "name": "Bianca",
+      "status": "quarta marcia",
+      "special_weapon": "non specificata",
+      "recommendation": "Resta dietro Janet per non frammentare coppie mature mentre Maxwell entra nel roster."
+    },
+    {
+      "name": "Maxwell",
+      "status": "in sviluppo",
+      "special_weapon": "non specificata",
+      "recommendation": "Prima priorita di sviluppo: guida Maxwell + Daryl, non Maxwell + Metok Tso."
+    },
+    {
+      "name": "Metok Tso",
+      "status": "in sviluppo",
+      "special_weapon": "non specificata",
+      "recommendation": "Investimento da osservare; entra solo quando puo superare davvero la quinta marcia, non per sostituire Daryl dietro Maxwell."
+    },
+    {
+      "name": "Cynthia + Catherine",
+      "status": "riserva pronta",
+      "special_weapon": "non specificata",
+      "recommendation": "Sesta coppia: rientra solo se livelli, armamenti o risultati di campo superano Elena + Isabella."
+    }
+  ],
+  "development_plan": [
+    "Completa Maxwell come leader della prima marcia: abilita, livello e armamenti prima di trasferirgli Tigre + Toro non-morto.",
+    "Passa Daryl dietro Maxwell e sposta Felix davanti a Chasey; le prime due marce non devono condividere eroi.",
+    "Mantieni Claude LeBlanc + Rubina e Granchio + Toro cadavere: Rubina ha arma speciale sviluppata 2 volte.",
+    "Consolida Janet + Bianca e Elena + Isabella senza altri spostamenti di bestie finche le prime due marce non sono testate.",
+    "Tieni Cynthia + Catherine come sesta opzione e registra perdite, kill, durata dello scambio, facilita di uscita e tipo di bersaglio.",
+    "Sviluppa Metok Tso senza abbinarlo automaticamente a Maxwell: confrontalo con la quinta marcia solo quando e realmente competitivo."
+  ]
+}

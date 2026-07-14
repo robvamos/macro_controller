@@ -114,6 +114,7 @@ from repositories.game_element_repository import (
     delete_game_element,
     get_all_game_elements,
     get_game_element_by_id,
+    is_system_game_element,
     update_game_element,
 )
 from repositories.macro_repository import (
@@ -161,6 +162,9 @@ from ui.game_elements_panel import (
     render_fullsize_image_on_canvas,
     render_preview_image,
 )
+from ui.field_roster_panel import build_field_roster_tab
+from ui.game_intelligence_panel import build_game_intelligence_tab
+from ui.semantic_campaign_panel import build_semantic_campaign_tab
 from ui.macro_management_panel import build_macro_management_tab
 from ui.main_window_helpers import (
     bind_main_window_events,
@@ -1400,6 +1404,7 @@ def update_button_states():
             new_macro_button.config(state=tk.DISABLED)
             record_button.config(state=tk.DISABLED)
             play_button.config(state=tk.DISABLED)
+            stop_button.config(state=tk.NORMAL)
             emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
             edit_button.config(state=tk.DISABLED)
             delete_button.config(state=tk.DISABLED)
@@ -1412,6 +1417,7 @@ def update_button_states():
             new_macro_button.config(state=tk.DISABLED)
             record_button.config(state=tk.DISABLED)
             play_button.config(state=tk.DISABLED)
+            stop_button.config(state=tk.NORMAL)
             set_play_button_highlight(True)
             emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
             edit_button.config(state=tk.DISABLED)
@@ -1928,6 +1934,12 @@ def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enab
                    button_or_key=button_or_key, x=x, y=y, delta=delta, visual_context=visual_context:
                 update_execution_visualizer(event, index, total, action_type, button_or_key, x, y, delta, visual_context),
         )
+
+    def visual_context_callback(visual_context):
+        root.after(
+            0,
+            lambda visual_context=visual_context: update_execution_visualizer_context_preview(visual_context),
+        )
     
     reset_execution_visualizer()
 
@@ -1939,6 +1951,7 @@ def play_macro_thread_target(macro_metadata, macro_events, target_exe, loop_enab
         max_repetitions=max_repetitions,
         gui_log=gui_log,
         event_callback=event_callback,
+        visual_context_callback=visual_context_callback,
         wait_for_app_window=wait_for_app_window,
         play_macro_events=play_macro_events,
         is_playback_stop_requested=is_playback_stop_requested,
@@ -2536,6 +2549,30 @@ def _draw_execution_click_history(canvas, points):
         fill=config['theme']['text_color'],
         font=(config['theme']['font_family'], config['theme']['font_size_small']),
     )
+
+def setup_field_roster_interface(parent):
+    """Inizializza la tab consultazione roster campo."""
+    try:
+        build_field_roster_tab(parent)
+    except Exception as exc:
+        console_log(f"Errore nel caricamento del roster campo: {exc}", level="ERROR")
+
+
+def setup_game_intelligence_interface(parent):
+    """Inizializza la preview consultiva dei piani semantici Doomsday."""
+    try:
+        build_game_intelligence_tab(parent, console_log=console_log)
+    except Exception as exc:
+        console_log(f"Errore nel caricamento del piano gioco: {exc}", level="ERROR")
+
+
+def setup_semantic_campaign_interface(parent):
+    """Inizializza la gestione delle attribuzioni macro-campagna."""
+    try:
+        build_semantic_campaign_tab(parent, console_log=console_log)
+    except Exception as exc:
+        console_log(f"Errore nel caricamento delle campagne semantiche: {exc}", level="ERROR")
+
 
 def setup_ui_graph_browser_interface(parent):
     """Configura una tab dedicata alla consultazione del grafo semantico UI."""
@@ -3795,6 +3832,15 @@ def delete_selected_game_element():
         if not element:
             messagebox.showerror("Errore Eliminazione", "Elemento non trovato.")
             return
+        if is_system_game_element(element):
+            messagebox.showwarning(
+                "Elemento di Sistema",
+                (
+                    "Questo elemento grafico è di sistema e non viene cancellato dalla galleria.\n\n"
+                    "Serve una richiesta esplicita di cancellazione degli elementi di sistema."
+                ),
+            )
+            return
         references = get_game_element_event_references(element_id)
         reference_count = sum(item["count"] for item in references)
         reference_note = ""
@@ -5027,6 +5073,9 @@ def setup_gui():
 
     build_secondary_tabs(
         tab_control=tab_control,
+        setup_field_roster_interface=setup_field_roster_interface,
+        setup_game_intelligence_interface=setup_game_intelligence_interface,
+        setup_semantic_campaign_interface=setup_semantic_campaign_interface,
         setup_ui_graph_browser_interface=setup_ui_graph_browser_interface,
         setup_knowledge_graph_interface=setup_knowledge_graph_interface,
         setup_scheduled_tasks_interface=setup_scheduled_tasks_interface,

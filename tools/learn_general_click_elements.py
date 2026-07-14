@@ -37,6 +37,18 @@ _log = make_file_logger(LOG_PATH)
 def parse_args():
     parser = argparse.ArgumentParser(description="Sessione elevata di learning generale sugli elementi cliccati.")
     parser.add_argument("--seconds", type=int, default=SESSION_SECONDS, help="Durata sessione in secondi.")
+    parser.add_argument(
+        "--scenario",
+        choices=("general", "hero_inspection"),
+        default="general",
+        help="Scenario semantico dichiarato per la sessione.",
+    )
+    parser.add_argument(
+        "--frame-delay",
+        type=float,
+        default=0.45,
+        help="Attesa post-click prima del frame completo, in secondi.",
+    )
     return parser.parse_args()
 
 
@@ -66,6 +78,12 @@ def main() -> int:
         classify_doomsday_view,
         is_empty_space_popup_dismissal_band,
         register_recorded_click_element,
+    )
+    from services.learning_frame_service import capture_learning_frame
+    from services.learning_session_journal_service import (
+        append_learning_event,
+        finalize_learning_session_journal,
+        initialize_learning_session_journal,
     )
     from services.system_macro_service import (
         ensure_launch_game_system_macro,
@@ -109,8 +127,15 @@ def main() -> int:
     _log("Clicca liberamente elementi utili del gioco: li censisco con immagine, vista e zona schermo.")
     _log("")
 
+    scenario_label = "Hero inspection" if args.scenario == "hero_inspection" else "General click elements"
+    declared_workflow_id = "hero-inspection-v1" if args.scenario == "hero_inspection" else None
+    objective = (
+        "Apprendere il percorso selezione eroe, lista ordinabile, profilo e pannelli di dettaglio."
+        if args.scenario == "hero_inspection"
+        else "Censire elementi grafici utili generici, con vista e zona semantica."
+    )
     session_name = (
-        "Sistema - General click elements - "
+        f"Sistema - {scenario_label} - "
         f"Locale {context['host_name']}\\{context['user_name']} - "
         f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     )
@@ -122,6 +147,15 @@ def main() -> int:
     previous_left = False
     previous_right = False
     last_click_at = 0.0
+    initial_window_rect = get_process_client_rect(TARGET_EXE)
+    initialize_learning_session_journal(
+        session_name=session_name,
+        scenario=args.scenario,
+        objective=objective,
+        declared_workflow_id=declared_workflow_id,
+        window_rect=initial_window_rect,
+    )
+    _log(f"Journal incrementale attivo: scenario={args.scenario}, workflow={declared_workflow_id or '-'}")
 
     while time.monotonic() < deadline:
         if _stop_hotkey_pressed():
@@ -150,7 +184,10 @@ def main() -> int:
             view_node_id = _safe_classify_view(classify_doomsday_view, window_rect)
             screen_zone = _screen_zone(normalized_x, normalized_y)
             horizontal_band_from_bottom = classify_horizontal_band_from_bottom(normalized_y)
-            empty_space_dismissal_candidate = is_empty_space_popup_dismissal_band(normalized_y)
+            # In learning generale una semplice fascia dello schermo non dimostra che sia attivo
+            # un popup. Manteniamo la posizione come evidenza, ma non fondiamo questi click nel
+            # simbolo globale di dismissal: ogni click deve restare visualmente ispezionabile.
+            empty_space_dismissal_candidate = False
             semantic_node_id = EMPTY_SPACE_DISMISSAL_NODE_ID if empty_space_dismissal_candidate else view_node_id
             event_data = {
                 "time": event_time_ms,
@@ -162,6 +199,22 @@ def main() -> int:
                 "ui_graph_id": DOOMSDAY_GRAPH_ID,
                 "ui_node_id": semantic_node_id,
             }
+            event_data["learning_frames"] = []
+            try:
+                click_time_frame = capture_learning_frame(
+                    session_name=session_name,
+                    sequence_index=len(events) + 1,
+                    window_rect=window_rect,
+                    event_time_ms=event_time_ms,
+                    view_node_id=view_node_id,
+                    semantic_node_id=semantic_node_id,
+                    normalized_x=event_data["normalized_x"],
+                    normalized_y=event_data["normalized_y"],
+                    phase="click_time",
+                )
+                event_data["learning_frames"].append(click_time_frame)
+            except Exception as frame_exc:
+                _log(f"Frame al click non acquisito: {frame_exc}")
             try:
                 observation = register_recorded_click_element(
                     macro_name=session_name,
@@ -175,6 +228,7 @@ def main() -> int:
                     view_node_id=semantic_node_id,
                     sequence_index=len(events) + 1,
                     previous_element_id=previous_element_id,
+                    infer_spatial_semantic_actions=False,
                 )
                 event_data["game_element_id"] = observation.element_id
                 if previous_element_id:
@@ -201,9 +255,39 @@ def main() -> int:
                     f"vista={view_node_id}, nodo={semantic_node_id}, zona={screen_zone}, "
                     f"banda={horizontal_band_from_bottom}, pos=({cursor_x},{cursor_y})"
                 )
+                try:
+                    time.sleep(max(0.0, min(2.0, float(args.frame_delay))))
+                    frame = capture_learning_frame(
+                        session_name=session_name,
+                        sequence_index=len(events) + 1,
+                        window_rect=window_rect,
+                        event_time_ms=event_time_ms,
+                        view_node_id=view_node_id,
+                        semantic_node_id=semantic_node_id,
+                        normalized_x=event_data["normalized_x"],
+                        normalized_y=event_data["normalized_y"],
+                        phase="after_stabilization",
+                    )
+                    event_data["learning_frames"].append(frame)
+                    event_data["learning_frame_path"] = frame["path"]
+                    event_data["learning_frame_sha256"] = frame["sha256"]
+                    event_data["learning_frame_quality"] = frame["quality"]
+                    _log(
+                        f"Frame post-click #{len(events) + 1}: {frame['path']} "
+                        f"(valido={frame['quality']['valid']})"
+                    )
+                except Exception as frame_exc:
+                    _log(f"Frame post-click non acquisito: {frame_exc}")
             except Exception as exc:
                 _log(f"Click rilevato ma censimento fallito in ({cursor_x},{cursor_y}): {exc}")
             events.append(event_data)
+            try:
+                append_learning_event(
+                    session_name=session_name,
+                    event={"sequence_index": len(events), **event_data},
+                )
+            except Exception as journal_exc:
+                _log(f"Journal evento non aggiornato: {journal_exc}")
             last_click_at = now_monotonic
 
         previous_left = left_down
@@ -211,6 +295,7 @@ def main() -> int:
         time.sleep(0.02)
 
     if not events:
+        finalize_learning_session_journal(session_name=session_name, status="empty", click_count=0)
         _log("Nessun click acquisito; non salvo la macro componente.")
         return 1
 
@@ -226,7 +311,9 @@ def main() -> int:
         "recorded_at": datetime.now().isoformat(timespec="seconds"),
         "duration_seconds": session_seconds,
         "stop_hotkey": STOP_HOTKEY_TEXT,
-        "objective": "Censire elementi grafici utili generici, con vista e zona semantica.",
+        "objective": objective,
+        "scenario": args.scenario,
+        "declared_workflow_id": declared_workflow_id,
     }
     macro_id = salva_macro_test(
         session_name,
@@ -241,6 +328,12 @@ def main() -> int:
     )
     _log("")
     _log(f"Macro componente salvata con ID {macro_id}: {session_name}")
+    finalize_learning_session_journal(
+        session_name=session_name,
+        status="completed",
+        click_count=len(events),
+        macro_id=macro_id,
+    )
     _log(f"Click acquisiti: {len(events)}")
     _log(f"Elementi grafici censiti: {len(observations)}")
     _log("Puoi chiudere questa finestra.")

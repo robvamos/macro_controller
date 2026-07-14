@@ -5387,6 +5387,178 @@
               "width": 96
             },
             "view_node_id": "empty_space_popup_dismissal_band_4"
+          },
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 0,
+              "y": 0
+            },
+            "click_position": {
+              "x": 2063,
+              "y": 309
+            },
+            "contour_confidence": 1.0,
+            "crop_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "event_time_ms": 21723,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0416,
+              "y": 0.2146
+            },
+            "previous_element_id": 211,
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_role": "spatial_popup_dismissal",
+            "sequence_index": 2,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "semantic_action",
+            "source": "macro_recording_semantic_click_action",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "empty_space_popup_dismissal_band_4"
+          },
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 0,
+              "y": 0
+            },
+            "click_position": {
+              "x": 3999,
+              "y": 433
+            },
+            "contour_confidence": 1.0,
+            "crop_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "event_time_ms": 71255,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.6044,
+              "y": 0.3007
+            },
+            "previous_element_id": 217,
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_role": "spatial_popup_dismissal",
+            "sequence_index": 9,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "semantic_action",
+            "source": "macro_recording_semantic_click_action",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "empty_space_popup_dismissal_band_4"
+          },
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 0,
+              "y": 0
+            },
+            "click_position": {
+              "x": 4201,
+              "y": 442
+            },
+            "contour_confidence": 1.0,
+            "crop_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "event_time_ms": 74290,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.6631,
+              "y": 0.3069
+            },
+            "previous_element_id": 218,
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_role": "spatial_popup_dismissal",
+            "sequence_index": 11,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "semantic_action",
+            "source": "macro_recording_semantic_click_action",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "empty_space_popup_dismissal_band_4"
+          },
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 0,
+              "y": 0
+            },
+            "click_position": {
+              "x": 3739,
+              "y": 314
+            },
+            "contour_confidence": 1.0,
+            "crop_bounds": {
+              "bottom": 1440,
+              "left": 1920,
+              "right": 5360,
+              "top": 0
+            },
+            "event_time_ms": 126538,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.5288,
+              "y": 0.2181
+            },
+            "previous_element_id": 226,
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_role": "spatial_popup_dismissal",
+            "sequence_index": 20,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "semantic_action",
+            "source": "macro_recording_semantic_click_action",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "empty_space_popup_dismissal_band_4"
           }
         ],
         "general_click_semantic_note": [
@@ -5678,12 +5850,80 @@
             "session_name": "Sistema - General click elements - Locale MUSICSTATION\\robva - 20260601_204046",
             "source": "general_click_elements_learning",
             "view_node_id": "unknown_main_view"
+          },
+          {
+            "empty_space_popup_dismissal_candidate": true,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.0416,
+              "y": 0.2146
+            },
+            "previous_element_id": 211,
+            "screen_zone": "top_left",
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 2,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          },
+          {
+            "empty_space_popup_dismissal_candidate": true,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.6044,
+              "y": 0.3007
+            },
+            "previous_element_id": 217,
+            "screen_zone": "top_center",
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 9,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          },
+          {
+            "empty_space_popup_dismissal_candidate": true,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.6631,
+              "y": 0.3069
+            },
+            "previous_element_id": 218,
+            "screen_zone": "top_right",
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 11,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          },
+          {
+            "empty_space_popup_dismissal_candidate": true,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.5288,
+              "y": 0.2181
+            },
+            "previous_element_id": 226,
+            "screen_zone": "top_center",
+            "semantic_node_id": "empty_space_popup_dismissal_band_4",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 20,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
           }
         ]
       },
       "name": "semantic_empty_space_popup_dismissal_band_4",
       "semantic_hint": "semantic click action; graph=doomsday-default-ui-graph; view=empty_space_popup_dismissal_band_4; role=spatial_popup_dismissal; node=empty_space_popup_dismissal_band_4",
-      "updated_at": "2026-06-01 18:43:11"
+      "updated_at": "2026-07-14 15:04:45"
     },
     {
       "created_at": "2026-06-01 18:38:47",
@@ -19628,6 +19868,3375 @@
       "name": "recorded_click_sistema_general_click_elements_locale_musicstati_368768ms_1720x1031",
       "semantic_hint": "",
       "updated_at": "2026-06-01 18:46:56"
+    },
+    {
+      "created_at": "2026-06-02 12:21:20",
+      "description": "Chiude alcuni popup bloccanti quando compare sulla schermata.\n[semantic_hint] popup close recovery symbol\nSYSTEM_GAME_ELEMENT: true",
+      "format": "PNG",
+      "id": 208,
+      "image_path": "game_elements/0208_popup_crossed_circle_symbol.png",
+      "image_size": {
+        "height": 89,
+        "width": 94
+      },
+      "memory_note": "",
+      "metadata_blocks": {},
+      "name": "popup_crossed_circle_symbol",
+      "semantic_hint": "popup close recovery symbol",
+      "updated_at": "2026-06-02 12:43:16"
+    },
+    {
+      "created_at": "2026-06-02 12:34:43",
+      "description": "Variante cromatica del simbolo cerchio barrato che chiude alcuni popup bloccanti.\n[semantic_hint] popup close recovery symbol color variant\nSYSTEM_GAME_ELEMENT: true",
+      "format": "PNG",
+      "id": 209,
+      "image_path": "game_elements/0209_popup_crossed_circle_symbol_2.png",
+      "image_size": {
+        "height": 88,
+        "width": 93
+      },
+      "memory_note": "",
+      "metadata_blocks": {},
+      "name": "popup_crossed_circle_symbol_2",
+      "semantic_hint": "popup close recovery symbol color variant",
+      "updated_at": "2026-06-02 12:43:16"
+    },
+    {
+      "created_at": "2026-06-02 12:38:22",
+      "description": "Elemento grafico che indica la cura delle truppe; puo' essere usato come riferimento alternativo per riconoscere il contesto della macro di cura.\n[semantic_hint] troop healing action visual reference alternative\nSYSTEM_GAME_ELEMENT: true",
+      "format": "PNG",
+      "id": 210,
+      "image_path": "game_elements/0210_troop_heal_action_symbol.png",
+      "image_size": {
+        "height": 157,
+        "width": 141
+      },
+      "memory_note": "",
+      "metadata_blocks": {},
+      "name": "troop_heal_action_symbol",
+      "semantic_hint": "troop healing action visual reference alternative",
+      "updated_at": "2026-06-02 12:43:16"
+    },
+    {
+      "created_at": "2026-07-14 15:02:55",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 211,
+      "image_path": "game_elements/0211_recorded_click_sistema_general_click_elements_locale_antartika_009336ms_2008x76.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 256,
+              "left": 1920,
+              "right": 2188,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2008,
+              "y": 76
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 122,
+              "left": 1962,
+              "right": 2054,
+              "top": 30
+            },
+            "event_time_ms": 9336,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0256,
+              "y": 0.0528
+            },
+            "previous_element_id": null,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 1,
+            "sequence_relation": "sequence_start",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0256,
+              "y": 0.0528
+            },
+            "previous_element_id": null,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 1,
+            "sequence_relation": "sequence_start",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__009336ms_2008x76",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:02:55"
+    },
+    {
+      "created_at": "2026-07-14 15:03:16",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 212,
+      "image_path": "game_elements/0212_recorded_click_sistema_general_click_elements_locale_antartika_032918ms_4415x244.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 424,
+              "left": 4235,
+              "right": 4595,
+              "top": 64
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 4415,
+              "y": 244
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 290,
+              "left": 4369,
+              "right": 4461,
+              "top": 198
+            },
+            "event_time_ms": 32918,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.7253,
+              "y": 0.1694
+            },
+            "previous_element_id": 63,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 3,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.7253,
+              "y": 0.1694
+            },
+            "previous_element_id": 63,
+            "screen_zone": "top_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 3,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__032918ms_4415x244",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:16"
+    },
+    {
+      "created_at": "2026-07-14 15:03:22",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 213,
+      "image_path": "game_elements/0213_recorded_click_sistema_general_click_elements_locale_antartika_040010ms_4559x717.png",
+      "image_size": {
+        "height": 84,
+        "width": 84
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 897,
+              "left": 4379,
+              "right": 4739,
+              "top": 537
+            },
+            "click_offset_in_crop": {
+              "x": 34,
+              "y": 38
+            },
+            "click_position": {
+              "x": 4559,
+              "y": 717
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 763,
+              "left": 4525,
+              "right": 4609,
+              "top": 679
+            },
+            "event_time_ms": 40010,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.7672,
+              "y": 0.4979
+            },
+            "previous_element_id": 212,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 4,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 84,
+              "width": 84
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.7672,
+              "y": 0.4979
+            },
+            "previous_element_id": 212,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 4,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__040010ms_4559x717",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:23"
+    },
+    {
+      "created_at": "2026-07-14 15:03:27",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 214,
+      "image_path": "game_elements/0214_recorded_click_sistema_general_click_elements_locale_antartika_045219ms_3148x1007.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1187,
+              "left": 2968,
+              "right": 3328,
+              "top": 827
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 3148,
+              "y": 1007
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1053,
+              "left": 3102,
+              "right": 3194,
+              "top": 961
+            },
+            "event_time_ms": 45219,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.357,
+              "y": 0.6993
+            },
+            "previous_element_id": 213,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 5,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 2,
+            "normalized_position": {
+              "x": 0.357,
+              "y": 0.6993
+            },
+            "previous_element_id": 213,
+            "screen_zone": "bottom_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 5,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__045219ms_3148x1007",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:28"
+    },
+    {
+      "created_at": "2026-07-14 15:03:36",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 215,
+      "image_path": "game_elements/0215_recorded_click_sistema_general_click_elements_locale_antartika_054103ms_2011x72.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 252,
+              "left": 1920,
+              "right": 2191,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2011,
+              "y": 72
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 118,
+              "left": 1965,
+              "right": 2057,
+              "top": 26
+            },
+            "event_time_ms": 54103,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0265,
+              "y": 0.05
+            },
+            "previous_element_id": 214,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 6,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0265,
+              "y": 0.05
+            },
+            "previous_element_id": 214,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 6,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__054103ms_2011x72",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:36"
+    },
+    {
+      "created_at": "2026-07-14 15:03:43",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 216,
+      "image_path": "game_elements/0216_recorded_click_sistema_general_click_elements_locale_antartika_062077ms_4538x714.png",
+      "image_size": {
+        "height": 84,
+        "width": 84
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 894,
+              "left": 4358,
+              "right": 4718,
+              "top": 534
+            },
+            "click_offset_in_crop": {
+              "x": 44,
+              "y": 35
+            },
+            "click_position": {
+              "x": 4538,
+              "y": 714
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 763,
+              "left": 4494,
+              "right": 4578,
+              "top": 679
+            },
+            "event_time_ms": 62077,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.761,
+              "y": 0.4958
+            },
+            "previous_element_id": 215,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 7,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 84,
+              "width": 84
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.761,
+              "y": 0.4958
+            },
+            "previous_element_id": 215,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 7,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__062077ms_4538x714",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:44"
+    },
+    {
+      "created_at": "2026-07-14 15:03:48",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 217,
+      "image_path": "game_elements/0217_recorded_click_sistema_general_click_elements_locale_antartika_066322ms_2009x82.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 262,
+              "left": 1920,
+              "right": 2189,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2009,
+              "y": 82
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 128,
+              "left": 1963,
+              "right": 2055,
+              "top": 36
+            },
+            "event_time_ms": 66322,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0259,
+              "y": 0.0569
+            },
+            "previous_element_id": 216,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 8,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0259,
+              "y": 0.0569
+            },
+            "previous_element_id": 216,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 8,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__066322ms_2009x82",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:48"
+    },
+    {
+      "created_at": "2026-07-14 15:03:51",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 218,
+      "image_path": "game_elements/0218_recorded_click_sistema_general_click_elements_locale_antartika_072306ms_3821x635.png",
+      "image_size": {
+        "height": 64,
+        "width": 180
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 815,
+              "left": 3641,
+              "right": 4001,
+              "top": 455
+            },
+            "click_offset_in_crop": {
+              "x": 94,
+              "y": 16
+            },
+            "click_position": {
+              "x": 3821,
+              "y": 635
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 683,
+              "left": 3727,
+              "right": 3907,
+              "top": 619
+            },
+            "event_time_ms": 72306,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.5526,
+              "y": 0.441
+            },
+            "previous_element_id": 63,
+            "semantic_node_id": null,
+            "semantic_role": "text_button",
+            "sequence_index": 10,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "wide_button",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 64,
+              "width": 180
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.5526,
+              "y": 0.441
+            },
+            "previous_element_id": 63,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 10,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__072306ms_3821x635",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:03:52"
+    },
+    {
+      "created_at": "2026-07-14 15:04:04",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 219,
+      "image_path": "game_elements/0219_recorded_click_sistema_general_click_elements_locale_antartika_079842ms_2015x61.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 241,
+              "left": 1920,
+              "right": 2195,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2015,
+              "y": 61
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 107,
+              "left": 1969,
+              "right": 2061,
+              "top": 15
+            },
+            "event_time_ms": 79842,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0276,
+              "y": 0.0424
+            },
+            "previous_element_id": 63,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 12,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0276,
+              "y": 0.0424
+            },
+            "previous_element_id": 63,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 12,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__079842ms_2015x61",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:04"
+    },
+    {
+      "created_at": "2026-07-14 15:04:08",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 220,
+      "image_path": "game_elements/0220_recorded_click_sistema_general_click_elements_locale_antartika_086651ms_2752x1038.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1218,
+              "left": 2572,
+              "right": 2932,
+              "top": 858
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2752,
+              "y": 1038
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1084,
+              "left": 2706,
+              "right": 2798,
+              "top": 992
+            },
+            "event_time_ms": 86651,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.2419,
+              "y": 0.7208
+            },
+            "previous_element_id": 219,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 13,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 2,
+            "normalized_position": {
+              "x": 0.2419,
+              "y": 0.7208
+            },
+            "previous_element_id": 219,
+            "screen_zone": "bottom_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 13,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__086651ms_2752x1038",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:08"
+    },
+    {
+      "created_at": "2026-07-14 15:04:14",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 221,
+      "image_path": "game_elements/0221_recorded_click_sistema_general_click_elements_locale_antartika_090712ms_2024x85.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 265,
+              "left": 1920,
+              "right": 2204,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2024,
+              "y": 85
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 131,
+              "left": 1978,
+              "right": 2070,
+              "top": 39
+            },
+            "event_time_ms": 90712,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0302,
+              "y": 0.059
+            },
+            "previous_element_id": 220,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 14,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0302,
+              "y": 0.059
+            },
+            "previous_element_id": 220,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 14,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__090712ms_2024x85",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:14"
+    },
+    {
+      "created_at": "2026-07-14 15:04:21",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 222,
+      "image_path": "game_elements/0222_recorded_click_sistema_general_click_elements_locale_antartika_101315ms_4701x1304.png",
+      "image_size": {
+        "height": 64,
+        "width": 180
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 4521,
+              "right": 4881,
+              "top": 1124
+            },
+            "click_offset_in_crop": {
+              "x": 90,
+              "y": 16
+            },
+            "click_position": {
+              "x": 4701,
+              "y": 1304
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1352,
+              "left": 4611,
+              "right": 4791,
+              "top": 1288
+            },
+            "event_time_ms": 101315,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.8084,
+              "y": 0.9056
+            },
+            "previous_element_id": 221,
+            "semantic_node_id": null,
+            "semantic_role": "text_button",
+            "sequence_index": 15,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "wide_button",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 64,
+              "width": 180
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 1,
+            "normalized_position": {
+              "x": 0.8084,
+              "y": 0.9056
+            },
+            "previous_element_id": 221,
+            "screen_zone": "bottom_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 15,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__101315ms_4701x1304",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:21"
+    },
+    {
+      "created_at": "2026-07-14 15:04:26",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 223,
+      "image_path": "game_elements/0223_recorded_click_sistema_general_click_elements_locale_antartika_103585ms_3952x635.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 815,
+              "left": 3772,
+              "right": 4132,
+              "top": 455
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 3952,
+              "y": 635
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 681,
+              "left": 3906,
+              "right": 3998,
+              "top": 589
+            },
+            "event_time_ms": 103585,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.5907,
+              "y": 0.441
+            },
+            "previous_element_id": 222,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 16,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.5907,
+              "y": 0.441
+            },
+            "previous_element_id": 222,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 16,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__103585ms_3952x635",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:27"
+    },
+    {
+      "created_at": "2026-07-14 15:04:34",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 224,
+      "image_path": "game_elements/0224_recorded_click_sistema_general_click_elements_locale_antartika_110400ms_2026x83.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 263,
+              "left": 1920,
+              "right": 2206,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2026,
+              "y": 83
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 129,
+              "left": 1980,
+              "right": 2072,
+              "top": 37
+            },
+            "event_time_ms": 110400,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0308,
+              "y": 0.0576
+            },
+            "previous_element_id": 223,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 17,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0308,
+              "y": 0.0576
+            },
+            "previous_element_id": 223,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 17,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__110400ms_2026x83",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:34"
+    },
+    {
+      "created_at": "2026-07-14 15:04:39",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 225,
+      "image_path": "game_elements/0225_recorded_click_sistema_general_click_elements_locale_antartika_116093ms_3306x690.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 870,
+              "left": 3126,
+              "right": 3486,
+              "top": 510
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 3306,
+              "y": 690
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 736,
+              "left": 3260,
+              "right": 3352,
+              "top": 644
+            },
+            "event_time_ms": 116093,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.4029,
+              "y": 0.4792
+            },
+            "previous_element_id": 224,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 18,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.4029,
+              "y": 0.4792
+            },
+            "previous_element_id": 224,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 18,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__116093ms_3306x690",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:39"
+    },
+    {
+      "created_at": "2026-07-14 15:04:44",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 226,
+      "image_path": "game_elements/0226_recorded_click_sistema_general_click_elements_locale_antartika_121821ms_4370x249.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 429,
+              "left": 4190,
+              "right": 4550,
+              "top": 69
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 4370,
+              "y": 249
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 295,
+              "left": 4324,
+              "right": 4416,
+              "top": 203
+            },
+            "event_time_ms": 121821,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.7122,
+              "y": 0.1729
+            },
+            "previous_element_id": 225,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 19,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.7122,
+              "y": 0.1729
+            },
+            "previous_element_id": 225,
+            "screen_zone": "top_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 19,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__121821ms_4370x249",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:44"
+    },
+    {
+      "created_at": "2026-07-14 15:04:51",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 227,
+      "image_path": "game_elements/0227_recorded_click_sistema_general_click_elements_locale_antartika_127257ms_3925x663.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 843,
+              "left": 3745,
+              "right": 4105,
+              "top": 483
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 3925,
+              "y": 663
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 709,
+              "left": 3879,
+              "right": 3971,
+              "top": 617
+            },
+            "event_time_ms": 127257,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.5828,
+              "y": 0.4604
+            },
+            "previous_element_id": 63,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 21,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.5828,
+              "y": 0.4604
+            },
+            "previous_element_id": 63,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 21,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__127257ms_3925x663",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:51"
+    },
+    {
+      "created_at": "2026-07-14 15:04:57",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+      "format": "PNG",
+      "id": 228,
+      "image_path": "game_elements/0228_recorded_click_sistema_general_click_elements_locale_antartika_133957ms_2016x84.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 264,
+              "left": 1920,
+              "right": 2196,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2016,
+              "y": 84
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 130,
+              "left": 1970,
+              "right": 2062,
+              "top": 38
+            },
+            "event_time_ms": 133957,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "normalized_position": {
+              "x": 0.0279,
+              "y": 0.0583
+            },
+            "previous_element_id": 227,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 22,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0279,
+              "y": 0.0583
+            },
+            "previous_element_id": 227,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 22,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - General click elements - Locale ANTARTIKA\\Roberto - 20260714_170238",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_general_click_elements_locale_antartika__133957ms_2016x84",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:04:57"
+    },
+    {
+      "created_at": "2026-07-14 15:32:23",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 229,
+      "image_path": "game_elements/0229_recorded_click_sistema_hero_inspection_locale_antartika_roberto_009610ms_5096x1290.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 4916,
+              "right": 5276,
+              "top": 1110
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 5096,
+              "y": 1290
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1336,
+              "left": 5050,
+              "right": 5142,
+              "top": 1244
+            },
+            "event_time_ms": 9610,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.9233,
+              "y": 0.8958
+            },
+            "previous_element_id": null,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 1,
+            "sequence_relation": "sequence_start",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 1,
+            "normalized_position": {
+              "x": 0.9233,
+              "y": 0.8958
+            },
+            "previous_element_id": null,
+            "screen_zone": "bottom_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 1,
+            "sequence_relation": "sequence_start",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_009610ms_5096x1290",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:32:23"
+    },
+    {
+      "created_at": "2026-07-14 15:32:33",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 230,
+      "image_path": "game_elements/0230_recorded_click_sistema_hero_inspection_locale_antartika_roberto_021203ms_4714x1327.png",
+      "image_size": {
+        "height": 104,
+        "width": 104
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 4534,
+              "right": 4894,
+              "top": 1147
+            },
+            "click_offset_in_crop": {
+              "x": 52,
+              "y": 56
+            },
+            "click_position": {
+              "x": 4714,
+              "y": 1327
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1375,
+              "left": 4662,
+              "right": 4766,
+              "top": 1271
+            },
+            "event_time_ms": 21203,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.8122,
+              "y": 0.9215
+            },
+            "previous_element_id": 229,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 2,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "medium_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 104,
+              "width": 104
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 1,
+            "normalized_position": {
+              "x": 0.8122,
+              "y": 0.9215
+            },
+            "previous_element_id": 229,
+            "screen_zone": "bottom_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 2,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_021203ms_4714x1327",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:32:33"
+    },
+    {
+      "created_at": "2026-07-14 15:32:41",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 231,
+      "image_path": "game_elements/0231_recorded_click_sistema_hero_inspection_locale_antartika_roberto_028129ms_3537x918.png",
+      "image_size": {
+        "height": 96,
+        "width": 96
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1098,
+              "left": 3357,
+              "right": 3717,
+              "top": 738
+            },
+            "click_offset_in_crop": {
+              "x": 62,
+              "y": 48
+            },
+            "click_position": {
+              "x": 3537,
+              "y": 918
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 966,
+              "left": 3475,
+              "right": 3571,
+              "top": 870
+            },
+            "event_time_ms": 28129,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.4701,
+              "y": 0.6375
+            },
+            "previous_element_id": 230,
+            "semantic_node_id": null,
+            "semantic_role": "generic_click_target",
+            "sequence_index": 3,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "unknown",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 2,
+            "normalized_position": {
+              "x": 0.4701,
+              "y": 0.6375
+            },
+            "previous_element_id": 230,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 3,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_028129ms_3537x918",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:32:41"
+    },
+    {
+      "created_at": "2026-07-14 15:32:50",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 232,
+      "image_path": "game_elements/0232_recorded_click_sistema_hero_inspection_locale_antartika_roberto_036673ms_2592x391.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 571,
+              "left": 2412,
+              "right": 2772,
+              "top": 211
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2592,
+              "y": 391
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 437,
+              "left": 2546,
+              "right": 2638,
+              "top": 345
+            },
+            "event_time_ms": 36673,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.1953,
+              "y": 0.2715
+            },
+            "previous_element_id": 231,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 4,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.1953,
+              "y": 0.2715
+            },
+            "previous_element_id": 231,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 4,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_036673ms_2592x391",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:32:51"
+    },
+    {
+      "created_at": "2026-07-14 15:33:09",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 233,
+      "image_path": "game_elements/0233_recorded_click_sistema_hero_inspection_locale_antartika_roberto_057018ms_2100x388.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 568,
+              "left": 1920,
+              "right": 2280,
+              "top": 208
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2100,
+              "y": 388
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 434,
+              "left": 2054,
+              "right": 2146,
+              "top": 342
+            },
+            "event_time_ms": 57018,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0523,
+              "y": 0.2694
+            },
+            "previous_element_id": 232,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 5,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.0523,
+              "y": 0.2694
+            },
+            "previous_element_id": 232,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 5,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_057018ms_2100x388",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:09"
+    },
+    {
+      "created_at": "2026-07-14 15:33:18",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 234,
+      "image_path": "game_elements/0234_recorded_click_sistema_hero_inspection_locale_antartika_roberto_065383ms_3707x309.png",
+      "image_size": {
+        "height": 84,
+        "width": 84
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 489,
+              "left": 3527,
+              "right": 3887,
+              "top": 129
+            },
+            "click_offset_in_crop": {
+              "x": 54,
+              "y": 52
+            },
+            "click_position": {
+              "x": 3707,
+              "y": 309
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 341,
+              "left": 3653,
+              "right": 3737,
+              "top": 257
+            },
+            "event_time_ms": 65383,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.5195,
+              "y": 0.2146
+            },
+            "previous_element_id": 233,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 6,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 84,
+              "width": 84
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.5195,
+              "y": 0.2146
+            },
+            "previous_element_id": 233,
+            "screen_zone": "top_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 6,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_065383ms_3707x309",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:18"
+    },
+    {
+      "created_at": "2026-07-14 15:33:29",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 235,
+      "image_path": "game_elements/0235_recorded_click_sistema_hero_inspection_locale_antartika_roberto_075069ms_2021x90.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 270,
+              "left": 1920,
+              "right": 2201,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2021,
+              "y": 90
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 136,
+              "left": 1975,
+              "right": 2067,
+              "top": 44
+            },
+            "event_time_ms": 75069,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0294,
+              "y": 0.0625
+            },
+            "previous_element_id": 234,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 7,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0294,
+              "y": 0.0625
+            },
+            "previous_element_id": 234,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 7,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_075069ms_2021x90",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:29"
+    },
+    {
+      "created_at": "2026-07-14 15:33:32",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 236,
+      "image_path": "game_elements/0236_recorded_click_sistema_hero_inspection_locale_antartika_roberto_083719ms_4193x789.png",
+      "image_size": {
+        "height": 82,
+        "width": 180
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 969,
+              "left": 4013,
+              "right": 4373,
+              "top": 609
+            },
+            "click_offset_in_crop": {
+              "x": 180,
+              "y": 78
+            },
+            "click_position": {
+              "x": 4193,
+              "y": 789
+            },
+            "contour_confidence": 0.55,
+            "crop_bounds": {
+              "bottom": 793,
+              "left": 4013,
+              "right": 4193,
+              "top": 711
+            },
+            "event_time_ms": 83719,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.6608,
+              "y": 0.5479
+            },
+            "previous_element_id": 235,
+            "semantic_node_id": null,
+            "semantic_role": "text_button",
+            "sequence_index": 8,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "wide_button",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 82,
+              "width": 180
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.6608,
+              "y": 0.5479
+            },
+            "previous_element_id": 235,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 8,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_083719ms_4193x789",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:32"
+    },
+    {
+      "created_at": "2026-07-14 15:33:40",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 237,
+      "image_path": "game_elements/0237_recorded_click_sistema_hero_inspection_locale_antartika_roberto_087425ms_4511x726.png",
+      "image_size": {
+        "height": 84,
+        "width": 84
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 906,
+              "left": 4331,
+              "right": 4691,
+              "top": 546
+            },
+            "click_offset_in_crop": {
+              "x": 48,
+              "y": 46
+            },
+            "click_position": {
+              "x": 4511,
+              "y": 726
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 764,
+              "left": 4463,
+              "right": 4547,
+              "top": 680
+            },
+            "event_time_ms": 87425,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.7532,
+              "y": 0.5042
+            },
+            "previous_element_id": 236,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 9,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 84,
+              "width": 84
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.7532,
+              "y": 0.5042
+            },
+            "previous_element_id": 236,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 9,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_087425ms_4511x726",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:40"
+    },
+    {
+      "created_at": "2026-07-14 15:33:48",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 238,
+      "image_path": "game_elements/0238_recorded_click_sistema_hero_inspection_locale_antartika_roberto_095094ms_4434x549.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 729,
+              "left": 4254,
+              "right": 4614,
+              "top": 369
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 4434,
+              "y": 549
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 595,
+              "left": 4388,
+              "right": 4480,
+              "top": 503
+            },
+            "event_time_ms": 95094,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.7308,
+              "y": 0.3812
+            },
+            "previous_element_id": 237,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 10,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.7308,
+              "y": 0.3812
+            },
+            "previous_element_id": 237,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 10,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_095094ms_4434x549",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:48"
+    },
+    {
+      "created_at": "2026-07-14 15:33:56",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 239,
+      "image_path": "game_elements/0239_recorded_click_sistema_hero_inspection_locale_antartika_roberto_102250ms_2004x39.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 219,
+              "left": 1920,
+              "right": 2184,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 39
+            },
+            "click_position": {
+              "x": 2004,
+              "y": 39
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 92,
+              "left": 1958,
+              "right": 2050,
+              "top": 0
+            },
+            "event_time_ms": 102250,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0244,
+              "y": 0.0271
+            },
+            "previous_element_id": 238,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 11,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0244,
+              "y": 0.0271
+            },
+            "previous_element_id": 238,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 11,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_102250ms_2004x39",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:33:56"
+    },
+    {
+      "created_at": "2026-07-14 15:34:06",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 240,
+      "image_path": "game_elements/0240_recorded_click_sistema_hero_inspection_locale_antartika_roberto_110910ms_2027x117.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 297,
+              "left": 1920,
+              "right": 2207,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2027,
+              "y": 117
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 163,
+              "left": 1981,
+              "right": 2073,
+              "top": 71
+            },
+            "event_time_ms": 110910,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0311,
+              "y": 0.0813
+            },
+            "previous_element_id": 239,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 12,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0311,
+              "y": 0.0813
+            },
+            "previous_element_id": 239,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 12,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_110910ms_2027x117",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:06"
+    },
+    {
+      "created_at": "2026-07-14 15:34:10",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 241,
+      "image_path": "game_elements/0241_recorded_click_sistema_hero_inspection_locale_antartika_roberto_121387ms_4797x871.png",
+      "image_size": {
+        "height": 64,
+        "width": 180
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1051,
+              "left": 4617,
+              "right": 4977,
+              "top": 691
+            },
+            "click_offset_in_crop": {
+              "x": 84,
+              "y": 14
+            },
+            "click_position": {
+              "x": 4797,
+              "y": 871
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 921,
+              "left": 4713,
+              "right": 4893,
+              "top": 857
+            },
+            "event_time_ms": 121387,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.8363,
+              "y": 0.6049
+            },
+            "previous_element_id": 240,
+            "semantic_node_id": null,
+            "semantic_role": "text_button",
+            "sequence_index": 13,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "wide_button",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 64,
+              "width": 180
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 2,
+            "normalized_position": {
+              "x": 0.8363,
+              "y": 0.6049
+            },
+            "previous_element_id": 240,
+            "screen_zone": "middle_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 13,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_121387ms_4797x871",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:10"
+    },
+    {
+      "created_at": "2026-07-14 15:34:18",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 242,
+      "image_path": "game_elements/0242_recorded_click_sistema_hero_inspection_locale_antartika_roberto_125513ms_2025x66.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 246,
+              "left": 1920,
+              "right": 2205,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2025,
+              "y": 66
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 112,
+              "left": 1979,
+              "right": 2071,
+              "top": 20
+            },
+            "event_time_ms": 125513,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0305,
+              "y": 0.0458
+            },
+            "previous_element_id": 241,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 14,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0305,
+              "y": 0.0458
+            },
+            "previous_element_id": 241,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 14,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_125513ms_2025x66",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:18"
+    },
+    {
+      "created_at": "2026-07-14 15:34:28",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 243,
+      "image_path": "game_elements/0243_recorded_click_sistema_hero_inspection_locale_antartika_roberto_133333ms_2651x341.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 521,
+              "left": 2471,
+              "right": 2831,
+              "top": 161
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2651,
+              "y": 341
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 387,
+              "left": 2605,
+              "right": 2697,
+              "top": 295
+            },
+            "event_time_ms": 133333,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.2125,
+              "y": 0.2368
+            },
+            "previous_element_id": 242,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 15,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.2125,
+              "y": 0.2368
+            },
+            "previous_element_id": 242,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 15,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_133333ms_2651x341",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:28"
+    },
+    {
+      "created_at": "2026-07-14 15:34:35",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 244,
+      "image_path": "game_elements/0244_recorded_click_sistema_hero_inspection_locale_antartika_roberto_143002ms_2053x1222.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1402,
+              "left": 1920,
+              "right": 2233,
+              "top": 1042
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2053,
+              "y": 1222
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1268,
+              "left": 2007,
+              "right": 2099,
+              "top": 1176
+            },
+            "event_time_ms": 143002,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0387,
+              "y": 0.8486
+            },
+            "previous_element_id": 243,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 16,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 1,
+            "normalized_position": {
+              "x": 0.0387,
+              "y": 0.8486
+            },
+            "previous_element_id": 243,
+            "screen_zone": "bottom_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 16,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_143002ms_2053x1222",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:36"
+    },
+    {
+      "created_at": "2026-07-14 15:34:45",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 245,
+      "image_path": "game_elements/0245_recorded_click_sistema_hero_inspection_locale_antartika_roberto_151103ms_3021x294.png",
+      "image_size": {
+        "height": 96,
+        "width": 96
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 474,
+              "left": 2841,
+              "right": 3201,
+              "top": 114
+            },
+            "click_offset_in_crop": {
+              "x": 62,
+              "y": 48
+            },
+            "click_position": {
+              "x": 3021,
+              "y": 294
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 342,
+              "left": 2959,
+              "right": 3055,
+              "top": 246
+            },
+            "event_time_ms": 151103,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.3201,
+              "y": 0.2042
+            },
+            "previous_element_id": 244,
+            "semantic_node_id": null,
+            "semantic_role": "generic_click_target",
+            "sequence_index": 17,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "unknown",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 96,
+              "width": 96
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.3201,
+              "y": 0.2042
+            },
+            "previous_element_id": 244,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 17,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_151103ms_3021x294",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:45"
+    },
+    {
+      "created_at": "2026-07-14 15:34:56",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 246,
+      "image_path": "game_elements/0246_recorded_click_sistema_hero_inspection_locale_antartika_roberto_160278ms_2041x89.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 269,
+              "left": 1920,
+              "right": 2221,
+              "top": 0
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2041,
+              "y": 89
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 135,
+              "left": 1995,
+              "right": 2087,
+              "top": 43
+            },
+            "event_time_ms": 160278,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.0352,
+              "y": 0.0618
+            },
+            "previous_element_id": 245,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 18,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.0352,
+              "y": 0.0618
+            },
+            "previous_element_id": 245,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 18,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_160278ms_2041x89",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:34:56"
+    },
+    {
+      "created_at": "2026-07-14 15:35:08",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 247,
+      "image_path": "game_elements/0247_recorded_click_sistema_hero_inspection_locale_antartika_roberto_171342ms_2729x999.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1179,
+              "left": 2549,
+              "right": 2909,
+              "top": 819
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 2729,
+              "y": 999
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1045,
+              "left": 2683,
+              "right": 2775,
+              "top": 953
+            },
+            "event_time_ms": 171342,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.2352,
+              "y": 0.6937
+            },
+            "previous_element_id": 246,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 19,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 2,
+            "normalized_position": {
+              "x": 0.2352,
+              "y": 0.6937
+            },
+            "previous_element_id": 246,
+            "screen_zone": "bottom_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 19,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_171342ms_2729x999",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:35:08"
+    },
+    {
+      "created_at": "2026-07-14 15:35:12",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 248,
+      "image_path": "game_elements/0248_recorded_click_sistema_hero_inspection_locale_antartika_roberto_182755ms_4392x218.png",
+      "image_size": {
+        "height": 64,
+        "width": 180
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 398,
+              "left": 4212,
+              "right": 4572,
+              "top": 38
+            },
+            "click_offset_in_crop": {
+              "x": 90,
+              "y": 16
+            },
+            "click_position": {
+              "x": 4392,
+              "y": 218
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 266,
+              "left": 4302,
+              "right": 4482,
+              "top": 202
+            },
+            "event_time_ms": 182755,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.7186,
+              "y": 0.1514
+            },
+            "previous_element_id": 247,
+            "semantic_node_id": null,
+            "semantic_role": "text_button",
+            "sequence_index": 20,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "wide_button",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 64,
+              "width": 180
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 5,
+            "normalized_position": {
+              "x": 0.7186,
+              "y": 0.1514
+            },
+            "previous_element_id": 247,
+            "screen_zone": "top_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 20,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_182755ms_4392x218",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:35:12"
+    },
+    {
+      "created_at": "2026-07-14 15:35:20",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 249,
+      "image_path": "game_elements/0249_recorded_click_sistema_hero_inspection_locale_antartika_roberto_186664ms_2984x336.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 516,
+              "left": 2804,
+              "right": 3164,
+              "top": 156
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 48
+            },
+            "click_position": {
+              "x": 2984,
+              "y": 336
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 380,
+              "left": 2938,
+              "right": 3030,
+              "top": 288
+            },
+            "event_time_ms": 186664,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.3093,
+              "y": 0.2333
+            },
+            "previous_element_id": 248,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 21,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 4,
+            "normalized_position": {
+              "x": 0.3093,
+              "y": 0.2333
+            },
+            "previous_element_id": 248,
+            "screen_zone": "top_left",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 21,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_186664ms_2984x336",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:35:21"
+    },
+    {
+      "created_at": "2026-07-14 15:35:23",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 250,
+      "image_path": "game_elements/0250_recorded_click_sistema_hero_inspection_locale_antartika_roberto_195926ms_5016x1316.png",
+      "image_size": {
+        "height": 156,
+        "width": 156
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 1440,
+              "left": 4836,
+              "right": 5196,
+              "top": 1136
+            },
+            "click_offset_in_crop": {
+              "x": 78,
+              "y": 68
+            },
+            "click_position": {
+              "x": 5016,
+              "y": 1316
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 1404,
+              "left": 4938,
+              "right": 5094,
+              "top": 1248
+            },
+            "event_time_ms": 195926,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.9,
+              "y": 0.9139
+            },
+            "previous_element_id": 249,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 22,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 156,
+              "width": 156
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 1,
+            "normalized_position": {
+              "x": 0.9,
+              "y": 0.9139
+            },
+            "previous_element_id": 249,
+            "screen_zone": "bottom_right",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 22,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_195926ms_5016x1316",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:35:24"
+    },
+    {
+      "created_at": "2026-07-14 15:35:41",
+      "description": "Elemento acquisito automaticamente durante la registrazione macro.\nGrafo: doomsday-default-ui-graph\nNodo vista stimato: unknown_main_view\nMacro sorgente: Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+      "format": "PNG",
+      "id": 251,
+      "image_path": "game_elements/0251_recorded_click_sistema_hero_inspection_locale_antartika_roberto_199054ms_3294x648.png",
+      "image_size": {
+        "height": 92,
+        "width": 92
+      },
+      "memory_note": "",
+      "metadata_blocks": {
+        "auto_click_element_metadata": [
+          {
+            "button": "left",
+            "capture_bounds": {
+              "bottom": 828,
+              "left": 3114,
+              "right": 3474,
+              "top": 468
+            },
+            "click_offset_in_crop": {
+              "x": 46,
+              "y": 46
+            },
+            "click_position": {
+              "x": 3294,
+              "y": 648
+            },
+            "contour_confidence": 0.85,
+            "crop_bounds": {
+              "bottom": 694,
+              "left": 3248,
+              "right": 3340,
+              "top": 602
+            },
+            "event_time_ms": 199054,
+            "graph_id": "doomsday-default-ui-graph",
+            "macro_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "normalized_position": {
+              "x": 0.3994,
+              "y": 0.45
+            },
+            "previous_element_id": 250,
+            "semantic_node_id": null,
+            "semantic_role": "interactive_icon",
+            "sequence_index": 23,
+            "sequence_relation": "after_previous_click",
+            "shape_family": "compact_icon",
+            "source": "macro_recording_click_capture",
+            "stored_size": {
+              "height": 92,
+              "width": 92
+            },
+            "view_node_id": "unknown_main_view"
+          }
+        ],
+        "general_click_semantic_note": [
+          {
+            "empty_space_popup_dismissal_candidate": false,
+            "horizontal_band_from_bottom": 3,
+            "normalized_position": {
+              "x": 0.3994,
+              "y": 0.45
+            },
+            "previous_element_id": 250,
+            "screen_zone": "middle_center",
+            "semantic_node_id": "unknown_main_view",
+            "semantic_status": "needs_human_function_label",
+            "sequence_index": 23,
+            "sequence_relation": "after_previous_click",
+            "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+            "source": "general_click_elements_learning",
+            "view_node_id": "unknown_main_view"
+          }
+        ]
+      },
+      "name": "recorded_click_sistema_hero_inspection_locale_antartika_roberto_199054ms_3294x648",
+      "semantic_hint": "",
+      "updated_at": "2026-07-14 15:35:41"
     }
   ]
 }

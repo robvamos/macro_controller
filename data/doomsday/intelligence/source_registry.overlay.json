@@ -1,0 +1,460 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "category": "game_official",
+      "label": "Fonti ufficiali del gioco",
+      "description": "Canali pubblicati dall'editore per versioni, funzionalita, aggiornamenti e perimetro ufficiale del prodotto."
+    },
+    {
+      "category": "game_runtime_evidence",
+      "label": "Evidenze in-game",
+      "description": "Regole, schermate e rapporti osservati direttamente nel client di gioco e associati alla versione e all'evento correnti."
+    },
+    {
+      "category": "game_community",
+      "label": "Conoscenza della community",
+      "description": "Wiki e guide utili per scoprire entita, workflow e ipotesi da corroborare con evidenze ufficiali o in-game."
+    },
+    {
+      "category": "game_social_ephemeral",
+      "label": "Fonti sociali ed effimere",
+      "description": "Discussioni e annunci sociali consultati in modo mirato, con provenienza e temporalita esplicite."
+    },
+    {
+      "category": "local_project_evidence",
+      "label": "Evidenze locali DDassistant",
+      "description": "Dataset, OCR, catture e osservazioni locali prodotte o importate nel progetto."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "doomsday-official-app-store",
+      "label": "Doomsday: Last Survivors - Apple App Store",
+      "category": "game_official",
+      "usage_modes": [
+        "ruleset_versioning",
+        "feature_lifecycle",
+        "official_patch_history"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.98,
+      "signal_score": 0.95,
+      "noise_score": 0.03,
+      "notes": "Fonte primaria per cronologia versioni e introduzione o modifica delle funzionalita. Conservare sempre versione, data e locale della pagina.",
+      "query_patterns": [
+        "Doomsday Last Survivors version history {feature}",
+        "site:apps.apple.com id1552206075 {feature}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "official",
+        "version-history",
+        "ios",
+        "patch-notes"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "publisher": "IGG SINGAPORE PTE. LTD.",
+        "url": "https://apps.apple.com/app/id1552206075",
+        "status": "active",
+        "provenance_requirement": "Registrare locale, versione, data di pubblicazione e data di acquisizione."
+      }
+    },
+    {
+      "source_id": "doomsday-official-google-play",
+      "label": "Doomsday: Last Survivors - Google Play",
+      "category": "game_official",
+      "usage_modes": [
+        "current_product_scope",
+        "official_contacts",
+        "release_freshness"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.98,
+      "signal_score": 0.78,
+      "noise_score": 0.05,
+      "notes": "Fonte primaria per descrizione corrente, contatti ufficiali e freschezza del rilascio Android.",
+      "query_patterns": [
+        "Doomsday Last Survivors Google Play what's new",
+        "site:play.google.com/store/apps/details com.igg.android.doomsdaylastsurvivors"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "official",
+        "android",
+        "product-page"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "publisher": "IGG.COM",
+        "url": "https://play.google.com/store/apps/details?id=com.igg.android.doomsdaylastsurvivors",
+        "status": "active"
+      }
+    },
+    {
+      "source_id": "doomsday-official-website",
+      "label": "Doomsday: Last Survivors - sito ufficiale",
+      "category": "game_official",
+      "usage_modes": [
+        "official_product_scope",
+        "news_discovery",
+        "official_channel_discovery"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.98,
+      "signal_score": 0.65,
+      "noise_score": 0.05,
+      "notes": "Fonte primaria per posizionamento del gioco, notizie e collegamenti agli altri canali ufficiali.",
+      "query_patterns": [
+        "site:doomsdaysurvivors.com {feature}",
+        "Doomsday Last Survivors official {event}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "official",
+        "website",
+        "news"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "url": "https://doomsdaysurvivors.com/",
+        "status": "active"
+      }
+    },
+    {
+      "source_id": "doomsday-official-steam-updates",
+      "label": "Doomsday: Last Survivors - aggiornamenti Steam",
+      "category": "game_official",
+      "usage_modes": [
+        "official_patch_history",
+        "feature_lifecycle",
+        "ruleset_versioning"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.97,
+      "signal_score": 0.9,
+      "noise_score": 0.05,
+      "notes": "Cronologia ufficiale degli aggiornamenti PC; confrontare con mobile quando le date o i rollout differiscono.",
+      "query_patterns": [
+        "site:store.steampowered.com/news/app/2439510 {feature}",
+        "Doomsday Last Survivors Steam update {version}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "official",
+        "steam",
+        "patch-notes"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "url": "https://store.steampowered.com/news/app/2439510",
+        "status": "active",
+        "platform_scope": "pc"
+      }
+    },
+    {
+      "source_id": "doomsday-in-game-rules",
+      "label": "Regole e tooltip in-game",
+      "category": "game_runtime_evidence",
+      "usage_modes": [
+        "current_rules",
+        "numeric_constraints",
+        "event_scoring",
+        "casualty_policy"
+      ],
+      "formats": [
+        "screenshot",
+        "ocr",
+        "structured_capture"
+      ],
+      "trust_score": 1.0,
+      "signal_score": 1.0,
+      "noise_score": 0.02,
+      "notes": "Evidenza normativa principale per l'istanza corrente del gioco. Ogni acquisizione deve essere legata a versione, lingua, server, evento e timestamp.",
+      "query_patterns": [
+        "ui:{mode_id}:{rules_tab}",
+        "ocr:{mode_id}:{rule_or_tooltip}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "in-game",
+        "rules",
+        "ocr",
+        "current"
+      ],
+      "access_mode": "authenticated-local-runtime",
+      "metadata": {
+        "credentials_stored": false,
+        "required_capture_context": [
+          "account_or_server_scope",
+          "locale",
+          "game_version",
+          "event_instance",
+          "captured_at"
+        ]
+      }
+    },
+    {
+      "source_id": "doomsday-battle-reports",
+      "label": "Rapporti di battaglia in-game",
+      "category": "game_runtime_evidence",
+      "usage_modes": [
+        "mechanic_validation",
+        "modifier_attribution",
+        "casualty_analysis",
+        "outcome_learning"
+      ],
+      "formats": [
+        "screenshot",
+        "ocr",
+        "structured_capture"
+      ],
+      "trust_score": 0.99,
+      "signal_score": 0.98,
+      "noise_score": 0.03,
+      "notes": "Evidenza osservativa ad alta affidabilita. Separare i fatti mostrati dal rapporto dalle formule inferite su danno e modificatori.",
+      "query_patterns": [
+        "battle_report:{battle_id}",
+        "battle_report:{mode_id}:{result}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "in-game",
+        "battle-report",
+        "evidence",
+        "telemetry"
+      ],
+      "access_mode": "authenticated-local-runtime",
+      "metadata": {
+        "credentials_stored": false,
+        "required_capture_context": [
+          "battle_id",
+          "game_version",
+          "mode_id",
+          "captured_at"
+        ],
+        "inference_policy": "Le formule derivate devono essere marcate come ipotesi finche non sono replicate o corroborate."
+      }
+    },
+    {
+      "source_id": "doomsday-community-wiki",
+      "label": "Doomsday: Last Survivors Wiki",
+      "category": "game_community",
+      "usage_modes": [
+        "entity_reference",
+        "mechanic_hypothesis",
+        "legacy_rules"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.72,
+      "signal_score": 0.85,
+      "noise_score": 0.15,
+      "notes": "Utile per tassonomie, nomi e regole storiche. Numeri e stato corrente richiedono corroborazione ufficiale o in-game.",
+      "query_patterns": [
+        "site:doomsday-last-survivors.fandom.com/wiki {entity}",
+        "Doomsday Last Survivors wiki {mode_or_mechanic}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "community",
+        "wiki",
+        "entities",
+        "legacy"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "url": "https://doomsday-last-survivors.fandom.com/wiki/Doomsday:_Last_Survivors_Wiki",
+        "status": "active",
+        "corroboration_required_for": [
+          "numeric_rules",
+          "current_lifecycle",
+          "formulae"
+        ]
+      }
+    },
+    {
+      "source_id": "doomsday-community-guides",
+      "label": "Guide strategiche della community",
+      "category": "game_community",
+      "usage_modes": [
+        "strategy_workflows",
+        "mode_walkthroughs",
+        "historical_rules"
+      ],
+      "formats": [
+        "html",
+        "video",
+        "transcript"
+      ],
+      "trust_score": 0.58,
+      "signal_score": 0.75,
+      "noise_score": 0.32,
+      "notes": "Fonte di scoperta per strategie e workflow. Data, versione del gioco e competenza dell'autore devono essere esplicite; non usarla da sola per automazioni.",
+      "query_patterns": [
+        "Doomsday Last Survivors {mode} guide",
+        "Doomsday Last Survivors {mode} strategy {year}",
+        "Doomsday Last Survivors {mechanic} explained"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "community",
+        "guide",
+        "strategy",
+        "discovery"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "status": "discovery-only",
+        "corroboration_required": true,
+        "freshness_requirement": "Registrare data di pubblicazione e versione del gioco dichiarata o inferita."
+      }
+    },
+    {
+      "source_id": "doomsday-subreddit",
+      "label": "Doomsday: Last Survivors subreddit",
+      "category": "game_social_ephemeral",
+      "usage_modes": [
+        "current_player_experience",
+        "gap_discovery",
+        "mechanic_conflict_detection"
+      ],
+      "formats": [
+        "html"
+      ],
+      "trust_score": 0.45,
+      "signal_score": 0.65,
+      "noise_score": 0.5,
+      "notes": "Usare per individuare cambiamenti, eccezioni e domande aperte. Le affermazioni vanno classificate come testimonianze e corroborate.",
+      "query_patterns": [
+        "site:reddit.com/r/DoomsdayLastSurvivors {mode_or_feature}",
+        "Doomsday Last Survivors reddit {mechanic}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "community",
+        "reddit",
+        "ephemeral",
+        "discovery"
+      ],
+      "access_mode": "public-web",
+      "metadata": {
+        "url": "https://www.reddit.com/r/DoomsdayLastSurvivors/",
+        "status": "active",
+        "corroboration_required": true
+      }
+    },
+    {
+      "source_id": "doomsday-official-discord",
+      "label": "Doomsday: Last Survivors Discord ufficiale",
+      "category": "game_social_ephemeral",
+      "usage_modes": [
+        "official_announcement_lookup",
+        "targeted_rule_clarification",
+        "current_community_meta"
+      ],
+      "formats": [
+        "message",
+        "thread",
+        "attachment",
+        "screenshot"
+      ],
+      "trust_score": 0.75,
+      "signal_score": 0.85,
+      "noise_score": 0.35,
+      "notes": "Accesso autenticato solo temporaneo e mirato. Distinguere sempre messaggi dello staff, annunci ufficiali e opinioni della community; non conservare credenziali.",
+      "query_patterns": [
+        "discord:{server}:{channel}:{feature}",
+        "discord:{server}:from:{staff_role}:{event_or_version}"
+      ],
+      "domains": [
+        "doomsday_last_survivors"
+      ],
+      "tags": [
+        "official-community",
+        "discord",
+        "authenticated",
+        "ephemeral",
+        "targeted"
+      ],
+      "access_mode": "authenticated-web",
+      "metadata": {
+        "status": "targeted_ephemeral",
+        "invitation_url": "https://discord.gg/doomsdaylastsurvivors",
+        "credentials_stored": false,
+        "collection_policy": "Limitare l'acquisizione a canali e ricerche pertinenti; conservare server, canale, autore o ruolo, timestamp, permalink e data di acquisizione.",
+        "corroboration_required": true,
+        "authority_policy": "Uno staff badge o un canale annunci aumenta l'autorita, ma non rende ufficiali le opinioni degli utenti."
+      }
+    },
+    {
+      "source_id": "ddassistant-local-evidence",
+      "label": "Evidenze locali DDassistant",
+      "category": "local_project_evidence",
+      "usage_modes": [
+        "account_roster",
+        "ui_semantics",
+        "observed_localization",
+        "ocr_training_and_validation"
+      ],
+      "formats": [
+        "json",
+        "sqlite",
+        "png",
+        "ocr"
+      ],
+      "trust_score": 0.82,
+      "signal_score": 0.9,
+      "noise_score": 0.1,
+      "notes": "Fonte locale per stato osservato, dataset incorporati e risultati OCR. Separare dati bundled, osservazioni runtime e inferenze del software.",
+      "query_patterns": [
+        "local:{dataset}:{entity_id}",
+        "local:capture:{screen_or_mode}:{captured_at}"
+      ],
+      "domains": [
+        "doomsday_last_survivors",
+        "ddassistant"
+      ],
+      "tags": [
+        "local",
+        "dataset",
+        "ocr",
+        "project-evidence"
+      ],
+      "access_mode": "local-filesystem",
+      "metadata": {
+        "root": "F:/_CODEX/DDassistant/data/doomsday",
+        "status": "active",
+        "scope_note": "I dati dell'account non descrivono automaticamente le regole globali del gioco."
+      }
+    }
+  ]
+}

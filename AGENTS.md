@@ -10,7 +10,7 @@ Default shared skills:
 
 Shared knowledge root:
 
-- [codex-knowledge-hub](/F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub)
+- [codex-knowledge-hub](/F:/_CODEX/Knowledge/codex-knowledge-hub)
 
 Before implementing new features:
 
@@ -29,10 +29,10 @@ Project-specific reusable areas:
 
 Useful shared resources:
 
-- [projects-index.yaml](/F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/registry/projects-index.yaml)
-- [skills-index.yaml](/F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/registry/skills-index.yaml)
-- [interfaces-index.yaml](/F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/registry/interfaces-index.yaml)
-- [capabilities-index.yaml](/F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/registry/capabilities-index.yaml)
+- [projects-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/projects-index.yaml)
+- [skills-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/skills-index.yaml)
+- [interfaces-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/interfaces-index.yaml)
+- [capabilities-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/capabilities-index.yaml)
 
 Local interface notes:
 

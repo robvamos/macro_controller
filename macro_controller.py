@@ -24,6 +24,10 @@ from game_elements import blob_to_image
 
 logger = logging.getLogger(__name__)
 
+ALTERNATIVE_VISUAL_REFERENCE_ELEMENT_NAMES = (
+    "troop_heal_action_symbol",
+)
+
 
 def _create_visual_click_guard():
     config = get_visual_click_guard_config() or {}
@@ -87,6 +91,54 @@ def _prime_visual_guard_from_recorded_macro(click_context_guard, macro_events, l
             close_fn()
 
 
+def _is_alternative_visual_reference_name(element_name):
+    normalized_name = (element_name or "").strip()
+    return any(
+        normalized_name == reference_name or normalized_name.startswith(f"{reference_name}_")
+        for reference_name in ALTERNATIVE_VISUAL_REFERENCE_ELEMENT_NAMES
+    )
+
+
+def _add_visual_guard_reference_from_element(click_context_guard, element, log_callback=None):
+    if not element or not element.get("immagine") or not _is_alternative_visual_reference_name(element.get("nome")):
+        return False
+
+    image = None
+    try:
+        image = blob_to_image(element["immagine"], element.get("formato_immagine") or "PNG")
+        click_context_guard.add_reference_image(image)
+        if log_callback:
+            log_callback(
+                f"🧷 Riferimento visivo alternativo caricato: {element['nome']} (ID {element['id']}).",
+                level="DEBUG",
+            )
+        return True
+    except Exception as exc:
+        if log_callback:
+            log_callback(
+                f"⚠️ Impossibile caricare riferimento visivo alternativo '{element.get('nome')}': {exc}",
+                level="WARNING",
+            )
+        return False
+    finally:
+        close_fn = getattr(image, "close", None)
+        if callable(close_fn):
+            close_fn()
+
+
+def _prime_visual_guard_alternatives_from_macro_events(click_context_guard, macro_events, log_callback=None):
+    """Aggiunge riferimenti alternativi semantici già presenti nella macro registrata."""
+    added_element_ids = set()
+    for event in macro_events or ():
+        element_id = event.get("game_element_id")
+        if not element_id or int(element_id) in added_element_ids:
+            continue
+        element = get_game_element_by_id(int(element_id))
+        if _add_visual_guard_reference_from_element(click_context_guard, element, log_callback=log_callback):
+            added_element_ids.add(int(element_id))
+    return len(added_element_ids)
+
+
 def _emit_playback_event_debug(log_callback, index, total, message):
     """Invia un messaggio di debug per l'esecuzione di un evento playback."""
     debug_message = f"DEBUG PLAYBACK [{index + 1}/{total}] {message}"
@@ -138,6 +190,7 @@ def _attempt_repeated_symbol_recovery(
     log_callback=None,
     threshold=0.85,
     max_attempts=3,
+    visual_context_callback=None,
 ):
     """Prova a cliccare un simbolo di recovery più volte finché resta presente."""
     for attempt_index in range(max_attempts):
@@ -166,6 +219,7 @@ def _attempt_repeated_symbol_recovery(
             expected_abs_x,
             expected_abs_y,
             screen_bounds=game_rect,
+            preview_callback=visual_context_callback,
         )
         if verify_result["ok"]:
             if log_callback:
@@ -178,7 +232,16 @@ def _attempt_repeated_symbol_recovery(
     return False, None, None
 
 
-def _attempt_popup_recovery(*, target_exe, game_rect, expected_abs_x, expected_abs_y, click_context_guard, log_callback=None):
+def _attempt_popup_recovery(
+    *,
+    target_exe,
+    game_rect,
+    expected_abs_x,
+    expected_abs_y,
+    click_context_guard,
+    log_callback=None,
+    visual_context_callback=None,
+):
     """Tenta piu' strategie di recovery quando il contesto visivo non torna."""
     try:
         recovered, strategy_name, verify_result = _attempt_repeated_symbol_recovery(
@@ -190,12 +253,31 @@ def _attempt_popup_recovery(*, target_exe, game_rect, expected_abs_x, expected_a
             expected_abs_y=expected_abs_y,
             click_context_guard=click_context_guard,
             log_callback=log_callback,
+            visual_context_callback=visual_context_callback,
         )
         if recovered:
             return recovered, strategy_name, verify_result
     except Exception as exc:
         if log_callback:
             log_callback(f"⚠️ Recovery popup con simbolo di ritorno non disponibile: {exc}", level="WARNING")
+
+    try:
+        recovered, strategy_name, verify_result = _attempt_repeated_symbol_recovery(
+            element_names=("popup_crossed_circle_symbol",),
+            strategy_name="crossed_circle_symbol",
+            strategy_label="simbolo grafico popup con cerchio barrato",
+            game_rect=game_rect,
+            expected_abs_x=expected_abs_x,
+            expected_abs_y=expected_abs_y,
+            click_context_guard=click_context_guard,
+            log_callback=log_callback,
+            visual_context_callback=visual_context_callback,
+        )
+        if recovered:
+            return recovered, strategy_name, verify_result
+    except Exception as exc:
+        if log_callback:
+            log_callback(f"⚠️ Recovery popup con simbolo cerchio barrato non disponibile: {exc}", level="WARNING")
 
     try:
         recovered, strategy_name, verify_result = _attempt_repeated_symbol_recovery(
@@ -208,6 +290,7 @@ def _attempt_popup_recovery(*, target_exe, game_rect, expected_abs_x, expected_a
             click_context_guard=click_context_guard,
             log_callback=log_callback,
             max_attempts=1,
+            visual_context_callback=visual_context_callback,
         )
         if recovered:
             return recovered, strategy_name, verify_result
@@ -228,6 +311,7 @@ def _attempt_popup_recovery(*, target_exe, game_rect, expected_abs_x, expected_a
                 expected_abs_x,
                 expected_abs_y,
                 screen_bounds=game_rect,
+                preview_callback=visual_context_callback,
             )
             if verify_result["ok"]:
                 if log_callback:
@@ -989,7 +1073,16 @@ def registra_eventi(nome_macro, durata_sec, target_exe, log_callback=None):
         _recording_ui_node_id = None
         _recording_stop_event.clear()
 
-def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=False, loop_delay=0, max_repetitions=None, event_callback=None):
+def play_macro_events(
+    macro_events,
+    target_exe,
+    log_callback=None,
+    loop_enabled=False,
+    loop_delay=0,
+    max_repetitions=None,
+    event_callback=None,
+    visual_context_callback=None,
+):
     """
     Riproduce una lista di eventi macro. Si interrompe se la finestra attiva non è più quella dell'applicazione target.
     Versione migliorata per essere più responsiva agli stop.
@@ -1009,6 +1102,7 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
     click_context_guard = _create_visual_click_guard()
     click_context_guard.reset()
     _prime_visual_guard_from_recorded_macro(click_context_guard, macro_events, log_callback=log_callback)
+    _prime_visual_guard_alternatives_from_macro_events(click_context_guard, macro_events, log_callback=log_callback)
 
     def is_target_window_active(force=False):
         nonlocal last_focus_check_at, last_focus_check_result
@@ -1166,6 +1260,7 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                                     abs_x,
                                     abs_y,
                                     screen_bounds=game_rect,
+                                    preview_callback=visual_context_callback,
                                 )
                             except Exception as exc:
                                 stop_reason = "visual_guard_error"
@@ -1195,6 +1290,7 @@ def play_macro_events(macro_events, target_exe, log_callback=None, loop_enabled=
                                         expected_abs_y=abs_y,
                                         click_context_guard=click_context_guard,
                                         log_callback=log_callback,
+                                        visual_context_callback=visual_context_callback,
                                     )
                                     if recovered:
                                         guard_result = recovery_verify_result

@@ -4,3 +4,17 @@ __pycache__/
 .tools/
 logs/
 exports/
+
+# Runtime learning store; the versioned registry and source overlay stay tracked.
+data/doomsday/intelligence/*.db
+data/doomsday/intelligence/*.db-shm
+data/doomsday/intelligence/*.db-wal
+
+# SQLite sidecar runtime files: do not version volatile WAL state.
+data/macro_recorder.db-wal
+data/macro_recorder.db-shm
+data/doomsday/doomsday_roster.db-wal
+data/doomsday/doomsday_roster.db-shm
+data/doomsday/roster_live/*.db-wal
+data/doomsday/roster_live/*.db-shm
+data/doomsday/roster/live_roster.db*

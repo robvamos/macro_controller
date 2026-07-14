@@ -14,6 +14,9 @@ def build_knowledge_graph_tab(
     on_knowledge_graph_select,
 ):
     """Create a multi-level knowledge graph browser."""
+    background_color = theme.get("bg_color") or theme.get("background_color") or "#282c34"
+    text_color = theme.get("text_color") or theme.get("fg_color") or "#abb2bf"
+
     main_frame = ttk.Frame(parent)
     main_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
@@ -48,9 +51,9 @@ def build_knowledge_graph_tab(
         details_frame,
         height=16,
         wrap="word",
-        bg=theme["bg_color"],
-        fg=theme["text_color"],
-        insertbackground=theme["text_color"],
+        bg=background_color,
+        fg=text_color,
+        insertbackground=text_color,
         relief="flat",
         padx=8,
         pady=8,

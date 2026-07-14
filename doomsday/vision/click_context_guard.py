@@ -50,53 +50,10 @@ def _capture_context_image_pillow(left, top, right, bottom):
 
 
 def _capture_context_image_win32(left, top, right, bottom):
-    try:
-        import win32con
-        import win32gui
-        import win32ui
-        from PIL import Image
-    except ImportError as exc:
-        raise RuntimeError("Dipendenze Win32 non disponibili per la cattura nativa.") from exc
+    # Wrapper mantenuto per compatibilità con i test e i consumer storici.
+    from doomsday.vision.desktop_capture import capture_screen_region
 
-    width = right - left
-    height = bottom - top
-    hwnd = win32gui.GetDesktopWindow()
-    window_dc = win32gui.GetWindowDC(hwnd)
-
-    if not window_dc:
-        raise RuntimeError("Impossibile ottenere il device context del desktop.")
-
-    src_dc = None
-    mem_dc = None
-    bitmap = None
-    try:
-        src_dc = win32ui.CreateDCFromHandle(window_dc)
-        mem_dc = src_dc.CreateCompatibleDC()
-        bitmap = win32ui.CreateBitmap()
-        bitmap.CreateCompatibleBitmap(src_dc, width, height)
-        mem_dc.SelectObject(bitmap)
-        mem_dc.BitBlt((0, 0), (width, height), src_dc, (left, top), win32con.SRCCOPY)
-
-        info = bitmap.GetInfo()
-        bitmap_bits = bitmap.GetBitmapBits(True)
-        image = Image.frombuffer(
-            "RGB",
-            (info["bmWidth"], info["bmHeight"]),
-            bitmap_bits,
-            "raw",
-            "BGRX",
-            0,
-            1,
-        )
-        return image.copy()
-    finally:
-        if bitmap is not None:
-            win32gui.DeleteObject(bitmap.GetHandle())
-        if mem_dc is not None:
-            mem_dc.DeleteDC()
-        if src_dc is not None:
-            src_dc.DeleteDC()
-        win32gui.ReleaseDC(hwnd, window_dc)
+    return capture_screen_region(left, top, right, bottom)
 
 
 def normalize_context_image(image, resize_px=32):
@@ -133,8 +90,8 @@ def _iter_shifted_candidates(image, tolerance_px) -> Iterable:
 
 
 def _compute_single_similarity(reference_image, candidate_image):
-    reference_pixels = list(reference_image.getdata())
-    candidate_pixels = list(candidate_image.getdata())
+    reference_pixels = reference_image.tobytes()
+    candidate_pixels = candidate_image.tobytes()
     if len(reference_pixels) != len(candidate_pixels):
         raise ValueError("Le immagini normalizzate non hanno la stessa dimensione.")
 
@@ -219,9 +176,19 @@ class ClickContextGuard:
         if image is None:
             raise ValueError("Immagine di riferimento non valida.")
         self.reset()
-        self.reference_images = [image.copy()]
-        self.reference_position = (abs_x, abs_y) if abs_x is not None and abs_y is not None else None
+        self.add_reference_image(image, abs_x=abs_x, abs_y=abs_y)
         self.fixed_reference_mode = True
+
+    def add_reference_image(self, image, *, abs_x=None, abs_y=None):
+        """Aggiunge un riferimento alternativo mantenendo il confronto sullo stesso contesto."""
+        if image is None:
+            raise ValueError("Immagine di riferimento alternativa non valida.")
+        if not self.reference_images and abs_x is not None and abs_y is not None:
+            self.reference_position = (abs_x, abs_y)
+        self.reference_images.append(image.copy())
+        while len(self.reference_images) > self.config.max_reference_images:
+            oldest = self.reference_images.pop(0)
+            close_image(oldest)
 
     def freeze_current_reference(self):
         """Congela il riferimento gia' acquisito, impedendo che venga aggiornato nei loop successivi."""
@@ -243,7 +210,21 @@ class ClickContextGuard:
             close_image(oldest)
         return reference_image
 
-    def verify_or_prime(self, abs_x, abs_y, *, screen_bounds=None):
+    def _emit_preview_callback(self, preview_callback, *, reference_preview, candidate_preview, score=None):
+        """Invia subito il contesto catturato alla UI, anche prima del punteggio finale."""
+        if preview_callback is None:
+            return
+
+        preview_callback(
+            {
+                "reference_preview": reference_preview.copy() if reference_preview is not None else None,
+                "candidate_preview": candidate_preview.copy() if candidate_preview is not None else None,
+                "score": score,
+                "threshold": self.config.min_similarity,
+            }
+        )
+
+    def verify_or_prime(self, abs_x, abs_y, *, screen_bounds=None, preview_callback=None):
         if not self.config.enabled:
             return {
                 "ok": True,
@@ -272,6 +253,15 @@ class ClickContextGuard:
             radius_px=self.config.radius_px,
         )
         try:
+            last_reference_image = self.reference_images[-1] if self.reference_images else None
+            if last_reference_image is not None:
+                self._emit_preview_callback(
+                    preview_callback,
+                    reference_preview=last_reference_image,
+                    candidate_preview=candidate_image,
+                    score=None,
+                )
+
             best_reference_image = None
             best_score = 0.0
             for reference_image in self.reference_images:

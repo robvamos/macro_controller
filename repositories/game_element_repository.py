@@ -3,6 +3,9 @@
 from repositories.database import connect_db
 
 
+SYSTEM_GAME_ELEMENT_MARKER = "SYSTEM_GAME_ELEMENT:"
+
+
 def _game_element_row_to_dict(row, include_image=False):
     element = {
         "id": row[0],
@@ -118,6 +121,32 @@ def get_game_element_by_name(nome):
         conn.close()
 
 
+def get_game_elements_by_name_or_variant(nome):
+    """Ottiene l'elemento e le varianti salvate con suffisso numerico."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """
+            SELECT id, nome, descrizione, immagine, formato_immagine, data_creazione, data_ultima_modifica
+            FROM GameElements
+            WHERE nome = ? OR nome GLOB ?
+            ORDER BY
+                CASE WHEN nome = ? THEN 0 ELSE 1 END,
+                id ASC
+            """,
+            (nome, f"{nome}_[0-9]*", nome),
+        )
+        return [_game_element_row_to_dict(row, include_image=True) for row in cursor.fetchall()]
+    finally:
+        conn.close()
+
+
+def is_system_game_element(element):
+    """Restituisce True se l'elemento è marcato come protetto di sistema."""
+    return bool(element and SYSTEM_GAME_ELEMENT_MARKER in (element.get("descrizione") or ""))
+
+
 def update_game_element(element_id, nome=None, descrizione=None, immagine_blob=None, formato_immagine=None):
     """Aggiorna un elemento grafico esistente."""
     conn = connect_db()
@@ -163,14 +192,19 @@ def update_game_element(element_id, nome=None, descrizione=None, immagine_blob=N
         conn.close()
 
 
-def delete_game_element(element_id):
+def delete_game_element(element_id, *, include_system=False):
     """Elimina un elemento grafico."""
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM GameElements WHERE id = ?", (element_id,))
-        if cursor.rowcount == 0:
+        cursor.execute("SELECT descrizione FROM GameElements WHERE id = ?", (element_id,))
+        row = cursor.fetchone()
+        if not row:
             raise ValueError(f"Elemento con ID {element_id} non trovato.")
+        if SYSTEM_GAME_ELEMENT_MARKER in (row[0] or "") and not include_system:
+            raise PermissionError("Elemento grafico di sistema: serve una richiesta esplicita per cancellarlo.")
+
+        cursor.execute("DELETE FROM GameElements WHERE id = ?", (element_id,))
         conn.commit()
         return True
     except Exception as e:
@@ -180,12 +214,18 @@ def delete_game_element(element_id):
         conn.close()
 
 
-def delete_all_game_elements():
-    """Elimina tutto il catalogo elementi di gioco."""
+def delete_all_game_elements(*, include_system=False):
+    """Elimina gli elementi grafici preservando quelli di sistema salvo richiesta esplicita."""
     conn = connect_db()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM GameElements")
+        if include_system:
+            cursor.execute("DELETE FROM GameElements")
+        else:
+            cursor.execute(
+                "DELETE FROM GameElements WHERE COALESCE(descrizione, '') NOT LIKE ?",
+                (f"%{SYSTEM_GAME_ELEMENT_MARKER}%",),
+            )
         deleted_count = cursor.rowcount or 0
         conn.commit()
         return deleted_count
@@ -203,5 +243,7 @@ __all__ = [
     "get_all_game_elements",
     "get_game_element_by_id",
     "get_game_element_by_name",
+    "get_game_elements_by_name_or_variant",
+    "is_system_game_element",
     "update_game_element",
 ]

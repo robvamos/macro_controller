@@ -36,6 +36,7 @@ class PlaybackService:
         max_repetitions,
         gui_log: Callable[[str, str], None],
         event_callback,
+        visual_context_callback=None,
         wait_for_app_window: Callable[..., bool],
         play_macro_events: Callable[..., None],
         is_playback_stop_requested: Callable[[], bool],
@@ -77,6 +78,7 @@ class PlaybackService:
                 loop_delay=loop_delay,
                 max_repetitions=max_repetitions,
                 event_callback=event_callback,
+                visual_context_callback=visual_context_callback,
             )
         finally:
             self._finish_playback(stop_focus_monitoring)

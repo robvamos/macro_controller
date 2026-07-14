@@ -1,7 +1,20 @@
 {
   "pattern_suggestions": [
     {
-      "confidence": 0.0078,
+      "confidence": 0.0038,
+      "count": 7,
+      "element_ids": [
+        136,
+        136
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 136_136"
+    },
+    {
+      "confidence": 0.0033,
       "count": 6,
       "element_ids": [
         63,
@@ -15,7 +28,7 @@
       "suggested_macro_name": "Macro candidata pattern elementi 63_63"
     },
     {
-      "confidence": 0.0065,
+      "confidence": 0.0027,
       "count": 5,
       "element_ids": [
         154,
@@ -28,7 +41,7 @@
       "suggested_macro_name": "Macro candidata pattern elementi 154_154"
     },
     {
-      "confidence": 0.0052,
+      "confidence": 0.0022,
       "count": 4,
       "element_ids": [
         99,
@@ -41,7 +54,7 @@
       "suggested_macro_name": "Macro candidata pattern elementi 99_99"
     },
     {
-      "confidence": 0.0039,
+      "confidence": 0.0016,
       "count": 3,
       "element_ids": [
         99,
@@ -55,7 +68,7 @@
       "suggested_macro_name": "Macro candidata pattern elementi 99_99_99"
     },
     {
-      "confidence": 0.0039,
+      "confidence": 0.0016,
       "count": 3,
       "element_ids": [
         154,
@@ -69,7 +82,238 @@
       "suggested_macro_name": "Macro candidata pattern elementi 154_154_154"
     },
     {
-      "confidence": 0.0026,
+      "confidence": 0.0016,
+      "count": 3,
+      "element_ids": [
+        194,
+        194
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 194_194"
+    },
+    {
+      "confidence": 0.0016,
+      "count": 3,
+      "element_ids": [
+        197,
+        197
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 197_197"
+    },
+    {
+      "confidence": 0.0016,
+      "count": 3,
+      "element_ids": [
+        64,
+        64
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 64_64"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        229,
+        230,
+        231,
+        232
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 229_230_231_232"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        230,
+        231,
+        232,
+        233
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 230_231_232_233"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        231,
+        232,
+        233,
+        234
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 231_232_233_234"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        232,
+        233,
+        234,
+        235
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 232_233_234_235"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        233,
+        234,
+        235,
+        236
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 233_234_235_236"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        237,
+        238,
+        239,
+        240
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 237_238_239_240"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        238,
+        239,
+        240,
+        241
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 238_239_240_241"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        239,
+        240,
+        241,
+        242
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 239_240_241_242"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        243,
+        244,
+        245,
+        246
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 243_244_245_246"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        244,
+        245,
+        246,
+        247
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 244_245_246_247"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        245,
+        246,
+        247,
+        248
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 245_246_247_248"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        246,
+        247,
+        248,
+        249
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 246_247_248_249"
+    },
+    {
+      "confidence": 0.0011,
       "count": 2,
       "element_ids": [
         99,
@@ -84,7 +328,1583 @@
       "suggested_macro_name": "Macro candidata pattern elementi 99_99_99_99"
     },
     {
-      "confidence": 0.0026,
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        100,
+        101,
+        102,
+        103
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 100_101_102_103"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        101,
+        102,
+        103,
+        104
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 101_102_103_104"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        102,
+        103,
+        104,
+        105
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 102_103_104_105"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        103,
+        104,
+        105,
+        106
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 103_104_105_106"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        104,
+        105,
+        106,
+        107
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 104_105_106_107"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        105,
+        106,
+        107,
+        108
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 105_106_107_108"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        106,
+        107,
+        108,
+        109
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 106_107_108_109"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        107,
+        108,
+        109,
+        110
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 107_108_109_110"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        108,
+        109,
+        110,
+        111
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 108_109_110_111"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        109,
+        110,
+        111,
+        112
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 109_110_111_112"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        110,
+        111,
+        112,
+        113
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 110_111_112_113"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        111,
+        112,
+        113,
+        114
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 111_112_113_114"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        112,
+        113,
+        114,
+        115
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 112_113_114_115"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        113,
+        114,
+        115,
+        116
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 113_114_115_116"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        114,
+        115,
+        116,
+        117
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 114_115_116_117"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        117,
+        118,
+        119,
+        120
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 117_118_119_120"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        122,
+        123,
+        124,
+        125
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 122_123_124_125"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        123,
+        124,
+        125,
+        126
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 123_124_125_126"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        132,
+        133,
+        134,
+        135
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 132_133_134_135"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        146,
+        147,
+        148,
+        149
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 146_147_148_149"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        147,
+        148,
+        149,
+        150
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 147_148_149_150"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        148,
+        149,
+        150,
+        151
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 148_149_150_151"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        149,
+        150,
+        151,
+        152
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 149_150_151_152"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        150,
+        151,
+        152,
+        153
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 150_151_152_153"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        151,
+        152,
+        153,
+        154
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 151_152_153_154"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        156,
+        157,
+        158,
+        159
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 156_157_158_159"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        157,
+        158,
+        159,
+        160
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 157_158_159_160"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        158,
+        159,
+        160,
+        161
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 158_159_160_161"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        159,
+        160,
+        161,
+        162
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 159_160_161_162"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        160,
+        161,
+        162,
+        163
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 160_161_162_163"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        167,
+        168,
+        169,
+        170
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 167_168_169_170"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        168,
+        169,
+        170,
+        171
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 168_169_170_171"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        172,
+        173,
+        174,
+        175
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 172_173_174_175"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        173,
+        174,
+        175,
+        176
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 173_174_175_176"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        177,
+        178,
+        179,
+        180
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 177_178_179_180"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        183,
+        184,
+        185,
+        186
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 183_184_185_186"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        184,
+        185,
+        186,
+        187
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 184_185_186_187"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        190,
+        191,
+        192,
+        193
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 190_191_192_193"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        191,
+        192,
+        193,
+        194
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 191_192_193_194"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 52_53_54_55"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        53,
+        54,
+        55,
+        56
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 53_54_55_56"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        54,
+        55,
+        56,
+        57
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 54_55_56_57"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        55,
+        56,
+        57,
+        58
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 55_56_57_58"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 56_57_58_59"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        57,
+        58,
+        59,
+        60
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 57_58_59_60"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        58,
+        59,
+        60,
+        61
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 58_59_60_61"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        59,
+        60,
+        61,
+        62
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 59_60_61_62"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 60_61_62_63"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        64,
+        65,
+        66,
+        67
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 64_65_66_67"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        65,
+        66,
+        67,
+        68
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 65_66_67_68"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        66,
+        67,
+        68,
+        69
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 66_67_68_69"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        67,
+        68,
+        69,
+        70
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 67_68_69_70"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 68_69_70_71"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        69,
+        70,
+        71,
+        72
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 69_70_71_72"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        70,
+        71,
+        72,
+        73
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 70_71_72_73"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 71_72_73_74"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        72,
+        73,
+        74,
+        75
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 72_73_74_75"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        73,
+        74,
+        75,
+        76
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 73_74_75_76"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        74,
+        75,
+        76,
+        77
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 74_75_76_77"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        79,
+        80,
+        81,
+        82
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 79_80_81_82"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        86,
+        87,
+        88,
+        89
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 86_87_88_89"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        229,
+        230,
+        231
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 229_230_231"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        230,
+        231,
+        232
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 230_231_232"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        231,
+        232,
+        233
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 231_232_233"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        232,
+        233,
+        234
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 232_233_234"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        233,
+        234,
+        235
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 233_234_235"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        234,
+        235,
+        236
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 234_235_236"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        237,
+        238,
+        239
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 237_238_239"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        238,
+        239,
+        240
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 238_239_240"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        239,
+        240,
+        241
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 239_240_241"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        240,
+        241,
+        242
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 240_241_242"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        243,
+        244,
+        245
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 243_244_245"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        244,
+        245,
+        246
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 244_245_246"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        245,
+        246,
+        247
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 245_246_247"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        246,
+        247,
+        248
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 246_247_248"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        247,
+        248,
+        249
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 247_248_249"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        100,
+        101,
+        102
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 100_101_102"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        101,
+        102,
+        103
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 101_102_103"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        102,
+        103,
+        104
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 102_103_104"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        103,
+        104,
+        105
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 103_104_105"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        104,
+        105,
+        106
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 104_105_106"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        105,
+        106,
+        107
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 105_106_107"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        106,
+        107,
+        108
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 106_107_108"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        107,
+        108,
+        109
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 107_108_109"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        108,
+        109,
+        110
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 108_109_110"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        109,
+        110,
+        111
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 109_110_111"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        110,
+        111,
+        112
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 110_111_112"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        111,
+        112,
+        113
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 111_112_113"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        112,
+        113,
+        114
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 112_113_114"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        113,
+        114,
+        115
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 113_114_115"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        114,
+        115,
+        116
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 114_115_116"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        115,
+        116,
+        117
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 115_116_117"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        117,
+        118,
+        119
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 117_118_119"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        118,
+        119,
+        120
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 118_119_120"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        120,
+        121,
+        122
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 120_121_122"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        122,
+        123,
+        124
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 122_123_124"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        123,
+        124,
+        125
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 123_124_125"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        124,
+        125,
+        126
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 124_125_126"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        128,
+        129,
+        130
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 128_129_130"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        132,
+        133,
+        134
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 132_133_134"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        133,
+        134,
+        135
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 133_134_135"
+    },
+    {
+      "confidence": 0.0011,
       "count": 2,
       "element_ids": [
         63,
@@ -98,7 +1918,1199 @@
       "suggested_macro_name": "Macro candidata pattern elementi 63_63_63"
     },
     {
-      "confidence": 0.0026,
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        140,
+        141,
+        142
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 140_141_142"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        146,
+        147,
+        148
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 146_147_148"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        147,
+        148,
+        149
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 147_148_149"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        148,
+        149,
+        150
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 148_149_150"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        149,
+        150,
+        151
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 149_150_151"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        150,
+        151,
+        152
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 150_151_152"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        151,
+        152,
+        153
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 151_152_153"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        152,
+        153,
+        154
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 152_153_154"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        156,
+        157,
+        158
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 156_157_158"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        157,
+        158,
+        159
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 157_158_159"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        158,
+        159,
+        160
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 158_159_160"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        159,
+        160,
+        161
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 159_160_161"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        160,
+        161,
+        162
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 160_161_162"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        161,
+        162,
+        163
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 161_162_163"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        163,
+        164,
+        165
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 163_164_165"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        167,
+        168,
+        169
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 167_168_169"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        168,
+        169,
+        170
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 168_169_170"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        169,
+        170,
+        171
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 169_170_171"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        172,
+        173,
+        174
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 172_173_174"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        173,
+        174,
+        175
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 173_174_175"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        174,
+        175,
+        176
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 174_175_176"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        177,
+        178,
+        179
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 177_178_179"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        178,
+        179,
+        180
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 178_179_180"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        183,
+        184,
+        185
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 183_184_185"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        184,
+        185,
+        186
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 184_185_186"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        185,
+        186,
+        187
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 185_186_187"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        190,
+        191,
+        192
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 190_191_192"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        191,
+        192,
+        193
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 191_192_193"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        192,
+        193,
+        194
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 192_193_194"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        199,
+        200,
+        201
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 199_200_201"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        52,
+        53,
+        54
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 52_53_54"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        53,
+        54,
+        55
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 53_54_55"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        54,
+        55,
+        56
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 54_55_56"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        55,
+        56,
+        57
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 55_56_57"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        56,
+        57,
+        58
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 56_57_58"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        57,
+        58,
+        59
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 57_58_59"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        58,
+        59,
+        60
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 58_59_60"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        59,
+        60,
+        61
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 59_60_61"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        60,
+        61,
+        62
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 60_61_62"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        61,
+        62,
+        63
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 61_62_63"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        64,
+        65,
+        66
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 64_65_66"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        65,
+        66,
+        67
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 65_66_67"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        66,
+        67,
+        68
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 66_67_68"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        67,
+        68,
+        69
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 67_68_69"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        68,
+        69,
+        70
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 68_69_70"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        69,
+        70,
+        71
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 69_70_71"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        70,
+        71,
+        72
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 70_71_72"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        71,
+        72,
+        73
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 71_72_73"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        72,
+        73,
+        74
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 72_73_74"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        73,
+        74,
+        75
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 73_74_75"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        74,
+        75,
+        76
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 74_75_76"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        75,
+        76,
+        77
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 75_76_77"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        79,
+        80,
+        81
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 79_80_81"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        80,
+        81,
+        82
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 80_81_82"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        83,
+        84,
+        85
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 83_84_85"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        86,
+        87,
+        88
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 86_87_88"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        87,
+        88,
+        89
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 87_88_89"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        91,
+        92,
+        93
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 91_92_93"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        194,
+        194,
+        194
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 194_194_194"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        197,
+        197,
+        197
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 197_197_197"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        64,
+        64,
+        64
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 64_64_64"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        229,
+        230
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 229_230"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        230,
+        231
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 230_231"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        231,
+        232
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 231_232"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        232,
+        233
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 232_233"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        233,
+        234
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 233_234"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        234,
+        235
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 234_235"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        235,
+        236
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 235_236"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        237,
+        238
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 237_238"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        238,
+        239
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 238_239"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        239,
+        240
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 239_240"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        240,
+        241
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 240_241"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        241,
+        242
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 241_242"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        243,
+        244
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 243_244"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        244,
+        245
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 244_245"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        245,
+        246
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 245_246"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        246,
+        247
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 246_247"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        247,
+        248
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 247_248"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        248,
+        249
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 248_249"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        250,
+        251
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72,
+        73
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 250_251"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        98,
+        99
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 98_99"
+    },
+    {
+      "confidence": 0.0011,
       "count": 2,
       "element_ids": [
         64,
@@ -111,7 +3123,371 @@
       "suggested_macro_name": "Macro candidata pattern elementi 64_22"
     },
     {
-      "confidence": 0.0026,
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        100,
+        101
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 100_101"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        101,
+        102
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 101_102"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        102,
+        103
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 102_103"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        103,
+        104
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 103_104"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        104,
+        105
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 104_105"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        105,
+        106
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 105_106"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        106,
+        107
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 106_107"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        107,
+        108
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 107_108"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        108,
+        109
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 108_109"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        109,
+        110
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 109_110"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        110,
+        111
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 110_111"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        111,
+        112
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 111_112"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        112,
+        113
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 112_113"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        113,
+        114
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 113_114"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        114,
+        115
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 114_115"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        115,
+        116
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 115_116"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        116,
+        117
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 116_117"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        117,
+        118
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 117_118"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        118,
+        119
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 118_119"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        119,
+        120
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 119_120"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        120,
+        121
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 120_121"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        121,
+        122
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 121_122"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        122,
+        123
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 122_123"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        123,
+        124
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 123_124"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        124,
+        125
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 124_125"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        125,
+        126
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 125_126"
+    },
+    {
+      "confidence": 0.0011,
       "count": 2,
       "element_ids": [
         126,
@@ -124,7 +3500,553 @@
       "suggested_macro_name": "Macro candidata pattern elementi 126_126"
     },
     {
-      "confidence": 0.0026,
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        128,
+        129
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 128_129"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        129,
+        130
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 129_130"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        132,
+        133
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 132_133"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        133,
+        134
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 133_134"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        134,
+        135
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 134_135"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        136,
+        137
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 136_137"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        138,
+        139
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 138_139"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        140,
+        141
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 140_141"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        141,
+        142
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 141_142"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        146,
+        147
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 146_147"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        147,
+        148
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 147_148"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        148,
+        149
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 148_149"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        149,
+        150
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 149_150"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        150,
+        151
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 150_151"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        151,
+        152
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 151_152"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        152,
+        153
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 152_153"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        153,
+        154
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 153_154"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        154,
+        155
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 154_155"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        156,
+        157
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 156_157"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        157,
+        158
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 157_158"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        158,
+        159
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 158_159"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        159,
+        160
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 159_160"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        160,
+        161
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 160_161"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        161,
+        162
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 161_162"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        162,
+        163
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 162_163"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        163,
+        164
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 163_164"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        164,
+        165
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 164_165"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        165,
+        166
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 165_166"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        167,
+        168
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 167_168"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        168,
+        169
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 168_169"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        169,
+        170
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 169_170"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        170,
+        171
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 170_171"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        172,
+        173
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 172_173"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        173,
+        174
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 173_174"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        174,
+        175
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 174_175"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        175,
+        176
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 175_176"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        177,
+        178
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 177_178"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        178,
+        179
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 178_179"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        179,
+        180
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 179_180"
+    },
+    {
+      "confidence": 0.0011,
       "count": 2,
       "element_ids": [
         180,
@@ -135,6 +4057,761 @@
         68
       ],
       "suggested_macro_name": "Macro candidata pattern elementi 180_180"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        181,
+        182
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 181_182"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        183,
+        184
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 183_184"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        184,
+        185
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 184_185"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        185,
+        186
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 185_186"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        186,
+        187
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 186_187"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        188,
+        189
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 188_189"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        190,
+        191
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 190_191"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        191,
+        192
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 191_192"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        192,
+        193
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 192_193"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        193,
+        194
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 193_194"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        194,
+        195
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 194_195"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        196,
+        197
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 196_197"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        197,
+        198
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 197_198"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        199,
+        200
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 199_200"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        200,
+        201
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 200_201"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        203,
+        204
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 203_204"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        205,
+        206
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 205_206"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        206,
+        207
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        68,
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 206_207"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        52,
+        53
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 52_53"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        53,
+        54
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 53_54"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        54,
+        55
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 54_55"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        55,
+        56
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 55_56"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        56,
+        57
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 56_57"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        57,
+        58
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 57_58"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        58,
+        59
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 58_59"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        59,
+        60
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 59_60"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        60,
+        61
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 60_61"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        61,
+        62
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 61_62"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        62,
+        63
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 62_63"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        63,
+        64
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 63_64"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        64,
+        65
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 64_65"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        65,
+        66
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 65_66"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        66,
+        67
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 66_67"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        67,
+        68
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 67_68"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        68,
+        69
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 68_69"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        69,
+        70
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 69_70"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        70,
+        71
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 70_71"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        71,
+        72
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 71_72"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        72,
+        73
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 72_73"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        73,
+        74
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 73_74"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        74,
+        75
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 74_75"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        75,
+        76
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 75_76"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        76,
+        77
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 76_77"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        79,
+        80
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 79_80"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        80,
+        81
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 80_81"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        81,
+        82
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 81_82"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        83,
+        84
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 83_84"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        84,
+        85
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 84_85"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        86,
+        87
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 86_87"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        87,
+        88
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 87_88"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        88,
+        89
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 88_89"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        91,
+        92
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 91_92"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        92,
+        93
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        67,
+        71
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 92_93"
+    },
+    {
+      "confidence": 0.0011,
+      "count": 2,
+      "element_ids": [
+        206,
+        206
+      ],
+      "notes": "Pattern non vincolante emerso da sessioni learning elevate. Da proporre come macro candidata solo dopo conferma umana del significato.",
+      "source_macro_ids": [
+        72
+      ],
+      "suggested_macro_name": "Macro candidata pattern elementi 206_206"
     }
   ]
 }

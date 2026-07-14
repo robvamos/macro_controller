@@ -16,6 +16,7 @@ def load_knowledge_graph_model(knowledge_dir: Path | str = SHARED_KNOWLEDGE_DIR)
     elements_payload = _read_json(base_dir / "game_elements_manifest.json", default={"game_elements": []})
     sessions_payload = _read_json(base_dir / "learning_sessions.json", default={"learning_sessions": []})
     patterns_payload = _read_json(base_dir / "pattern_suggestions.json", default={"pattern_suggestions": []})
+    hero_workflow = _read_json(base_dir / "hero_inspection_workflow.json", default={})
 
     nodes = ui_graph.get("nodes", [])
     edges = ui_graph.get("edges", [])
@@ -36,6 +37,19 @@ def load_knowledge_graph_model(knowledge_dir: Path | str = SHARED_KNOWLEDGE_DIR)
         "game_elements": game_elements,
         "learning_sessions": learning_sessions,
         "pattern_suggestions": pattern_suggestions,
+        "hero_inspection_workflow": hero_workflow,
+        "hero_workflow_nodes_by_id": {
+            node.get("node_id"): node for node in hero_workflow.get("nodes", []) if node.get("node_id")
+        },
+        "hero_workflow_transitions_by_source": _group_edges_by_source(
+            [
+                {
+                    **transition,
+                    "trigger": transition.get("action"),
+                }
+                for transition in hero_workflow.get("transitions", [])
+            ]
+        ),
         "children_by_parent": children_by_parent,
         "edges_by_source": edges_by_source,
         "elements_by_node": elements_by_node,

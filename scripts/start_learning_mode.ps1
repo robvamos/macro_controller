@@ -1,7 +1,9 @@
 param(
     [ValidateSet("general", "boot")]
     [string]$Mode = "general",
-    [int]$Minutes = 5
+    [int]$Minutes = 5,
+    [ValidateSet("general", "hero-inspection")]
+    [string]$Scenario = "general"
 )
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
@@ -20,7 +22,7 @@ $python = if (Test-Path "F:\phyton3.131\python.exe") {
 $arguments = if ($Mode -eq "boot") {
     @($toolPath)
 } else {
-    @($toolPath, "--seconds", $seconds)
+    @($toolPath, "--seconds", $seconds, "--scenario", ($Scenario -replace "-", "_"))
 }
 
 Start-Process -Verb RunAs -FilePath "powershell.exe" -ArgumentList @(

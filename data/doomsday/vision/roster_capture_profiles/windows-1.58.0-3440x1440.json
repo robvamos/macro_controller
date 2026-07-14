@@ -1,0 +1,34 @@
+{
+  "schema": "doomsday.roster_capture_profile.v1",
+  "profile_id": "windows-1.58.0-3440x1440-it",
+  "game_version": "1.58.0",
+  "locale": "it-IT",
+  "reference_client": {"width": 3440, "height": 1440},
+  "source": {
+    "path": ".tools/runtime_probe/roster-interface-current.png",
+    "sha256": "0d4b6fd9426ed2830de51e520592c74714ca034cd5372ba86fae8cdd214c35d9",
+    "screen_state": "home_view"
+  },
+  "regions": [
+    {
+      "region_id": "home.hero_section_label",
+      "status": "calibrated",
+      "purpose": "ocr_anchor_not_click_target",
+      "normalized_ltrb": [0.919186, 0.945833, 0.94186, 0.966667],
+      "observed_text": "Eroe",
+      "ocr_confidence": 91.93
+    }
+  ],
+  "stages": [
+    {"stage": "home", "status": "partially_calibrated"},
+    {"stage": "hero_list", "status": "full_frame_observed_roi_pending"},
+    {"stage": "hero_overview", "status": "full_frame_observed_roi_pending"},
+    {"stage": "hero_stats", "status": "visible_in_profile_roi_pending"},
+    {"stage": "hero_skills", "status": "full_frame_observed_roi_pending"},
+    {"stage": "hero_talents", "status": "full_frame_observed_roi_pending"},
+    {"stage": "hero_equipment", "status": "full_frame_observed_roi_pending"},
+    {"stage": "hero_equipment_item", "status": "full_frame_observed_roi_pending"}
+  ],
+  "learning_observations": "data/doomsday/knowledge/hero_learning_observations/20260714_173207.json",
+  "notes": "Il bounding box validato riguarda solo l'etichetta testuale Eroe e non va usato come target di click. Le viste interne hanno frame completi etichettati, ma le relative ROI restano da approvare."
+}

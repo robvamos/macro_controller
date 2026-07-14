@@ -1,0 +1,883 @@
+{
+  "analyzed_at": "2026-07-14T17:02:38.291947+00:00",
+  "observation_count": 23,
+  "observations": [
+    {
+      "automation_allowed": false,
+      "event_time_ms": 9610,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0001-000009610ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 228,
+        "mean_luma": 66.119,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "c7d3a861ed0e1c48d9c67319e3dd29dcb67d92f90fc651d9b9636a6bfa3ac6be",
+      "game_element_id": 229,
+      "normalized_click": {
+        "x": 0.9233,
+        "y": 0.8958
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 52.4958,
+        "text": "=\nè\n<<\n(>)\n«\nNK\nlic\nCacci\nre di zombie\nè c0\nLivello >\nMea\nGi\nJadei\nI\n~ ea\nsf è SI (o\nazombie\nAmmazz\n\" » Attacco\nen\n4\nJA\nsf\nFRI KK, IKK\n67;\n7\na *\nTok ek\nIS\n60\nia\nRi,\nwe\na\"\n7\nESP\noe\nKKKKKK\nLIS\n3,100,000/3,100,000\nWa:\n| È ©\n@\nSe\n¥,\nry ì\nM Dan\n2741 @® Ps\n322,354\nao\nA\ni\n@ or\n44,541 Ye Squadra 230,000\n| FARO\nPica\nhi\n60\niy\n#3) ak, =\nmann\nVe)\nca I\n7\n4\n7,\nkkk\nKKK KK\na e\nAROS\n[607\n~\nA DIE\nhes\neS\nwey\nEA\n=>\n@ 1,441,320\n2\nkkk\nP\na\nFITTA Cone\n~~\nI a\nSem ESR\naw\npx"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.917,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 1,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 21203,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0002-000021203ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0102,
+        "luma_range": 215,
+        "mean_luma": 36.121,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "203e135e5bb63eea33617dcf2bf37f216138a678261d402374decdb71fae26e9",
+      "game_element_id": 230,
+      "normalized_click": {
+        "x": 0.8122,
+        "y": 0.9215
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 73.2525,
+        "text": "(©)\nPunti talento: 0 $\na)\n@ Effetti buff\nLIT\nConsigliato\nDCI\nan\ngu\nri\nA\nn\nil DAN abili\nbito\n3/5\n<®\n>\n3/3\n3/3\n4/\nf212\n4\n=\nly\nSj\n4/4\n0/4\na fe\n‘9/9"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.77,
+        "matched_anchors": [
+          "punti talento",
+          "consigliato"
+        ],
+        "node_id": "hero_talents_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 2,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 28129,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0003-000028129ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 239,
+        "mean_luma": 92.808,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "e51e208ffad59b03c4a0c46c07c7cfa8d0f1957f9cc4d357f2c73613cb16bcf2",
+      "game_element_id": 231,
+      "normalized_click": {
+        "x": 0.4701,
+        "y": 0.6375
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 80.7703,
+        "text": "Ar |\n=)\nNel rispetto della\ngiustizia\nfe\n* Abilità Rabbia\n.\nf\nLS\nRabbia richiesta: 1000\n5/5\n¥\nAvventura\nBattaglia\n€ Info abilità Eroe\nhi\n4\nInfligge DAN al bersaglio ogni\nsecondo per 3s (Fattore di\ndanno: 5400). Se il bersaglio è\nMA\nZA\nfiancheggiato, il DAN ricevuto\n——\ndal bersaglio aumenta di un\n5950 ogni secondo.\n5/5\nAnteprima miglioramento:\na\nN\nae\nÈ,\n\\ =\nL'abilità è al livello ma®\nIDG\nA\n—\n4"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "info abilita eroe",
+          "abilita e al livello",
+          "anteprima miglioramento",
+          "battaglia"
+        ],
+        "node_id": "hero_skills_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 3,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 36673,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0004-000036673ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 232,
+        "mean_luma": 88.432,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "0c70b19899724032796b42ae01cd66da1b99bf95248ee6dc2ff9f421738dd1db",
+      "game_element_id": 232,
+      "normalized_click": {
+        "x": 0.1953,
+        "y": 0.2715
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 50.0578,
+        "text": "(|)\nof\n@\nsolitario\n‘ae 60\nLivello >\n4\nvi,\na\nGal\nGia Pedra <Q Generale & Abilità\nRICK FOI\nKAKÀ\n60\n(@\nos\nESP\ney\nÈ\n3,100,000/3,100,000\nKERRI\n@)\n60\n60 \"=\ny\nA |\n-\nIM DAN\n2,821 Q® Ps\n347,292\nNw\n46,850 Ye Squadra 230,000\niii iii ii LI\nRi)\n7\nÈ\n\"4 @ DIF\nLa\nrr -\nq\n6\n6\nrs\nPre tg\nd\nnaz\nx\nLi\n-\nalba\n@® 2,653,380\nBoonechs\np>\n——\nI EC\n67m ila [FAMI [eo RES]\nA"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "dif",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 4,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 57018,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0005-000057018ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 208,
+        "mean_luma": 85.165,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "27fd7dbdbd166f6d3fb435ab16ad743c06edc78e0bbd1468c688c36c8d737398",
+      "game_element_id": 233,
+      "normalized_click": {
+        "x": 0.0523,
+        "y": 0.2694
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 53.1361,
+        "text": "DI)\né\nSi\nRagazza maledetta\n«a 60\nLivello >\nÈ\n|\nTy\nCatherine Calamity\nM;\n|\n-\nazombie\nAmmazz.\nVEN\n+ » Abilità\nIKK IK\nKKKKKK\n60 pi\n85\n-_\nUk\nESP\nrene\nFÀ\n4\n3,100,000/3,100,000\n60 \"a\nie\nfi\nM DAN\n4056 Q® Ps\n540,329\n{(S a\nia\n=~\n@ or\n49,775 Be Squadra 230,000\niii\nParere\nuniv\n60\n5\n5\nUd\n4\naan\nAI\nE>\nJoo\nKKK\n=\nRa\ner\n==\n<\na2\nty SS\n,,8\nra\nRa\nLà\nARA\n=\nKRIKIK | Cronach\n190 Ama\ne ia\npae e: a ae ee an\nSR,"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.917,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 5,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 65383,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0006-000065383ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0224,
+        "luma_range": 197,
+        "mean_luma": 46.727,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "acc42dcdd8684e949a3afe02e074b38df9b59c9b2c5902f2e1d947e88b423206",
+      "game_element_id": 234,
+      "normalized_click": {
+        "x": 0.5195,
+        "y": 0.2146
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 77.2734,
+        "text": "(©) Armamenti dell'Eroe\nè\nI\nStivali biker\nIn possesso: 10\nSì\n«DI\nah\nSS a\nEffetti abilità\nDAN attacco base Squ.\n6%\nKKKKK\n7%\nDIF Squadra rider\n6%\n@\nbis\nEffetti dell'attributo di perfezione\nry?\n@ Letalità della Squadra rider\n65\nRRIKK KKK KK\n@ Blocco della Squadra rider\n35\n\"9%\n@ DIF Squadra\n3%\nIÙ\n@ DIF Squadra rider\n2.5%\nvi\n® ATT Squadra rider\n3.5%\ntiri III\nRivendica >"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "in possesso",
+          "effetti abilita"
+        ],
+        "node_id": "hero_equipment_item_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 6,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 75069,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0007-000075069ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0696,
+        "luma_range": 204,
+        "mean_luma": 40.282,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "b68371e4923ec7c1886c5bbccc1fc8d002653e472b6badfec9d0d8aaca8686a5",
+      "game_element_id": 235,
+      "normalized_click": {
+        "x": 0.0294,
+        "y": 0.0625
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 88.266,
+        "text": "I\nRagazza maledetta\n) Armamenti dell'Eroe\n.\nen\nCatherine Calamity\nIN\nRO\nAmmazz\n7/9\nAttributi di base\ndell @\nazombie\nBp ava\n1\nATT Squadra rider\n15.9%\nPanoramica degli attributi di armamento\nDIF Squadra rider\n48.1%\nAttributi di base\nATT Squadra\n8.6%\n15.9%\nps\nATT Squadra rider\nLetalita della Squadra rider\n399\nDIF Squadra rider\n48.1%\n387\nBlocco della Squadra rider\nATT Squadra\n8.6%\nRiduzione DAN Squ.\n2%\neZ\nDIF Squadra\n12.1%\nEffetti abilita\nRo\nBs\nLetalita della squadra\n53\nAumenta il DAN dell'attacco base di un 7.5\nBlocco della Squadra\n118\n%.\nDAN attacco base Squ.\n15%\nOgni 10s, infligge DAN aggiuntivi al\n©\naN\nDAN abilita subiti da Truppe\n-2.4%\nbersaglio attuale (Fattore di danno: 930) e\n3.4%\ncura le proprie Squadre con ferite lievi\nPS Squadra\n(Fattore di guarigione: 400).\nDAN contrattacco Sau.\n13.5%\nPA\ney"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "panoramica degli attributi di armamento",
+          "attributi di base"
+        ],
+        "node_id": "hero_equipment_view",
+        "status": "labeled"
+      },
+      "sequence_index": 7,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 83719,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0008-000083719ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0694,
+        "luma_range": 204,
+        "mean_luma": 40.275,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "fb6fd75cce070d8fcd135c6deabec401a76896cb5bce7a141b9e1549251e6e77",
+      "game_element_id": 236,
+      "normalized_click": {
+        "x": 0.6608,
+        "y": 0.5479
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 85.663,
+        "text": "Ragazza maledetta\n) Armamenti dell'Eroe\n«TM\n— a\nCatherine Calamity\nLO\n\\ #501 [LUAN]Luan]35E&35T has (KO\n8.0%\nAmmazz\ndel @\nazombie\nBp voiita\nok\nay è\ndi\nLetalità della Squadra rider\n399\nPanoramica degli attributi di armamento\nBlocco della Squadra rider\n387\nAttributi di base\nRiduzione DAN Squ.\n2%\n15.9%\n(<\nDIF Squadra\n12.1%\nATT Squadra rider\nDIF Squadra rider\n48.1%\nLetalita della squadra\n53\nATT Squadra\n8.6%\nBlocco della Squadra\n118\n15%\nDAN. attacco base Squ.\n)\nDAN abilità subiti da Truppe\n-2.4%\nEffetti abilità\nRo\nBs\nAumenta il DAN dell'attacco base di un 7.5\nPS Squadra\n3.4%\n%.\nDAN contrattacco Squ.\n13.5%\nOgni 10s, infligge DAN aggiuntivi al\n©\nVEL MOV della Squadra\n7.5%\naN\nbersaglio attuale (Fattore di danno: 930) e\ncura le proprie Squadre con ferite lievi\n(Fattore di guarigione: 400).\nPA\ns"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "panoramica degli attributi di armamento",
+          "attributi di base"
+        ],
+        "node_id": "hero_equipment_view",
+        "status": "labeled"
+      },
+      "sequence_index": 8,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 87425,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0009-000087425ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0156,
+        "luma_range": 215,
+        "mean_luma": 30.376,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "b6b78cfbb2c899b405470ca4be8cf783842375cc8fe419e0a1369ac3c8d10057",
+      "game_element_id": 237,
+      "normalized_click": {
+        "x": 0.7532,
+        "y": 0.5042
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 77.2858,
+        "text": "&\n©\naA\npunti talento: 0 DO\n16°) 1]Phoeniiix e ha raggiunto una serie di 5 vittorie.\nRo\nvV_>\n0/4\n\\\n0/4\nisigliato\nfu\ni\n®\nPA\n4/4\n0/2\n@\n@\n4/4\n8\nSquadra rider\nA\nAmmazzazombi\nAbilità\n3/3\n¢\n)\n2/2\ne\n2\n4/4"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.88,
+        "matched_anchors": [
+          "punti talento",
+          "squadra rider",
+          "ammazzazombi"
+        ],
+        "node_id": "hero_talents_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 9,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 95094,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0010-000095094ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0149,
+        "luma_range": 208,
+        "mean_luma": 38.51,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "a6d43d8fbe139923ec86494fb94f5f08926389c681e83c94f3864e7fcf93031c",
+      "game_element_id": 238,
+      "normalized_click": {
+        "x": 0.7308,
+        "y": 0.3812
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 76.8817,
+        "text": "Da 4\nPunti talento: 0 Rory\nè\nti\nsen\nConsigliato\n2/2\na\n\\/\n=~\nPo\n<®\n0/4\ni buff\ntal\nguadagnano un 8 di Rabbia\nAA\nsand\nttacchi ba:\n5/6\n4/4\nè. 4\n0/2\n2/2\n4/4\n2/2\nS;\nSquadra rider\n5/5\nne\n2/2\nazzazonibii è ) &\n4/4"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.88,
+        "matched_anchors": [
+          "punti talento",
+          "consigliato",
+          "squadra rider"
+        ],
+        "node_id": "hero_talents_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 10,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 102250,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0011-000102250ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 224,
+        "mean_luma": 90.08,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "0c8eb80cb4c6136befb56f34bb71e62060fc416f994e6a3fe69188f10c15f415",
+      "game_element_id": 239,
+      "normalized_click": {
+        "x": 0.0244,
+        "y": 0.0271
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 70.1428,
+        "text": "Fulmine rosa\nÒ\nÈ\n* Abilità Passiva\nca\nAS\n58\nSy\nit}\nBattaglia\nAvventura\nDe)\n® Info abilità Eroe\n17) \\\nL'Attacco base di una Squadra\nBay\nha il 10% di possibilità di\ni\nrecuperare 140 Rabbia.\nLIL\nPe\nn\nAnteprima miglioramento:\nlele)\n(OK\nRecupero della rabbia: 45/60/80\nFÀ\n/100/140\nLI\nes\n7.\nCA\n| at\n=\nL'abilità è al livello max.\nav\nn\nmm t\\\\\\\n5 =\nPi —_——-"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "info abilita eroe",
+          "abilita e al livello",
+          "anteprima miglioramento",
+          "battaglia"
+        ],
+        "node_id": "hero_skills_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 11,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 110910,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0012-000110910ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0006,
+        "luma_range": 246,
+        "mean_luma": 89.607,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "059af82e9fd5dbc959f0768fb844a7bf269dcb153ba1c2f334513389f882d757",
+      "game_element_id": 240,
+      "normalized_click": {
+        "x": 0.0311,
+        "y": 0.0813
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 60.4453,
+        "text": "pu) a\nDe\n‘ae 60\n2\nLivello >\no*>\nRegina scarlatta\n|\nBianca Drake\nWY\nty\n8 Leader QW cenerale Lo} puprart\na\nKKKKKK\nPA\n74;\nESP\nn\n3,100,000/3,100,000\nintatti ook\n4\n(60)\n“\n0’ sasa.\nM DAN\n1,679 @® Ps\n383,313\nbe\nda\ni\nLN\n7À |\nad @ DIF\n46,850 YE Squadra 230,000\nFRA FATA\npi An\nMIX\n6\nÈ iy si\nSi\niii iii\nef\n4,\ne a\nMe E BT\n-\naf\na\nCS\n* @ 401,000.\nVAR.\nASSO\na\nQuesto Eroe pud essere utilizzato solo nell\nkkk\nCronache\nLig\nBA SN\n6O/pomz il [FORAY\nA\n“Federazioni con una storia superiore a 50 gio!\nI abita _|\nPIA\nSS"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "dif",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 12,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 121387,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0013-000121387ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0085,
+        "luma_range": 216,
+        "mean_luma": 27.834,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "cc8a75adfe2bf777afaabaea6b3d54d1b0075595ff5ffd27d22ef02be2e46bc7",
+      "game_element_id": 241,
+      "normalized_click": {
+        "x": 0.8363,
+        "y": 0.6049
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 68.8716,
+        "text": "‘>\nPunti talento: 0\n0/5\nConsigliato\nÈ\n<®\n0/4\n4/4\nky\nwa\n4/4\n4/4\nÈ\n0/4\n4/4\ni\nPi\nLie\nDef\npes ‘|\nlie cir"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.77,
+        "matched_anchors": [
+          "punti talento",
+          "consigliato"
+        ],
+        "node_id": "hero_talents_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 13,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 125513,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0014-000125513ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0006,
+        "luma_range": 246,
+        "mean_luma": 89.663,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "6d40389017ab255e1ac6df3935a1f1e58b3305762c477141508432b9d3d2de48",
+      "game_element_id": 242,
+      "normalized_click": {
+        "x": 0.0305,
+        "y": 0.0458
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 60.6312,
+        "text": "5)\nfas\n»\n4\n60\nLivello >\nRegina scarlatta\n|\nBianca Drake\nty\n5S 2\n8 Leader QW cenerale Gp Support\nKI\nN\na 1)\nKKKKKK\noa\n9 Us\nESP\n3,100,000/3,100,000\nOI oI\n4\n(60)\nie\noy <a\nM DAN\n1,679 @® Ps\n383,313\nbe\nda\n]\nA\nA\nA\ni\nad @ or\n46,850 YE Squadra 230,000\nKRKKKK KERR TT\na\nLR\n—\n6\n2\n4\niii iii\n>\n|\nYen I\n\\ 4\nea\nTS\naf\n——\n® 401,000\n4\nVAR.\nASSO\nQuesto Eroe può essere utilizzato solo nell\nkkk\nCronache\nys >\nve\nFederazioni con una storia superiore a 50 gio!\nWa\nema TDI]\naA\nPA\nI ca\nt\nSS"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.917,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 14,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 133333,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0015-000133333ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0006,
+        "luma_range": 247,
+        "mean_luma": 90.032,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "789f8888825f1bacbd560a1c101d3121be91dfd48c7083ae9c5f93d7742e45b6",
+      "game_element_id": 243,
+      "normalized_click": {
+        "x": 0.2125,
+        "y": 0.2368
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 64.1687,
+        "text": "n\n(>\nRegina scarlatta\n60\nLivello >\n> hs\nBianca Drake\nLE\n60\n\"70\n8 Leader QW cenerale @ Support\noe\nd\nKKK\nKKKKKK\nclin\nESP\nVALI\n3,100,000/3,100,000\nVAR.\ndi È Tr\n(60)\nkkk KKK\nad\nM DAN\n1,679 @® Ps\n383,313\n160\nda\n|\n5]\nDI\ndi\nSo fmyià\ni\nad @ or\n46,850 YE Squadra 230,000\nGk\nfa,\n14,\n—\nKkKKKK\nKKK IK\n3s\nPs\nal\nhat\nES\nCSR\n5}\nKKKKKK\nKIKI IK\n=\nPr\nÈ\nDI\nI\n\\ 4\n160\nua\n=,\no @ 401;\n000\nSI\nASSO\n)\nQuesto Eroe può essere utilizzato solo nell\nKKKKKK\nKKKKKK\nCronache\nve\nFederazioni con una storia superiore a 50 gio!\nWa\nA\nZA\nI EC"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.917,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 15,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 143002,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0016-000143002ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0735,
+        "luma_range": 199,
+        "mean_luma": 42.348,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "ff602ed3bb020eb225448cd14c6e2a350af68a50eaa5ae14b9f2cd7944d2f25a",
+      "game_element_id": 244,
+      "normalized_click": {
+        "x": 0.0387,
+        "y": 0.8486
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 81.1832,
+        "text": "I\nUlulatore di ghiaccio\n) Armamenti dell'Eroe\n.\nLi\nD's\nDaryl\ndiro Squat ® cenere asia\nff\niv\nPanoramica degli attributi di armamento\nWy\nAttributi di base\nUE)\nal\nAttributi di base\nATT Squadra rider\n39.8%\n39.8%\ne\nA\nATT Squadra rider\nSd\npes\n“Gq\nDIF Squadra rider\n32.3%\nDIF Squadra rider\n32.3%\na3\n492\nta.\nLetalita della Squadra rider\n492\n>\nCÒ\nBlocco della Squadra rider\n391\nLealtà della Squadra rider\n=}\nRiduzione DAN Squ.\n1.7%\nse\nEffetti abilità\nATT Squadra\n16.9%\n&\nC9\nDIF Squadra\n19.3%\nAumenta l'ATT per te e gli alleati vicini di\n| dei\nun 10% dopo aver usato un'abilità. Dura\n.\nLetalita della squadra\n94\n3s. Influenza fino a 3 Squadre.\neo\nGli attacchi base concedono 5 di Rabbia\nBlocco della Squadra\n132\nDAN abilità inflitti\n3.4%\naggiuntiva.\n“fp -\nDAN attacco base Sau.\n10.2%\na %\nÈ,\nva\nAF\n="
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "panoramica degli attributi di armamento",
+          "attributi di base"
+        ],
+        "node_id": "hero_equipment_view",
+        "status": "labeled"
+      },
+      "sequence_index": 16,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 151103,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0017-000151103ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0179,
+        "luma_range": 199,
+        "mean_luma": 43.593,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "1588bf7b97f044e84d57571fdf83ab5e8d13049975c672fe63fbf9adb152dadb",
+      "game_element_id": 245,
+      "normalized_click": {
+        "x": 0.3201,
+        "y": 0.2042
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 65.4583,
+        "text": "I\nUlulatore di ghiaccio\n(©) Armamenti dell'Eroe\n.\na\neat\nDaryl\nPS\n5\n12\n=}\nLi\njuadra\nSI\nal\nrider\njo\nPanoramica degli i\ncas\nL)\na AI\nie\nSI\nAttributi di k\n€\nPy\nta\nATT Squadra rider Blocco de\nw\n=)\nTie\n‘ol @\nDIF Squadra rider\nDAN da a\nti\nid\nSHIA della Squadra rider.\n® Letalità\nkk KKK\nEffetti abilita\n® ATT Sq\n&\nC29\nAumenta l'ATT per te egal\n=\nun 10% dopo aver usato un'al\n3s. Influenza fino a $\n(SI\nGli attacchi base coficelfond!\nkk KKK\n74\naggiuntiva.\noS\n~ Le\nLama\nSS\n=\" n\nai\n>\nda\n[rocui Tutto Hees"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.843,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "effetti abilita"
+        ],
+        "node_id": "hero_equipment_item_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 17,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 160278,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0018-000160278ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0002,
+        "luma_range": 254,
+        "mean_luma": 123.484,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "1dea5461d0a0ff50c82596654cbd8951767fc83647dd9ae39bb2e8beed9cb806",
+      "game_element_id": 246,
+      "normalized_click": {
+        "x": 0.0352,
+        "y": 0.0618
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 67.5873,
+        "text": ">=)\nIntercetta valanga\nA)\n>\nse\n* Abilità Rabbia\nRabbia richiesta: 1000\nnf\nta\nLÌ\nBattaglia\nln\ner |\n* Info abilità Eroe\nna\n— we\n“n\nInfligge DAN fino a 3 nemici in\n»\n(SS\nun'area rettangolare davanti\n| DAN\nsubiti da ogni nemico si\nrid&ueono di un'15% per ogni altro\na4\nris, |\nO) ORLO)\nobiettivo nemico preso di mira.\nRiduce anche il DAN AoE subîto\nMR 5/\nft)\n—\nfimo a 3 alleati di un 30% per 3s.\nx\nn\n5/,\nte\n) J\n\"|\nhi\n=,\nda\nPI\n»\ndA i abilità è al livello miglio\naS\nde\nni\na\nwr\nvf\n¥\n*\n=\n= £\ndo —\n[aN\nA e"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.88,
+        "matched_anchors": [
+          "info abilita eroe",
+          "abilita e al livello",
+          "battaglia"
+        ],
+        "node_id": "hero_skills_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 18,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 171342,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0019-000171342ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0,
+        "luma_range": 246,
+        "mean_luma": 104.293,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "66d0d8a8b73eed7583cbba69bc8358a8bd7f30cbe297d63f76e617637c87f76b",
+      "game_element_id": 247,
+      "normalized_click": {
+        "x": 0.2352,
+        "y": 0.6937
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 54.6717,
+        "text": "-—\nDR,\nZAN\n‘ae 60\nUlulatore di ghiaccio\nLivello > |. a\nDaryl\n®\nA\nTOI\nE ia\nDPS\nCoco Ladra ®) Generale A Abilità\nè\ney no) fe\nBes Vallee\nAl\nKKKKKK\ni KKKKKK\nTRIKE\n(È\nESP\n60\n»\n> ‘\na\nf,\nn\n3,100,000/3,100,000\nx\nJJ\nPi\n4N\nAS\nI\nai _—\nKI\nKKKKIK, 9\nM DAN\n4671 @ Ps\n438,731\nSy\nN\n@ DIF\n48,390 YE Squadra 230,000\nIN\nKKKKKK\n=\nJef DI igs\n==\nba\nsi\nERE\nsE\nFA\nKKKKKK\n60°)\nofl “ @ 4;115,480\nPa\nCera\ns\n4\nTa 7 Guesto Eroe può essere utilizzato solo nelle\n¥\nCronaché\new\nrer ererar ers\na\ne. ne maginsezionie con una storia la superiore a 50 giorni.\nI a\nù\n#1"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "dif",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 19,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 182755,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0020-000182755ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.072,
+        "luma_range": 206,
+        "mean_luma": 39.541,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "97121a2f0faedc398610c091c4cda80985e21cd3a28cdfbf116afaa899929b84",
+      "game_element_id": 248,
+      "normalized_click": {
+        "x": 0.7186,
+        "y": 0.1514
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 85.4677,
+        "text": "I\nLa Graffitara\n) Armamenti dell'Eroe\n.\n&\nJanet Light\neta)\nVEL di raccolta\n18%\ndiro S00\" ® cenere asia\n441\nLetalità della Squadra rider\nPanoramica degli attributi di armamento\nBlocco della Squadra rider\n475\nRa ig\nNe;\nAttributi di base\nDI\nATT Squadra\n7%\n34.5%\n8.5%\nATT Squadra rider\nira\nDIF Squadra\nDIF Squadra rider\n37.9%\nLetalita della squadra\n116\nfi;\n18%\nBlocco della Squadra\n18\nVEL a raccolta\n=}\nDAN attacco base Squ.\n6%\nDAN da attacco base subiti\n-9%\nEffetti abilita\nDAN contrattacco Squ.\n6%\nGuadagna un 10% di risorse extra durante\nla raccolta.\nVEL MOV della Squadra\n11.3%\nRiduce il DAN da contrattacco subito di un\n6%.\n4 t\npo\nfra\naN\nder”\n(DV"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "armamenti dell eroe",
+          "panoramica degli attributi di armamento",
+          "attributi di base"
+        ],
+        "node_id": "hero_equipment_view",
+        "status": "labeled"
+      },
+      "sequence_index": 20,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 186664,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0021-000186664ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0002,
+        "luma_range": 230,
+        "mean_luma": 91.004,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "b4895754e953ea196e58a7e9ca078f749351e06e94842e31601a9dd88c1ba852",
+      "game_element_id": 249,
+      "normalized_click": {
+        "x": 0.3093,
+        "y": 0.2333
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 56.0505,
+        "text": "ed\nba\n(>)\n4\n)\nLa Graffitara\n‘ae 60\nLivello >\n=\na>\nwat!\nJanet Light\noO IO\nKKKKKK\n60\n'\n\\ S\nPG\nCo |uadra @& cenerale + Abilità\n«e\nSe)\n7\nDI\nKKKKKK\nkkk\nTOI IK\nESP\nAN\n60 —\n3,100,000/3,100,000\nrel\n» 2\nD\nan\n44)\ni.)\na\nKKKKKK\nIOI IK\naN\nM DAN\n5,063 QB Ps\n438,731\nTa\n—\npo\n@ DIF\n47,235 Ye Squadra 230,000\n‘ori\nMi iii\nKKKKKK\nea | Ol\nOs La\n—-\n—\nl'ann\nks\nis\nKKKKKK\n=\n60 =\nLS\ni ® 3721290\n4\naa\n®)\nQuesto Eroe può e: essere utilizzato s solo nelle\nCronache\nfederazioni con una storia superiore a 50 giorni. —\n= oe\nro\nrerererarerd\naw\noe\na\n=\nlc\ne sn SO OO"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "livello",
+          "esp",
+          "squadra",
+          "dan",
+          "dif",
+          "ps"
+        ],
+        "node_id": "hero_profile_view",
+        "status": "labeled"
+      },
+      "sequence_index": 21,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 195926,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0022-000195926ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0004,
+        "luma_range": 242,
+        "mean_luma": 102.295,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "244d03626b8f4afe1e7b5f77690789d540ec2a548e79c08d3b664a12fde5a645",
+      "game_element_id": 250,
+      "normalized_click": {
+        "x": 0.9,
+        "y": 0.9139
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 75.4706,
+        "text": "(>)\nsa) sl ©\n-\nBomba bomboletta\n¢ Abilità Rabbia\nRabbia richiesta: 1000\n5]5\nPL,\nAvventura\nBattaglia\n|\nA\n* Info abilità Eroe\noe\nInfligge DAN al bersaglio\nAN\n(Fattore di danno 14000) e\nriduce il DAN abilità del\niS\nbersaglio di un 15% per 3s. Se la\nb\n——\ndimensione della Squadra è\nusi\n© © ©© N00\ninferiore a un 50%, riduce\nsi\nUlteriormente il DAN delle abilità\nVi\nCh\nAoE del bersaglio di un 15%.\n0)\nLA\nÈ È\nDI\n>,\nfe\nty re;\n©\nN\n”, di\nL'abilità è al livello max.\n<S\ndi\nCA\nLi\n2 |\ney.\n|\nSy"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.88,
+        "matched_anchors": [
+          "info abilita eroe",
+          "abilita e al livello",
+          "battaglia"
+        ],
+        "node_id": "hero_skills_detail_view",
+        "status": "labeled"
+      },
+      "sequence_index": 22,
+      "transition_binding_status": "observed_unlabeled"
+    },
+    {
+      "automation_allowed": false,
+      "event_time_ms": 199054,
+      "frame_path": "F:/_CODEX/DDassistant/.tools/learning_sessions/sistema---hero-inspection---locale-antartika-roberto---20260714_173207/0023-000199054ms.png",
+      "frame_quality": {
+        "dark_fraction": 0.0002,
+        "luma_range": 249,
+        "mean_luma": 96.563,
+        "reason": "Frame visivamente utilizzabile.",
+        "valid": true
+      },
+      "frame_sha256": "86d1ba2fac424c2012c56d896b09fe0aa6080f5ea4c038765315e4cae19f1e88",
+      "game_element_id": 251,
+      "normalized_click": {
+        "x": 0.3994,
+        "y": 0.45
+      },
+      "ocr": {
+        "engine": "tesseract-cli",
+        "language": "ita+eng",
+        "mean_confidence": 54.8638,
+        "text": "Ra uration\ncato 4\n89\n0/2\na 189\nSP 234,478,177.\n7-5.3M, #9\" 5.2M gos\nIP 14 [Pal\nSET\niol\nEsp rades\nSf\nfra\nfe\naS\ngloriosa\n‘ampioni |e Hee Le\ntee concili ;\nalo 1525 Tc) 2\n4\nA\ndi\n3\neit\nag el\nv\n4/5\nMax\nCE\n%\nre\nYeo\nif\n4\nrel Apripista esperto x2,000\n160\nnta\nè\ni\ni\nee\nx\n[e3\nak\nsy\nwi\nTra!\n160\nia\n3 CA\nfe;\na\n#7,\n=\nK\nwage\n2\n>\nPere:\nBB\nie)\nSEO\nO\nSz\nrat\nTutti\nlag\ne\nDistruttore esperto x12,000\nCali\n/1)Sconfiggi una Mente collettiva\n\\I\nLiv.1\nne\nModalità oi\n\"a\nEp\ndisattivata\nPy)\nè 0\nae\nwe\nLÒ\nA\na IReSolWi jowNotten: i Sconfitta thtuo Rifugio è è stato attageato da B\n‘S\nPST)\n—\n—\n(=i dRU]Buktopes € da altri nemici\nvi\n24:18\nZaino\nAlleanza\nBestia\n%\nEroe\nRegione\n[ReSo]ELGRAZZ: mandato al loro leader\nhà\ne"
+      },
+      "phase": "after_stabilization",
+      "screen": {
+        "confidence": 0.99,
+        "matched_anchors": [
+          "zaino",
+          "alleanza",
+          "bestia",
+          "eroe",
+          "regione"
+        ],
+        "node_id": "home_view",
+        "status": "labeled"
+      },
+      "sequence_index": 23,
+      "transition_binding_status": "observed_unlabeled"
+    }
+  ],
+  "schema": "doomsday.hero_learning_observations.v1",
+  "semantic_policy": "screen labels from OCR anchors; click actions remain unlabeled",
+  "session_name": "Sistema - Hero inspection - Locale ANTARTIKA\\Roberto - 20260714_173207",
+  "source_session_status": "completed",
+  "workflow_id": "hero-inspection-v1"
+}

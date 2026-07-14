@@ -22,6 +22,9 @@ def build_game_element_row(element):
 def build_game_element_details_text(element):
     """Restituisce il testo descrittivo da mostrare nell'anteprima."""
     descrizione = element["descrizione"] or ""
+    is_system = "SYSTEM_GAME_ELEMENT:" in descrizione
+    if "SYSTEM_GAME_ELEMENT:" in descrizione:
+        descrizione = descrizione.replace("SYSTEM_GAME_ELEMENT: true", "").strip()
     semantic_hint = ""
     if "[semantic_hint]" in descrizione:
         parts = descrizione.split("[semantic_hint]", 1)
@@ -29,6 +32,8 @@ def build_game_element_details_text(element):
         semantic_hint = parts[1].strip()
 
     details_text = f"Nome: {element['nome']}\n"
+    if is_system:
+        details_text += "Tipo: elemento di sistema protetto\n"
     if descrizione:
         details_text += f"Descrizione: {descrizione}\n"
     if semantic_hint:

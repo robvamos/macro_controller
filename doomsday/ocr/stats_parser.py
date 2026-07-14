@@ -8,18 +8,18 @@ from doomsday.config import DEFAULT_STAT_VALUES
 
 
 STAT_PATTERNS = {
-    "ATK": r"\bATK\s*(\d+)\b",
-    "DEF": r"\bDEF\s*(\d+)\b",
-    "HP": r"\bHP\s*(\d+)\b",
-    "Squadre": r"\b(?:Squadre|Teams)\s*(\d+)\b",
-    "EXP": r"\bEXP\s*(\d+)\b",
-    "SPD": r"\bSPD\s*(\d+)\b",
-    "CRT": r"\bCRT\s*(\d+(?:\.\d+)?)\b",
-    "CRTD": r"\bCRTD\s*(\d+(?:\.\d+)?)\b",
-    "ACC": r"\bACC\s*(\d+(?:\.\d+)?)\b",
-    "EVA": r"\bEVA\s*(\d+(?:\.\d+)?)\b",
-    "EFF": r"\bEFF\s*(\d+(?:\.\d+)?)\b",
-    "RES": r"\bRES\s*(\d+(?:\.\d+)?)\b",
+    "ATK": r"\bATK\s*[:=]?\s*(\d+)\b",
+    "DEF": r"\bDEF\s*[:=]?\s*(\d+)\b",
+    "HP": r"\bHP\s*[:=]?\s*(\d+)\b",
+    "Squadre": r"\b(?:Squadre|Teams)\s*[:=]?\s*(\d+)\b",
+    "EXP": r"\bEXP\s*[:=]?\s*(\d+)\b",
+    "SPD": r"\bSPD\s*[:=]?\s*(\d+)\b",
+    "CRT": r"\bCRT\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
+    "CRTD": r"\bCRTD\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
+    "ACC": r"\bACC\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
+    "EVA": r"\bEVA\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
+    "EFF": r"\bEFF\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
+    "RES": r"\bRES\s*[:=]?\s*(\d+(?:\.\d+)?)\b",
 }
 
 
@@ -46,4 +46,3 @@ def parse_stats_from_ocr(ocr_text: str, default_values: dict | None = None) -> t
             parsed[stat_name] = defaults[stat_name]
             defaults_used += 1
     return parsed, defaults_used
-

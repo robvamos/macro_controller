@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 import re
 
 from doomsday.vision.click_context_guard import close_image, compute_context_similarity
@@ -17,8 +18,10 @@ from repositories.game_element_repository import (
 STRUCTURED_METADATA_MARKERS = (
     "AUTO_CLICK_ELEMENT_METADATA:",
     "GENERAL_CLICK_SEMANTIC_NOTE:",
+    "SYSTEM_GAME_ELEMENT:",
 )
 DEFAULT_DUPLICATE_ELEMENT_SIMILARITY = 0.93
+SYSTEM_GAME_ELEMENT_MARKER = "SYSTEM_GAME_ELEMENT:"
 
 
 @dataclass(slots=True)
@@ -38,6 +41,13 @@ class GameElementUpsertResult:
     element_name: str
     reused_existing: bool
     updated_existing: bool
+
+
+@dataclass(slots=True)
+class GameElementIngestionResult:
+    upsert_result: GameElementUpsertResult
+    asset: PreparedGameElementAsset
+    description: str
 
 
 def build_game_element_ingestion_guidelines() -> tuple[str, ...]:
@@ -97,12 +107,22 @@ def build_prepared_asset_summary(asset: PreparedGameElementAsset) -> str:
     )
 
 
-def build_game_element_description(description_text, semantic_hint):
+def build_game_element_description(description_text, semantic_hint, *, is_system=False):
     description = (description_text or "").strip()
     semantic_hint = (semantic_hint or "").strip()
+    if is_system:
+        description = f"{description}\n{SYSTEM_GAME_ELEMENT_MARKER} true".strip()
     if semantic_hint:
         return f"{description}\n[semantic_hint] {semantic_hint}".strip()
     return description
+
+
+def is_system_game_element_description(description):
+    return SYSTEM_GAME_ELEMENT_MARKER in (description or "")
+
+
+def normalize_semantic_connotation(connotation):
+    return " ".join((connotation or "").strip().split())
 
 
 def create_or_merge_game_element(
@@ -136,13 +156,80 @@ def create_or_merge_game_element(
         )
 
     image_blob = image_to_blob(image, formato_immagine)
-    element_id = _create_unique_game_element(nome, descrizione, image_blob, formato_immagine)
+    element_id, stored_name = _create_unique_game_element(nome, descrizione, image_blob, formato_immagine)
     return GameElementUpsertResult(
         element_id=element_id,
-        element_name=nome,
+        element_name=stored_name,
         reused_existing=False,
         updated_existing=False,
     )
+
+
+def ingest_game_element_from_image(
+    *,
+    image,
+    name,
+    description_text="",
+    semantic_connotation="",
+    source_format=None,
+    ignore_element_id=None,
+    similarity_threshold=DEFAULT_DUPLICATE_ELEMENT_SIMILARITY,
+    is_system=False,
+):
+    """Percorso unico per censire un elemento da immagine + connotazione semantica."""
+    semantic_connotation = normalize_semantic_connotation(semantic_connotation)
+    asset = prepare_game_element_asset(
+        image,
+        source_format=source_format,
+        semantic_hint=semantic_connotation,
+    )
+    description = build_game_element_description(description_text, semantic_connotation, is_system=is_system)
+    upsert_result = create_or_merge_game_element(
+        name,
+        description,
+        asset.image,
+        asset.storage_format,
+        ignore_element_id=ignore_element_id,
+        similarity_threshold=similarity_threshold,
+    )
+    return GameElementIngestionResult(
+        upsert_result=upsert_result,
+        asset=asset,
+        description=description,
+    )
+
+
+def ingest_game_element_from_path(
+    *,
+    image_path,
+    name,
+    description_text="",
+    semantic_connotation="",
+    ignore_element_id=None,
+    similarity_threshold=DEFAULT_DUPLICATE_ELEMENT_SIMILARITY,
+    is_system=False,
+):
+    """Consente a Codex o a uno script di censire facilmente un elemento da file."""
+    try:
+        from PIL import Image
+    except ImportError as exc:
+        raise RuntimeError("Pillow non disponibile per leggere l'immagine dell'elemento.") from exc
+
+    image_path = Path(image_path)
+    if not image_path.exists():
+        raise FileNotFoundError(f"Immagine non trovata: {image_path}")
+
+    with Image.open(image_path) as image:
+        return ingest_game_element_from_image(
+            image=image,
+            name=name,
+            description_text=description_text,
+            semantic_connotation=semantic_connotation,
+            source_format=image_path.suffix.lstrip(".") or getattr(image, "format", None),
+            ignore_element_id=ignore_element_id,
+            similarity_threshold=similarity_threshold,
+            is_system=is_system,
+        )
 
 
 def find_matching_game_element(image, *, similarity_threshold=DEFAULT_DUPLICATE_ELEMENT_SIMILARITY, ignore_element_id=None):
@@ -238,7 +325,7 @@ def _create_unique_game_element(base_name, description, image_blob, image_format
     suffix = 2
     while True:
         try:
-            return create_game_element(candidate, description, image_blob, image_format)
+            return create_game_element(candidate, description, image_blob, image_format), candidate
         except ValueError as exc:
             if "esiste" not in str(exc):
                 raise
@@ -257,7 +344,12 @@ __all__ = [
     "extract_marker_block",
     "extract_semantic_hint",
     "find_matching_game_element",
+    "GameElementIngestionResult",
     "merge_game_element_descriptions",
+    "ingest_game_element_from_image",
+    "ingest_game_element_from_path",
+    "is_system_game_element_description",
+    "normalize_semantic_connotation",
     "prepare_game_element_asset",
     "sizes_are_compatible",
     "strip_structured_metadata",

@@ -162,6 +162,13 @@
       "trigger": "shelter_alerts_visible"
     },
     {
+      "action_name": "open_troop_healing_flow",
+      "description": "La vista rifugio può esporre il simbolo di cura truppe come azione operativa.",
+      "from_node_id": "shelter_interior_view",
+      "to_node_id": "troop_heal_action_symbol",
+      "trigger": "troop_heal_available"
+    },
+    {
       "action_name": "open_shelter_view",
       "description": "Usando il bottone basso sinistra dalla vista esterna si entra nel rifugio.",
       "from_node_id": "bottom_left_shelter_switch_button",
@@ -188,6 +195,20 @@
       "from_node_id": "initial_blocking_popup_close_symbol",
       "to_node_id": "playable_interface_without_boot_popup",
       "trigger": "popup_closed"
+    },
+    {
+      "action_name": "resume_after_popup_back_return",
+      "description": "Il popup viene chiuso con il simbolo di ritorno e il flusso può riprendere.",
+      "from_node_id": "popup_back_return_symbol",
+      "to_node_id": "playable_interface_without_boot_popup",
+      "trigger": "popup_back_return_clicked"
+    },
+    {
+      "action_name": "resume_after_popup_crossed_circle",
+      "description": "Il popup viene chiuso con il simbolo cerchio barrato e il flusso può riprendere.",
+      "from_node_id": "popup_crossed_circle_symbol",
+      "to_node_id": "playable_interface_without_boot_popup",
+      "trigger": "popup_crossed_circle_clicked"
     },
     {
       "action_name": "resume_after_empty_space_popup_dismissal",
@@ -530,6 +551,33 @@
       ]
     },
     {
+      "conditions": [
+        {
+          "condition_id": "troop_heal_action_symbol_visible",
+          "description": "Il simbolo grafico della cura truppe è visibile nella schermata.",
+          "element_names": [
+            "troop_heal_action_symbol"
+          ],
+          "expected_presence": true,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "control",
+      "label": "Azione cura truppe",
+      "layout_role": "action_symbol",
+      "node_id": "troop_heal_action_symbol",
+      "notes": "Elemento operativo per la cura delle truppe. Può essere usato come riferimento visivo alternativo quando una macro di cura contiene questo elemento tra i click registrati.",
+      "parent_node_id": "shelter_interior_view",
+      "recovery_action": null,
+      "tags": [
+        "shelter",
+        "troops",
+        "healing",
+        "macro-reference",
+        "visual-guard"
+      ]
+    },
+    {
       "conditions": [],
       "kind": "panel",
       "label": "Layer overlay boot",
@@ -570,6 +618,60 @@
       ]
     },
     {
+      "conditions": [
+        {
+          "condition_id": "back_return_symbol_visible",
+          "description": "Il simbolo grafico di ritorno alto sinistra è visibile sul popup e può essere cliccato più volte finché resta presente.",
+          "element_names": [
+            "popup_back_return_symbol"
+          ],
+          "expected_presence": true,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "popup",
+      "label": "Simbolo popup di ritorno alto sinistra",
+      "layout_role": "modal",
+      "node_id": "popup_back_return_symbol",
+      "notes": "Alcuni popup bloccanti non mostrano un bottone classico di chiusura ma questo simbolo di ritorno in alto a sinistra. La strategia corretta è cliccarlo 2 o 3 volte finché resta presente, verificando dopo ogni tentativo se il riferimento visivo della macro è tornato compatibile.",
+      "parent_node_id": "boot_overlay_layer",
+      "recovery_action": "click_popup_back_return_symbol_until_gone",
+      "tags": [
+        "boot",
+        "blocking",
+        "popup",
+        "return",
+        "recovery"
+      ]
+    },
+    {
+      "conditions": [
+        {
+          "condition_id": "crossed_circle_symbol_visible",
+          "description": "Il simbolo grafico cerchio barrato è visibile sul popup e può essere usato come chiusura ripetuta finché resta presente.",
+          "element_names": [
+            "popup_crossed_circle_symbol"
+          ],
+          "expected_presence": true,
+          "threshold": 0.85
+        }
+      ],
+      "kind": "popup",
+      "label": "Simbolo popup cerchio barrato",
+      "layout_role": "modal",
+      "node_id": "popup_crossed_circle_symbol",
+      "notes": "Alcuni popup bloccanti possono essere chiusi quando compare questo simbolo grafico cerchio barrato. La strategia è cliccarlo 2 o 3 volte finché resta presente e verificare dopo ogni tentativo se il riferimento visivo della macro è tornato compatibile.",
+      "parent_node_id": "boot_overlay_layer",
+      "recovery_action": "click_popup_crossed_circle_symbol_until_gone",
+      "tags": [
+        "boot",
+        "blocking",
+        "popup",
+        "crossed-circle",
+        "recovery"
+      ]
+    },
+    {
       "conditions": [],
       "kind": "spatial_action",
       "label": "Dismiss popup con spazio vuoto fascia medio alta",
@@ -595,6 +697,24 @@
           "element_names": [
             "popup_exit_close_symbol",
             "boot_blocking_popup_close_button"
+          ],
+          "expected_presence": false,
+          "threshold": 0.85
+        },
+        {
+          "condition_id": "back_return_symbol_not_visible",
+          "description": "Il simbolo popup di ritorno non è presente, quindi quel blocco non è attivo.",
+          "element_names": [
+            "popup_back_return_symbol"
+          ],
+          "expected_presence": false,
+          "threshold": 0.85
+        },
+        {
+          "condition_id": "crossed_circle_symbol_not_visible",
+          "description": "Il simbolo popup con cerchio barrato non è presente, quindi quel blocco non è attivo.",
+          "element_names": [
+            "popup_crossed_circle_symbol"
           ],
           "expected_presence": false,
           "threshold": 0.85

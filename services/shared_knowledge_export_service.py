@@ -31,7 +31,7 @@ def export_shared_knowledge(output_dir: Path | str = SHARED_KNOWLEDGE_DIR) -> di
     image_dir.mkdir(parents=True, exist_ok=True)
 
     element_records = _export_game_elements(target_dir, image_dir)
-    sessions = _collect_learning_sessions()
+    sessions = _collect_learning_sessions(target_dir / "recovered_learning_sessions")
     ui_graph = _serialize_default_ui_graph()
     patterns = _collect_pattern_suggestions()
 
@@ -135,7 +135,7 @@ def _export_game_elements(target_dir: Path, image_dir: Path) -> list[dict[str, A
     return records
 
 
-def _collect_learning_sessions() -> list[dict[str, Any]]:
+def _collect_learning_sessions(recovered_sessions_dir: Path | None = None) -> list[dict[str, Any]]:
     sessions = []
     for macro in sorted(get_all_macros(), key=lambda item: int(item["id"])):
         if macro.get("system_key") not in SHARED_MACRO_SYSTEM_KEYS:
@@ -153,6 +153,14 @@ def _collect_learning_sessions() -> list[dict[str, Any]]:
                 "click_sequence": [_compact_click_event(event) for event in events if _is_click_down_event(event)],
             }
         )
+    recovered_sessions_dir = recovered_sessions_dir or SHARED_KNOWLEDGE_DIR / "recovered_learning_sessions"
+    if recovered_sessions_dir.exists():
+        from services.learning_session_recovery_service import load_recovered_learning_sessions
+
+        known_names = {item.get("name") for item in sessions}
+        for recovered in load_recovered_learning_sessions(recovered_sessions_dir):
+            if recovered.get("name") not in known_names:
+                sessions.append(recovered)
     return sessions
 
 

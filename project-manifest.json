@@ -3,21 +3,24 @@
   "slug": "ddgameass",
   "path": "F:/_CODEX/DDassistant",
   "status": "active",
-  "version": "0.4.19",
-  "summary": "Doomsday game assistant with macro automation, OCR, roster bootstrap, and visual automation primitives.",
-  "description": "Windows desktop Doomsday game assistant with modular macro playback, scheduled execution, reusable OCR, roster bootstrap, and vision helpers.",
+  "version": "0.6.1",
+  "summary": "Goal-driven Doomsday assistant with versioned game knowledge, safe semantic planning, evidence provenance, OCR, vision, and macro automation.",
+  "description": "Windows desktop Doomsday assistant that separates game-domain understanding, confidence-aware perception, versioned rules, safe semantic planning, supervised outcomes, and legacy macro execution.",
   "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
-  "project_card": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub/projects/ddgameass.yaml",
-  "hub_root": "F:/_CODEX/AI-WORKSPACE/codex-knowledge-hub",
+  "project_card": "F:/_CODEX/Knowledge/codex-knowledge-hub/projects/ddgameass.yaml",
+  "hub_root": "F:/_CODEX/Knowledge/codex-knowledge-hub",
   "capabilities": [
     "macro-automation-runtime",
     "macro-system-launch",
     "macro-visual-click-guard",
+    "macro-visual-reference-alternatives",
     "doomsday-visual-recovery-primitives",
     "doomsday-visual-element-search",
+    "doomsday-visual-element-variant-matching",
     "doomsday-ui-graph-layer",
     "doomsday-ui-graph-macro-linking",
     "doomsday-lossless-element-ingestion",
+    "doomsday-system-protected-game-elements",
     "doomsday-element-crop-editing",
     "cross-platform-setup-scaffold",
     "scheduled-macro-orchestration",
@@ -26,26 +29,46 @@
     "doomsday-vision-template-matching",
     "doomsday-catalog-ingestion",
     "doomsday-creator-turf-publication",
-    "doomsday-community-content-pipeline"
+    "doomsday-community-content-pipeline",
+    "doomsday-versioned-domain-registry",
+    "doomsday-goal-interpretation",
+    "doomsday-semantic-workflow-planning",
+    "doomsday-evidence-provenance",
+    "doomsday-provider-orchestration",
+    "doomsday-execution-policy-gate",
+    "doomsday-supervised-outcome-learning",
+    "doomsday-field-roster-planner",
+    "doomsday-readonly-plan-preview",
+    "doomsday-runtime-discovery",
+    "doomsday-supervised-roster-acquisition",
+    "doomsday-directx-visible-window-capture",
+    "doomsday-hero-interface-learning",
+    "doomsday-crash-safe-learning-journal",
+    "doomsday-evidence-gated-semantic-workflow",
+    "doomsday-tesseract-cli-ocr",
+    "doomsday-transactional-live-roster",
+    "doomsday-bluestacks-readonly-capture",
+    "doomsday-semantic-campaign-attribution",
+    "doomsday-supervised-campaign-runs"
   ],
   "interfaces": [
     {
       "name": "doomsday-roster-bootstrap",
-      "path": "../interfaces/doomsday-roster-bootstrap.md",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-roster-bootstrap.md",
       "status": "draft",
       "version": "0.3.0",
       "consumers": []
     },
     {
       "name": "doomsday-vision-primitives",
-      "path": "../interfaces/doomsday-vision-primitives.md",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-vision-primitives.md",
       "status": "draft",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "consumers": []
     },
     {
       "name": "doomsday-creators-pipeline",
-      "path": "../interfaces/doomsday-creators-pipeline.md",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md",
       "status": "draft",
       "version": "0.1.0",
       "consumers": [
@@ -55,8 +78,35 @@
     },
     {
       "name": "doomsday-crawler",
-      "path": "../interfaces/doomsday-crawler.md",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-crawler.md",
       "status": "draft",
+      "version": "0.1.0",
+      "consumers": [
+        "knowledge"
+      ]
+    },
+    {
+      "name": "doomsday-intelligence-runtime",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-intelligence-runtime.md",
+      "status": "draft",
+      "version": "0.1.0",
+      "consumers": [
+        "knowledge"
+      ]
+    },
+    {
+      "name": "doomsday-runtime-roster-acquisition",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-runtime-roster-acquisition.md",
+      "status": "draft",
+      "version": "0.2.0",
+      "consumers": [
+        "knowledge"
+      ]
+    },
+    {
+      "name": "doomsday-hero-interface-learning",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-hero-interface-learning.md",
+      "status": "experimental",
       "version": "0.1.0",
       "consumers": [
         "knowledge"
@@ -82,9 +132,22 @@
   },
   "notes": [
     "Bootstrapped with the project-bootstrap skill.",
-    "Moved into AI-WORKSPACE from F:/Zombi/macro_controller.",
+    "Moved into the shared Codex workspace from F:/Zombi/macro_controller.",
     "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects.",
-    "An emerging Doomsday crawler service for roster discovery and provider-aware hero enrichment is now explicitly exposed for Knowledge support and integration."
+    "An emerging Doomsday crawler service for roster discovery and provider-aware hero enrichment is now explicitly exposed for Knowledge support and integration.",
+    "The 0.5 intelligence core introduces 15 modes, 18 versioned rulesets, goal constraints, semantic actions, evidence conflicts, provider isolation, an execution policy gate, outcome evaluation, and a dedicated learning store.",
+    "Knowledge remains the owner of source ranking; DDassistant publishes a validated Doomsday SourceRegistry overlay and consumes ranking through an adapter.",
+    "Concrete macro execution remains disabled by default until the conflicted macro database and structural UI-node recognition gaps are resolved.",
+    "The field roster planner records current and proposed Doomsday march pairings, including heroes, beasts, special-weapon notes, bench candidates, and development priorities.",
+    "Runtime inventory tracks the legacy Android-x86 VirtualBox VM, installed BlueStacks instances, and the active Windows client without starting emulators or ADB.",
+    "The supervised roster acquisition port captures the visible game UI, normalizes OCR into provenance-aware atomic contributions, and defers canonical roster writes to user confirmation.",
+    "The field roster planner now records a concrete five-march transition: Maxwell plus Daryl, Felix plus awakened Chasey, retained Rubina investment, and Metok Tso as a measured future comparison rather than an automatic pairing.",
+    "The GUI exposes a read-only GamePlan preview and the planner no longer treats unexecuted action effects as observed state.",
+    "Hero-interface learning now records crash-safe click journals and quality-checked full frames while keeping semantic labels and automation evidence-gated.",
+    "The live roster pipeline uses immutable artifacts, explicit preview and decisions, confirmation, optimistic atomic commit, history, audit, and an evidence outbox.",
+    "Tesseract CLI provides local ita+eng OCR; only the home Eroe label is calibrated until full hero-view frames are reviewed.",
+    "Semantic campaigns attribute reusable macro sequences to an explicit objective, operation, asset domains, game version, validation state, and immutable sequence snapshot without granting execution authority.",
+    "Campaign runs persist pre/post observations and evidence independently from playback, so success informs coverage without granting authority to a macro."
   ],
-  "last_updated": "2026-06-02T01:35:00+02:00"
+  "last_updated": "2026-07-14T17:04:33.810109+00:00"
 }

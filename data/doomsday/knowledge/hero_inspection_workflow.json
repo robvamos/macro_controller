@@ -1,0 +1,249 @@
+{
+  "schema": "doomsday.semantic_workflow.v1",
+  "workflow_id": "hero-inspection-v1",
+  "name": "Ispezione guidata eroe",
+  "source": {
+    "kind": "user_instruction",
+    "recorded_on": "2026-07-14",
+    "summary": "Aprire la selezione eroe, usare la lista a sinistra, ordinare, scegliere un eroe e aprire i pannelli di dettaglio."
+  },
+  "semantic_policy": {
+    "coordinates_are_labels": false,
+    "visual_validation_required": true,
+    "network_correlation_requires_validated_ui_transition": true
+  },
+  "nodes": [
+    {
+      "node_id": "hero_section_entry",
+      "label": "Ingresso sezione Eroe",
+      "kind": "control",
+      "maturity": "expected",
+      "detectable": false,
+      "notes": "Il grafo UI generale conosce già il controllo Eroe, ma il binding live deve essere validato."
+    },
+    {
+      "node_id": "hero_section_view",
+      "label": "Vista sezione Eroe",
+      "kind": "view",
+      "maturity": "expected",
+      "detectable": false
+    },
+    {
+      "node_id": "hero_selector_view",
+      "label": "Selettore eroe",
+      "kind": "view",
+      "maturity": "expected",
+      "detectable": false
+    },
+    {
+      "node_id": "hero_roster_list_panel",
+      "label": "Lista eroi a sinistra",
+      "kind": "panel",
+      "maturity": "expected",
+      "detectable": false,
+      "parent_node_id": "hero_selector_view"
+    },
+    {
+      "node_id": "hero_sort_control",
+      "label": "Ordinamento lista eroi",
+      "kind": "control",
+      "maturity": "expected",
+      "detectable": false,
+      "parent_node_id": "hero_selector_view",
+      "parameters": ["rank", "power", "other"]
+    },
+    {
+      "node_id": "hero_profile_view",
+      "label": "Profilo eroe selezionato",
+      "kind": "view",
+      "maturity": "labeled",
+      "detectable": true,
+      "detector": "full_frame_ocr_anchors"
+    },
+    {
+      "node_id": "hero_attributes_panel",
+      "label": "Attributi laterali eroe",
+      "kind": "panel",
+      "maturity": "expected",
+      "detectable": false,
+      "parent_node_id": "hero_profile_view"
+    },
+    {
+      "node_id": "hero_stats_detail_view",
+      "label": "Dettaglio statistiche eroe",
+      "kind": "detail_view",
+      "maturity": "expected",
+      "detectable": false
+    },
+    {
+      "node_id": "hero_skills_detail_view",
+      "label": "Dettaglio abilità eroe",
+      "kind": "detail_view",
+      "maturity": "labeled",
+      "detectable": true,
+      "detector": "full_frame_ocr_anchors"
+    },
+    {
+      "node_id": "hero_talents_detail_view",
+      "label": "Dettaglio talenti eroe",
+      "kind": "detail_view",
+      "maturity": "labeled",
+      "detectable": true,
+      "detector": "full_frame_ocr_anchors"
+    },
+    {
+      "node_id": "hero_equipment_view",
+      "label": "Armamenti dell'Eroe",
+      "kind": "detail_view",
+      "maturity": "labeled",
+      "detectable": true,
+      "detector": "full_frame_ocr_anchors"
+    },
+    {
+      "node_id": "hero_equipment_item_detail_view",
+      "label": "Dettaglio singolo armamento",
+      "kind": "detail_view",
+      "maturity": "labeled",
+      "detectable": true,
+      "detector": "full_frame_ocr_anchors"
+    }
+  ],
+  "relationships": [
+    {"kind": "contains", "from_node_id": "hero_selector_view", "to_node_id": "hero_roster_list_panel"},
+    {"kind": "contains", "from_node_id": "hero_selector_view", "to_node_id": "hero_sort_control"},
+    {"kind": "contains", "from_node_id": "hero_profile_view", "to_node_id": "hero_attributes_panel"}
+  ],
+  "transitions": [
+    {
+      "transition_id": "open_hero_section",
+      "from_node_id": "hero_section_entry",
+      "to_node_id": "hero_section_view",
+      "action": "click",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_selector",
+      "from_node_id": "hero_section_view",
+      "to_node_id": "hero_selector_view",
+      "action": "click_selection_box",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "set_hero_sort",
+      "from_node_id": "hero_selector_view",
+      "to_node_id": "hero_selector_view",
+      "action": "set_sort",
+      "parameters": ["rank", "power", "other"],
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "select_hero",
+      "from_node_id": "hero_selector_view",
+      "to_node_id": "hero_profile_view",
+      "action": "click_left_roster_item",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_stats",
+      "from_node_id": "hero_profile_view",
+      "to_node_id": "hero_stats_detail_view",
+      "action": "open_detail",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_skills",
+      "from_node_id": "hero_profile_view",
+      "to_node_id": "hero_skills_detail_view",
+      "action": "open_detail",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_talents",
+      "from_node_id": "hero_profile_view",
+      "to_node_id": "hero_talents_detail_view",
+      "action": "open_detail",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "return_to_hero_profile_from_stats",
+      "from_node_id": "hero_stats_detail_view",
+      "to_node_id": "hero_profile_view",
+      "action": "back",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "return_to_hero_profile_from_skills",
+      "from_node_id": "hero_skills_detail_view",
+      "to_node_id": "hero_profile_view",
+      "action": "back",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "return_to_hero_profile_from_talents",
+      "from_node_id": "hero_talents_detail_view",
+      "to_node_id": "hero_profile_view",
+      "action": "back",
+      "maturity": "expected",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_equipment",
+      "from_node_id": "hero_profile_view",
+      "to_node_id": "hero_equipment_view",
+      "action": "open_detail",
+      "maturity": "observed_unlabeled",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "open_hero_equipment_item",
+      "from_node_id": "hero_equipment_view",
+      "to_node_id": "hero_equipment_item_detail_view",
+      "action": "open_item_detail",
+      "maturity": "observed_unlabeled",
+      "automation_allowed": false,
+      "evidence": []
+    },
+    {
+      "transition_id": "return_to_hero_profile_from_equipment",
+      "from_node_id": "hero_equipment_view",
+      "to_node_id": "hero_profile_view",
+      "action": "back",
+      "maturity": "observed_unlabeled",
+      "automation_allowed": false,
+      "evidence": []
+    }
+  ],
+  "learning_requirements": {
+    "required_views": [
+      "hero_selector_view",
+      "hero_profile_view",
+      "hero_stats_detail_view",
+      "hero_skills_detail_view",
+      "hero_talents_detail_view",
+      "hero_equipment_view",
+      "hero_equipment_item_detail_view"
+    ],
+    "transition_evidence": ["before_frame", "click_crop", "after_frame", "human_confirmation"],
+    "current_status": "full_frames_captured_pending_transition_validation"
+  }
+}

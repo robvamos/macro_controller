@@ -1,0 +1,1611 @@
+{
+  "schema": "doomsday.intelligence.domain.v1",
+  "registry_version": "0.1.0",
+  "game_version": "1.56.0",
+  "updated_at": "2026-07-14T00:00:00+02:00",
+  "modes": [
+    {
+      "mode_id": "campaign_hub",
+      "label": "Campaign Hub",
+      "aliases": ["Campagna", "Campaign", "Operations campaign section"],
+      "mode_kind": "navigation_hub",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "campaign_hub.navigation.current",
+          "label": "Current campaign navigation contract",
+          "engine": "navigation",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.40.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "open_campaign_hub", "inspect_mode_rules", "select_objective"],
+          "objectives": [
+            {
+              "objective_id": "campaign_hub.route_to_mode",
+              "label": "Route to the requested operation",
+              "aliases": ["Open campaign", "Choose operation"],
+              "goal_facts": ["The requested child mode is identified before any combat action.", "Navigation state is distinct from combat rules."],
+              "goal_state": {"requested_child_mode_identified": true, "combat_action_committed": false},
+              "description": "Use the hub only to locate a child experience; do not infer a shared combat engine from menu placement."
+            }
+          ],
+          "constraints": ["The hub contains mechanically different child modes.", "Current UI recognition must precede child-mode planning."],
+          "success_facts": ["The target child mode is open.", "No combat or resource commitment occurred during routing."],
+          "success_state": {"target_child_mode_open": true, "combat_action_committed": false, "resource_commitment": false},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.campaign_hub.local_ui", "claim.campaign_hub.not_engine"],
+          "notes": ["Campaign is a navigation taxonomy, not a single gameplay ontology."]
+        }
+      ]
+    },
+    {
+      "mode_id": "challenge_context",
+      "label": "Challenge Context",
+      "aliases": ["Challenge", "Sfida", "Modalità sfida", "Challenge mission"],
+      "mode_kind": "semantic_modifier",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "challenge_context.disambiguation.v1",
+          "label": "Challenge disambiguation contract",
+          "engine": "semantic_router",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.40.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective"],
+          "objectives": [
+            {
+              "objective_id": "challenge_context.resolve_parent",
+              "label": "Resolve the parent mode and ruleset",
+              "aliases": ["Identify challenge", "Disambiguate challenge"],
+              "goal_facts": ["A challenge is linked to a parent mode, event, difficulty, or mission set.", "No standalone rules are assumed from the word Challenge."],
+              "goal_state": {"parent_mode_identified": true, "ruleset_identified": true, "standalone_challenge_rules_assumed": false},
+              "description": "Treat Challenge as a variant or mission context until the current screen and rule panel identify its parent."
+            }
+          ],
+          "constraints": ["The same label is reused across legacy Z-Virus difficulty and time-limited events.", "Legacy Wasteland Challenge was superseded by Biohazard Frenzy."],
+          "success_facts": ["Parent mode and applicable ruleset are known.", "Advice is version-scoped."],
+          "success_state": {"parent_mode_known": true, "applicable_ruleset_known": true, "advice_version_scoped": true},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.challenge.ambiguous", "claim.wasteland_challenge.superseded"],
+          "notes": ["Never map Challenge to a single global mode id."]
+        }
+      ]
+    },
+    {
+      "mode_id": "z_virus_adventure",
+      "label": "Z-Virus Adventure",
+      "aliases": ["Z-Virus", "Avventura Z-Virus", "Z-Virus Expedition", "Z-Virus Investigation"],
+      "mode_kind": "campaign_pve",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "z_virus_adventure.legacy_rpg",
+          "label": "Legacy three-hero adventure",
+          "engine": "hero_adventure_rpg",
+          "lifecycle": "deprecated",
+          "valid_from_game_version": null,
+          "valid_until_game_version": "1.39.x",
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "deploy_squad", "focus_target", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "z_virus_adventure.legacy_clear_stage",
+              "label": "Clear the story stage",
+              "aliases": ["Complete chapter", "Normal", "Challenge"],
+              "goal_facts": ["Three heroes survive the stage.", "Required enemies or bosses are defeated.", "Stage items and clues may be collected."],
+              "goal_state": {"surviving_heroes_min": 3, "required_enemies_defeated": true, "stage_items_collected": "when_available"},
+              "description": "Legacy real-time RPG stages used separate Adventure skills and shared energy."
+            }
+          ],
+          "constraints": ["Legacy rules must not be applied to the current reworked mode.", "Frontline, backline, shared energy, and manual skill placement were legacy-specific."],
+          "success_facts": ["Stage completion registered.", "Rewards or clues were awarded."],
+          "success_state": {"stage_completion_registered": true, "reward_or_clue_observed": true},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.zvirus.legacy", "claim.hero.adventure_vs_battle"],
+          "notes": ["Retained only for historical evidence and old account screenshots."]
+        },
+        {
+          "ruleset_id": "z_virus_adventure.current_run",
+          "label": "Current scavenging survival run",
+          "engine": "action_survival_run",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.40.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective", "configure_squad", "deploy_squad", "focus_target", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "z_virus_adventure.current_survive",
+              "label": "Survive the expedition",
+              "aliases": ["Complete Z-Virus run", "Defend survivors"],
+              "goal_facts": ["The run-specific team is built.", "Resources and weapons are collected.", "The team survives the timed zombie pressure."],
+              "goal_state": {"run_team_built": true, "resources_collected": true, "weapons_collected": true, "timed_pressure_survived": true},
+              "description": "Current Z-Virus emphasizes assembling during the run, scavenging, arming, avoidance, tactical choices, and quick reactions."
+            }
+          ],
+          "constraints": ["Run state is temporary and must be observed on-screen.", "Legacy chapter walkthroughs are non-authoritative for this ruleset."],
+          "success_facts": ["Run or stage completion is shown.", "Progression rewards are available."],
+          "success_state": {"completion_visible": true, "progression_rewards_available": true},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.zvirus.current_upgrade"],
+          "notes": ["Confirm the exact account cohort and Italian UI before generating a detailed walkthrough."]
+        }
+      ]
+    },
+    {
+      "mode_id": "memory_trip",
+      "label": "Memory Trip",
+      "aliases": ["Viaggio nei ricordi", "Memory Journey", "Memory campaign"],
+      "mode_kind": "instanced_pve_progression",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "memory_trip.current",
+          "label": "Current squad progression",
+          "engine": "battle_squad_pve",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "deploy_squad", "focus_target", "move_squad", "retreat_squad", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "memory_trip.clear_stage",
+              "label": "Clear and star the stage",
+              "aliases": ["Progress Memory Trip", "Earn stars"],
+              "goal_facts": ["Enemy waves or boss are defeated.", "Star conditions are met when practical.", "Progression and Memory Store rewards are unlocked."],
+              "goal_state": {"required_enemies_defeated": true, "star_conditions_met": "when_practical", "progression_rewards_unlocked": true},
+              "description": "Instanced PvE that uses Battle squads and troop progression rather than the current Z-Virus run engine."
+            }
+          ],
+          "constraints": ["Troop tier, squad capacity, hero pairing, beasts, focus fire, and positioning may all matter.", "Exact star conditions must come from the current stage panel."],
+          "success_facts": ["Stage is cleared.", "Star count and reward changes are observed."],
+          "success_state": {"stage_cleared": true, "star_count_observed": true, "reward_delta_observed": true},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.memory_trip.campaign", "claim.memory_trip.troop_sensitive"],
+          "notes": ["Do not promise a required troop tier; community reports differ by account strength and execution."]
+        }
+      ]
+    },
+    {
+      "mode_id": "arena_of_doom",
+      "label": "Arena of Doom",
+      "aliases": ["Arena", "Arena della Fine", "Arena of Glory", "Arena of Freedom"],
+      "mode_kind": "asynchronous_formation_pvp",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "arena_of_doom.freedom",
+          "label": "Arena of Freedom",
+          "engine": "automatic_formation_battle",
+          "lifecycle": "deprecated",
+          "valid_from_game_version": "1.32.0",
+          "valid_until_game_version": "1.43.x",
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "queue_arena_battle", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "arena_of_doom.freedom_rank",
+              "label": "Earn points and promotion",
+              "aliases": ["Freedom rank", "Reach Platinum"],
+              "goal_facts": ["Formation battles increase seasonal points.", "Promotion conditions are met."],
+              "goal_state": {"seasonal_points_increased": true, "promotion_conditions_met": true},
+              "description": "Historical lower arena that promoted qualifying commanders to Arena of Glory."
+            }
+          ],
+          "constraints": ["Closed after the season ending 21 April 2025.", "Currency and promotion rules were seasonal."],
+          "success_facts": ["Historical rank or promotion was registered."],
+          "success_state": {"historical_rank_or_promotion_registered": true},
+          "risk_class": "low",
+          "evidence_claim_ids": ["claim.arena.freedom_closed"],
+          "notes": ["Keep only for migration of historical screenshots and records."]
+        },
+        {
+          "ruleset_id": "arena_of_doom.glory_current",
+          "label": "Arena of Glory",
+          "engine": "automatic_formation_battle",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.43.5",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "queue_arena_battle", "claim_reward", "exchange_event_currency"],
+          "objectives": [
+            {
+              "objective_id": "arena_of_doom.glory_rank",
+              "label": "Improve Glory tier and ranking",
+              "aliases": ["Arena rank", "Glory Silver", "Glory Gold"],
+              "goal_facts": ["The five-squad formation is valid.", "Opponent selection and formation improve expected points.", "Seasonal currency is claimed before expiry."],
+              "goal_state": {"formation_squad_count": 5, "formation_valid": true, "expected_points_optimized": true, "currency_claimed_before_expiry": true},
+              "description": "Automated formation PvP where pairing, front/back placement, area damage, sustain, and counters matter more than world-map movement."
+            }
+          ],
+          "constraints": ["Battle is simulated; field movement, rally, and garrison actions do not apply.", "Five-squad count is community-confirmed and should be checked against the current UI."],
+          "success_facts": ["Battle result and point delta are observed.", "Tier, rank, or currency improved."],
+          "success_state": {"battle_result_observed": true, "point_delta_observed": true, "progression_improved": true},
+          "risk_class": "medium",
+          "evidence_claim_ids": ["claim.arena.glory_current", "claim.arena.five_squads"],
+          "notes": ["Opponent commitment should remain confirm_each."]
+        }
+      ]
+    },
+    {
+      "mode_id": "world_field_battle",
+      "label": "Open-Field Battle",
+      "aliases": ["Campo aperto", "Field PvP", "Field battle", "World-map PvP"],
+      "mode_kind": "world_map_pvp_context",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "world_field_battle.current",
+          "label": "Current world-map field combat",
+          "engine": "battle_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "deploy_squad", "move_squad", "focus_target", "retreat_squad"],
+          "objectives": [
+            {
+              "objective_id": "world_field_battle.control",
+              "label": "Achieve the local battlefield objective",
+              "aliases": ["Win field fight", "Zone control", "Protect allies"],
+              "goal_facts": ["The requested target or area is controlled.", "Unfavorable engagements are avoided.", "Hospital and casualty limits are respected."],
+              "goal_state": {"requested_target_controlled": true, "unfavorable_engagement_avoided": true, "casualty_budget_respected": true, "hospital_limit_respected": true},
+              "description": "Freely maneuver individual squads to intercept, focus, flank, screen, escort, or retreat according to the enclosing event objective."
+            }
+          ],
+          "constraints": ["Casualty policy is inherited from the enclosing map or event.", "Target strength, counters, distance, allies, hospital capacity, and safe territory must be observed."],
+          "success_facts": ["Objective progress increased.", "Squads returned or remain combat-capable within the user's risk budget."],
+          "success_state": {"objective_progress_increased": true, "squad_combat_capable": true, "risk_budget_respected": true},
+          "risk_class": "high",
+          "evidence_claim_ids": ["claim.field_battle.region_map", "claim.battle_reports.contexts"],
+          "notes": ["Never automate hostile PvP targeting without explicit confirmation."]
+        }
+      ]
+    },
+    {
+      "mode_id": "rally_offense",
+      "label": "Rally Offense",
+      "aliases": ["Adunata", "Rally", "Rally attack", "Expedition"],
+      "mode_kind": "cooperative_attack_context",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "rally_offense.current",
+          "label": "Current cooperative rally",
+          "engine": "battle_rally",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "start_rally", "join_rally", "focus_target", "retreat_squad"],
+          "objectives": [
+            {
+              "objective_id": "rally_offense.defeat_target",
+              "label": "Defeat the rally target",
+              "aliases": ["Break garrison", "Destroy structure", "Kill Hivemind"],
+              "goal_facts": ["The correct target is selected.", "Rally capacity and troop-type requirements are satisfied.", "The target is defeated within the casualty budget."],
+              "goal_state": {"target_verified": true, "rally_capacity_satisfied": true, "troop_type_requirement_satisfied": true, "target_defeated": true, "casualty_budget_respected": true},
+              "description": "Combine allied troops under one rally captain for targets too strong or restricted for solo attack."
+            }
+          ],
+          "constraints": ["Leader configuration is decisive.", "Joiner hero and bonus contribution is an unresolved public-source conflict and must be verified by current battle reports.", "Target type changes the applicable talents and risk."],
+          "success_facts": ["Target defeat or objective damage is recorded.", "Participant losses and contribution are captured."],
+          "success_state": {"target_outcome_recorded": true, "participant_losses_recorded": true, "contribution_recorded": true},
+          "risk_class": "critical",
+          "evidence_claim_ids": ["claim.rally.leader_identity", "claim.rally.joiner_conflict", "claim.battle_reports.contexts"],
+          "notes": ["Starting hostile rallies is suggest_only; joining consumes troops and requires confirmation."]
+        }
+      ]
+    },
+    {
+      "mode_id": "garrison_defense",
+      "label": "Garrison Defense",
+      "aliases": ["Guarnigione", "Garrison", "Defend tower", "Shelter defense"],
+      "mode_kind": "cooperative_defense_context",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "garrison_defense.current",
+          "label": "Current garrison defense",
+          "engine": "battle_garrison",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "reinforce_garrison", "hold_objective", "retreat_squad"],
+          "objectives": [
+            {
+              "objective_id": "garrison_defense.hold",
+              "label": "Hold the defended structure",
+              "aliases": ["Defend building", "Hold tower", "Protect shelter"],
+              "goal_facts": ["A suitable garrison captain is leading.", "Reinforcement troop type matches the defense plan.", "The structure remains controlled or protected."],
+              "goal_state": {"garrison_captain_suitable": true, "reinforcement_type_matches_plan": true, "structure_controlled_or_protected": true},
+              "description": "Static defense of a shelter, tower, gate, or event building under a designated captain."
+            }
+          ],
+          "constraints": ["Garrison talents are contextual.", "Captain and reinforcement contribution must be read from current reports.", "Casualty policy is inherited from the enclosing event."],
+          "success_facts": ["Structure control persists.", "Defense report and casualty deltas are recorded."],
+          "success_state": {"structure_control_persists": true, "defense_report_recorded": true, "casualty_delta_recorded": true},
+          "risk_class": "critical",
+          "evidence_claim_ids": ["claim.garrison.context", "claim.garrison.presets", "claim.battle_reports.contexts"],
+          "notes": ["Captain selection is suggest_only; reinforcing is confirm_each."]
+        }
+      ]
+    },
+    {
+      "mode_id": "recovery_of_pompeii",
+      "label": "The Recovery of Pompeii",
+      "aliases": ["Pompei", "Pompeii", "Recupero di Pompei", "Pompeii Glory League"],
+      "mode_kind": "instanced_alliance_pvp",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "recovery_of_pompeii.regular",
+          "label": "Regular Pompeii battlefield",
+          "engine": "battlefield_objective_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective", "configure_squad", "configure_beasts", "deploy_squad", "capture_objective", "hold_objective", "transport_objective_item", "start_rally", "join_rally", "reinforce_garrison", "retreat_squad", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "recovery_of_pompeii.win_score",
+              "label": "Win by alliance battlefield score",
+              "aliases": ["Win Pompeii", "Earn battle points"],
+              "goal_facts": ["Alliance score exceeds the opponent at battle end.", "Buildings, transport objectives, PvE, and PvP roles contribute according to current rules.", "Personal reward thresholds are pursued without overriding team objectives."],
+              "goal_state": {"alliance_score_greater_than_opponent": true, "team_objectives_prioritized": true, "personal_reward_threshold_pursued": true},
+              "description": "Instanced alliance battle combining building capture and hold, transport objectives, field PvP, rallies, garrisons, zombies, and boss activity."
+            }
+          ],
+          "constraints": ["Exact duration, building names, score weights, eligibility, healing, and casualty policy must be read from the current in-game rules.", "Legacy guides describe a one-hour red-vs-blue battlefield but may be stale."],
+          "success_facts": ["Alliance victory or final score is recorded.", "Personal score and reward tier are recorded.", "Post-battle healing state is known."],
+          "success_state": {"final_result_recorded": true, "personal_score_recorded": true, "reward_tier_recorded": true, "post_battle_healing_state_known": true},
+          "risk_class": "high",
+          "evidence_claim_ids": ["claim.pompeii.regular_legacy_rules", "claim.pompeii.current_exists"],
+          "notes": ["Assign role-specific objectives instead of recommending open-field combat to every participant."]
+        },
+        {
+          "ruleset_id": "recovery_of_pompeii.glory_league",
+          "label": "Pompeii Glory League",
+          "engine": "league_battlefield_objective_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.55.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective", "configure_squad", "configure_beasts", "deploy_squad", "capture_objective", "hold_objective", "start_rally", "join_rally", "reinforce_garrison", "issue_tactical_order", "retreat_squad", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "recovery_of_pompeii.glory_championship",
+              "label": "Advance through the Glory League",
+              "aliases": ["Win league round", "Reach knockout", "Pompeii championship"],
+              "goal_facts": ["Regular-season wins and points improve alliance standing.", "Knockout rounds are won under their fair-stats and Tactical Orders rules.", "Roster locks and participant timing are respected."],
+              "goal_state": {"alliance_standing_improved": true, "knockout_round_won": true, "roster_lock_respected": true, "participant_timing_respected": true},
+              "description": "Twenty-three-week league variant with regular season, knockout stages, current fair-stats adjustments, faster movement, and officer Tactical Orders."
+            }
+          ],
+          "constraints": ["Participant roster restrictions apply after registration.", "Fair Stats and Tactical Orders vary by knockout round.", "Officer actions require alliance authority."],
+          "success_facts": ["Round result and league standing are recorded.", "Tactical Order use and objective impact are captured."],
+          "success_state": {"round_result_recorded": true, "league_standing_recorded": true, "tactical_order_use_recorded": true, "objective_impact_recorded": true},
+          "risk_class": "critical",
+          "evidence_claim_ids": ["claim.pompeii.glory_league"],
+          "notes": ["Do not merge this ruleset into regular Pompeii."]
+        }
+      ]
+    },
+    {
+      "mode_id": "bounty_ground",
+      "label": "Bounty Ground",
+      "aliases": ["Terreno di taglia", "Bounty", "Battle Royale"],
+      "mode_kind": "instanced_solo_battle_royale",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "bounty_ground.current",
+          "label": "Current Bounty Ground",
+          "engine": "battle_royale_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "enter_bounty_ground", "move_squad", "gather_event_resource", "use_battlefield_buff", "focus_target", "retreat_squad", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "bounty_ground.survive_and_place",
+              "label": "Survive and improve placement",
+              "aliases": ["Win Bounty", "Grow squad power"],
+              "goal_facts": ["The squad remains inside the safe zone.", "Mercenaries, defeated players, buffs, and airdrops improve survival odds.", "Unfavorable early PvP is avoided."],
+              "goal_state": {"inside_safe_zone": true, "temporary_power_optimized": true, "unfavorable_early_pvp_avoided": true, "survived": true},
+              "description": "Solo battle royale with a shrinking safe zone, temporary troop growth, power-ups, airdrops, and escalating PvP."
+            }
+          ],
+          "constraints": ["Initial troop caps and lobby tiers are volatile.", "Buff inventory, safe-zone timing, healing, and airdrop state must be observed live.", "Alliance rally and garrison logic do not apply."],
+          "success_facts": ["Final placement and rewards are recorded.", "Temporary power growth and elimination cause are captured."],
+          "success_state": {"final_placement_recorded": true, "rewards_recorded": true, "temporary_power_delta_recorded": true, "elimination_cause_recorded": true},
+          "risk_class": "medium",
+          "evidence_claim_ids": ["claim.bounty.battle_royale", "claim.bounty.initial_cap_legacy"],
+          "notes": ["The historical Silver-lobby 10k cap is evidence, not a current constant."]
+        }
+      ]
+    },
+    {
+      "mode_id": "island_raid",
+      "label": "Island Raid",
+      "aliases": ["Raid dell'isola", "IR", "Island War"],
+      "mode_kind": "multi_day_alliance_war",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "island_raid.remake_current",
+          "label": "Current Island Raid remake lineage",
+          "engine": "persistent_alliance_territory_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.36.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective", "configure_squad", "configure_beasts", "relocate_shelter", "deploy_squad", "capture_objective", "hold_objective", "start_rally", "join_rally", "reinforce_garrison", "attack_world_zombie", "start_hivemind_rally", "heal_troops", "retreat_squad", "claim_reward", "exchange_event_currency"],
+          "objectives": [
+            {
+              "objective_id": "island_raid.rank_by_coins_and_control",
+              "label": "Maximize alliance rank through coins and control",
+              "aliases": ["Win Island Raid", "Prism Coin ranking", "Coin Plunder"],
+              "goal_facts": ["Alliance territory reaches priority settlements and outposts.", "Prism Coin production and plunder improve combined ranking.", "Troops, hospitals, Aid Station, and Rescue Elixirs remain within the alliance risk budget."],
+              "goal_state": {"priority_objectives_reached": true, "combined_ranking_improved": true, "alliance_risk_budget_respected": true},
+              "description": "Three-day alliance war lineage with watchtower expansion, settlements, outposts, Miasma, coalitions, war declarations, temporary helipads, and Coin Plunder."
+            }
+          ],
+          "constraints": ["Eligibility, warzones, active-member thresholds, map timing, and building names are version- and cohort-dependent.", "Persistent casualties and healing costs are high.", "Official 2025 tower death-rate numbers require current in-game confirmation."],
+          "success_facts": ["Coin ranking and objective control improve.", "Casualties, aid recovery, healing cost, and personal contribution are recorded."],
+          "success_state": {"coin_ranking_improved": true, "objective_control_improved": true, "casualty_and_recovery_recorded": true, "personal_contribution_recorded": true},
+          "risk_class": "critical",
+          "evidence_claim_ids": ["claim.island_raid.remake", "claim.island_raid.criteria_changed", "claim.island_raid.casualty_rates"],
+          "notes": ["All hostile and relocation actions remain suggest_only or confirm_each."]
+        }
+      ]
+    },
+    {
+      "mode_id": "world_zombie",
+      "label": "World-Map Zombie Hunt",
+      "aliases": ["Zombie", "Caccia agli zombie", "Zombie hunt"],
+      "mode_kind": "world_map_pve",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "world_zombie.current",
+          "label": "Current world-map zombie hunt",
+          "engine": "battle_squad_pve",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "attack_world_zombie", "focus_target", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "world_zombie.defeat_target",
+              "label": "Defeat the selected zombie efficiently",
+              "aliases": ["Kill zombie", "Farm manuals", "Gain hero EXP"],
+              "goal_facts": ["Target level matches the goal and squad capability.", "Stamina and event timing are respected.", "EXP and drops are captured."],
+              "goal_state": {"target_level_suitable": true, "stamina_budget_respected": true, "event_timing_respected": true, "rewards_captured": true},
+              "description": "Individual world-map PvE for hero experience, manuals, drops, missions, and event points."
+            }
+          ],
+          "constraints": ["Consumes stamina.", "Available zombie levels depend on progression and Federation history.", "Zombie Hunter effects are context-specific."],
+          "success_facts": ["Zombie defeat and rewards are recorded.", "Stamina delta and hero EXP gain are known."],
+          "success_state": {"zombie_defeated": true, "rewards_recorded": true, "stamina_delta_known": true, "hero_exp_delta_known": true},
+          "risk_class": "medium",
+          "evidence_claim_ids": ["claim.zombie.primary_npc", "claim.zombie.level_40"],
+          "notes": ["Automatic repeated hunting requires an explicit stamina budget."]
+        }
+      ]
+    },
+    {
+      "mode_id": "world_hivemind",
+      "label": "Hivemind Rally",
+      "aliases": ["Hivemind", "Mente alveare", "Hive", "Hive rally"],
+      "mode_kind": "world_map_alliance_pve",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "world_hivemind.current",
+          "label": "Current Hivemind alliance rally",
+          "engine": "battle_rally_pve",
+          "lifecycle": "active",
+          "valid_from_game_version": null,
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_squad", "configure_beasts", "start_hivemind_rally", "join_rally", "focus_target", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "world_hivemind.defeat",
+              "label": "Defeat the Hivemind",
+              "aliases": ["Kill Hivemind", "Alliance hive rally"],
+              "goal_facts": ["Alliance rally reaches sufficient capacity and strength.", "Zombie/Hivemind-specific loadout is used.", "Alliance and personal rewards are obtained."],
+              "goal_state": {"rally_capacity_sufficient": true, "rally_strength_sufficient": true, "target_specific_loadout_used": true, "rewards_obtained": true},
+              "description": "Alliance-only PvE rally boss that is distinct from a normal zombie target."
+            }
+          ],
+          "constraints": ["Requires an Alliance and rally participation.", "Battle Center capacity, target level, leader strength, troop tier, and participant availability matter.", "Consumes stamina or rally energy according to current rules."],
+          "success_facts": ["Hivemind defeat and rally report are recorded.", "Alliance Gift and personal rewards are observed."],
+          "success_state": {"hivemind_defeated": true, "rally_report_recorded": true, "alliance_gift_observed": true, "personal_rewards_observed": true},
+          "risk_class": "medium",
+          "evidence_claim_ids": ["claim.hivemind.rally_required", "claim.hivemind.level_7", "claim.hivemind.alliance_gift"],
+          "notes": ["Do not model Hivemind as a solo zombie."]
+        }
+      ]
+    },
+    {
+      "mode_id": "biochemical_beast_layer",
+      "label": "Biochemical Beast Combat Layer",
+      "aliases": ["Bestie biochimiche", "Beasts", "Leader Beast", "Support Beast"],
+      "mode_kind": "orthogonal_combat_layer",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "biochemical_beast_layer.current",
+          "label": "Current leader and support beast system",
+          "engine": "beast_parallel_combat",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.39.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "configure_beasts", "configure_squad", "deploy_squad"],
+          "objectives": [
+            {
+              "objective_id": "biochemical_beast_layer.optimize_assignment",
+              "label": "Match leader and support beasts to the squad goal",
+              "aliases": ["Pair beasts", "Choose Tiger", "Optimize beast support"],
+              "goal_facts": ["Leader element and skills match the encounter.", "Support-tagged effects complement the leader and squad.", "Chip and inheritance effects are included without double counting."],
+              "goal_state": {"leader_matches_encounter": true, "support_effects_complement_loadout": true, "modifier_double_counting": false},
+              "description": "Independent combat layer with leader and optional support beasts, elements, skills, Potential, Promotion, Chips, Arrays, and support inheritance."
+            }
+          ],
+          "constraints": ["Support unlock and inheritance depend on research and progression.", "A support beast's leader skill is inactive.", "Beast buffs to Squad Skill DMG must be separated from beast skill damage."],
+          "success_facts": ["Assignment is legal.", "Observed battle reports show expected beast and squad modifiers."],
+          "success_state": {"assignment_legal": true, "expected_modifiers_observed": true},
+          "risk_class": "medium",
+          "evidence_claim_ids": ["claim.beast.system_live", "claim.beast.leader_support", "claim.beast.tiger_skill_damage"],
+          "notes": ["The user's +3% Tiger text is consistent with the Blaze Sabretooth leader deployment bonus at an intermediate tier."]
+        }
+      ]
+    },
+    {
+      "mode_id": "extreme_showdown",
+      "label": "Extreme Showdown",
+      "aliases": ["Scontro estremo", "ES", "Genesis War successor"],
+      "mode_kind": "instanced_alliance_battlefield",
+      "lifecycle": "active",
+      "rulesets": [
+        {
+          "ruleset_id": "extreme_showdown.current",
+          "label": "Current Extreme Showdown",
+          "engine": "timed_alliance_objective_rts",
+          "lifecycle": "active",
+          "valid_from_game_version": "1.54.0",
+          "valid_until_game_version": null,
+          "workflow": ["recognize_mode", "inspect_mode_rules", "select_objective", "configure_squad", "configure_beasts", "deploy_squad", "capture_objective", "hold_objective", "start_rally", "join_rally", "reinforce_garrison", "issue_tactical_order", "retreat_squad", "claim_reward"],
+          "objectives": [
+            {
+              "objective_id": "extreme_showdown.win_battlefield",
+              "label": "Win the one-hour alliance battlefield",
+              "aliases": ["Win Extreme Showdown", "Extreme Showdown score"],
+              "goal_facts": ["Alliance tactics, objectives, superweapon timings, rallies, and garrisons produce the winning result.", "The selected tactical preference supports the assigned role.", "Healing-return choice is considered before battle."],
+              "goal_state": {"battle_won": true, "tactical_preference_matches_role": true, "healing_return_choice_considered": true},
+              "description": "Successor to Genesis War with a one-hour battle, selected time slot, tactical preferences, timed superweapons, Tactical Orders, and reward-choice tradeoffs."
+            }
+          ],
+          "constraints": ["Alliance officers select schedule and may issue Tactical Orders.", "Current map, scoring, casualty, and reward-choice rules must be read in-game.", "Legacy Genesis War guides may be stale."],
+          "success_facts": ["Battle result and score are recorded.", "Superweapon and Tactical Order outcomes are captured.", "Healing and reward-choice consequences are known."],
+          "success_state": {"battle_result_recorded": true, "score_recorded": true, "tactical_outcomes_recorded": true, "healing_consequences_known": true, "reward_choice_consequences_known": true},
+          "risk_class": "critical",
+          "evidence_claim_ids": ["claim.extreme_showdown.successor"],
+          "notes": ["Genesis War should remain a deprecated alias/ruleset lineage, not the active canonical label."]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "recognize_mode",
+      "label": "Recognize current mode and variant",
+      "intents": ["identify_mode", "identify_ruleset", "detect_variant"],
+      "preconditions": ["A current game screen or rule panel is observable."],
+      "precondition_facts": {"current_screen_or_rule_panel_observable": true},
+      "effects": ["Produces a mode_id, ruleset_id, game version, locale, and confidence estimate."],
+      "effect_facts": {"mode_id": "resolved", "ruleset_id": "resolved", "game_version": "observed", "locale": "observed", "confidence": "estimated"},
+      "cost": {"resources": [], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "low",
+      "automation_policy": "autonomous",
+      "macro_intent": "recognize_current_game_context",
+      "target_ui_node": null,
+      "reversible": true,
+      "notes": ["Low-confidence recognition must stop execution and request another observation."]
+    },
+    {
+      "action_id": "open_campaign_hub",
+      "label": "Open Campaign Hub",
+      "intents": ["open_campaign", "navigate_operations"],
+      "preconditions": ["Campaign section button is recognized."],
+      "precondition_facts": {"campaign_section_button_recognized": true},
+      "effects": ["Displays campaign child modes."],
+      "effect_facts": {"campaign_child_modes_visible": true},
+      "cost": {"resources": [], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "low",
+      "automation_policy": "autonomous",
+      "macro_intent": "open_campaign_section",
+      "target_ui_node": "campaign_section_button",
+      "reversible": true,
+      "notes": []
+    },
+    {
+      "action_id": "inspect_mode_rules",
+      "label": "Inspect current mode rules",
+      "intents": ["read_rules", "verify_version", "verify_costs"],
+      "preconditions": ["Mode or event rule entry is visible."],
+      "precondition_facts": {"mode_or_event_rule_entry_visible": true},
+      "effects": ["Captures access, timing, scoring, casualty, and reward facts with provenance."],
+      "effect_facts": {"rules_facts_captured": true, "provenance_captured": true},
+      "cost": {"resources": [], "time": "minutes", "persistent_loss_possible": false},
+      "risk_class": "low",
+      "automation_policy": "autonomous",
+      "macro_intent": "inspect_mode_rules",
+      "target_ui_node": null,
+      "reversible": true,
+      "notes": ["In-game rules outrank community guides for current numeric facts."]
+    },
+    {
+      "action_id": "select_objective",
+      "label": "Select operational objective",
+      "intents": ["choose_goal", "assign_role", "prioritize_rewards"],
+      "preconditions": ["Mode, ruleset, user goal, and current state are known."],
+      "precondition_facts": {"mode": "known", "ruleset": "known", "user_goal": "known", "current_state": "known"},
+      "effects": ["Creates a bounded objective and risk budget."],
+      "effect_facts": {"bounded_objective_created": true, "risk_budget_created": true},
+      "cost": {"resources": [], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "low",
+      "automation_policy": "autonomous",
+      "macro_intent": null,
+      "target_ui_node": null,
+      "reversible": true,
+      "notes": []
+    },
+    {
+      "action_id": "configure_squad",
+      "label": "Configure heroes and troops",
+      "intents": ["select_heroes", "select_troops", "apply_preset"],
+      "preconditions": ["Mode loadout rules and available roster are known."],
+      "precondition_facts": {"mode_loadout_rules": "known", "available_roster": "known"},
+      "effects": ["Changes leader, assistant, troop type, troop count, and equipment assignment."],
+      "effect_facts": {"squad_loadout_changed": true},
+      "cost": {"resources": ["possible_preset_or_loadout_change"], "time": "minutes", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "configure_squad_for_objective",
+      "target_ui_node": "hero_section_button",
+      "reversible": true,
+      "notes": ["Do not spend upgrade materials as part of configuration."]
+    },
+    {
+      "action_id": "configure_beasts",
+      "label": "Configure leader and support beasts",
+      "intents": ["select_leader_beast", "select_support_beast", "apply_beast_preset"],
+      "preconditions": ["Beast feature and requested support slot are unlocked.", "Current beast roster is known."],
+      "precondition_facts": {"beast_feature_unlocked": true, "requested_support_slot_unlocked": true, "current_beast_roster": "known"},
+      "effects": ["Changes leader beast, support beast, and applicable squad modifiers."],
+      "effect_facts": {"beast_assignment_changed": true, "applicable_squad_modifiers_recomputed": true},
+      "cost": {"resources": [], "time": "minutes", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "configure_biochemical_beasts",
+      "target_ui_node": "beast_section_button",
+      "reversible": true,
+      "notes": ["Never promote, level, or replace chips without separate authorization."]
+    },
+    {
+      "action_id": "deploy_squad",
+      "label": "Deploy squad",
+      "intents": ["deploy", "march", "enter_battle"],
+      "preconditions": ["A valid loadout and destination are selected.", "Risk and casualty policy are known."],
+      "precondition_facts": {"loadout_valid": true, "destination_selected": true, "risk_policy": "known", "casualty_policy": "known"},
+      "effects": ["Places a squad into the selected map or instance."],
+      "effect_facts": {"squad_deployed": true, "deployment_destination": "selected"},
+      "cost": {"resources": ["possible_stamina"], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "deploy_squad",
+      "target_ui_node": "exterior_region_view",
+      "reversible": false,
+      "notes": ["Deployment can expose troops even before combat."]
+    },
+    {
+      "action_id": "move_squad",
+      "label": "Move squad",
+      "intents": ["move", "intercept", "flank", "escort", "avoid_hazard"],
+      "preconditions": ["Destination and route are visible.", "No higher-risk target is implicitly selected."],
+      "precondition_facts": {"destination_visible": true, "route_visible": true, "implicit_higher_risk_target": false},
+      "effects": ["Changes squad position and engagement geometry."],
+      "effect_facts": {"squad_position_changed": true, "engagement_geometry_changed": true},
+      "cost": {"resources": [], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "move_squad_to_position",
+      "target_ui_node": "exterior_region_view",
+      "reversible": true,
+      "notes": []
+    },
+    {
+      "action_id": "focus_target",
+      "label": "Focus selected target",
+      "intents": ["attack_target", "focus_fire", "engage_boss"],
+      "preconditions": ["Target identity, hostility, strength, and expected consequence are known."],
+      "precondition_facts": {"target_identity": "known", "target_hostility": "known", "target_strength": "known", "expected_consequence": "known"},
+      "effects": ["Begins or redirects combat toward the selected target."],
+      "effect_facts": {"combat_target": "selected", "combat_started_or_redirected": true},
+      "cost": {"resources": ["possible_stamina", "possible_troops"], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "focus_selected_target",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Hostile PvP targeting is suggest_only even when this generic action is otherwise confirm_each."]
+    },
+    {
+      "action_id": "retreat_squad",
+      "label": "Retreat or recall squad",
+      "intents": ["retreat", "recall", "disengage", "preserve_troops"],
+      "preconditions": ["Retreat path or recall control is available."],
+      "precondition_facts": {"retreat_path_or_recall_control_available": true},
+      "effects": ["Attempts to end exposure and return the squad to safety."],
+      "effect_facts": {"retreat_attempted": true, "squad_exposure": "decreased"},
+      "cost": {"resources": [], "time": "variable", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "autonomous",
+      "macro_intent": "retreat_squad_to_safety",
+      "target_ui_node": null,
+      "reversible": true,
+      "notes": ["May be auto-allowed when a user-defined hospital or casualty guard is crossed."]
+    },
+    {
+      "action_id": "start_rally",
+      "label": "Start rally",
+      "intents": ["create_rally", "attack_structure", "break_garrison"],
+      "preconditions": ["User has rally authority and a verified target.", "Leader loadout, capacity, timer, and casualty policy are known."],
+      "precondition_facts": {"rally_authority": true, "target_verified": true, "leader_loadout": "known", "capacity": "known", "timer": "known", "casualty_policy": "known"},
+      "effects": ["Creates an alliance rally against the target."],
+      "effect_facts": {"alliance_rally_created": true, "rally_target": "verified"},
+      "cost": {"resources": ["troops", "possible_stamina"], "time": "rally_and_march_time", "persistent_loss_possible": true},
+      "risk_class": "critical",
+      "automation_policy": "suggest_only",
+      "macro_intent": "start_verified_rally",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Never start a hostile rally autonomously."]
+    },
+    {
+      "action_id": "start_hivemind_rally",
+      "label": "Start Hivemind rally",
+      "intents": ["create_hivemind_rally", "farm_hivemind"],
+      "preconditions": ["Alliance participation is available.", "Target level and rally strength are verified.", "Stamina budget is approved."],
+      "precondition_facts": {"alliance_participation_available": true, "target_level_verified": true, "rally_strength_verified": true, "stamina_budget_approved": true},
+      "effects": ["Creates a PvE rally against a Hivemind."],
+      "effect_facts": {"pve_rally_created": true, "target_type": "hivemind"},
+      "cost": {"resources": ["stamina_or_energy", "troops"], "time": "rally_and_march_time", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "start_hivemind_rally",
+      "target_ui_node": "exterior_region_view",
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "join_rally",
+      "label": "Join rally",
+      "intents": ["reinforce_rally", "fill_rally"],
+      "preconditions": ["Leader, target, requested troop type, capacity, and departure time are known."],
+      "precondition_facts": {"rally_leader": "known", "rally_target": "known", "requested_troop_type": "known", "capacity": "known", "departure_time": "known"},
+      "effects": ["Commits selected troops to the rally."],
+      "effect_facts": {"selected_troops_committed": true, "commitment_type": "rally"},
+      "cost": {"resources": ["troops", "possible_stamina"], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "join_selected_rally",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "reinforce_garrison",
+      "label": "Reinforce garrison",
+      "intents": ["defend_structure", "fill_garrison"],
+      "preconditions": ["Garrison captain, structure, requested troop type, and casualty policy are known."],
+      "precondition_facts": {"garrison_captain": "known", "structure": "known", "requested_troop_type": "known", "casualty_policy": "known"},
+      "effects": ["Commits selected troops to a defensive structure."],
+      "effect_facts": {"selected_troops_committed": true, "commitment_type": "garrison"},
+      "cost": {"resources": ["troops"], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "critical",
+      "automation_policy": "confirm_each",
+      "macro_intent": "reinforce_selected_garrison",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "capture_objective",
+      "label": "Capture battlefield objective",
+      "intents": ["capture_building", "occupy_outpost", "take_settlement"],
+      "preconditions": ["Objective ownership, unlock state, defender, and team plan are known."],
+      "precondition_facts": {"objective_ownership": "known", "objective_unlock_state": "known", "defender": "known", "team_plan": "known"},
+      "effects": ["Attempts to transfer objective control and scoring."],
+      "effect_facts": {"objective_capture_attempted": true, "control_transfer_possible": true, "score_change_possible": true},
+      "cost": {"resources": ["troops"], "time": "variable", "persistent_loss_possible": true},
+      "risk_class": "critical",
+      "automation_policy": "suggest_only",
+      "macro_intent": "capture_verified_objective",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "hold_objective",
+      "label": "Hold battlefield objective",
+      "intents": ["defend_objective", "maintain_control", "screen_reinforcements"],
+      "preconditions": ["Objective is allied and defense plan is known."],
+      "precondition_facts": {"objective_allied": true, "defense_plan": "known"},
+      "effects": ["Maintains control, production, or score over time."],
+      "effect_facts": {"objective_hold_active": true, "control_or_production_or_score_maintained": true},
+      "cost": {"resources": ["troops"], "time": "variable", "persistent_loss_possible": true},
+      "risk_class": "critical",
+      "automation_policy": "suggest_only",
+      "macro_intent": "hold_verified_objective",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "transport_objective_item",
+      "label": "Transport objective item",
+      "intents": ["carry_capsule", "deliver_incubator", "escort_carrier"],
+      "preconditions": ["Pickup, delivery point, safe route, and current ownership are known."],
+      "precondition_facts": {"pickup_location": "known", "delivery_point": "known", "safe_route": "known", "current_ownership": "known"},
+      "effects": ["Moves a scoring object toward an allied delivery objective."],
+      "effect_facts": {"objective_item_in_transit": true, "destination_side": "allied"},
+      "cost": {"resources": [], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "transport_objective_item",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "gather_event_resource",
+      "label": "Gather temporary event resource",
+      "intents": ["collect_buff", "collect_airdrop", "gather_event_node"],
+      "preconditions": ["Resource is temporary, available, and safe enough to collect."],
+      "precondition_facts": {"resource_temporary": true, "resource_available": true, "collection_risk_acceptable": true},
+      "effects": ["Adds temporary power, currency, materials, or objective value."],
+      "effect_facts": {"temporary_resource_collected": true, "temporary_value_increased": true},
+      "cost": {"resources": [], "time": "variable", "persistent_loss_possible": "context_dependent"},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "gather_event_resource",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "attack_world_zombie",
+      "label": "Attack world-map zombie",
+      "intents": ["kill_zombie", "gain_exp", "complete_zombie_event"],
+      "preconditions": ["Target level, squad, stamina budget, and event multiplier are known."],
+      "precondition_facts": {"target_level": "known", "squad": "known", "stamina_budget": "known", "event_multiplier": "known"},
+      "effects": ["Starts PvE combat and may grant EXP, manuals, drops, or points."],
+      "effect_facts": {"pve_combat_started": true, "target_type": "world_zombie", "reward_possible": true},
+      "cost": {"resources": ["stamina"], "time": "variable", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "attack_selected_world_zombie",
+      "target_ui_node": "exterior_region_view",
+      "reversible": false,
+      "notes": ["Repeated execution requires an explicit count or stamina cap."]
+    },
+    {
+      "action_id": "queue_arena_battle",
+      "label": "Queue Arena battle",
+      "intents": ["challenge_arena_opponent", "test_formation"],
+      "preconditions": ["Formation and opponent preview are visible.", "Attempt cost and expected points are known."],
+      "precondition_facts": {"formation_visible": true, "opponent_preview_visible": true, "attempt_cost": "known", "expected_points": "known"},
+      "effects": ["Consumes an attempt and resolves an automatic formation battle."],
+      "effect_facts": {"arena_attempt_consumed": true, "automatic_formation_battle_resolved": true},
+      "cost": {"resources": ["arena_attempt"], "time": "minutes", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "queue_arena_battle",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "enter_bounty_ground",
+      "label": "Enter Bounty Ground match",
+      "intents": ["start_bounty_match", "join_battle_royale"],
+      "preconditions": ["Lobby, loadout, entry cost, and available time are known."],
+      "precondition_facts": {"lobby": "known", "loadout": "known", "entry_cost": "known", "available_time": "known"},
+      "effects": ["Commits the commander to a Bounty Ground instance."],
+      "effect_facts": {"bounty_ground_instance_entered": true, "commander_committed": true},
+      "cost": {"resources": ["bounty_attempt_or_entry"], "time": "match_duration", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "enter_bounty_ground",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "use_battlefield_buff",
+      "label": "Use battlefield buff",
+      "intents": ["activate_buff", "heal_temporary_squad", "increase_damage", "increase_speed"],
+      "preconditions": ["Buff identity, duration, target, and opportunity cost are known."],
+      "precondition_facts": {"buff_identity": "known", "buff_duration": "known", "buff_target": "known", "opportunity_cost": "known"},
+      "effects": ["Applies a temporary battlefield effect."],
+      "effect_facts": {"temporary_battlefield_effect_applied": true},
+      "cost": {"resources": ["temporary_buff"], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "medium",
+      "automation_policy": "confirm_each",
+      "macro_intent": "use_selected_battlefield_buff",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "relocate_shelter",
+      "label": "Relocate shelter or battle base",
+      "intents": ["relocate", "move_to_helipad", "move_to_safe_territory"],
+      "preconditions": ["Destination legality, safety, cost, cooldown, and alliance plan are known."],
+      "precondition_facts": {"destination_legal": true, "destination_safety": "known", "relocation_cost": "known", "cooldown": "known", "alliance_plan": "known"},
+      "effects": ["Changes shelter or battle-base position."],
+      "effect_facts": {"shelter_or_battle_base_position_changed": true},
+      "cost": {"resources": ["relocation_attempt_or_item"], "time": "seconds", "persistent_loss_possible": true},
+      "risk_class": "critical",
+      "automation_policy": "suggest_only",
+      "macro_intent": "relocate_to_verified_position",
+      "target_ui_node": "exterior_region_view",
+      "reversible": false,
+      "notes": []
+    },
+    {
+      "action_id": "issue_tactical_order",
+      "label": "Issue alliance Tactical Order",
+      "intents": ["power_strike", "rally_assault", "quick_counter", "rapid_reinforce"],
+      "preconditions": ["User has officer authority.", "Order, target, Tactical Point cost, and team timing are verified."],
+      "precondition_facts": {"officer_authority": true, "order_verified": true, "target_verified": true, "tactical_point_cost_verified": true, "team_timing_verified": true},
+      "effects": ["Consumes alliance tactical resources and changes battlefield conditions."],
+      "effect_facts": {"alliance_tactical_resources_consumed": true, "battlefield_conditions_changed": true},
+      "cost": {"resources": ["alliance_tactical_points"], "time": "seconds", "persistent_loss_possible": true},
+      "risk_class": "critical",
+      "automation_policy": "suggest_only",
+      "macro_intent": "issue_verified_tactical_order",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Never execute alliance-authority actions autonomously."]
+    },
+    {
+      "action_id": "heal_troops",
+      "label": "Heal wounded troops",
+      "intents": ["heal", "use_rescue_elixir", "manage_hospital"],
+      "preconditions": ["Wounded count, resource cost, speedup cost, event return policy, and hospital limit are known."],
+      "precondition_facts": {"wounded_count": "known", "resource_cost": "known", "speedup_cost": "known", "event_return_policy": "known", "hospital_limit": "known"},
+      "effects": ["Reduces wounded count and consumes healing resources or event items."],
+      "effect_facts": {"wounded_count_decreased": true, "healing_resources_or_items_consumed": true},
+      "cost": {"resources": ["healing_resources", "possible_speedups_or_elixirs"], "time": "variable", "persistent_loss_possible": false},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "heal_verified_troop_batch",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Large batches or premium items require explicit confirmation."]
+    },
+    {
+      "action_id": "claim_reward",
+      "label": "Claim earned reward",
+      "intents": ["claim_reward", "collect_progress_reward"],
+      "preconditions": ["Reward is earned, visible, and does not force an unwanted choice."],
+      "precondition_facts": {"reward_earned": true, "reward_visible": true, "unwanted_forced_choice": false},
+      "effects": ["Transfers earned items or currency to the account."],
+      "effect_facts": {"earned_items_or_currency_transferred": true},
+      "cost": {"resources": [], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "low",
+      "automation_policy": "autonomous",
+      "macro_intent": "claim_unambiguous_reward",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Choice chests and mutually exclusive rewards are excluded."]
+    },
+    {
+      "action_id": "exchange_event_currency",
+      "label": "Exchange event currency",
+      "intents": ["buy_event_reward", "spend_expiring_currency"],
+      "preconditions": ["Currency balance, expiry, item value, limits, and user priority are known."],
+      "precondition_facts": {"currency_balance": "known", "currency_expiry": "known", "item_value": "known", "purchase_limits": "known", "user_priority": "known"},
+      "effects": ["Consumes event currency and grants selected items."],
+      "effect_facts": {"event_currency_consumed": true, "selected_items_granted": true},
+      "cost": {"resources": ["event_currency"], "time": "seconds", "persistent_loss_possible": false},
+      "risk_class": "high",
+      "automation_policy": "confirm_each",
+      "macro_intent": "exchange_verified_event_currency",
+      "target_ui_node": null,
+      "reversible": false,
+      "notes": ["Never auto-spend seasonal currency."]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "doomsday-official-app-store",
+      "label": "Doomsday: Last Survivors App Store version history",
+      "source_type": "official_release_history",
+      "url": "https://apps.apple.com/app/id1552206075",
+      "trust_rank": "authoritative",
+      "freshness_policy": "Check before every ruleset release; store history may vary by locale.",
+      "notes": ["Primary public source for current version lifecycle and official feature changes."]
+    },
+    {
+      "source_id": "doomsday-official-google-play",
+      "label": "Doomsday: Last Survivors Google Play listing",
+      "source_type": "official_store_listing",
+      "url": "https://play.google.com/store/apps/details?id=com.igg.android.doomsdaylastsurvivors",
+      "trust_rank": "authoritative",
+      "freshness_policy": "Check current update date and locale.",
+      "notes": ["Good for current game positioning and official contact links; sparse on rules."]
+    },
+    {
+      "source_id": "doomsday-official-website",
+      "label": "Doomsday: Last Survivors official website",
+      "source_type": "official_website",
+      "url": "https://dls.igg.com/?lang=eng",
+      "trust_rank": "authoritative",
+      "freshness_policy": "Quarterly or when the game description changes.",
+      "notes": ["Reliable for macro scope, weak for numeric mechanics."]
+    },
+    {
+      "source_id": "doomsday-official-steam-updates",
+      "label": "Official Steam update notices",
+      "source_type": "official_patch_notes",
+      "url": "https://steamcommunity.com/app/2439510/allnews/",
+      "trust_rank": "authoritative",
+      "freshness_policy": "Check by game version and publication date.",
+      "notes": ["Primary historical source for versioned event rules."]
+    },
+    {
+      "source_id": "doomsday-in-game-rules",
+      "label": "Current in-game rule panels",
+      "source_type": "authenticated_runtime_evidence",
+      "url": null,
+      "trust_rank": "primary_runtime",
+      "freshness_policy": "Capture for the current account, locale, event instance, and game version.",
+      "notes": ["Highest-priority source for active numeric rules."]
+    },
+    {
+      "source_id": "doomsday-battle-reports",
+      "label": "Current account battle reports",
+      "source_type": "authenticated_runtime_evidence",
+      "url": null,
+      "trust_rank": "primary_runtime",
+      "freshness_policy": "Capture immediately after the relevant battle and preserve context.",
+      "notes": ["Best source for applied modifiers, contributions, casualties, and outcomes."]
+    },
+    {
+      "source_id": "doomsday-community-wiki",
+      "label": "Doomsday: Last Survivors community wiki",
+      "source_type": "community_reference",
+      "url": "https://doomsday-last-survivors.fandom.com/wiki/Doomsday%3A_Last_Survivors_Wiki",
+      "trust_rank": "secondary",
+      "freshness_policy": "Record page revision or retrieval date and corroborate volatile facts.",
+      "notes": ["Detailed mechanics and entity descriptions; community editable and sometimes legacy."]
+    },
+    {
+      "source_id": "doomsday-community-guides",
+      "label": "Doomsday community guides and creator walkthroughs",
+      "source_type": "community_strategy",
+      "url": null,
+      "trust_rank": "advisory",
+      "freshness_policy": "Require publication date, game version where known, and corroboration.",
+      "notes": ["Useful for workflows and tactics, not authoritative for current numeric rules."]
+    },
+    {
+      "source_id": "doomsday-official-discord",
+      "label": "Official Doomsday Discord",
+      "source_type": "authenticated_ephemeral_community",
+      "url": "https://discord.gg/doomsdaylastsurvivors",
+      "trust_rank": "mixed",
+      "freshness_policy": "Use only targeted channels or staff posts; record server, channel, author, timestamp, and permalink.",
+      "notes": ["No credentials stored. Staff announcements outrank community messages; community claims require corroboration."]
+    },
+    {
+      "source_id": "doomsday-subreddit",
+      "label": "DoomsdayLastSurvivors subreddit",
+      "source_type": "community_discussion",
+      "url": "https://www.reddit.com/r/DoomsdayLastSurvivors/",
+      "trust_rank": "advisory",
+      "freshness_policy": "Use dated claims and corroborate mechanics.",
+      "notes": ["Useful for current player experience, undocumented conflicts, and gap discovery."]
+    },
+    {
+      "source_id": "ddassistant-local-evidence",
+      "label": "DDassistant local datasets and UI graph",
+      "source_type": "local_project_evidence",
+      "url": null,
+      "trust_rank": "account_specific",
+      "freshness_policy": "Preserve capture timestamp, origin, locale, and account context.",
+      "notes": ["Useful for user roster and observed UI; bundled catalog data is not automatically current game truth."]
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim.game.current_version",
+      "subject": "Doomsday: Last Survivors",
+      "predicate": "current_public_version",
+      "object": "1.56.0",
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.56.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Store locale histories can lag; verify the installed client separately."]
+    },
+    {
+      "claim_id": "claim.game.core_scope",
+      "subject": "Doomsday: Last Survivors",
+      "predicate": "has_core_scope",
+      "object": ["shelter_building", "zombie_pve", "multiplayer_pvp", "real_time_strategy", "alliances"],
+      "source_id": "doomsday-official-google-play",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.campaign_hub.local_ui",
+      "subject": "campaign_hub",
+      "predicate": "has_ui_node",
+      "object": "campaign_section_button",
+      "source_id": "ddassistant-local-evidence",
+      "confidence": 0.95,
+      "status": "verified_local",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Verified in the local semantic UI graph."]
+    },
+    {
+      "claim_id": "claim.campaign_hub.not_engine",
+      "subject": "campaign_hub",
+      "predicate": "is_not",
+      "object": "single_combat_engine",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.9,
+      "status": "corroborated_inference",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Child modes use incompatible Adventure, Battle, and automatic-formation mechanics."]
+    },
+    {
+      "claim_id": "claim.challenge.ambiguous",
+      "subject": "challenge",
+      "predicate": "is_semantically",
+      "object": "context_dependent",
+      "source_id": "ddassistant-local-evidence",
+      "confidence": 0.9,
+      "status": "architectural_inference",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["The label occurs as difficulty, event branding, and mission grouping."]
+    },
+    {
+      "claim_id": "claim.wasteland_challenge.superseded",
+      "subject": "wasteland_challenge",
+      "predicate": "superseded_by",
+      "object": "biohazard_frenzy",
+      "source_id": "doomsday-official-steam-updates",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.41.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.hero.adventure_vs_battle",
+      "subject": "hero_combat",
+      "predicate": "has_distinct_engines",
+      "object": ["adventure_skills_with_shared_energy", "battle_skills_with_rage_and_squads"],
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.9,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.zvirus.legacy",
+      "subject": "z_virus_adventure",
+      "predicate": "had_legacy_ruleset",
+      "object": "three_hero_story_rpg_with_normal_and_challenge_stages",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.9,
+      "status": "verified_historical",
+      "valid_from_game_version": null,
+      "valid_until_game_version": "1.39.x",
+      "retrieved_at": "2026-07-14",
+      "notes": ["Community wiki still exposes legacy walkthroughs."]
+    },
+    {
+      "claim_id": "claim.zvirus.current_upgrade",
+      "subject": "z_virus_adventure",
+      "predicate": "current_engine",
+      "object": "assemble_during_run_scavenge_arm_and_survive_timed_hordes",
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.40.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Official version history records the upgrade; current store description describes the new loop."]
+    },
+    {
+      "claim_id": "claim.memory_trip.campaign",
+      "subject": "memory_trip",
+      "predicate": "is",
+      "object": "campaign_progression_mode",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.85,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.memory_trip.troop_sensitive",
+      "subject": "memory_trip",
+      "predicate": "progression_sensitive_to",
+      "object": ["troop_tier", "troop_count", "squad_capacity", "heroes", "beasts", "positioning"],
+      "source_id": "doomsday-subreddit",
+      "confidence": 0.72,
+      "status": "community_consensus",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Exact minimum troop tier is disputed and should not be encoded."]
+    },
+    {
+      "claim_id": "claim.arena.freedom_closed",
+      "subject": "arena_of_freedom",
+      "predicate": "closed",
+      "object": "2025-04-21",
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.99,
+      "status": "verified",
+      "valid_from_game_version": "1.43.5",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Commanders were moved into Arena of Glory."]
+    },
+    {
+      "claim_id": "claim.arena.glory_current",
+      "subject": "arena_of_glory",
+      "predicate": "has_current_tiers",
+      "object": ["Glory Silver", "Glory Gold"],
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.43.5",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.arena.five_squads",
+      "subject": "arena_of_glory",
+      "predicate": "formation_squad_count",
+      "object": 5,
+      "source_id": "doomsday-subreddit",
+      "confidence": 0.78,
+      "status": "community_corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Verify on the current account UI before enforcing."]
+    },
+    {
+      "claim_id": "claim.field_battle.region_map",
+      "subject": "world_field_battle",
+      "predicate": "primarily_occurs_on",
+      "object": "region_map",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.92,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.battle_reports.contexts",
+      "subject": "battle_reports",
+      "predicate": "separate_categories",
+      "object": ["field_battle", "rally", "garrison"],
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.45.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.rally.leader_identity",
+      "subject": "rally_offense",
+      "predicate": "combat_identity_driven_by",
+      "object": "rally_captain_loadout",
+      "source_id": "doomsday-community-guides",
+      "confidence": 0.82,
+      "status": "community_corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Exact stat inheritance still requires current battle-report validation."]
+    },
+    {
+      "claim_id": "claim.rally.joiner_conflict",
+      "subject": "rally_joiner",
+      "predicate": "hero_bonus_application",
+      "object": "unresolved_public_source_conflict",
+      "source_id": "doomsday-subreddit",
+      "confidence": 0.99,
+      "status": "conflicted",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Multiple players report troops-only contribution, while a 2026 commercial guide claims passive joiner bonuses. Resolve experimentally."]
+    },
+    {
+      "claim_id": "claim.garrison.context",
+      "subject": "garrison_defense",
+      "predicate": "defends",
+      "object": ["shelter", "tower", "building"],
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.9,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.garrison.presets",
+      "subject": "garrison_defense",
+      "predicate": "supports",
+      "object": ["specific_troop_types", "shelter_wall_presets"],
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.47.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Shelter wall presets were added later; features have different introduction versions."]
+    },
+    {
+      "claim_id": "claim.pompeii.regular_legacy_rules",
+      "subject": "recovery_of_pompeii",
+      "predicate": "legacy_objectives_include",
+      "object": ["capture_and_hold_buildings", "transport_incubator", "kill_zombies", "defeat_enemy_squads", "visit_supply_base"],
+      "source_id": "doomsday-community-guides",
+      "confidence": 0.75,
+      "status": "historical_needs_current_verification",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Detailed source was last updated in 2023."]
+    },
+    {
+      "claim_id": "claim.pompeii.current_exists",
+      "subject": "recovery_of_pompeii",
+      "predicate": "regular_variant_remains_available",
+      "object": true,
+      "source_id": "doomsday-subreddit",
+      "confidence": 0.8,
+      "status": "current_community_evidence",
+      "valid_from_game_version": "1.55.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Current players distinguish regular Pompeii from the Glory League."]
+    },
+    {
+      "claim_id": "claim.pompeii.glory_league",
+      "subject": "pompeii_glory_league",
+      "predicate": "official_rules",
+      "object": {"duration_weeks": 23, "regular_season_weeks": 12, "knockout_weeks": 9, "features": ["fair_stats", "tactical_orders", "faster_movement"]},
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.99,
+      "status": "verified",
+      "valid_from_game_version": "1.55.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.bounty.battle_royale",
+      "subject": "bounty_ground",
+      "predicate": "uses",
+      "object": ["shrinking_safe_zone", "temporary_troop_growth", "mercenaries", "player_eliminations", "buffs", "airdrops"],
+      "source_id": "doomsday-community-guides",
+      "confidence": 0.86,
+      "status": "community_corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.bounty.initial_cap_legacy",
+      "subject": "bounty_ground_silver_lobby",
+      "predicate": "historical_initial_troop_cap",
+      "object": 10000,
+      "source_id": "doomsday-community-guides",
+      "confidence": 0.7,
+      "status": "historical_needs_current_verification",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Published in July 2024."]
+    },
+    {
+      "claim_id": "claim.island_raid.remake",
+      "subject": "island_raid",
+      "predicate": "remake_rules_include",
+      "object": ["three_day_duration", "prism_coin_outposts", "coin_plunder", "miasma_zone", "temporary_helipad", "coalitions", "settlements_and_watchtowers"],
+      "source_id": "doomsday-official-steam-updates",
+      "confidence": 0.99,
+      "status": "verified_versioned",
+      "valid_from_game_version": "1.36.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Current numeric details still require the active rule panel."]
+    },
+    {
+      "claim_id": "claim.island_raid.criteria_changed",
+      "subject": "island_raid",
+      "predicate": "participation_criteria",
+      "object": "lowered_and_active_member_based",
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.97,
+      "status": "verified_but_numeric_value_unspecified",
+      "valid_from_game_version": "1.56.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Do not retain the 2024 fixed thresholds as current constants."]
+    },
+    {
+      "claim_id": "claim.island_raid.casualty_rates",
+      "subject": "island_raid_watchtower_combat",
+      "predicate": "official_2025_death_rates",
+      "object": {"garrison_percent": 40, "attacker_percent": 50},
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.9,
+      "status": "verified_historical_needs_current_confirmation",
+      "valid_from_game_version": "1.46.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Applies also to Archipelago Raid and then-Genesis War according to the official notice."]
+    },
+    {
+      "claim_id": "claim.zombie.primary_npc",
+      "subject": "zombie",
+      "predicate": "is",
+      "object": "primary_non_player_enemy",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.95,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.zombie.level_40",
+      "subject": "world_zombie",
+      "predicate": "maximum_level_added",
+      "object": 40,
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.45.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Unlock depends on Federation history."]
+    },
+    {
+      "claim_id": "claim.hivemind.rally_required",
+      "subject": "world_hivemind",
+      "predicate": "requires",
+      "object": "alliance_rally",
+      "source_id": "doomsday-subreddit",
+      "confidence": 0.9,
+      "status": "community_corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Also communicated by the in-game target warning according to current players."]
+    },
+    {
+      "claim_id": "claim.hivemind.level_7",
+      "subject": "world_hivemind",
+      "predicate": "level_added",
+      "object": 7,
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.98,
+      "status": "verified",
+      "valid_from_game_version": "1.45.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Unlock depends on Federation history."]
+    },
+    {
+      "claim_id": "claim.hivemind.alliance_gift",
+      "subject": "hivemind_defeat",
+      "predicate": "can_generate",
+      "object": "alliance_gift",
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.88,
+      "status": "corroborated",
+      "valid_from_game_version": null,
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.beast.system_live",
+      "subject": "biochemical_beast_layer",
+      "predicate": "introduced",
+      "object": "1.39.0",
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.99,
+      "status": "verified",
+      "valid_from_game_version": "1.39.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["Official description states independent attributes and skills."]
+    },
+    {
+      "claim_id": "claim.beast.leader_support",
+      "subject": "biochemical_beast_layer",
+      "predicate": "supports",
+      "object": ["one_leader_beast_per_squad", "optional_support_beast", "support_inheritance", "support_leader_skill_inactive"],
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.94,
+      "status": "officially_partially_verified_and_community_detailed",
+      "valid_from_game_version": "1.39.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    },
+    {
+      "claim_id": "claim.beast.tiger_skill_damage",
+      "subject": "blaze_sabretooth_leader_skill",
+      "predicate": "when_deployed_squad_skill_damage_percent",
+      "object": {"tier_0": 2, "tier_7": 3, "tier_13": 4},
+      "source_id": "doomsday-community-wiki",
+      "confidence": 0.92,
+      "status": "current_community_reference",
+      "valid_from_game_version": "1.39.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": ["The user's Italian screenshot shows the +3% intermediate value."]
+    },
+    {
+      "claim_id": "claim.extreme_showdown.successor",
+      "subject": "genesis_war",
+      "predicate": "upgraded_to",
+      "object": {"mode_id": "extreme_showdown", "battle_duration_minutes": 60, "features": ["tactical_preferences", "timed_superweapons", "tactical_orders", "reward_choice"]},
+      "source_id": "doomsday-official-app-store",
+      "confidence": 0.99,
+      "status": "verified",
+      "valid_from_game_version": "1.54.0",
+      "valid_until_game_version": null,
+      "retrieved_at": "2026-07-14",
+      "notes": []
+    }
+  ]
+}

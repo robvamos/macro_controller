@@ -165,6 +165,46 @@ class MacroControllerRobustnessTests(unittest.TestCase):
 
         fake_guard.set_reference_image.assert_called_once()
 
+    def test_playback_adds_troop_heal_symbol_as_alternative_visual_reference(self):
+        log_callback = Mock()
+        events = [
+            {
+                "time": 0,
+                "type": "mouse",
+                "event": "down",
+                "button": "left",
+                "normalized_x": 0.5,
+                "normalized_y": 0.25,
+                "game_element_id": 210,
+            },
+        ]
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.return_value = {"ok": True, "primed": False, "score": 1.0, "threshold": 0.8}
+        fake_image = Mock(copy=Mock(return_value=Mock()), close=Mock())
+
+        with (
+            patch.object(macro_controller, "get_foreground_process_name", return_value="Doomsday.exe"),
+            patch.object(macro_controller, "get_game_window_rect", return_value=(100, 200, 300, 600)),
+            patch.object(macro_controller, "_create_visual_click_guard", return_value=fake_guard),
+            patch.object(macro_controller, "_move_mouse_absolute"),
+            patch.object(macro_controller, "_dispatch_mouse_button"),
+            patch.object(
+                macro_controller,
+                "get_game_element_by_id",
+                return_value={
+                    "id": 210,
+                    "nome": "troop_heal_action_symbol",
+                    "immagine": b"blob",
+                    "formato_immagine": "PNG",
+                },
+            ),
+            patch.object(macro_controller, "blob_to_image", return_value=fake_image),
+        ):
+            macro_controller.clear_playback_stop_request()
+            macro_controller.play_macro_events(events, "Doomsday.exe", log_callback=log_callback)
+
+        fake_guard.add_reference_image.assert_called_once_with(fake_image)
+
     def test_playback_loop_freezes_runtime_reference_after_first_prime(self):
         log_callback = Mock()
         events = [
@@ -201,7 +241,7 @@ class MacroControllerRobustnessTests(unittest.TestCase):
         search_result = Mock(found=True, center=(700, 400), matched_element_name="popup_exit_close_symbol")
 
         with (
-            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, search_result]),
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, no_match, search_result]),
             patch.object(macro_controller, "_left_click_at") as left_click,
         ):
             recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(
@@ -217,6 +257,30 @@ class MacroControllerRobustnessTests(unittest.TestCase):
         self.assertEqual(strategy, "close_symbol")
         self.assertEqual(verify_result["ok"], True)
         left_click.assert_called_once_with(700, 400)
+
+    def test_popup_recovery_uses_crossed_circle_symbol_when_available(self):
+        fake_guard = Mock()
+        fake_guard.verify_or_prime.return_value = {"ok": True, "primed": False, "score": 0.90, "threshold": 0.8}
+        no_match = Mock(found=False, center=None, matched_element_name=None)
+        crossed_circle_match = Mock(found=True, center=(640, 260), matched_element_name="popup_crossed_circle_symbol")
+
+        with (
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, crossed_circle_match]),
+            patch.object(macro_controller, "_left_click_at") as left_click,
+        ):
+            recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(
+                target_exe="Doomsday.exe",
+                game_rect=(100, 100, 1100, 900),
+                expected_abs_x=300,
+                expected_abs_y=250,
+                click_context_guard=fake_guard,
+                log_callback=Mock(),
+            )
+
+        self.assertTrue(recovered)
+        self.assertEqual(strategy, "crossed_circle_symbol")
+        self.assertEqual(verify_result["ok"], True)
+        left_click.assert_called_once_with(640, 260)
 
     def test_popup_recovery_clicks_back_return_symbol_multiple_times_until_reference_is_back(self):
         fake_guard = Mock()
@@ -253,7 +317,7 @@ class MacroControllerRobustnessTests(unittest.TestCase):
         no_match = Mock(found=False, center=None, matched_element_name=None)
 
         with (
-            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, no_match]),
+            patch.object(macro_controller, "search_game_window_elements", side_effect=[no_match, no_match, no_match]),
             patch.object(macro_controller, "_left_click_at") as left_click,
         ):
             recovered, strategy, verify_result = macro_controller._attempt_popup_recovery(

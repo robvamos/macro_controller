@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ddgameass"
-version = "0.4.7"
-description = "Windows desktop macro manager and Doomsday automation assistant."
+version = "0.6.1"
+description = "Goal-driven, provenance-aware Doomsday assistant with guarded macro automation."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [

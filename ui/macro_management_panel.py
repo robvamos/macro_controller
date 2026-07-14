@@ -108,6 +108,9 @@ def build_macro_management_tab(
     play_button = ttk.Button(actions_body, text="▶ Play", command=start_playback_thread, style="TButton")
     play_button.pack(fill="x", pady=3)
 
+    stop_button = ttk.Button(actions_body, text="■ Stop", command=stop_current_operation, style="TButton")
+    stop_button.pack(fill="x", pady=3)
+
     emergency_stop_button = ttk.Button(
         actions_body,
         text="■ Stop",
@@ -115,8 +118,6 @@ def build_macro_management_tab(
         style="Emergency.TButton",
     )
     emergency_stop_button.pack(fill="x", pady=3)
-
-    stop_button = ttk.Button(actions_body, text="■ Stop", command=stop_current_operation, style="TButton")
 
     edit_button = ttk.Button(actions_body, text="✏️ Modifica", command=edit_selected_macro, style="TButton")
     edit_button.pack(fill="x", pady=3)

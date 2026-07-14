@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 from PIL import Image, ImageDraw
 
 from services.click_element_capture_service import (
+    ClickedElementCrop,
     EMPTY_SPACE_DISMISSAL_ELEMENT_NAME,
     EMPTY_SPACE_DISMISSAL_NODE_ID,
     REGION_VIEW_NODE_ID,
@@ -17,9 +18,45 @@ from services.click_element_capture_service import (
     is_empty_space_popup_dismissal_band,
     register_recorded_click_element,
 )
+from services.game_element_ingestion_service import GameElementUpsertResult
 
 
 class ClickElementCaptureServiceTests(unittest.TestCase):
+    def test_spatial_semantic_inference_can_be_disabled_for_unlabeled_learning(self):
+        fake_crop = ClickedElementCrop(
+            image=Image.new("RGB", (20, 20), "red"),
+            capture_bounds=(0, 0, 100, 100),
+            crop_bounds=(10, 10, 30, 30),
+            click_offset_in_crop=(10, 10),
+            contour_confidence=0.9,
+            shape_family="compact_icon",
+        )
+        with (
+            patch(
+                "services.click_element_capture_service.capture_clicked_element_crop",
+                return_value=fake_crop,
+            ),
+            patch(
+                "services.click_element_capture_service.create_or_merge_game_element",
+                return_value=GameElementUpsertResult(9, "raw_click", False, False),
+            ),
+        ):
+            observation = register_recorded_click_element(
+                macro_name="learning",
+                event_time_ms=10,
+                button="left",
+                abs_x=20,
+                abs_y=20,
+                normalized_x=0.2,
+                normalized_y=0.3,
+                window_rect=(0, 0, 100, 100),
+                view_node_id="unknown",
+                infer_spatial_semantic_actions=False,
+            )
+
+        self.assertEqual(observation.element_id, 9)
+        self.assertIsNone(observation.semantic_node_id)
+
     def test_capture_clicked_element_crop_trims_to_probable_button_contour(self):
         context = Image.new("RGB", (224, 224), color=(20, 20, 20))
         draw = ImageDraw.Draw(context)
@@ -95,6 +132,7 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
 
         with (
             patch("services.click_element_capture_service.search_game_window_elements", return_value=view_result),
+            patch("services.click_element_capture_service._capture_rect_image", return_value=context),
             patch(
                 "services.click_element_capture_service.create_or_merge_game_element",
                 return_value=type(
@@ -131,8 +169,13 @@ class ClickElementCaptureServiceTests(unittest.TestCase):
         self.assertEqual(metadata["normalized_position"]["x"], 0.25)
 
     def test_register_recorded_click_element_uses_preclassified_view_when_available(self):
+        context = Image.new("RGB", (224, 224), color=(18, 18, 18))
+        ImageDraw.Draw(context).rectangle(
+            (72, 84, 154, 138), fill=(80, 120, 210), outline=(240, 240, 255), width=3
+        )
         with (
             patch("services.click_element_capture_service.search_game_window_elements") as classify,
+            patch("services.click_element_capture_service._capture_rect_image", return_value=context),
             patch(
                 "services.click_element_capture_service.create_or_merge_game_element",
                 return_value=type(

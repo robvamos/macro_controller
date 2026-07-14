@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from game_elements import blob_to_image
-from repositories.game_element_repository import get_game_element_by_name
+from repositories.game_element_repository import get_game_element_by_name, get_game_elements_by_name_or_variant
 
 
 @dataclass(slots=True)
@@ -49,6 +49,21 @@ def load_game_element_template_by_name(element_name: str):
             close_fn()
 
 
+def load_game_element_templates_by_name(element_name: str):
+    """Carica un elemento e le sue varianti cromatiche o locali."""
+    elements = get_game_elements_by_name_or_variant(element_name)
+    templates = []
+    for element in elements:
+        image = blob_to_image(element["immagine"], element["formato_immagine"])
+        try:
+            templates.append((element["nome"], _to_cv_grayscale(image)))
+        finally:
+            close_fn = getattr(image, "close", None)
+            if callable(close_fn):
+                close_fn()
+    return templates
+
+
 def capture_window_for_matching(window_rect):
     """Cattura l'intera area client della finestra per il template matching."""
     try:
@@ -62,8 +77,8 @@ def capture_window_for_matching(window_rect):
 
 def find_game_element_match(element_name, window_rect, *, threshold=0.85, scales=None):
     """Cerca un elemento grafico catalogato nella finestra target."""
-    template_gray = load_game_element_template_by_name(element_name)
-    if template_gray is None:
+    templates = load_game_element_templates_by_name(element_name)
+    if not templates:
         return None
 
     if scales is None:
@@ -77,17 +92,24 @@ def find_game_element_match(element_name, window_rect, *, threshold=0.85, scales
         if callable(close_fn):
             close_fn()
 
+    best_match = None
     try:
-        return find_best_scaled_match(
-            element_name,
-            template_gray,
-            screenshot_gray,
-            window_rect=window_rect,
-            threshold=threshold,
-            scales=scales,
-        )
+        for template_name, template_gray in templates:
+            try:
+                match = find_best_scaled_match(
+                    template_name,
+                    template_gray,
+                    screenshot_gray,
+                    window_rect=window_rect,
+                    threshold=threshold,
+                    scales=scales,
+                )
+            finally:
+                _release_cv_image(template_gray)
+            if match and (best_match is None or match.score > best_match.score):
+                best_match = match
+        return best_match
     finally:
-        _release_cv_image(template_gray)
         _release_cv_image(screenshot_gray)
 
 

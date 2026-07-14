@@ -60,6 +60,18 @@ class ClickContextGuardTests(unittest.TestCase):
         self.assertEqual(guard.reference_images, [])
         self.assertIsNone(guard.reference_position)
 
+    def test_add_reference_image_keeps_alternative_reference(self):
+        guard = ClickContextGuard(ClickContextGuardConfig(enabled=True, max_reference_images=3))
+        primary = Image.new("L", (8, 8), color=50)
+        alternative = Image.new("L", (8, 8), color=90)
+
+        guard.set_reference_image(primary, abs_x=10, abs_y=20)
+        guard.add_reference_image(alternative)
+
+        self.assertEqual(len(guard.reference_images), 2)
+        self.assertEqual(guard.reference_position, (10, 20))
+        self.assertTrue(guard.fixed_reference_mode)
+
     def test_guard_can_accumulate_multiple_compatible_references(self):
         guard = ClickContextGuard(ClickContextGuardConfig(enabled=True, min_similarity=0.5, max_reference_images=3))
         first = Image.new("L", (24, 24), color=100)
@@ -76,6 +88,24 @@ class ClickContextGuardTests(unittest.TestCase):
 
         self.assertLessEqual(len(guard.reference_images), 3)
         self.assertGreaterEqual(len(guard.reference_images), 2)
+
+    def test_verify_or_prime_emits_preview_before_final_score(self):
+        guard = ClickContextGuard(ClickContextGuardConfig(enabled=True, min_similarity=0.6))
+        reference = Image.new("L", (24, 24), color=100)
+        candidate = Image.new("L", (24, 24), color=110)
+        preview_payloads = []
+
+        guard.reference_images = [reference]
+        with patch(
+            "doomsday.vision.click_context_guard.capture_context_image",
+            return_value=candidate,
+        ):
+            checked = guard.verify_or_prime(120, 120, preview_callback=preview_payloads.append)
+
+        self.assertEqual(len(preview_payloads), 1)
+        self.assertIsNone(preview_payloads[0]["score"])
+        self.assertIn("candidate_preview", preview_payloads[0])
+        self.assertTrue(checked["ok"])
 
 
 if __name__ == "__main__":

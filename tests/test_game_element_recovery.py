@@ -6,6 +6,7 @@ from PIL import Image
 from doomsday.vision.game_element_recovery import (
     GameElementMatch,
     find_best_scaled_match,
+    find_game_element_match,
     search_game_window_elements,
 )
 
@@ -69,6 +70,33 @@ class GameElementRecoveryTests(unittest.TestCase):
         self.assertEqual(result.matched_element_name, "popup_exit_close_symbol")
         self.assertEqual(result.center, (115, 135))
         self.assertEqual(result.requested_elements, ("other_symbol", "popup_exit_close_symbol"))
+
+    def test_find_game_element_match_uses_best_named_variant(self):
+        variant_match = GameElementMatch(
+            element_name="popup_crossed_circle_symbol_2",
+            score=0.94,
+            location=(200, 220),
+            size=(30, 30),
+            center=(215, 235),
+            scale=1.0,
+        )
+
+        with (
+            patch(
+                "doomsday.vision.game_element_recovery.load_game_element_templates_by_name",
+                return_value=[("popup_crossed_circle_symbol", object()), ("popup_crossed_circle_symbol_2", object())],
+            ),
+            patch("doomsday.vision.game_element_recovery.capture_window_for_matching", return_value=Image.new("RGB", (120, 120))),
+            patch("doomsday.vision.game_element_recovery._to_cv_grayscale", return_value=object()),
+            patch(
+                "doomsday.vision.game_element_recovery.find_best_scaled_match",
+                side_effect=[None, variant_match],
+            ),
+        ):
+            match = find_game_element_match("popup_crossed_circle_symbol", (0, 0, 120, 120))
+
+        self.assertEqual(match.element_name, "popup_crossed_circle_symbol_2")
+        self.assertEqual(match.score, 0.94)
 
     def test_search_game_window_elements_supports_non_presence_condition(self):
         with patch(

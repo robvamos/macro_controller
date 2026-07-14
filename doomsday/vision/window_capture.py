@@ -29,6 +29,13 @@ def screenshot_window(window):
     return ImageGrab.grab(bbox=bbox)
 
 
+def screenshot_window_native(window):
+    """Cattura la finestra visibile con BitBlt, più affidabile con DirectX."""
+    from doomsday.vision.desktop_capture import capture_screen_region
+
+    return capture_screen_region(window.left, window.top, window.right, window.bottom)
+
+
 def save_clipboard_image(destination_path: str | Path) -> Path:
     """Salva un'immagine presente negli appunti."""
     try:
@@ -44,4 +51,3 @@ def save_clipboard_image(destination_path: str | Path) -> Path:
     destination.parent.mkdir(parents=True, exist_ok=True)
     image.save(destination)
     return destination
-
