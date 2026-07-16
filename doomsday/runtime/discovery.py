@@ -18,6 +18,7 @@ from typing import Any, Callable, Iterable, Mapping
 from core.paths import DOOMSDAY_RUNTIME_REGISTRY_PATH
 
 DEFAULT_RUNTIME_REGISTRY_PATH = DOOMSDAY_RUNTIME_REGISTRY_PATH
+DEFAULT_DOOMSDAY_SHORTCUT_PATH = Path(r"C:\Users\Public\Desktop\Doomsday.lnk")
 
 _BLUESTACKS_INSTANCE_FIELDS = {
     "adb_port",
@@ -44,6 +45,28 @@ def _safe_path_exists(path: Path) -> bool:
         return path.exists()
     except OSError:
         return False
+
+
+def _resolve_windows_shortcut(path: Path) -> dict[str, str]:
+    """Resolve allowlisted launcher metadata without executing the shortcut."""
+
+    if not _safe_path_exists(path):
+        return {}
+    try:
+        import pywintypes
+        import win32com.client
+    except ImportError:
+        return {}
+
+    try:
+        shortcut = win32com.client.Dispatch("WScript.Shell").CreateShortcut(str(path))
+        return {
+            "target_path": _portable_path(shortcut.TargetPath),
+            "arguments": str(shortcut.Arguments or ""),
+            "working_directory": _portable_path(shortcut.WorkingDirectory),
+        }
+    except (AttributeError, OSError, pywintypes.com_error):
+        return {}
 
 
 def _unquote(value: str) -> str:
@@ -285,6 +308,7 @@ class GameRuntimeDiscoveryService:
             )
             if _safe_path_exists(path)
         ]
+        shortcut = _resolve_windows_shortcut(DEFAULT_DOOMSDAY_SHORTCUT_PATH)
         return {
             "runtime_id": "native-windows",
             "kind": "native_windows_client",
@@ -297,13 +321,16 @@ class GameRuntimeDiscoveryService:
                 "game_directory": _portable_path(game_dir),
                 "game_executable": _portable_path(game_dir / "Doomsday.exe"),
                 "launcher_executable": _portable_path(install_root / "DoomsdayLastSurvivors.exe"),
+                "launcher_shortcut": _portable_path(DEFAULT_DOOMSDAY_SHORTCUT_PATH),
+                "launcher_shortcut_target": shortcut.get("target_path", ""),
+                "launcher_working_directory": shortcut.get("working_directory", ""),
                 "local_data_roots": [_portable_path(path) for path in data_roots],
             },
             "process": {
                 "running": bool(matching),
                 "pids": [process.get("pid") for process in matching if process.get("pid")],
             },
-            "access_strategy": "win32_window_capture_then_supervised_ui_ocr",
+            "access_strategy": "launcher_shortcut_then_win32_window_capture_then_supervised_ui_ocr",
             "evidence": [
                 "Windows uninstall registry",
                 "version.dat del client",
@@ -311,6 +338,7 @@ class GameRuntimeDiscoveryService:
             ],
             "notes": [
                 "È il runtime preferito quando la finestra Doomsday è attiva.",
+                "L'avvio supportato usa il collegamento del launcher; Doomsday.exe non va eseguito direttamente.",
                 "I cache locali non sono trattati come fonte canonica del roster.",
             ],
         }
@@ -444,6 +472,7 @@ def load_runtime_registry(path: str | Path = DEFAULT_RUNTIME_REGISTRY_PATH) -> d
 
 
 __all__ = [
+    "DEFAULT_DOOMSDAY_SHORTCUT_PATH",
     "DEFAULT_RUNTIME_REGISTRY_PATH",
     "GameRuntimeDiscoveryService",
     "load_runtime_registry",

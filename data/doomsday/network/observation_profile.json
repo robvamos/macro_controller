@@ -1,0 +1,50 @@
+{
+  "schema": "doomsday.network-observation-profile.v1",
+  "profile_version": "0.1.1",
+  "target": {
+    "runtime_id": "native-windows",
+    "process_name": "Doomsday",
+    "game_version": "1.58.0",
+    "launcher_shortcut": "C:/Users/Public/Desktop/Doomsday.lnk",
+    "launcher_target": "F:/Doomsday/DoomsdayLastSurvivors.exe",
+    "forbidden_direct_launch": "F:/Doomsday/Doomsday_1.58.0/Doomsday.exe"
+  },
+  "tools": {
+    "http_observer": {
+      "name": "mitmproxy",
+      "version": "12.2.3",
+      "installation_scope": "project-local-venv",
+      "runtime_path": ".tools/mitmproxy",
+      "mode": "local-pid"
+    },
+    "packet_observer": {
+      "name": "Wireshark/tshark",
+      "version_observed": "4.4.6",
+      "npcap_version_observed": "0.9982",
+      "installation_scope": "machine-existing"
+    }
+  },
+  "default_policy": {
+    "capture_level": "metadata-only",
+    "tls_passthrough": true,
+    "trust_local_ca": false,
+    "persist_headers": false,
+    "persist_payloads": false,
+    "persist_query_values": false,
+    "allow_replay": false,
+    "allow_request_mutation": false,
+    "allow_pinning_bypass": false
+  },
+  "observed_protocol_classes": [
+    "https-tcp-443",
+    "custom-persistent-tcp-high-port",
+    "udp-present-unclassified"
+  ],
+  "notes": [
+    "Il proxy locale per PID intercetta solo nuove connessioni del processo selezionato.",
+    "Se il client non e attivo, usare -LaunchViaShortcut: il flusso avvia il collegamento del launcher e attende Doomsday.exe.",
+    "L'avvio diretto di Doomsday.exe produce ErrCode 0x4 e non e un percorso supportato.",
+    "Le connessioni gia aperte prima dell'avvio dell'osservatore non vengono retroattivamente acquisite.",
+    "La semantica di una chiamata richiede correlazione ripetuta con transizioni UI validate; la vicinanza temporale non e prova sufficiente."
+  ]
+}

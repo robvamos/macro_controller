@@ -3,7 +3,7 @@
   "slug": "ddgameass",
   "path": "F:/_CODEX/DDassistant",
   "status": "active",
-  "version": "0.6.1",
+  "version": "0.7.1",
   "summary": "Goal-driven Doomsday assistant with versioned game knowledge, safe semantic planning, evidence provenance, OCR, vision, and macro automation.",
   "description": "Windows desktop Doomsday assistant that separates game-domain understanding, confidence-aware perception, versioned rules, safe semantic planning, supervised outcomes, and legacy macro execution.",
   "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
@@ -49,7 +49,8 @@
     "doomsday-transactional-live-roster",
     "doomsday-bluestacks-readonly-capture",
     "doomsday-semantic-campaign-attribution",
-    "doomsday-supervised-campaign-runs"
+    "doomsday-supervised-campaign-runs",
+    "doomsday-network-metadata-observation"
   ],
   "interfaces": [
     {
@@ -111,6 +112,15 @@
       "consumers": [
         "knowledge"
       ]
+    },
+    {
+      "name": "doomsday-network-observation",
+      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-network-observation.md",
+      "status": "experimental",
+      "version": "0.1.1",
+      "consumers": [
+        "knowledge"
+      ]
     }
   ],
   "reusable_skills": [
@@ -147,7 +157,9 @@
     "The live roster pipeline uses immutable artifacts, explicit preview and decisions, confirmation, optimistic atomic commit, history, audit, and an evidence outbox.",
     "Tesseract CLI provides local ita+eng OCR; only the home Eroe label is calibrated until full hero-view frames are reviewed.",
     "Semantic campaigns attribute reusable macro sequences to an explicit objective, operation, asset domains, game version, validation state, and immutable sequence snapshot without granting execution authority.",
-    "Campaign runs persist pre/post observations and evidence independently from playback, so success informs coverage without granting authority to a macro."
+    "Campaign runs persist pre/post observations and evidence independently from playback, so success informs coverage without granting authority to a macro.",
+    "Network observation uses project-local mitmproxy in local PID mode with TLS passthrough, redacted metadata-only JSONL, no trusted CA, no Windows proxy mutation, no replay and no protection bypass.",
+    "The native client must be launched through C:/Users/Public/Desktop/Doomsday.lnk, which resolves to DoomsdayLastSurvivors.exe; direct Doomsday.exe execution is explicitly unsupported because it returns error 0x4."
   ],
-  "last_updated": "2026-07-14T17:04:33.810109+00:00"
+  "last_updated": "2026-07-16T06:41:42.856832+00:00"
 }

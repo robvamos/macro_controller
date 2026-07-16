@@ -6,7 +6,9 @@ from doomsday.vision.ui_graph import build_default_doomsday_ui_graph, evaluate_u
 
 class UIGraphTests(unittest.TestCase):
     def test_structural_nodes_without_conditions_remain_unknown(self):
-        evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
+        not_found = Mock(condition_satisfied=False, found=False, score=None)
+        with patch("doomsday.vision.ui_graph.search_game_window_elements", return_value=not_found):
+            evaluation = evaluate_ui_graph(build_default_doomsday_ui_graph(), (0, 0, 1920, 1080))
         root = evaluation.get_node_result("game_runtime_root")
         self.assertIsNotNone(root)
         self.assertFalse(root.observable)

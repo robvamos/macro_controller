@@ -5,6 +5,10 @@ __pycache__/
 logs/
 exports/
 
+# Never version locally generated interception CA material.
+mitmproxy-ca*
+mitmproxy-dhparam.pem
+
 # Runtime learning store; the versioned registry and source overlay stay tracked.
 data/doomsday/intelligence/*.db
 data/doomsday/intelligence/*.db-shm

@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.7.1 - 2026-07-15
+
+- Reso esplicito il collegamento pubblico `Doomsday.lnk` come unico ingresso
+  supportato al client Windows e registrato il target launcher risolto.
+- Aggiunto `-LaunchViaShortcut` all'osservatore: apre il launcher, attende il
+  PID di gioco e solo dopo applica la cattura metadata-only al processo.
+- Aggiunto setup riproducibile con dipendenze opzionali bloccate e ambiente
+  isolato sotto `.tools/mitmproxy`, senza CA o modifiche al proxy di Windows.
+- Vietato nel profilo di osservazione l'avvio diretto del binario versionato,
+  che senza contesto launcher restituisce `ErrCode: 0x4`.
+
+## 0.7.0 - 2026-07-15
+
+- Installato mitmproxy 12.2.3 in un ambiente isolato e ignorato dal repository.
+- Aggiunta osservazione per PID con TLS passthrough: destinazioni, SNI/ALPN,
+  trasporti, contatori e dimensioni senza header, cookie, token o payload.
+- Aggiunti normalizzazione degli endpoint, aggregatore di schemi, comandi
+  start/stop/summarize e profilo di sicurezza versionato.
+- Verificata la cattura locale per PID con risposta HTTPS 200 e contenuto
+  rimasto cifrato; nessuna CA e nessun proxy Windows sono stati configurati.
+- Mantenuti Wireshark/Npcap come classificatore passivo dei canali TCP/UDP che
+  non risultano HTTP e formalizzato il confine di correlazione semantica UI.
+
 ## 0.6.1 - 2026-07-14
 
 - Resi i nodi UI strutturali privi di riconoscitori esplicitamente non osservabili:

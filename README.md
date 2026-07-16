@@ -121,6 +121,7 @@ Le interfacce Doomsday condivise verso altri progetti sono documentate in:
 - [interfaces/doomsday-intelligence-runtime.md](/F:/_CODEX/DDassistant/interfaces/doomsday-intelligence-runtime.md)
 - [interfaces/doomsday-runtime-roster-acquisition.md](/F:/_CODEX/DDassistant/interfaces/doomsday-runtime-roster-acquisition.md)
 - [interfaces/doomsday-hero-interface-learning.md](/F:/_CODEX/DDassistant/interfaces/doomsday-hero-interface-learning.md)
+- [interfaces/doomsday-network-observation.md](/F:/_CODEX/DDassistant/interfaces/doomsday-network-observation.md)
 
 ## Runtime del gioco e acquisizione roster
 
@@ -158,6 +159,34 @@ Il motore OCR usa Tesseract CLI locale con `ita+eng`; il profilo 1.58.0 contiene
 per ora solo l'anchor testuale `Eroe`. Le ROI delle viste interne saranno
 calibrate dai frame acquisiti. Vedi
 [hero-interface-learning.md](/F:/_CODEX/DDassistant/docs/architecture/hero-interface-learning.md).
+
+### Osservazione di rete metadata-only
+
+Mitmproxy 12.2.3 e' installato localmente in `.tools/mitmproxy`; Wireshark e
+Npcap gia' presenti restano disponibili per classificare TCP/UDP non HTTP. La
+modalita' predefinita osserva soltanto il PID Doomsday, inoltra TLS ancora
+cifrato e non modifica il proxy di Windows ne' il trust store dei certificati.
+
+Per preparare in modo riproducibile il runtime opzionale dopo un clone:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup_network_observation.ps1
+```
+
+Per usare lo stesso collegamento del Desktop e poi osservare il processo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start_network_observation.ps1 -TargetProcess Doomsday -LaunchViaShortcut -Minutes 5
+```
+
+Il collegamento risolve il launcher `DoomsdayLastSurvivors.exe`. Il binario
+versionato `Doomsday.exe` non viene mai avviato direttamente, perché senza il
+contesto del launcher risponde con `ErrCode: 0x4`.
+
+I file runtime finiscono in `.tools/network_observation/`. Non vengono salvati
+header, cookie, token, valori query o payload; gli identificativi probabili nei
+path vengono sostituiti da segnaposto. Vedi
+[network-observation.md](/F:/_CODEX/DDassistant/docs/architecture/network-observation.md).
 
 ## Test automatici
 
@@ -236,6 +265,7 @@ Gli elementi di sistema non vengono eliminati dalla galleria e non vengono rimos
 - [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](/F:/_CODEX/DDassistant/docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
 - [docs/architecture/intelligent-assistant.md](/F:/_CODEX/DDassistant/docs/architecture/intelligent-assistant.md)
 - [docs/architecture/runtime-roster-acquisition.md](/F:/_CODEX/DDassistant/docs/architecture/runtime-roster-acquisition.md)
+- [docs/architecture/network-observation.md](/F:/_CODEX/DDassistant/docs/architecture/network-observation.md)
 - [CHANGELOG.md](/F:/_CODEX/DDassistant/CHANGELOG.md)
 - [ROADMAP.md](/F:/_CODEX/DDassistant/ROADMAP.md)
 

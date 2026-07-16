@@ -4,6 +4,7 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 from subprocess import CompletedProcess
+from unittest.mock import patch
 
 from doomsday.runtime.discovery import (
     GameRuntimeDiscoveryService,
@@ -70,6 +71,42 @@ class GameRuntimeDiscoveryTests(unittest.TestCase):
             path.write_text(json.dumps({"schema": "other", "runtimes": []}), encoding="utf-8")
             with self.assertRaises(ValueError):
                 load_runtime_registry(path)
+
+    def test_native_runtime_records_launcher_shortcut_as_supported_entrypoint(self):
+        with tempfile.TemporaryDirectory() as tempdir:
+            install_root = Path(tempdir) / "Doomsday"
+            game_dir = install_root / "Doomsday_1.58.0"
+            game_dir.mkdir(parents=True)
+            (game_dir / "version.dat").write_text("1.58.0", encoding="utf-8")
+            shortcut_path = Path(tempdir) / "Doomsday.lnk"
+            shortcut_path.touch()
+            service = GameRuntimeDiscoveryService(
+                process_provider=lambda: [{"name": "Doomsday.exe", "pid": 42, "cmdline": ()}],
+                hostname_provider=lambda: "TESTHOST",
+            )
+
+            with (
+                patch(
+                    "doomsday.runtime.discovery._find_uninstall_product",
+                    return_value={"InstallLocation": str(install_root), "DisplayVersion": "1.0.30"},
+                ),
+                patch("doomsday.runtime.discovery.DEFAULT_DOOMSDAY_SHORTCUT_PATH", shortcut_path),
+                patch(
+                    "doomsday.runtime.discovery._resolve_windows_shortcut",
+                    return_value={
+                        "target_path": "F:/Doomsday/DoomsdayLastSurvivors.exe",
+                        "working_directory": "F:/Doomsday",
+                    },
+                ),
+            ):
+                runtime = service._discover_native_client(
+                    [{"name": "Doomsday.exe", "pid": 42, "cmdline": ()}]
+                )
+
+        self.assertEqual(runtime["paths"]["launcher_shortcut"], shortcut_path.as_posix())
+        self.assertTrue(runtime["paths"]["launcher_shortcut_target"].endswith("DoomsdayLastSurvivors.exe"))
+        self.assertIn("launcher_shortcut", runtime["access_strategy"])
+        self.assertTrue(any("non va eseguito direttamente" in note for note in runtime["notes"]))
 
 
 if __name__ == "__main__":

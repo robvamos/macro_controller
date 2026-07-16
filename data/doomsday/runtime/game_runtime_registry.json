@@ -113,6 +113,9 @@
         "game_directory": "F:/Doomsday/Doomsday_1.58.0",
         "game_executable": "F:/Doomsday/Doomsday_1.58.0/Doomsday.exe",
         "launcher_executable": "F:/Doomsday/DoomsdayLastSurvivors.exe",
+        "launcher_shortcut": "C:/Users/Public/Desktop/Doomsday.lnk",
+        "launcher_shortcut_target": "F:/Doomsday/DoomsdayLastSurvivors.exe",
+        "launcher_working_directory": "F:/Doomsday",
         "local_data_roots": [
           "C:/Users/robva/AppData/LocalLow/IGG/Doomsday Last Survivors",
           "C:/Users/robva/AppData/LocalLow/IGG/Doomsday_ Last Survivors"
@@ -123,7 +126,7 @@
         "pids": [1700],
         "window_title": "Doomsday: Last Survivors"
       },
-      "access_strategy": "win32_window_capture_then_supervised_ui_ocr",
+      "access_strategy": "launcher_shortcut_then_win32_window_capture_then_supervised_ui_ocr",
       "evidence": [
         "Windows uninstall registry",
         "version.dat del client",
@@ -132,6 +135,7 @@
       ],
       "notes": [
         "È il runtime preferito quando la finestra Doomsday è attiva.",
+        "L'avvio supportato usa C:/Users/Public/Desktop/Doomsday.lnk; Doomsday.exe non va eseguito direttamente.",
         "I cache locali non sono trattati come fonte canonica del roster."
       ]
     }
