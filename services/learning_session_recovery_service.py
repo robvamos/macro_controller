@@ -13,12 +13,12 @@ from typing import Any
 
 from PIL import Image
 
+from core.paths import DB_PATH, RECOVERED_LEARNING_SESSIONS_DIR
 from services.shared_knowledge_export_service import parse_game_element_description, slugify
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_MACRO_DB = PROJECT_ROOT / "data" / "macro_recorder.db"
-DEFAULT_RECOVERY_ROOT = PROJECT_ROOT / "data" / "doomsday" / "knowledge" / "recovered_learning_sessions"
+DEFAULT_MACRO_DB = DB_PATH
+DEFAULT_RECOVERY_ROOT = RECOVERED_LEARNING_SESSIONS_DIR
 
 
 def recover_learning_session(

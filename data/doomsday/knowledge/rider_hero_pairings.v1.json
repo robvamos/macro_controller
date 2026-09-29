@@ -1,0 +1,133 @@
+{
+  "schema": "doomsday.knowledge.rider_pairings.v1",
+  "knowledge_version": "1.0.0",
+  "researched_at": "2026-09-13",
+  "game_version_scope": {
+    "current_verified_version": "1.60.5",
+    "published_at": "2026-08-29",
+    "notes": "La patch 1.60.5 ha introdotto trascendenza e risonanza degli armamenti. Le abilita degli eroi e i risultati di campo restano da verificare nel client quando una fonte non riporta esplicitamente la versione."
+  },
+  "evidence_scale": {
+    "official": "Cronologia o regola pubblicata da IGG.",
+    "runtime": "Tooltip, schermata o rapporto osservato nel client.",
+    "tested_community": "Analisi community con rapporti o dimostrazioni visibili.",
+    "community": "Guida o testimonianza recente non controllata.",
+    "historical": "Informazione utile ma precedente a patch o nuovi eroi.",
+    "hypothesis": "Deduzione da sottoporre a test."
+  },
+  "pairing_rules": [
+    {
+      "rule_id": "leader_talents_only",
+      "claim": "I talenti rilevanti per la marcia sono quelli del leader; l'assistente contribuisce con le proprie abilita.",
+      "status": "runtime_supported",
+      "confidence": "high",
+      "retest_trigger": "Modifica esplicita del sistema eroi o dei talenti."
+    },
+    {
+      "rule_id": "leader_armaments_only_pre_1605",
+      "claim": "Prima della 1.60.5, le evidenze locali e community indicavano che i sei armamenti e i due dispositivi efficaci nella coppia erano quelli del leader.",
+      "status": "provisional_after_patch",
+      "confidence": "medium",
+      "retest_trigger": "La 1.60.5 ha aggiunto risonanze basate sull'eroe che indossa armamenti e dispositivi; la nota ufficiale non chiarisce l'assistente."
+    },
+    {
+      "rule_id": "assistant_capacity_partial",
+      "claim": "La capacita dell'assistente contribuisce alla spedizione; a pari livello la patch 1.36.0 dichiarava il 50% della capacita che avrebbe come leader.",
+      "status": "official_historical_currentness_unconfirmed",
+      "confidence": "medium_high"
+    },
+    {
+      "rule_id": "support_beast_chips_apply",
+      "claim": "I chip della bestia di supporto contribuiscono con il rapporto di eredita del supporto.",
+      "status": "official_since_1.41.0",
+      "confidence": "high"
+    },
+    {
+      "rule_id": "mode_specificity",
+      "claim": "Campo, rally e guarnigione richiedono graduatorie separate; una skill condizionata a rally o presidio non va conteggiata in campo.",
+      "status": "analysis_rule",
+      "confidence": "high"
+    }
+  ],
+  "current_rider_roster": [
+    {"hero":"Cynthia Calamity","rarity":"legendary","archetype":"early_access_speed_and_zombie","trees":["Rider","Zombie Hunter","Skills"],"field_role":"speed/control reserve","investment_note":"economica rispetto ai nuovi eroi; valore molto dipendente da sviluppo e skin"},
+    {"hero":"Catherine Calamity","rarity":"legendary","archetype":"vip_zombie_and_speed_support","trees":["Rider","Zombie Hunter","Skills"],"field_role":"assistant con bonus velocita; coppia storica con Cynthia","investment_note":"non inseguire solo per la coppia sorelle senza considerare costo skin/sviluppo"},
+    {"hero":"Elena","rarity":"legendary","archetype":"skill_damage_dot_mobile","trees":["Rider","General","Skills"],"field_role":"partner economico e flessibile","investment_note":"frammenti piu accessibili; buona seconda linea, non benchmark endgame"},
+    {"hero":"Bella","rarity":"legendary","archetype":"approach_speed_and_burst","trees":["Rider","General","Skills"],"field_role":"taxi fuori combattimento e colpo rapido","investment_note":"bonus velocita condizionato fuori combattimento; penalita quando riceve danno abilita"},
+    {"hero":"Felix","rarity":"legendary","archetype":"sustained_skill_procs","trees":["Rider","General","Skills"],"field_role":"leader flessibile per scambi prolungati","investment_note":"eccellente nucleo da campo; combina bene con Janet e Chasey"},
+    {"hero":"Daryl","rarity":"legendary","archetype":"aoe_mobility","trees":["Rider","General","Skills"],"field_role":"danno ad area e velocita, leader o assistente","investment_note":"partner piu naturale di Maxwell per inseguimento"},
+    {"hero":"Janet Light","rarity":"legendary","archetype":"repeated_skill_damage_amplifier","trees":["Rider","General","Skills"],"field_role":"moltiplicatore di proc e pressione in mischia","investment_note":"rende meglio con partner che generano piu istanze di danno abilita"},
+    {"hero":"Maxwell","rarity":"legendary","archetype":"field_speed_pursuit_control","trees":["Rider","General","Field Battle"],"field_role":"leader di caccia, aggancio e uscita","investment_note":"prima scelta per velocita operativa; non implica primato nel duello fermo"},
+    {"hero":"Sven Schaefer","rarity":"legendary","archetype":"siege_support_legacy","trees":["Rider","Siege","Support"],"field_role":"supporto storico o situazionale","investment_note":"bassa priorita per nuovo investimento da campo"},
+    {"hero":"Jonathan","rarity":"legendary","archetype":"general_support_anti_rally_niche","trees":["Rider","General","Support"],"field_role":"nicchia territoriale/anti-rally","investment_note":"non promuovere da un coefficiente isolato"},
+    {"hero":"Chasey","rarity":"superhero","archetype":"garrison_tank_basic_attack_synergy","trees":["Rider","Garrison","Skills"],"field_role":"assistente robusto per Felix; core con Rick in guarnigione","investment_note":"la prima trascendenza e utile ma i benefici da guarnigione vanno esclusi dal campo"},
+    {"hero":"Rubina","rarity":"superhero","archetype":"siege_burst_skill_windows","trees":["Rider","Siege","General"],"field_role":"raffica ad alto investimento; partner di Tso o Janet","investment_note":"molto sensibile alle trascendenze; distinguere bug storico Janet/Rubina dal comportamento attuale"},
+    {"hero":"Rick Light","rarity":"superhero","archetype":"garrison_basic_attack_single_target","trees":["Rider","Garrison","Attack"],"field_role":"pressione singolo bersaglio con Felix o proc AoE con Chasey","investment_note":"non trasferire automaticamente il rendimento da guarnigione al campo"},
+    {"hero":"Metok Tso","rarity":"legendary_new_generation","archetype":"rally_burst_window_high_investment","trees":["Rider","Siege_or_rally","Support_or_skill"],"field_role":"candidato endgame con Rubina; lento","investment_note":"risveglio solo non basta; le trascendenze aprono parti rilevanti del kit al campo"},
+    {"hero":"Eren Yeager","rarity":"legendary_crossover","archetype":"universal_assistant_skill","trees":["Rider","General","Skills"],"field_role":"assistente trasferibile e flessibile","investment_note":"costo e disponibilita crossover riducono il valore per nuovi investimenti"},
+    {"hero":"Mai Shiranui","rarity":"legendary_crossover","archetype":"field_speed_dot","trees":["Rider","General","Field Battle"],"field_role":"assistente molto veloce con danno periodico","investment_note":"attualmente non ottenibile secondo il catalogo community consultato"},
+    {"hero":"Freya Herman","rarity":"elite","archetype":"budget_skill","trees":["Rider","General","Skills"],"field_role":"riempitivo budget","investment_note":"non usare risorse rare al posto di un core leggendario"},
+    {"hero":"Park Dong-wook","rarity":"elite","archetype":"zombie_field_exit_speed","trees":["Rider","Zombie Hunter","Field Battle"],"field_role":"velocita dopo uscita e PvE","investment_note":"utile operativo, non coppia principale PvP moderna"},
+    {"hero":"Allison","rarity":"common","archetype":"starter_field","trees":["Rider","General","Field Battle"],"field_role":"iniziale","investment_note":"nessun investimento avanzato"}
+  ],
+  "pairing_atlas": [
+    {"pair":"Maxwell / Daryl","mode":"open_field","role":"pursuit_hit_and_run","leader":"Maxwell for maximum speed; test Daryl for skill-oriented damage","confidence":"medium_high","evidence":["community_recent","multiple_independent_mentions"],"tradeoff":"mobilita elevata ma non dimostra il miglior scambio statico"},
+    {"pair":"Felix / Janet Light","mode":"open_field","role":"sustained_repeated_skill_damage","leader":"Felix","confidence":"medium_high","evidence":["tested_community_historical","gamerch_2026"],"tradeoff":"sottrae Janet alle marce di supporto"},
+    {"pair":"Felix / Chasey","mode":"open_field","role":"sustained_tanky_single_target","leader":"Felix","confidence":"medium","evidence":["community_2026","local_plan"],"tradeoff":"parte del kit Chasey e da guarnigione"},
+    {"pair":"Tso / Rubina","mode":"open_field_high_investment","role":"burst_window","leader":"Metok Tso","confidence":"medium","evidence":["multiple_creator_analysis_2026"],"tradeoff":"lenta e costosa; richiede trascendenze chiave e test del conteggio finestra"},
+    {"pair":"Tso / Daryl","mode":"open_field_high_investment","role":"burst_plus_mobility","leader":"Metok Tso","confidence":"medium_low","evidence":["creator_analysis_2026"],"tradeoff":"rompe Maxwell/Daryl"},
+    {"pair":"Daryl / Elena","mode":"open_field","role":"accessible_aoe_dot_mobile","leader":"Daryl","confidence":"medium","evidence":["community_recurrent"],"tradeoff":"potenza inferiore ai core piu moderni a pari investimento"},
+    {"pair":"Maxwell / Cynthia","mode":"open_field_speed","role":"catch_and_slow","leader":"Maxwell","confidence":"medium","evidence":["gamerch_2026"],"tradeoff":"sacrifica danno rispetto a Daryl"},
+    {"pair":"Rubina / Janet Light","mode":"field_or_rally","role":"burst_proc_chain","leader":"Rubina in rally; order requires field test","confidence":"medium_low","evidence":["tested_community_historical"],"tradeoff":"possibile bug storico sul limite di attivazioni, non assumere oggi"},
+    {"pair":"Chasey / Rick Light","mode":"garrison","role":"durability_and_single_target","leader":"Chasey","confidence":"medium_high","evidence":["gamerch_2026","creator_2026"],"tradeoff":"richiede sviluppo completo; non e una raccomandazione campo automatica"},
+    {"pair":"Rubina / Chasey","mode":"rally","role":"single_target_burst","leader":"Rubina","confidence":"medium_high","evidence":["gamerch_2026"],"tradeoff":"configurazione rally, non prova di primato in campo"},
+    {"pair":"Tso / Rubina","mode":"rally","role":"new_generation_rider_rally","leader":"Metok Tso","confidence":"medium","evidence":["multiple_creator_analysis_2026"],"tradeoff":"costo elevato e dipendenza da trascendenze"},
+    {"pair":"Cynthia / Catherine","mode":"early_field_speed","role":"sisters_budget_speed","leader":"Cynthia","confidence":"medium","evidence":["historical_community","local_roster"],"tradeoff":"coppia superata nei confronti endgame salvo forte vantaggio di sviluppo/skin"},
+    {"pair":"Bella / Elena","mode":"open_field_legacy","role":"approach_and_burst","leader":"Bella","confidence":"low_medium","evidence":["historical_community"],"tradeoff":"velocita di Bella non e costante durante il contatto"}
+  ],
+  "assistant_speed_reference": [
+    {"hero":"Mai Shiranui","reported_bonus":"30% constant","confidence":"medium_low","note":"piu bonus condizionato dopo l'uscita; fonte secondaria"},
+    {"hero":"Daryl","reported_bonus":"25%","confidence":"medium","note":"testo community; confermare skin e skill"},
+    {"hero":"Catherine Calamity","reported_bonus":"24%","confidence":"medium_low","note":"testimonianza community"},
+    {"hero":"Janet Light","reported_bonus":"20-21%","confidence":"medium_low","note":"fonti community non perfettamente concordi"},
+    {"hero":"Elena","reported_bonus":"20%","confidence":"medium_low","note":"fonte secondaria"},
+    {"hero":"Bianca Drake","reported_bonus":"20%","confidence":"medium_low","note":"leader universale, non Rider"},
+    {"hero":"Felix","reported_bonus":"18%","confidence":"medium_low","note":"fonte secondaria"},
+    {"hero":"Bella","reported_bonus":"30% out of combat only","confidence":"medium_low","note":"non classificare come velocita costante in combattimento"},
+    {"hero":"Park Dong-wook","reported_bonus":"35%, 50% awakened, after leaving battle","confidence":"medium","note":"condizionato per 10 secondi"}
+  ],
+  "account_application": {
+    "known_five_marches": [
+      "Maxwell / Daryl",
+      "Felix / Chasey",
+      "Claude Le Blanc / Rubina",
+      "Janet Light / Bianca Drake",
+      "Elena / Isabella Vincens"
+    ],
+    "do_not_auto_replace": true,
+    "next_controlled_tests": [
+      "Felix/Chasey contro Felix/Janet Light, stessi rider e stessi bonus esterni.",
+      "Janet/Bianca contro Elena/Janet per numero di proc, feriti e capacita di uscita.",
+      "Claude/Rubina contro Tso/Rubina solo quando Tso ha le trascendenze da campo necessarie.",
+      "Dopo la 1.60.5, test A/B con armamenti dell'assistente equipaggiati e rimossi per verificare risonanza e bonus effettivi."
+    ]
+  },
+  "open_questions": [
+    "La risonanza 1.60.5 degli armamenti dell'assistente modifica la coppia oppure resta inattiva?",
+    "Quali eventi vengono conteggiati esattamente nella finestra offensiva di Metok Tso?",
+    "Il limite di attivazioni Janet/Rubina funziona oggi come scritto?",
+    "Qual e la resa a pari investimento di Felix/Chasey rispetto a Felix/Janet nel campo attuale?",
+    "Quali nuove bestie fisiche 1.60.0 hanno abilita applicabili al campo e non solo a rally/guarnigione?"
+  ],
+  "source_ids": [
+    "doomsday-official-app-store",
+    "doomsday-official-steam-updates",
+    "doomsday-in-game-rules",
+    "doomsday-battle-reports",
+    "doomsday-community-gamerch-jp",
+    "doomsday-community-bm-tactics",
+    "doomsday-community-z-syndicate",
+    "doomsday-subreddit",
+    "ddassistant-local-evidence"
+  ]
+}

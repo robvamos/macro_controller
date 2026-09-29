@@ -16,7 +16,7 @@ Completati in questa iterazione:
 
 ## Blocco Di Rilascio
 
-1. `data/macro_recorder.db` e' stato riconciliato con backup dei tre stage Git, confronto schema e merge logico: la copia corrente e due sessioni ANTARTIKA mancanti sono preservate. Restano da recuperare o ricatturare gli elementi grafici 229-342 referenziati da una sessione storica, assenti dalla controparte del conflitto.
+1. Il database macro legacy e' locale a ciascuna workstation e non viene piu' trattato come dato canonico versionato. Le sessioni semantiche si pubblicano tramite export revisionabile; macro di playback e database SQLite non si fondono con Git.
 2. Separare dati seed dai database runtime: mantenere versionati solo dataset riproducibili; ignorare WAL/SHM e database di apprendimento; offrire export/import per i dati personali.
 3. Introdurre migrazioni ordinate per il database macro, con tabella schema-version e transazioni, prima di qualsiasi nuova modifica allo schema legacy.
 

@@ -94,8 +94,8 @@ class GameRuntimeDiscoveryTests(unittest.TestCase):
                 patch(
                     "doomsday.runtime.discovery._resolve_windows_shortcut",
                     return_value={
-                        "target_path": "F:/Doomsday/DoomsdayLastSurvivors.exe",
-                        "working_directory": "F:/Doomsday",
+                        "target_path": "D:/Games/DoomsdayLastSurvivors.exe",
+                        "working_directory": "D:/Games",
                     },
                 ),
             ):

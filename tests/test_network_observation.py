@@ -4,6 +4,7 @@ import unittest
 from doomsday.network_observation.schema import (
     MetadataRecord,
     build_http_record,
+    build_stream_message_record,
     normalize_path,
     safe_query_keys,
     summarize_observations,
@@ -22,7 +23,13 @@ class NetworkObservationSchemaTests(unittest.TestCase):
     def test_query_values_are_never_retained(self):
         url = "https://game.example/hero?id=42&access_token=secret-value&locale=it"
         record = build_http_record(flow_id="flow", method="get", url=url)
-        serialized = json.dumps(record.to_dict())
+        serialized = json.dumps(
+            {
+                key: value
+                for key, value in record.to_dict().items()
+                if key != "observed_at"
+            }
+        )
 
         self.assertEqual(record.query_keys, ("id", "locale", "{sensitive}"))
         self.assertNotIn("secret-value", serialized)
@@ -81,6 +88,26 @@ class NetworkObservationSchemaTests(unittest.TestCase):
     def test_record_rejects_invalid_port(self):
         with self.assertRaises(ValueError):
             MetadataRecord(event_type="server", transport="tcp", server_port=70000)
+
+    def test_stream_message_keeps_timing_shape_without_payload(self):
+        record = build_stream_message_record(
+            flow_id="flow",
+            transport="tcp",
+            from_client=False,
+            message_bytes=842,
+            message_index=7,
+            server_host="GAME.EXAMPLE",
+            server_port=16739,
+        )
+
+        serialized = json.dumps(record.to_dict())
+        self.assertEqual(record.event_type, "tcp_message")
+        self.assertEqual(record.request_bytes, 0)
+        self.assertEqual(record.response_bytes, 842)
+        self.assertEqual(record.metadata["direction"], "server_to_client")
+        self.assertEqual(record.metadata["message_index"], 7)
+        self.assertNotIn("body", serialized)
+        self.assertNotIn("payload", serialized)
 
     def test_sensitive_parameter_names_are_collapsed(self):
         self.assertEqual(

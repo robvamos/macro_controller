@@ -11,6 +11,9 @@ from pathlib import Path
 from core.paths import (
     APP_CONFIG_PATH,
     LEGACY_APP_CONFIG_PATH,
+    LEGACY_ROOT_APP_CONFIG_PATH,
+    WORKSTATION_SETTINGS,
+    bundled_style_path,
     ensure_project_directories,
     legacy_style_path,
     style_path,
@@ -87,7 +90,7 @@ DEFAULT_APP_CONFIG = {
     },
     "system_macros": {
         "launch_game": {
-            "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+            "shortcut_path": WORKSTATION_SETTINGS.get("gameShortcutPath", ""),
             "target_exe": "Doomsday.exe",
             "fullscreen_poll_interval_sec": 1,
             "fullscreen_timeout_sec": 180,
@@ -139,21 +142,29 @@ def _ensure_default_style_files() -> None:
     for style_name, style_config in DEFAULT_STYLE_MAP.items():
         style_file = style_path(style_name)
         if not style_file.exists():
-            _write_json_file(style_file, style_config)
+            bundled_file = bundled_style_path(style_name)
+            if bundled_file.is_file():
+                style_file.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(bundled_file, style_file)
+            else:
+                _write_json_file(style_file, style_config)
 
 
 def migrate_legacy_layout() -> None:
-    """Migra file legacy dalla root verso le nuove cartelle logiche."""
+    """Copia vecchie preferenze nel profilo locale senza alterare la sorgente."""
     ensure_project_directories()
 
-    if LEGACY_APP_CONFIG_PATH.exists() and not APP_CONFIG_PATH.exists():
-        shutil.move(str(LEGACY_APP_CONFIG_PATH), str(APP_CONFIG_PATH))
+    if not APP_CONFIG_PATH.exists():
+        for legacy_config in (LEGACY_APP_CONFIG_PATH, LEGACY_ROOT_APP_CONFIG_PATH):
+            if legacy_config.exists():
+                shutil.copy2(legacy_config, APP_CONFIG_PATH)
+                break
 
     for style_name in DEFAULT_STYLE_MAP:
         legacy_file = legacy_style_path(style_name)
         target_file = style_path(style_name)
         if legacy_file.exists() and not target_file.exists():
-            shutil.move(str(legacy_file), str(target_file))
+            shutil.copy2(legacy_file, target_file)
 
     _ensure_default_style_files()
 

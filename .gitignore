@@ -4,6 +4,16 @@ __pycache__/
 .tools/
 logs/
 exports/
+.codex-temp/
+
+# Workstation profiles, preferences and runtime databases are never shared.
+/workstation/local/
+/config/config.json
+/config/macro_config.json
+/data/macro_recorder.db*
+/data/doomsday/doomsday_roster.db*
+/data/doomsday/runtime/game_runtime_registry.json
+/data/doomsday/knowledge/recovered_learning_sessions/
 
 # Never version locally generated interception CA material.
 mitmproxy-ca*

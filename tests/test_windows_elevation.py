@@ -1,7 +1,11 @@
 import unittest
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 from core import windows_elevation
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+MACRO_MANAGER_SCRIPT = str(PROJECT_ROOT / "gui_macro_manager.py")
 
 
 class WindowsElevationTests(unittest.TestCase):
@@ -24,8 +28,8 @@ class WindowsElevationTests(unittest.TestCase):
         self.assertEqual(result["reason"], "current_process_already_elevated")
 
     def test_build_relaunch_command_prefers_pythonw_for_script_runs(self):
-        fake_python = "C:\\Python313\\python.exe"
-        fake_script = "F:\\_CODEX\\DDassistant\\gui_macro_manager.py"
+        fake_python = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+        fake_script = MACRO_MANAGER_SCRIPT
 
         with (
             patch.object(windows_elevation.sys, "frozen", False, create=True),
@@ -38,13 +42,13 @@ class WindowsElevationTests(unittest.TestCase):
         self.assertTrue(executable.endswith("pythonw.exe"))
         self.assertIn("gui_macro_manager.py", parameters)
         self.assertIn("--debug", parameters)
-        self.assertTrue(working_directory.endswith("DDassistant"))
+        self.assertEqual(Path(working_directory), PROJECT_ROOT)
 
     def test_close_duplicate_macro_manager_instances_terminates_matching_processes(self):
         duplicate = Mock()
         duplicate.info = {
             "pid": 222,
-            "cmdline": ["pythonw.exe", "F:\\_CODEX\\DDassistant\\gui_macro_manager.py"],
+            "cmdline": ["pythonw.exe", MACRO_MANAGER_SCRIPT],
         }
         duplicate.pid = 222
         duplicate.is_running.side_effect = [False]
@@ -52,13 +56,13 @@ class WindowsElevationTests(unittest.TestCase):
         current = Mock()
         current.info = {
             "pid": 111,
-            "cmdline": ["pythonw.exe", "F:\\_CODEX\\DDassistant\\gui_macro_manager.py"],
+            "cmdline": ["pythonw.exe", MACRO_MANAGER_SCRIPT],
         }
         current.pid = 111
 
         with (
             patch.object(windows_elevation, "is_current_process_elevated", return_value=True),
-            patch.object(windows_elevation, "_get_current_script_path", return_value="f:\\_codex\\ddassistant\\gui_macro_manager.py"),
+            patch.object(windows_elevation, "_get_current_script_path", return_value=MACRO_MANAGER_SCRIPT.casefold()),
             patch.object(windows_elevation.psutil, "process_iter", return_value=[current, duplicate]),
             patch.object(windows_elevation, "_matches_macro_manager_instance", return_value=True),
             patch.object(windows_elevation, "get_macro_manager_window_process_ids", return_value=[]),
@@ -70,11 +74,11 @@ class WindowsElevationTests(unittest.TestCase):
 
     def test_enforce_single_instance_rejects_secondary_non_elevated_instance(self):
         duplicate = Mock()
-        duplicate.info = {"pid": 222, "cmdline": ["pythonw.exe", "F:\\_CODEX\\DDassistant\\gui_macro_manager.py"]}
+        duplicate.info = {"pid": 222, "cmdline": ["pythonw.exe", MACRO_MANAGER_SCRIPT]}
         duplicate.pid = 222
 
         with (
-            patch.object(windows_elevation, "_get_current_script_path", return_value="f:\\_codex\\ddassistant\\gui_macro_manager.py"),
+            patch.object(windows_elevation, "_get_current_script_path", return_value=MACRO_MANAGER_SCRIPT.casefold()),
             patch.object(windows_elevation.psutil, "process_iter", return_value=[duplicate]),
             patch.object(windows_elevation, "_matches_macro_manager_instance", return_value=True),
             patch.object(windows_elevation, "is_current_process_elevated", return_value=False),
@@ -96,7 +100,7 @@ class WindowsElevationTests(unittest.TestCase):
         ):
             duplicates = windows_elevation._collect_duplicate_macro_manager_processes(
                 current_pid=111,
-                current_script="f:\\_codex\\ddassistant\\gui_macro_manager.py",
+                current_script=MACRO_MANAGER_SCRIPT.casefold(),
             )
 
         self.assertEqual([item.pid for item in duplicates], [333])

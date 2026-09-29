@@ -1,85 +1,52 @@
 # DDGameAss
 
-Applicazione desktop Python per registrare, modificare e riprodurre macro su Windows, con supporto a task schedulati, elementi di gioco, temi grafici e strumenti di diagnostica.
-
-## Cosa fa
-
-- Registra macro di mouse e tastiera
-- Riproduce macro su una finestra target
-- Gestisce task schedulati e sequenze di macro
-- Salva configurazione, temi e database localmente
-- Include utility di diagnostica e riparazione
-- Ha una suite di test automatici per i componenti principali
+Assistente desktop Windows per registrazione e playback controllato di macro, automazione pianificata, OCR e apprendimento supervisionato dell'interfaccia Doomsday.
 
 ## Avvio rapido
-
-### Avvio normale
-
-```powershell
-F:\phyton3.131\python.exe gui_macro_manager.py
-```
-
-In alternativa:
 
 ```powershell
 python gui_macro_manager.py
 ```
 
-### Avvio come amministratore
+Per richiedere l'elevazione amministrativa usa [Avvia_Macro_Manager_come_amministratore.bat](Avvia_Macro_Manager_come_amministratore.bat). Il launcher individua Python dal profilo workstation, da `.venv`, da `PATH` o dal launcher `py`; non contiene percorsi installati su una macchina specifica.
 
-Con doppio clic su:
+Per configurare un clone nuovo leggi [workstation/README.md](workstation/README.md). Le impostazioni reali e il runtime sono sotto `workstation/local/<profilo>/`, escluso da Git.
 
-- [Avvia_Macro_Manager_come_amministratore.bat](/F:/_CODEX/DDassistant/Avvia_Macro_Manager_come_amministratore.bat)
+## Installazione e supporto
 
-Questo launcher chiede i permessi amministrativi e avvia l'interfaccia principale.
-Se disponibile, usa in priorità il runtime locale su `F:\phyton3.131` per evitare problemi col launcher `py`.
+- [Dipendenze Python](requirements.txt) e [pyproject.toml](pyproject.toml)
+- [Setup Windows](setup/windows/README.md)
+- [Inventario supporto, strumenti e versioni](docs/project-support.md)
 
-## Dipendenze e packaging
+## Struttura
 
-Le dipendenze Python del progetto sono state centralizzate in:
+- [core](core): configurazione, percorsi e stato
+- [doomsday](doomsday): OCR, catalogo, runtime e visione
+- [repositories](repositories), [services](services), [ui](ui): persistenza, logica applicativa e pannelli
+- [data/doomsday/knowledge](data/doomsday/knowledge): conoscenza semantica versionata e condivisibile
+- `workstation/local/<profilo>/runtime/`: impostazioni, database, log, catture e altri dati locali ignorati
+- [tests](tests): suite di verifica automatica
 
-- [requirements.txt](/F:/_CODEX/DDassistant/requirements.txt)
-- [pyproject.toml](/F:/_CODEX/DDassistant/pyproject.toml)
+## Conoscenza tra workstation
 
-La base per i futuri setup applicativi è in:
+Per rendere gli apprendimenti disponibili sugli altri computer usa il flusso GitHub documentato in [Condivisione della conoscenza](docs/knowledge-sharing.md): aggiorna il clone, esegui l'export additivo, rivedi il diff, poi commit e push su `main`. Le altre postazioni ricevono il catalogo con `git pull origin main`; il database locale importa gli elementi visuali condivisi.
 
-- [setup/README.md](/F:/_CODEX/DDassistant/setup/README.md)
-- [setup/common/app-packaging.json](/F:/_CODEX/DDassistant/setup/common/app-packaging.json)
-- [setup/windows/README.md](/F:/_CODEX/DDassistant/setup/windows/README.md)
+## Esecuzione, analisi e sviluppo
 
-Questo permette di iniziare dal setup Windows senza spargere metadati o asset che in futuro potranno servire anche a Linux o Android.
+L'esecuzione di piani semantici resta disabilitata per impostazione predefinita. I candidati derivati da apprendimento o traffico metadata-only richiedono revisione umana e non conferiscono autorità di playback. Consulta [intelligent-assistant.md](docs/architecture/intelligent-assistant.md), [network-observation.md](docs/architecture/network-observation.md) e le [interfacce pubblicate](interfaces).
 
-## Struttura del progetto
+Per verificare il clone:
 
-- [gui_macro_manager.py](/F:/_CODEX/DDassistant/gui_macro_manager.py): interfaccia principale e coordinamento generale
-- [macro_controller.py](/F:/_CODEX/DDassistant/macro_controller.py): logica base di registrazione e playback
-- [macro_editor.py](/F:/_CODEX/DDassistant/macro_editor.py): editor delle macro
-- [task_controller.py](/F:/_CODEX/DDassistant/task_controller.py): esecuzione e pianificazione task
-- [repositories](/F:/_CODEX/DDassistant/repositories): accesso ai dati e persistenza SQLite
-- [services](/F:/_CODEX/DDassistant/services): stato operativo, focus, recording e playback
-- [ui](/F:/_CODEX/DDassistant/ui): pannelli e helper dell'interfaccia
-- [core](/F:/_CODEX/DDassistant/core): stato condiviso, percorsi e configurazione
-- [doomsday](/F:/_CODEX/DDassistant/doomsday): moduli OCR, catalogo e visione esterna per Doomsday
-- [config](/F:/_CODEX/DDassistant/config): configurazione applicativa e temi
-- [data](/F:/_CODEX/DDassistant/data): database SQLite del progetto
-- [docs](/F:/_CODEX/DDassistant/docs): note tecniche e documentazione interna
-- [tests](/F:/_CODEX/DDassistant/tests): test automatici
+```powershell
+python workstation/settings.py
+python workstation/test_settings.py
+python scripts/validate_portability.py
+python -m unittest discover -s tests -p "test_*.py"
+```
 
-## Configurazione e dati
+## Knowledge hub
 
-Il repository privato include anche i file locali del progetto:
-
-- [config/config.json](/F:/_CODEX/DDassistant/config/config.json)
-- [config/macro_config.json](/F:/_CODEX/DDassistant/config/macro_config.json)
-- [data/macro_recorder.db](/F:/_CODEX/DDassistant/data/macro_recorder.db)
-
-Per Doomsday sono stati importati anche dataset modulari in:
-
-- [data/doomsday/catalog/market_profiles](/F:/_CODEX/DDassistant/data/doomsday/catalog/market_profiles)
-- [data/doomsday/catalog/profile_pack](/F:/_CODEX/DDassistant/data/doomsday/catalog/profile_pack)
-- [data/doomsday/roster](/F:/_CODEX/DDassistant/data/doomsday/roster)
-
-Questo permette di mantenere insieme codice, impostazioni e database reale.
+Le istruzioni di sviluppo e i collegamenti ai registry condivisi sono in [AGENTS.md](AGENTS.md). Il manifest del progetto è [project-manifest.json](project-manifest.json); la scheda centralizzata vive nel repository [robvamos/knowledge](https://github.com/robvamos/knowledge).
 
 ## Intelligence di gioco
 
@@ -103,33 +70,35 @@ python scripts/plan_game_objective.py "migliora in Arena della Gloria senza spen
 
 L'esecuzione è disabilitata per impostazione predefinita. Il database macro in
 conflitto e i nodi UI privi di riconoscitori sono blocker espliciti, documentati
-in [intelligent-assistant.md](/F:/_CODEX/DDassistant/docs/architecture/intelligent-assistant.md).
+in [intelligent-assistant.md](docs/architecture/intelligent-assistant.md).
 
 ## Integrazione workspace
 
 Il progetto e' stato anche registrato nel workspace condiviso AI:
 
-- [AGENTS.md](/F:/_CODEX/DDassistant/AGENTS.md)
-- [project-manifest.json](/F:/_CODEX/DDassistant/project-manifest.json)
-- [project card nel knowledge hub](/F:/_CODEX/Knowledge/codex-knowledge-hub/projects/ddgameass.yaml)
+- [AGENTS.md](AGENTS.md)
+- [project-manifest.json](project-manifest.json)
+- [project card nel knowledge hub](https://github.com/robvamos/knowledge/blob/main/projects/ddgameass.yaml)
 
 Le interfacce Doomsday condivise verso altri progetti sono documentate in:
 
-- [interfaces/doomsday-roster-bootstrap.md](/F:/_CODEX/DDassistant/interfaces/doomsday-roster-bootstrap.md)
-- [interfaces/doomsday-vision-primitives.md](/F:/_CODEX/DDassistant/interfaces/doomsday-vision-primitives.md)
-- [interfaces/doomsday-creators-pipeline.md](/F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md)
-- [interfaces/doomsday-intelligence-runtime.md](/F:/_CODEX/DDassistant/interfaces/doomsday-intelligence-runtime.md)
-- [interfaces/doomsday-runtime-roster-acquisition.md](/F:/_CODEX/DDassistant/interfaces/doomsday-runtime-roster-acquisition.md)
-- [interfaces/doomsday-hero-interface-learning.md](/F:/_CODEX/DDassistant/interfaces/doomsday-hero-interface-learning.md)
-- [interfaces/doomsday-network-observation.md](/F:/_CODEX/DDassistant/interfaces/doomsday-network-observation.md)
+- [interfaces/doomsday-roster-bootstrap.md](interfaces/doomsday-roster-bootstrap.md)
+- [interfaces/doomsday-vision-primitives.md](interfaces/doomsday-vision-primitives.md)
+- [interfaces/doomsday-creators-pipeline.md](interfaces/doomsday-creators-pipeline.md)
+- [interfaces/doomsday-intelligence-runtime.md](interfaces/doomsday-intelligence-runtime.md)
+- [interfaces/doomsday-runtime-roster-acquisition.md](interfaces/doomsday-runtime-roster-acquisition.md)
+- [interfaces/doomsday-hero-interface-learning.md](interfaces/doomsday-hero-interface-learning.md)
+- [interfaces/doomsday-network-observation.md](interfaces/doomsday-network-observation.md)
 
 ## Runtime del gioco e acquisizione roster
 
-Il progetto mantiene ora un inventario interrogabile degli ambienti usati:
+Il progetto mantiene un inventario interrogabile per ciascuna workstation:
 
 - VirtualBox con Android-x86 9.0-r2, storico;
 - BlueStacks 5, installato ma non attivo;
-- client Windows Doomsday 1.58.0, runtime corrente.
+- client Windows Doomsday; la versione e i percorsi vengono rilevati localmente.
+
+L'ultima osservazione documentata ha rilevato il client 1.58.0 il 23/07/2026; questo dato storico non imposta il runtime di altre workstation.
 
 Per ispezionarlo senza avviare emulatori o ADB:
 
@@ -140,32 +109,50 @@ python scripts/probe_game_runtimes.py
 La prima interfaccia roster usa una cattura Win32 della finestra già visibile,
 poi OCR e contributi con provenienza. Non legge memoria o traffico di rete e non
 sovrascrive direttamente il roster. Dettagli e prossimi passi sono in
-[runtime-roster-acquisition.md](/F:/_CODEX/DDassistant/docs/architecture/runtime-roster-acquisition.md).
+[runtime-roster-acquisition.md](docs/architecture/runtime-roster-acquisition.md).
 
-### Learning supervisionato dell'interfaccia Eroe
+### Learning supervisionato visuale + rete
 
-Per insegnare il percorso lista eroi, profilo, statistiche, abilita' e talenti:
+La modalita' Learning avvia o riusa automaticamente l'osservatore di rete
+metadata-only e collega ogni click ai frame e alla finestra di messaggi
+TCP/UDP corrispondente. Per insegnare il percorso lista eroi:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\start_learning_mode.ps1 -Mode general -Minutes 15 -Scenario hero-inspection
 ```
 
+Per esplorare un dominio:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start_learning_mode.ps1 `
+  -Mode general -Minutes 15 -Domain research
+```
+
+Domini iniziali: `battle_reports`, `resources`, `armaments`, `gathering`,
+`workshop`, `research` e `missions`. Il proxy puo' essere escluso soltanto
+esplicitamente con `-DisableNetworkObservation`; la sessione viene allora
+marcata come parziale.
+
 La sessione si ferma con `Ctrl+Alt+S`. Ogni click viene scritto subito in un
-journal locale e associato a un frame completo con hash e controllo qualita'.
+journal locale e associato a frame completi, cursori degli eventi di rete e una
+fingerprint metadata-only. Al termine viene generato
+`network_correlation_summary.json`.
 Le coordinate non diventano etichette semantiche: automazione e commit roster
 restano bloccati fino alla validazione visiva e alla conferma esplicita.
 
 Il motore OCR usa Tesseract CLI locale con `ita+eng`; il profilo 1.58.0 contiene
 per ora solo l'anchor testuale `Eroe`. Le ROI delle viste interne saranno
 calibrate dai frame acquisiti. Vedi
-[hero-interface-learning.md](/F:/_CODEX/DDassistant/docs/architecture/hero-interface-learning.md).
+[hero-interface-learning.md](docs/architecture/hero-interface-learning.md).
+Il modello generale di convergenza e' descritto in
+[dual-evidence-learning.md](docs/architecture/dual-evidence-learning.md).
 
 ### Osservazione di rete metadata-only
 
-Mitmproxy 12.2.3 e' installato localmente in `.tools/mitmproxy`; Wireshark e
-Npcap gia' presenti restano disponibili per classificare TCP/UDP non HTTP. La
-modalita' predefinita osserva soltanto il PID Doomsday, inoltra TLS ancora
-cifrato e non modifica il proxy di Windows ne' il trust store dei certificati.
+Mitmproxy è opzionale e viene installato nell'ambiente virtuale indicato dal
+profilo workstation; Wireshark/tshark è opzionale per classificare TCP/UDP non
+HTTP. La modalità predefinita osserva soltanto il PID Doomsday, inoltra TLS
+ancora cifrato e non modifica il proxy di Windows né il trust store.
 
 Per preparare in modo riproducibile il runtime opzionale dopo un clone:
 
@@ -183,22 +170,21 @@ Il collegamento risolve il launcher `DoomsdayLastSurvivors.exe`. Il binario
 versionato `Doomsday.exe` non viene mai avviato direttamente, perché senza il
 contesto del launcher risponde con `ErrCode: 0x4`.
 
-I file runtime finiscono in `.tools/network_observation/`. Non vengono salvati
-header, cookie, token, valori query o payload; gli identificativi probabili nei
-path vengono sostituiti da segnaposto. Vedi
-[network-observation.md](/F:/_CODEX/DDassistant/docs/architecture/network-observation.md).
+I file runtime finiscono in `workstation/local/<profilo>/runtime/network_observation/`.
+Non vengono salvati header, cookie, token, valori query o payload; gli
+identificativi probabili nei path vengono sostituiti da segnaposto. Vedi
+[network-observation.md](docs/architecture/network-observation.md).
 
 ## Test automatici
 
 Per eseguire la suite:
 
 ```powershell
-$env:PYTHONPATH = (Get-Location).Path
 python -m unittest discover -s tests -v
 ```
 
-L'impostazione locale di `PYTHONPATH` evita che un eventuale runtime globale
-erediti il pacchetto Pillow parziale degli strumenti PDF del workspace.
+Gli entrypoint ripuliscono dall'ambiente gli overlay NumPy/Pillow incompatibili
+iniettati da altri strumenti del workspace.
 
 Per inizializzare o riallineare il database Doomsday importando i dataset presenti in `data/doomsday/`:
 
@@ -216,9 +202,9 @@ La copertura attuale include:
 
 ## Utility incluse
 
-- [debug_macro_playback.py](/F:/_CODEX/DDassistant/debug_macro_playback.py): diagnostica dei problemi di riproduzione
-- [repair_macros.py](/F:/_CODEX/DDassistant/repair_macros.py): riparazione e verifica macro
-- [test_focus_logic.py](/F:/_CODEX/DDassistant/test_focus_logic.py): script di verifica manuale della logica focus
+- [debug_macro_playback.py](debug_macro_playback.py): diagnostica dei problemi di riproduzione
+- [repair_macros.py](repair_macros.py): riparazione e verifica macro
+- [test_focus_logic.py](test_focus_logic.py): script di verifica manuale della logica focus
 
 ## Elementi grafici del gioco
 
@@ -231,7 +217,7 @@ La tab `Elementi` e' stata impostata per acquisire elementi grafici senza distor
 
 Procedura consigliata:
 
-- [docs/GAME_ELEMENT_INGESTION_WORKFLOW.md](/F:/_CODEX/DDassistant/docs/GAME_ELEMENT_INGESTION_WORKFLOW.md)
+- [docs/GAME_ELEMENT_INGESTION_WORKFLOW.md](docs/GAME_ELEMENT_INGESTION_WORKFLOW.md)
 
 ### Censimento rapido da Codex
 
@@ -259,15 +245,15 @@ Gli elementi di sistema non vengono eliminati dalla galleria e non vengono rimos
 
 ## Documentazione interna
 
-- [docs/IMPLEMENTATION_SUMMARY.md](/F:/_CODEX/DDassistant/docs/IMPLEMENTATION_SUMMARY.md)
-- [docs/README_FOCUS_FIX.md](/F:/_CODEX/DDassistant/docs/README_FOCUS_FIX.md)
-- [docs/SOLUZIONE_MACRO_PLAYBACK.md](/F:/_CODEX/DDassistant/docs/SOLUZIONE_MACRO_PLAYBACK.md)
-- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](/F:/_CODEX/DDassistant/docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
-- [docs/architecture/intelligent-assistant.md](/F:/_CODEX/DDassistant/docs/architecture/intelligent-assistant.md)
-- [docs/architecture/runtime-roster-acquisition.md](/F:/_CODEX/DDassistant/docs/architecture/runtime-roster-acquisition.md)
-- [docs/architecture/network-observation.md](/F:/_CODEX/DDassistant/docs/architecture/network-observation.md)
-- [CHANGELOG.md](/F:/_CODEX/DDassistant/CHANGELOG.md)
-- [ROADMAP.md](/F:/_CODEX/DDassistant/ROADMAP.md)
+- [docs/IMPLEMENTATION_SUMMARY.md](docs/IMPLEMENTATION_SUMMARY.md)
+- [docs/README_FOCUS_FIX.md](docs/README_FOCUS_FIX.md)
+- [docs/SOLUZIONE_MACRO_PLAYBACK.md](docs/SOLUZIONE_MACRO_PLAYBACK.md)
+- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
+- [docs/architecture/intelligent-assistant.md](docs/architecture/intelligent-assistant.md)
+- [docs/architecture/runtime-roster-acquisition.md](docs/architecture/runtime-roster-acquisition.md)
+- [docs/architecture/network-observation.md](docs/architecture/network-observation.md)
+- [CHANGELOG.md](CHANGELOG.md)
+- [ROADMAP.md](ROADMAP.md)
 
 ## Stato attuale
 
@@ -287,6 +273,10 @@ Il progetto ora include anche un filone dedicato alla pubblicazione creator per 
 
 Riferimenti principali:
 
-- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](/F:/_CODEX/DDassistant/docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
-- [interfaces/doomsday-creators-pipeline.md](/F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md)
-- [data/doomsday/creator_turf/creator-program-plan.json](/F:/_CODEX/DDassistant/data/doomsday/creator_turf/creator-program-plan.json)
+- [docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md](docs/DOOMSDAY_CREATOR_TURF_PUBLICATION.md)
+- [interfaces/doomsday-creators-pipeline.md](interfaces/doomsday-creators-pipeline.md)
+- [data/doomsday/creator_turf/creator-program-plan.json](data/doomsday/creator_turf/creator-program-plan.json)
+
+## Workstation configuration
+
+Read [workstation/README.md](workstation/README.md). Preserve each host profile; never commit local values or expose them through HTTP.

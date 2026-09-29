@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ddgameass"
-version = "0.7.1"
+version = "0.12.0"
 description = "Goal-driven, provenance-aware Doomsday assistant with guarded macro automation."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -46,12 +46,16 @@ py-modules = [
   "macro_controller",
   "macro_editor",
   "repair_macros",
+  "runtime_env",
   "task_controller",
   "window_monitor",
 ]
 
 [tool.setuptools.packages.find]
-include = ["core*", "doomsday*", "repositories*", "services*", "ui*"]
+include = ["core*", "doomsday*", "repositories*", "services*", "ui*", "workstation*"]
+
+[tool.setuptools.package-data]
+workstation = ["*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

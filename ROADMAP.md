@@ -2,7 +2,7 @@
 
 ## Prossime priorita'
 
-- Recuperare o ricatturare gli elementi grafici 229-342 referenziati dalla macro storica ANTARTIKA 72; il conflitto binario di `data/macro_recorder.db` e' stato riconciliato preservando le macro di entrambe le copie.
+- Recuperare o ricatturare gli elementi grafici 229-342 referenziati dalla macro storica locale 72; le macro restano nel database per-workstation e non si sincronizzano via Git.
 - Rendere strutturali/unknown i nodi UI senza condizioni anche nell'evaluator legacy e aggiungere riconoscitori discriminanti ai nodi usati come precondizioni.
 - Collegare la versione del runtime attivo alla pianificazione e bloccare i ruleset incompatibili.
 - Esporre nella GUI il workflow roster live gia' transazionale: cattura, revisione, decisioni, conferma, commit e refresh del roster campo.

@@ -1,0 +1,52 @@
+{
+  "schema": "doomsday.learning-domain-registry.v1",
+  "registry_version": "0.1.0",
+  "semantic_policy": {
+    "promotion_rule": "A network shape becomes a semantic action candidate only after repeated visual correlation and human review.",
+    "coordinate_rule": "Coordinates and screen regions are evidence, not action labels.",
+    "network_rule": "Timing and byte sizes are evidence, not decoded game meaning.",
+    "automation_rule": "Learning never grants execution authority."
+  },
+  "domains": [
+    {
+      "domain_id": "general",
+      "label": "Esplorazione generale",
+      "status": "active"
+    },
+    {
+      "domain_id": "battle_reports",
+      "label": "Rapporti e registri di battaglia",
+      "status": "observed"
+    },
+    {
+      "domain_id": "resources",
+      "label": "Risorse e inventario",
+      "status": "declared"
+    },
+    {
+      "domain_id": "armaments",
+      "label": "Armamenti ed equipaggiamento",
+      "status": "declared"
+    },
+    {
+      "domain_id": "gathering",
+      "label": "Raccolta e missioni sulla mappa",
+      "status": "declared"
+    },
+    {
+      "domain_id": "workshop",
+      "label": "Officina e produzione",
+      "status": "declared"
+    },
+    {
+      "domain_id": "research",
+      "label": "Centro di ricerca",
+      "status": "declared"
+    },
+    {
+      "domain_id": "missions",
+      "label": "Missioni, obiettivi e ricompense",
+      "status": "declared"
+    }
+  ]
+}

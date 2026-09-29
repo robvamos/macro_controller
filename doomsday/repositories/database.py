@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import shutil
 import sqlite3
 
-from core.paths import DOOMSDAY_DB_PATH, ensure_project_directories
+from core.paths import DOOMSDAY_DB_PATH, LEGACY_DOOMSDAY_DB_PATH, ensure_project_directories
 
 
 SQLITE_TIMEOUT_SECONDS = 10.0
@@ -14,6 +15,8 @@ SQLITE_BUSY_TIMEOUT_MS = 10000
 def connect_doomsday_db():
     """Apre una connessione SQLite al database Doomsday."""
     ensure_project_directories()
+    if not DOOMSDAY_DB_PATH.exists() and LEGACY_DOOMSDAY_DB_PATH.exists():
+        shutil.copy2(LEGACY_DOOMSDAY_DB_PATH, DOOMSDAY_DB_PATH)
     conn = sqlite3.connect(DOOMSDAY_DB_PATH, timeout=SQLITE_TIMEOUT_SECONDS)
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.execute(f"PRAGMA busy_timeout = {SQLITE_BUSY_TIMEOUT_MS};")
@@ -128,4 +131,3 @@ def setup_doomsday_tables() -> None:
         raise
     finally:
         conn.close()
-

@@ -9,11 +9,11 @@ import json
 from pathlib import Path
 import re
 
+from core.paths import LEARNING_SESSIONS_DIR
 from doomsday.vision.desktop_capture import assess_frame_quality, capture_screen_region
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LEARNING_FRAMES_ROOT = PROJECT_ROOT / ".tools" / "learning_sessions"
+DEFAULT_LEARNING_FRAMES_ROOT = LEARNING_SESSIONS_DIR
 
 
 def _slug(value: str) -> str:

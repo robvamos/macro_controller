@@ -156,6 +156,188 @@
     },
     {
       "action_name": null,
+      "description": "Le viste giocabili espongono il pulsante Comunicazioni come accesso alla messaggistica.",
+      "from_node_id": "game_runtime_root",
+      "to_node_id": "communications_button",
+      "trigger": "communications_control_visible"
+    },
+    {
+      "action_name": "open_communications_center",
+      "description": "Il pulsante Comunicazioni apre il centro messaggi.",
+      "from_node_id": "communications_button",
+      "to_node_id": "communications_center_view",
+      "trigger": "communications_clicked"
+    },
+    {
+      "action_name": null,
+      "description": "Il centro Comunicazioni espone la sezione Rapporto.",
+      "from_node_id": "communications_center_view",
+      "to_node_id": "battle_reports_tab_button",
+      "trigger": "reports_section_visible"
+    },
+    {
+      "action_name": "open_battle_report_list",
+      "description": "La sezione Rapporto apre l'elenco scrollabile dei report di battaglia.",
+      "from_node_id": "battle_reports_tab_button",
+      "to_node_id": "battle_report_list_view",
+      "trigger": "reports_section_clicked"
+    },
+    {
+      "action_name": null,
+      "description": "L'elenco contiene voci ripetibili di report, dichiarate in ordine temporale decrescente.",
+      "from_node_id": "battle_report_list_view",
+      "to_node_id": "battle_report_entry",
+      "trigger": "battle_report_entry_visible"
+    },
+    {
+      "action_name": "open_battle_report_detail",
+      "description": "La selezione di una voce apre il dettaglio della battaglia.",
+      "from_node_id": "battle_report_entry",
+      "to_node_id": "battle_report_detail_view",
+      "trigger": "battle_report_selected"
+    },
+    {
+      "action_name": null,
+      "description": "Il dettaglio espone tutti i partecipanti e i lati osservati.",
+      "from_node_id": "battle_report_detail_view",
+      "to_node_id": "battle_report_participants_panel",
+      "trigger": "participants_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La parte superiore del report espone durata e ingaggi con gli avversari.",
+      "from_node_id": "battle_report_detail_view",
+      "to_node_id": "battle_engagement_summary_panel",
+      "trigger": "engagement_summary_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il pannello contiene una o più entità partecipante per ciascun lato.",
+      "from_node_id": "battle_report_participants_panel",
+      "to_node_id": "battle_report_participant",
+      "trigger": "participant_visible"
+    },
+    {
+      "action_name": null,
+      "description": "Il report contiene una sezione ripetibile per ogni avversario.",
+      "from_node_id": "battle_report_participants_panel",
+      "to_node_id": "battle_opponent_section",
+      "trigger": "opponent_section_visible"
+    },
+    {
+      "action_name": null,
+      "description": "La sezione avversario materializza un partecipante distinto con la propria configurazione.",
+      "from_node_id": "battle_opponent_section",
+      "to_node_id": "battle_report_participant",
+      "trigger": "opponent_bound_to_participant"
+    },
+    {
+      "action_name": null,
+      "description": "Il partecipante espone truppe iniziali, uccise e altre perdite osservate.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_troop_metrics_panel",
+      "trigger": "participant_troop_metrics_visible"
+    },
+    {
+      "action_name": "inspect_participant_modifiers",
+      "description": "Espande buff e debuff attribuiti al partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_modifiers_panel",
+      "trigger": "participant_modifiers_expanded"
+    },
+    {
+      "action_name": "inspect_commander_equipment",
+      "description": "Espande l'equipaggiamento del comandante del partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_commander_equipment_panel",
+      "trigger": "commander_equipment_expanded"
+    },
+    {
+      "action_name": "inspect_hero_armaments",
+      "description": "Espande gli armamenti degli eroi del partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_hero_armaments_panel",
+      "trigger": "hero_armaments_expanded"
+    },
+    {
+      "action_name": "inspect_squad_equipment",
+      "description": "Espande l'equipaggiamento della squadra del partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_squad_equipment_panel",
+      "trigger": "squad_equipment_expanded"
+    },
+    {
+      "action_name": "inspect_participant_beast",
+      "description": "Espande la bestia e i relativi modificatori del partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_beast_panel",
+      "trigger": "beast_configuration_expanded"
+    },
+    {
+      "action_name": "inspect_participant_vehicle",
+      "description": "Espande veicolo e modificatori associati al partecipante.",
+      "from_node_id": "battle_report_participant",
+      "to_node_id": "participant_vehicle_panel",
+      "trigger": "vehicle_configuration_expanded"
+    },
+    {
+      "action_name": null,
+      "description": "Durata e ingaggi definiscono il contesto temporale e la cardinalità dello scontro.",
+      "from_node_id": "battle_engagement_summary_panel",
+      "to_node_id": "battle_execution_model",
+      "trigger": "duration_and_engagements_contribute_evidence"
+    },
+    {
+      "action_name": null,
+      "description": "Il dettaglio espone risultato, perdite e danno.",
+      "from_node_id": "battle_report_detail_view",
+      "to_node_id": "battle_report_outcome_panel",
+      "trigger": "battle_outcome_visible"
+    },
+    {
+      "action_name": "open_battle_timeline",
+      "description": "Il report permette di aprire il registro scrollabile della battaglia.",
+      "from_node_id": "battle_report_detail_view",
+      "to_node_id": "battle_report_timeline_view",
+      "trigger": "battle_timeline_opened"
+    },
+    {
+      "action_name": null,
+      "description": "La timeline contiene eventi ordinati con sorgente, bersaglio ed effetto.",
+      "from_node_id": "battle_report_timeline_view",
+      "to_node_id": "battle_timeline_event",
+      "trigger": "ordered_event_observed"
+    },
+    {
+      "action_name": null,
+      "description": "Partecipanti e configurazioni alimentano il modello di esecuzione.",
+      "from_node_id": "battle_report_participants_panel",
+      "to_node_id": "battle_execution_model",
+      "trigger": "participant_configuration_contributes_evidence"
+    },
+    {
+      "action_name": null,
+      "description": "Esito e perdite forniscono le misure finali da spiegare.",
+      "from_node_id": "battle_report_outcome_panel",
+      "to_node_id": "battle_execution_model",
+      "trigger": "outcome_contributes_evidence"
+    },
+    {
+      "action_name": null,
+      "description": "La sequenza di abilità, colpi ed effetti alimenta il modello di esecuzione.",
+      "from_node_id": "battle_report_timeline_view",
+      "to_node_id": "battle_execution_model",
+      "trigger": "timeline_contributes_evidence"
+    },
+    {
+      "action_name": "derive_evidence_gated_pairing_advice",
+      "description": "Pattern ripetuti in report comparabili possono produrre suggerimenti motivati.",
+      "from_node_id": "battle_execution_model",
+      "to_node_id": "battle_pairing_advice_model",
+      "trigger": "comparable_reports_validated"
+    },
+    {
+      "action_name": null,
       "description": "La vista rifugio espone il pannellino destro con controlli e avvisi.",
       "from_node_id": "shelter_interior_view",
       "to_node_id": "shelter_right_edge_alerts_panel",
@@ -536,6 +718,363 @@
     },
     {
       "conditions": [],
+      "kind": "control",
+      "label": "Pulsante Comunicazioni",
+      "layout_role": "shared_navigation",
+      "node_id": "communications_button",
+      "notes": "Apre il centro Comunicazioni. La funzione è confermata dall'utente e da sessioni supervisionate; il riferimento grafico specifico resta da validare prima di autorizzare click autonomi.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "shared",
+        "communications",
+        "messages",
+        "reports",
+        "user-confirmed"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "view",
+      "label": "Centro Comunicazioni",
+      "layout_role": "message_center",
+      "node_id": "communications_center_view",
+      "notes": "Contenitore delle sezioni di messaggistica, inclusa la sezione Rapporto.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "communications",
+        "messages",
+        "reports"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "control",
+      "label": "Sezione Rapporto",
+      "layout_role": "communications_section",
+      "node_id": "battle_reports_tab_button",
+      "notes": "Sezione di Comunicazioni che espone l'elenco dei report di battaglia.",
+      "parent_node_id": "communications_center_view",
+      "recovery_action": null,
+      "tags": [
+        "communications",
+        "battle-reports",
+        "navigation",
+        "user-confirmed"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "list",
+      "label": "Elenco report di battaglia",
+      "layout_role": "chronological_list",
+      "node_id": "battle_report_list_view",
+      "notes": "Elenco scrollabile dichiarato dall'utente come ordinato dalla battaglia più recente in alto alle meno recenti in basso. L'ordinamento richiede ancora validazione OCR su più timestamp.",
+      "parent_node_id": "communications_center_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-reports",
+        "scrollable",
+        "chronological",
+        "needs-timestamp-validation"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "list_item",
+      "label": "Voce report di battaglia",
+      "layout_role": "battle_report_entry",
+      "node_id": "battle_report_entry",
+      "notes": "Voce ripetibile dell'elenco; selezionandola si apre il dettaglio della singola battaglia.",
+      "parent_node_id": "battle_report_list_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "selectable",
+        "repeatable"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "view",
+      "label": "Dettaglio report di battaglia",
+      "layout_role": "battle_report_detail",
+      "node_id": "battle_report_detail_view",
+      "notes": "Vista di una battaglia. Può contenere più partecipanti per lato e collega configurazioni, riepilogo superiore di durata e ingaggi, risultato aggregato e registro temporale.",
+      "parent_node_id": "communications_center_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "participants",
+        "outcome",
+        "evidence"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Durata e ingaggi della battaglia",
+      "layout_role": "battle_engagement_summary",
+      "node_id": "battle_engagement_summary_panel",
+      "notes": "Prima sezione in alto del report. Riassume durata della battaglia e ingaggi con gli avversari; la struttura è dichiarata dall'utente e richiede ancora ancore OCR dedicate.",
+      "parent_node_id": "battle_report_detail_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "duration",
+        "engagements",
+        "opponents",
+        "user-confirmed"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Partecipanti alla battaglia",
+      "layout_role": "battle_participants",
+      "node_id": "battle_report_participants_panel",
+      "notes": "Contiene la squadra dell'utente e uno o più avversari o contributori per lato.",
+      "parent_node_id": "battle_report_detail_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "multi-participant",
+        "sides"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "entity",
+      "label": "Partecipante alla battaglia",
+      "layout_role": "repeatable_participant",
+      "node_id": "battle_report_participant",
+      "notes": "Entità ripetibile con identità, lato, leader, eroi, dimensione squadra e configurazione. Non va ridotta a un modello rigido uno-contro-uno.",
+      "parent_node_id": "battle_report_participants_panel",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "participant",
+        "squad",
+        "repeatable"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Sezione avversario",
+      "layout_role": "repeatable_opponent_section",
+      "node_id": "battle_opponent_section",
+      "notes": "Sezione ripetibile dedicata a un singolo avversario dopo la selezione della battaglia. Deve mantenere distinta l'identità e la configurazione di ciascun avversario.",
+      "parent_node_id": "battle_report_participants_panel",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "opponent",
+        "repeatable",
+        "user-confirmed"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Truppe iniziali e perdite",
+      "layout_role": "participant_troop_metrics",
+      "node_id": "participant_troop_metrics_panel",
+      "notes": "Metriche attribuite al partecipante: truppe iniziali, truppe uccise e, quando presenti, feriti e sopravvissuti. I valori iniziali e finali non devono essere confusi con la dimensione nominale.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "troops",
+        "initial",
+        "killed",
+        "casualties"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Buff e debuff del partecipante",
+      "layout_role": "participant_modifiers",
+      "node_id": "participant_modifiers_panel",
+      "notes": "Modificatori iniziali associati allo specifico partecipante, separati dagli effetti temporanei della timeline.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "buff",
+        "debuff",
+        "participant"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Equipaggiamento comandante",
+      "layout_role": "commander_equipment",
+      "node_id": "participant_commander_equipment_panel",
+      "notes": "Equipaggiamento del comandante associato allo specifico partecipante.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "commander",
+        "equipment",
+        "participant"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Armamenti degli eroi",
+      "layout_role": "hero_armaments",
+      "node_id": "participant_hero_armaments_panel",
+      "notes": "Armamenti ed effetti degli eroi impiegati dal partecipante.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "hero",
+        "armaments",
+        "participant"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Equipaggiamento squadra",
+      "layout_role": "squad_equipment",
+      "node_id": "participant_squad_equipment_panel",
+      "notes": "Equipaggiamento e modificatori della squadra del partecipante.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "squad",
+        "equipment",
+        "participant"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Bestia del partecipante",
+      "layout_role": "beast_configuration",
+      "node_id": "participant_beast_panel",
+      "notes": "Bestia associata e relativi bonus, riduzioni, valori critici ed effetti.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "beast",
+        "participant",
+        "modifiers"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Veicolo del partecipante",
+      "layout_role": "vehicle_configuration",
+      "node_id": "participant_vehicle_panel",
+      "notes": "Veicolo associato al partecipante e relativi dati o modificatori. Rimane una configurazione distinta da bestia, armamenti ed equipaggiamento della squadra.",
+      "parent_node_id": "battle_report_participant",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "vehicle",
+        "participant",
+        "modifiers",
+        "user-confirmed"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "panel",
+      "label": "Esito e perdite",
+      "layout_role": "battle_outcome",
+      "node_id": "battle_report_outcome_panel",
+      "notes": "Risultato, uccisioni, feriti, sopravvissuti, variazioni di truppe e danno totale.",
+      "parent_node_id": "battle_report_detail_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "outcome",
+        "casualties",
+        "damage"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "timeline",
+      "label": "Registro cronologico della battaglia",
+      "layout_role": "scrollable_battle_timeline",
+      "node_id": "battle_report_timeline_view",
+      "notes": "Registro scrollabile delle fasi della battaglia, da acquisire in ordine preservando la provenienza dei frame.",
+      "parent_node_id": "battle_report_detail_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "timeline",
+        "scrollable",
+        "abilities",
+        "hits"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "event",
+      "label": "Evento della battaglia",
+      "layout_role": "ordered_event",
+      "node_id": "battle_timeline_event",
+      "notes": "Evento ripetibile con ordine, sorgente, bersaglio, azione o abilità, valore, unità, durata ed eventuale variazione di truppe, vittime o danno.",
+      "parent_node_id": "battle_report_timeline_view",
+      "recovery_action": null,
+      "tags": [
+        "battle-report",
+        "event",
+        "source",
+        "target",
+        "effect"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "model",
+      "label": "Modello di esecuzione della battaglia",
+      "layout_role": "evidence_model",
+      "node_id": "battle_execution_model",
+      "notes": "Ricostruisce configurazione iniziale, partecipanti ed eventi ordinati. Conserva testo OCR e frame, distingue fatti osservati da inferenze e non attribuisce causalità da una sola battaglia.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "battle",
+        "execution-model",
+        "evidence",
+        "multi-participant"
+      ]
+    },
+    {
+      "conditions": [],
+      "kind": "model",
+      "label": "Suggerimenti bestie, armamenti e squadre",
+      "layout_role": "advisory_model",
+      "node_id": "battle_pairing_advice_model",
+      "notes": "Produce suggerimenti soltanto da pattern ripetuti in battaglie e contesti compatibili. Ogni proposta deve citare report, configurazioni, avversari, risultato e limiti dell'evidenza.",
+      "parent_node_id": "game_runtime_root",
+      "recovery_action": null,
+      "tags": [
+        "battle",
+        "advice",
+        "beasts",
+        "armaments",
+        "squads",
+        "evidence-gated"
+      ]
+    },
+    {
+      "conditions": [],
       "kind": "panel",
       "label": "Pannellino destro controlli e avvisi",
       "layout_role": "right_edge_aux",
@@ -733,6 +1272,6 @@
       ]
     }
   ],
-  "notes": "Grafo iniziale dell'architettura UI del gioco: distingue vista esterna e rifugio, pannelli comuni superiori, controlli di cambio vista, sezioni del rifugio e popup di boot.",
+  "notes": "Grafo iniziale dell'architettura UI del gioco: distingue vista esterna e rifugio, pannelli comuni superiori, controlli di cambio vista, sezioni del rifugio, popup di boot e il percorso Comunicazioni/Rapporto che collega evidenza di battaglia e suggerimenti tattici.",
   "schema": "doomsday.ui_semantic_graph.v1"
 }

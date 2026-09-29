@@ -1,3 +1,7 @@
+from runtime_env import sanitize_runtime_env
+
+sanitize_runtime_env()
+
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk, scrolledtext
 import threading
@@ -15,6 +19,7 @@ import datetime
 import os
 import sys
 from pathlib import Path
+from core.paths import LOGS_DIR
 from macro_config import (
     get_debug_config,
     get_log_level,
@@ -70,8 +75,8 @@ def setup_console_logging():
     file_log_handler = None
     playback_debug_log_path = None
     if debug_config.get("save_playback_logs"):
-        logs_dir = Path(__file__).resolve().parent / "logs"
-        logs_dir.mkdir(exist_ok=True)
+        logs_dir = LOGS_DIR
+        logs_dir.mkdir(parents=True, exist_ok=True)
         log_path = logs_dir / "playback_focus_debug.log"
         playback_debug_log_path = log_path
         file_log_handler = logging.FileHandler(log_path, encoding="utf-8")
@@ -173,6 +178,7 @@ from ui.main_window_helpers import (
 )
 from ui.collapsible_panel import CollapsibleSection
 from ui.knowledge_graph_panel import build_knowledge_graph_tab
+from ui.task_call_map_panel import build_task_call_map_tab
 from ui.tab_bootstrap import build_secondary_tabs
 from ui.status_console import (
     append_console_message,
@@ -245,7 +251,6 @@ new_macro_button = None # Assicurati che sia dichiarato globalmente
 record_button = None # CORREZIONE: Aggiunto qui
 play_button = None
 stop_button = None
-emergency_stop_button = None  # Pulsante di emergenza
 edit_button = None
 delete_button = None
 duplicate_button = None # Pulsante per duplicare macro
@@ -1372,7 +1377,7 @@ def update_button_states():
     try:
         # Controlla che tutti i pulsanti e widget necessari siano stati inizializzati e siano ancora validi
         widgets = [new_macro_button, record_button, play_button, stop_button,
-                  emergency_stop_button, edit_button, delete_button, duplicate_button,
+                  edit_button, delete_button, duplicate_button,
                   loop_var_checkbox, loop_delay_entry, max_repetitions_entry, macro_list_tree]
         
         if not all(widgets) or not all(widget.winfo_exists() for widget in widgets if widget):
@@ -1396,7 +1401,6 @@ def update_button_states():
         # Stato iniziale: disabilita tutto tranne "Nuova Macro"
         new_macro_button.config(state=tk.NORMAL)
         stop_button.config(state=tk.DISABLED)
-        emergency_stop_button.config(state=tk.DISABLED)
         set_play_button_highlight(False)
         
         # Abilita/Disabilita basandosi su flags globali (riproduzione/registrazione)
@@ -1405,7 +1409,6 @@ def update_button_states():
             record_button.config(state=tk.DISABLED)
             play_button.config(state=tk.DISABLED)
             stop_button.config(state=tk.NORMAL)
-            emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
             edit_button.config(state=tk.DISABLED)
             delete_button.config(state=tk.DISABLED)
             duplicate_button.config(state=tk.DISABLED)
@@ -1419,7 +1422,6 @@ def update_button_states():
             play_button.config(state=tk.DISABLED)
             stop_button.config(state=tk.NORMAL)
             set_play_button_highlight(True)
-            emergency_stop_button.config(state=tk.NORMAL) # Abilita sempre il pulsante di emergenza
             edit_button.config(state=tk.DISABLED)
             delete_button.config(state=tk.DISABLED)
             duplicate_button.config(state=tk.DISABLED)
@@ -1428,7 +1430,6 @@ def update_button_states():
             loop_delay_entry.config(state=tk.DISABLED)
             
         else: # Nessuna registrazione o riproduzione in corso
-            emergency_stop_button.config(state=tk.DISABLED)
             new_macro_button.config(state=tk.NORMAL)
             record_button.config(state=tk.DISABLED)
             # Il bottone concatena può essere sempre abilitato (non richiede selezione)
@@ -2854,6 +2855,11 @@ def setup_knowledge_graph_interface(parent):
     knowledge_graph_details_text = refs["details_text"]
     knowledge_graph_linked_tree = refs["linked_tree"]
     refresh_knowledge_graph_view()
+
+
+def setup_task_call_map_interface(parent):
+    """Crea il browser read-only delle operazioni ricostruite dai log."""
+    return build_task_call_map_tab(parent=parent, theme=config["theme"])
 
 
 def refresh_knowledge_graph_view():
@@ -4926,7 +4932,7 @@ def setup_gui():
     logger.info("Setup GUI Macro Manager")
     global root, macro_list_tree, console_text, status_bar
     # CORREZIONE: Aggiunto record_button alla dichiarazione global
-    global new_macro_button, record_button, play_button, stop_button, emergency_stop_button, edit_button, delete_button, duplicate_button, concat_button
+    global new_macro_button, record_button, play_button, stop_button, edit_button, delete_button, duplicate_button, concat_button
     global loop_var, loop_delay_entry, max_repetitions_entry, loop_var_checkbox, recording_indicator_button, playing_indicator_button, focus_monitor_indicator, macro_details_text
     global recording_timer_label
 
@@ -5015,20 +5021,6 @@ def setup_gui():
     tab_control.pack(fill="both", expand=True, pady=(0, 10))
     panel_state = get_panel_visibility_state()
 
-    # Configura uno stile speciale per il pulsante di emergenza
-    try:
-        emergency_style = ttk.Style()
-        emergency_style.configure('Emergency.TButton', 
-                                background='#ff4444', 
-                                foreground='white', 
-                                font=('Segoe UI', 10, 'bold'))
-        emergency_style.map(
-            'Emergency.TButton',
-            background=[('active', '#ff4444'), ('disabled', '#555555')],
-            foreground=[('active', 'white'), ('disabled', '#b0b0b0')],
-        )
-    except Exception as e:
-        console_log(f"⚠️ Impossibile applicare stile speciale al pulsante di emergenza: {e}", level="WARNING")
     macro_panel_refs = build_macro_management_tab(
         tab_control=tab_control,
         theme=config["theme"],
@@ -5041,7 +5033,6 @@ def setup_gui():
         delete_selected_macro=delete_selected_macro,
         duplicate_selected_macro=duplicate_selected_macro,
         concat_macros_dialog=concat_macros_dialog,
-        emergency_stop_all=emergency_stop_all,
         update_button_states=update_button_states,
         setup_click_context_preview=setup_click_context_preview,
         setup_execution_visualizer=setup_execution_visualizer,
@@ -5058,7 +5049,6 @@ def setup_gui():
     delete_button = macro_panel_refs["delete_button"]
     duplicate_button = macro_panel_refs["duplicate_button"]
     concat_button = macro_panel_refs["concat_button"]
-    emergency_stop_button = macro_panel_refs["emergency_stop_button"]
     loop_var = macro_panel_refs["loop_var"]
     loop_var_checkbox = macro_panel_refs["loop_var_checkbox"]
     loop_delay_entry = macro_panel_refs["loop_delay_entry"]
@@ -5078,6 +5068,7 @@ def setup_gui():
         setup_semantic_campaign_interface=setup_semantic_campaign_interface,
         setup_ui_graph_browser_interface=setup_ui_graph_browser_interface,
         setup_knowledge_graph_interface=setup_knowledge_graph_interface,
+        setup_task_call_map_interface=setup_task_call_map_interface,
         setup_scheduled_tasks_interface=setup_scheduled_tasks_interface,
         setup_game_elements_interface=setup_game_elements_interface,
         setup_settings_tab=setup_settings_tab,
@@ -5119,7 +5110,7 @@ def setup_gui():
     debug_config = get_debug_config()
     if debug_config.get("save_playback_logs"):
         console_log(
-            f"🧪 Debug playback attivo. Log file: {Path(__file__).resolve().parent / 'logs' / 'playback_focus_debug.log'}",
+            f"🧪 Debug playback attivo. Log file: {LOGS_DIR / 'playback_focus_debug.log'}",
             level="INFO",
         )
     

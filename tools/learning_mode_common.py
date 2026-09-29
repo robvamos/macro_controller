@@ -14,8 +14,9 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from runtime_env import sanitize_runtime_env
+from core.paths import DOOMSDAY_SHORTCUT_PATH
 
-SHORTCUT_PATH = "C:/Users/Public/Desktop/Doomsday.lnk"
+SHORTCUT_PATH = str(DOOMSDAY_SHORTCUT_PATH)
 TARGET_EXE = "Doomsday.exe"
 STOP_HOTKEY_TEXT = "CTRL+ALT+S"
 

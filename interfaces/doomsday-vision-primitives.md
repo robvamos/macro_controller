@@ -6,9 +6,9 @@ Provide reusable external-automation primitives for Doomsday window capture and 
 
 ## Entry points
 
-- [doomsday/vision/window_capture.py](/F:/_CODEX/DDassistant/doomsday/vision/window_capture.py)
-- [doomsday/vision/template_matcher.py](/F:/_CODEX/DDassistant/doomsday/vision/template_matcher.py)
-- [doomsday/vision/ui_graph.py](/F:/_CODEX/DDassistant/doomsday/vision/ui_graph.py)
+- [doomsday/vision/window_capture.py](../doomsday/vision/window_capture.py)
+- [doomsday/vision/template_matcher.py](../doomsday/vision/template_matcher.py)
+- [doomsday/vision/ui_graph.py](../doomsday/vision/ui_graph.py)
 
 ## Capabilities
 

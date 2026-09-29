@@ -13,6 +13,7 @@ def build_secondary_tabs(
     setup_semantic_campaign_interface,
     setup_ui_graph_browser_interface,
     setup_knowledge_graph_interface,
+    setup_task_call_map_interface,
     setup_scheduled_tasks_interface,
     setup_game_elements_interface,
     setup_settings_tab,
@@ -38,6 +39,10 @@ def build_secondary_tabs(
     tab_control.add(knowledge_graph_tab, text="Grafo Conoscenza")
     setup_knowledge_graph_interface(knowledge_graph_tab)
 
+    task_call_map_tab = ttk.Frame(tab_control)
+    tab_control.add(task_call_map_tab, text="Mappa Task/Chiamate")
+    setup_task_call_map_interface(task_call_map_tab)
+
     scheduled_tasks_tab = ttk.Frame(tab_control)
     tab_control.add(scheduled_tasks_tab, text="Scheduled Tasks")
     setup_scheduled_tasks_interface(scheduled_tasks_tab)
@@ -56,6 +61,7 @@ def build_secondary_tabs(
         "campaign_tab": campaign_tab,
         "ui_graph_tab": ui_graph_tab,
         "knowledge_graph_tab": knowledge_graph_tab,
+        "task_call_map_tab": task_call_map_tab,
         "scheduled_tasks_tab": scheduled_tasks_tab,
         "elements_tab": elements_tab,
         "settings_tab": settings_tab,

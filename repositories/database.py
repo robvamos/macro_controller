@@ -1,10 +1,22 @@
 """Funzioni condivise di accesso e setup database."""
 
+import logging
+from pathlib import Path
 import shutil
 import sqlite3
+from threading import Lock
 
-from core.paths import DB_PATH, LEGACY_DB_PATH, ensure_project_directories
+from core.paths import (
+    DB_PATH,
+    LEGACY_DB_PATH,
+    LEGACY_ROOT_DB_PATH,
+    ensure_project_directories,
+)
 
+logger = logging.getLogger(__name__)
+PROJECT_DB_PATH = DB_PATH
+_SHARED_KNOWLEDGE_IMPORT_LOCK = Lock()
+_SHARED_KNOWLEDGE_IMPORT_ATTEMPTED = False
 
 SQLITE_TIMEOUT_SECONDS = 10.0
 SQLITE_BUSY_TIMEOUT_MS = 10000
@@ -12,8 +24,12 @@ SQLITE_BUSY_TIMEOUT_MS = 10000
 
 def _ensure_database_location():
     ensure_project_directories()
-    if LEGACY_DB_PATH.exists() and not DB_PATH.exists():
-        shutil.move(str(LEGACY_DB_PATH), str(DB_PATH))
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not DB_PATH.exists():
+        for legacy_path in (LEGACY_DB_PATH, LEGACY_ROOT_DB_PATH):
+            if legacy_path.exists():
+                shutil.copy2(legacy_path, DB_PATH)
+                break
 
 
 def connect_db():
@@ -205,6 +221,25 @@ def setup_game_elements_table():
         raise e
     finally:
         conn.close()
+    global _SHARED_KNOWLEDGE_IMPORT_ATTEMPTED
+    if Path(DB_PATH).resolve() == Path(PROJECT_DB_PATH).resolve():
+        try:
+            with _SHARED_KNOWLEDGE_IMPORT_LOCK:
+                if _SHARED_KNOWLEDGE_IMPORT_ATTEMPTED:
+                    return
+                _SHARED_KNOWLEDGE_IMPORT_ATTEMPTED = True
+            from services.shared_knowledge_import_service import import_shared_game_elements
+
+            result = import_shared_game_elements()
+            if result["imported"] or result["updated"]:
+                logger.info(
+                    "Knowledge visuali condivise: importati %s, aggiornati %s, immagini mancanti %s.",
+                    result["imported"],
+                    result["updated"],
+                    result["missing_images"],
+                )
+        except Exception:
+            logger.exception("Import della knowledge visuale condivisa non riuscito.")
 
 
 def setup_ui_graph_macro_links_table():

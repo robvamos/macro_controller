@@ -7,8 +7,11 @@ Contiene impostazioni per migliorare la riproduzione e la gestione degli eventi.
 import json
 import os
 import logging
+import copy
+import shutil
+from pathlib import Path
 
-from core.paths import CONFIG_DIR
+from core.paths import MACRO_CONFIG_PATH, LEGACY_MACRO_CONFIG_PATH
 
 LOG_LEVEL_NAME_TO_VALUE = {
     "DEBUG": logging.DEBUG,
@@ -71,13 +74,17 @@ class MacroConfig:
     
     def __init__(self, config_file=None):
         if config_file is None:
-            config_file = str(CONFIG_DIR / "macro_config.json")
+            config_file = str(MACRO_CONFIG_PATH)
         self.config_file = config_file
         self.config = self.load_config()
     
     def load_config(self):
         """Carica la configurazione dal file o usa quella predefinita."""
         try:
+            config_path = Path(self.config_file)
+            config_path.parent.mkdir(parents=True, exist_ok=True)
+            if not config_path.exists() and config_path == MACRO_CONFIG_PATH and LEGACY_MACRO_CONFIG_PATH.exists():
+                shutil.copy2(LEGACY_MACRO_CONFIG_PATH, config_path)
             if os.path.exists(self.config_file):
                 with open(self.config_file, 'r', encoding='utf-8') as f:
                     config = json.load(f)
@@ -86,7 +93,7 @@ class MacroConfig:
             else:
                 # Crea file di configurazione predefinito
                 self.save_config(DEFAULT_CONFIG)
-                return DEFAULT_CONFIG
+                return copy.deepcopy(DEFAULT_CONFIG)
         except Exception as e:
             print(f"⚠️ Errore caricamento configurazione: {e}")
             print("💡 Usando configurazione predefinita")
@@ -98,6 +105,7 @@ class MacroConfig:
             config = self.config
         
         try:
+            Path(self.config_file).parent.mkdir(parents=True, exist_ok=True)
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(config, f, indent=2, ensure_ascii=False)
             return True
@@ -107,7 +115,7 @@ class MacroConfig:
     
     def merge_configs(self, default_config, user_config):
         """Unisce configurazione predefinita con quella utente."""
-        merged = default_config.copy()
+        merged = copy.deepcopy(default_config)
         
         def merge_recursive(default, user):
             for key, value in user.items():

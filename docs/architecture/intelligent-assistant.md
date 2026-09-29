@@ -363,22 +363,24 @@ equivalent tests and observed production parity.
 
 ## P0 blockers
 
-### P0-1: conflicted macro database
+### P0-1: local legacy macro state
 
-[data/macro_recorder.db](../../data/macro_recorder.db) is currently an
-unresolved binary Git conflict. SQLite files cannot be safely line-merged.
+The legacy macro database lives under the selected workstation profile and is
+not a shared source of authority. A new clone starts with its own local state;
+semantic knowledge travels through the versioned catalog and learning exports.
+SQLite files cannot be merged through Git, and importing another workstation's
+macro playback state is not part of the knowledge-sharing flow.
 
-Until it is resolved:
+Until a migration and review process exists:
 
 - bind_macros remains disabled for normal intelligence calls;
-- the new runtime must not write to the macro database;
-- Executor integration is blocked;
-- a human must select or reconcile the authoritative database using backups,
-  schema/table comparison and explicit data migration;
-- the resolved binary must be validated before any macro or UI-link write.
+- the semantic runtime does not write to the legacy macro database;
+- Executor integration remains blocked;
+- any local recovery or migration must use backups, schema/table comparison and
+  explicit operator review.
 
-The dedicated intelligence database is not a workaround for losing macro data;
-it is a separate bounded context.
+The dedicated intelligence database is a separate bounded context; it does not
+replace the per-workstation macro database.
 
 ### P0-2: UI nodes without recognizers
 

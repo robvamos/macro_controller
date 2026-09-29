@@ -18,9 +18,15 @@ class LearningSessionJournalServiceTests(unittest.TestCase):
             initialize_learning_session_journal(
                 session_name="Hero demo",
                 scenario="hero_inspection",
+                domain="heroes",
                 objective="Inspect hero",
                 declared_workflow_id="hero-inspection-v1",
                 window_rect=(10, 20, 110, 220),
+                network_observation={
+                    "schema": "doomsday.learning.network-binding.v1",
+                    "status": "active",
+                    "network_session_id": "20260723_220000",
+                },
                 root=root,
             )
             append_learning_event(
@@ -34,8 +40,13 @@ class LearningSessionJournalServiceTests(unittest.TestCase):
             event = json.loads((session_dir / "events.jsonl").read_text(encoding="utf-8"))
 
             self.assertEqual(manifest["status"], "recording")
+            self.assertEqual(manifest["domain"], "heroes")
             self.assertEqual(manifest["window_rect"]["left"], 10)
             self.assertEqual(event["game_element_id"], 42)
+            self.assertEqual(
+                manifest["network_observation"]["network_session_id"],
+                "20260723_220000",
+            )
 
     def test_finalize_updates_manifest_without_rewriting_events(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -58,6 +69,11 @@ class LearningSessionJournalServiceTests(unittest.TestCase):
                 status="completed",
                 click_count=1,
                 macro_id=77,
+                network_observation={
+                    "schema": "doomsday.learning.network-binding.v1",
+                    "status": "active",
+                    "lifecycle": "owned_observer_stop_requested",
+                },
                 root=root,
             )
 
@@ -65,6 +81,10 @@ class LearningSessionJournalServiceTests(unittest.TestCase):
             self.assertEqual(manifest["status"], "completed")
             self.assertEqual(manifest["macro_id"], 77)
             self.assertEqual(manifest["click_count"], 1)
+            self.assertEqual(
+                manifest["network_observation"]["lifecycle"],
+                "owned_observer_stop_requested",
+            )
 
 
 if __name__ == "__main__":

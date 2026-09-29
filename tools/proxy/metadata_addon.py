@@ -25,6 +25,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from doomsday.network_observation.schema import (
     MetadataRecord,
     build_http_record,
+    build_stream_message_record,
     content_length,
 )
 
@@ -132,11 +133,17 @@ class MetadataOnlyObserver:
     def tcp_start(self, flow: tcp.TCPFlow) -> None:
         self._write(_stream_record("tcp_start", "tcp", flow))
 
+    def tcp_message(self, flow: tcp.TCPFlow) -> None:
+        self._write(_stream_message_record("tcp", flow))
+
     def tcp_end(self, flow: tcp.TCPFlow) -> None:
         self._write(_stream_record("tcp_end", "tcp", flow))
 
     def udp_start(self, flow: udp.UDPFlow) -> None:
         self._write(_stream_record("udp_start", "udp", flow))
+
+    def udp_message(self, flow: udp.UDPFlow) -> None:
+        self._write(_stream_message_record("udp", flow))
 
     def udp_end(self, flow: udp.UDPFlow) -> None:
         self._write(_stream_record("udp_end", "udp", flow))
@@ -201,6 +208,20 @@ def _stream_record(event_type: str, transport: str, flow) -> MetadataRecord:
         response_bytes=content_length(server_parts),
         message_count=len(flow.messages),
         duration_ms=_duration_ms(flow.client_conn.timestamp_start, flow.client_conn.timestamp_end),
+    )
+
+
+def _stream_message_record(transport: str, flow) -> MetadataRecord:
+    host, port = _flow_server(flow)
+    message = flow.messages[-1]
+    return build_stream_message_record(
+        flow_id=_safe_id(flow.id),
+        transport=transport,
+        from_client=bool(message.from_client),
+        message_bytes=len(message.content),
+        message_index=len(flow.messages),
+        server_host=host,
+        server_port=port,
     )
 
 

@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+import sqlite3
 from unittest.mock import patch
 
 from repositories import backup_repository, database, game_element_repository, macro_repository, task_repository
@@ -87,6 +88,36 @@ class RepositoryTestCase(unittest.TestCase):
 
 
 class MacroRepositoryTests(RepositoryTestCase):
+    def test_legacy_database_is_copied_into_local_state_and_source_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            legacy = root / "old" / "macro.db"
+            target = root / "profile" / "runtime" / "macro.db"
+            legacy.parent.mkdir()
+            connection = sqlite3.connect(legacy)
+            try:
+                connection.execute("CREATE TABLE preserved(value TEXT)")
+                connection.execute("INSERT INTO preserved VALUES ('kept')")
+                connection.commit()
+            finally:
+                connection.close()
+
+            with (
+                patch.object(database, "DB_PATH", target),
+                patch.object(database, "LEGACY_DB_PATH", legacy),
+                patch.object(database, "LEGACY_ROOT_DB_PATH", root / "missing.db"),
+                patch.object(database, "ensure_project_directories", lambda: target.parent.mkdir(parents=True, exist_ok=True)),
+            ):
+                connection = database.connect_db()
+                try:
+                    row = connection.execute("SELECT value FROM preserved").fetchone()
+                finally:
+                    connection.close()
+
+            self.assertEqual(row[0], "kept")
+            self.assertTrue(legacy.exists())
+            self.assertTrue(target.exists())
+
     def test_macro_save_load_duplicate_and_delete(self):
         macro_id = self.create_macro()
 
@@ -175,7 +206,7 @@ class MacroRepositoryTests(RepositoryTestCase):
         with patch("services.system_macro_service.load_app_config", return_value={
             "system_macros": {
                 "launch_game": {
-                    "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "shortcut_path": "D:/Test/Doomsday.lnk",
                     "target_exe": "Doomsday.exe",
                 }
             }
@@ -192,7 +223,7 @@ class MacroRepositoryTests(RepositoryTestCase):
         with patch("services.system_macro_service.load_app_config", return_value={
             "system_macros": {
                 "launch_game": {
-                    "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "shortcut_path": "D:/Test/Doomsday.lnk",
                     "target_exe": "Doomsday.exe",
                 }
             }

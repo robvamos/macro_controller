@@ -17,6 +17,12 @@ jobs:
       - name: Install package and test tools
         run: python -m pip install --upgrade pip; python -m pip install -e ".[dev]"
       - name: Compile source
-        run: python -m compileall -q core doomsday repositories services ui
+        run: python -m compileall -q core doomsday repositories services ui workstation runtime_env.py
+      - name: Validate workstation profile defaults
+        run: python workstation/settings.py
+      - name: Validate second-workstation isolation
+        run: python workstation/test_settings.py
+      - name: Check portable project configuration
+        run: python scripts/validate_portability.py
       - name: Run tests
         run: python -m unittest discover -s tests -p "test_*.py"

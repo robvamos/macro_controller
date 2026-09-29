@@ -8,14 +8,14 @@ import json
 from pathlib import Path
 from typing import Any
 
+from core.paths import DOOMSDAY_LOCAL_DIR
 from PIL import Image, ImageOps
 
 from doomsday.ocr.engine import OcrEngine, TesseractCliEngine
 from doomsday.vision.hero_screen_classifier import classify_hero_screen
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "data" / "doomsday" / "knowledge" / "hero_learning_observations"
+DEFAULT_OUTPUT_ROOT = DOOMSDAY_LOCAL_DIR / "hero_learning_observations"
 
 
 def analyze_hero_learning_session(
@@ -68,6 +68,8 @@ def analyze_hero_learning_session(
         )
 
     timestamp = session["session_name"].rsplit(" - ", 1)[-1]
+    if not timestamp or any(character in timestamp for character in "\\/:*?\"<>|"):
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     payload = {
         "schema": "doomsday.hero_learning_observations.v1",
         "workflow_id": "hero-inspection-v1",

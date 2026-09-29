@@ -16,10 +16,11 @@ from learning_mode_common import (
     prepare_repo_imports,
     relaunch_as_admin as _relaunch_as_admin,
 )
+from core.paths import LOGS_DIR
 
 HOTKEY = "ctrl+alt+s"
 COMPONENT_SYSTEM_KEY = "launch_game_popup_cleanup"
-LOG_PATH = REPO_ROOT / "logs" / "startup_popup_learner.log"
+LOG_PATH = LOGS_DIR / "startup_popup_learner.log"
 _log = make_file_logger(LOG_PATH)
 
 

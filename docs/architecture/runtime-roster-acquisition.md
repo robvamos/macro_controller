@@ -12,12 +12,13 @@ Questa scelta deriva dai rilievi del 14 luglio 2026:
 
 | Runtime | Stato | Posizione | Strategia |
 | --- | --- | --- | --- |
-| Doomsday Windows 1.58.0 | corrente e in esecuzione | `F:/Doomsday/Doomsday_1.58.0` | cattura Win32 visibile, OCR, conferma |
-| BlueStacks 5.22.166.1003 | installato, spento | `F:/BlueStack/BlueStacks_nxt` | ADB screencap solo se un'istanza è già attiva |
-| VirtualBox Android-x86 9.0-r2 | storico, spento dal 2025-01-07 | `F:/_VMs/Android/Android.vdi` | inventario storico; nessun avvio automatico |
+| Client Windows Doomsday | versione osservata 1.58.0 il 23/07/2026; verificare il runtime attivo | risolto dal profilo workstation, dal registry Windows o dal collegamento configurato | cattura Win32 visibile, OCR, conferma |
+| BlueStacks | opzionale; installazione da rilevare su ogni workstation | directory da registry o profilo locale | ADB screencap solo se un'istanza è già attiva |
+| VirtualBox Android-x86 | inventario storico, spento dal 2025-01-07 | directory da rilevare su ogni workstation | inventario; nessun avvio automatico |
 
-Il registro machine-readable completo è
-[game_runtime_registry.json](../../data/doomsday/runtime/game_runtime_registry.json).
+Il registro machine-readable corrente è locale a
+`workstation/local/<profile>/runtime/doomsday/game_runtime_registry.json` e
+non viene sincronizzato su Git.
 
 ## Perché non leggiamo direttamente i file del gioco
 

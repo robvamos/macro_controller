@@ -6,10 +6,12 @@ from collections import defaultdict
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import sqlite3
 from typing import Any, Iterable, Mapping
 from uuid import uuid4
 
+from core.paths import DOOMSDAY_LIVE_ROSTER_DB_PATH, LEGACY_DOOMSDAY_LIVE_ROSTER_DB_PATH
 from doomsday.roster_live.models import (
     ArtifactRecord,
     ChangeDecision,
@@ -27,7 +29,7 @@ from doomsday.roster_live.models import (
 
 
 SCHEMA_VERSION = 1
-DEFAULT_LIVE_ROSTER_DB = Path(__file__).resolve().parents[2] / "data" / "doomsday" / "roster" / "live_roster.db"
+DEFAULT_LIVE_ROSTER_DB = DOOMSDAY_LIVE_ROSTER_DB_PATH
 MIGRATIONS_DIR = Path(__file__).with_name("migrations")
 
 
@@ -37,6 +39,8 @@ class LiveRosterRepository:
 
     def connect(self) -> sqlite3.Connection:
         self.path.parent.mkdir(parents=True, exist_ok=True)
+        if self.path == DEFAULT_LIVE_ROSTER_DB and not self.path.exists() and LEGACY_DOOMSDAY_LIVE_ROSTER_DB_PATH.exists():
+            shutil.copy2(LEGACY_DOOMSDAY_LIVE_ROSTER_DB_PATH, self.path)
         connection = sqlite3.connect(self.path, timeout=10.0)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")

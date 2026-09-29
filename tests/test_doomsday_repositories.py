@@ -60,6 +60,7 @@ class DoomsdayRepositoryTests(unittest.TestCase):
 
         self.patches = [
             patch.object(dd_database, "DOOMSDAY_DB_PATH", self.db_path),
+            patch.object(dd_database, "LEGACY_DOOMSDAY_DB_PATH", self.base / "missing-legacy.db"),
             patch.object(dd_database, "ensure_project_directories", self._ensure_dirs),
             patch.object(doomsday_config, "CATALOG_MARKET_DIR", self.market_dir),
             patch.object(doomsday_config, "CATALOG_PROFILE_PACK_DIR", self.profile_pack_dir),

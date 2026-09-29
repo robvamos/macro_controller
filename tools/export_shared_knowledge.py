@@ -21,6 +21,7 @@ def main() -> int:
     print(f"UI graph nodes: {summary['ui_nodes']}")
     print(f"UI graph edges: {summary['ui_edges']}")
     print(f"Pattern suggestions: {summary['pattern_suggestions']}")
+    print(f"Hero observations: {summary['hero_observations']}")
     return 0
 
 

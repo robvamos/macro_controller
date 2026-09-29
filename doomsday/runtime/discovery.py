@@ -11,14 +11,15 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import socket
 import subprocess
 from typing import Any, Callable, Iterable, Mapping
 
-from core.paths import DOOMSDAY_RUNTIME_REGISTRY_PATH
+from core.paths import DOOMSDAY_RUNTIME_REGISTRY_PATH, DOOMSDAY_SHORTCUT_PATH, WORKSTATION_SETTINGS
 
 DEFAULT_RUNTIME_REGISTRY_PATH = DOOMSDAY_RUNTIME_REGISTRY_PATH
-DEFAULT_DOOMSDAY_SHORTCUT_PATH = Path(r"C:\Users\Public\Desktop\Doomsday.lnk")
+DEFAULT_DOOMSDAY_SHORTCUT_PATH = DOOMSDAY_SHORTCUT_PATH
 
 _BLUESTACKS_INSTANCE_FIELDS = {
     "adb_port",
@@ -219,6 +220,7 @@ class GameRuntimeDiscoveryService:
         self.process_provider = process_provider or _process_snapshots
         self.now_provider = now_provider or (lambda: datetime.now(timezone.utc))
         self.hostname_provider = hostname_provider or socket.gethostname
+        self.settings = WORKSTATION_SETTINGS
 
     def discover(self) -> dict[str, Any]:
         processes = list(self.process_provider())
@@ -277,7 +279,16 @@ class GameRuntimeDiscoveryService:
 
     def _discover_native_client(self, processes: list[Mapping[str, Any]]) -> dict[str, Any] | None:
         product = _find_uninstall_product("Doomsday")
-        install_root = Path(str(product.get("InstallLocation") or r"F:\Doomsday"))
+        shortcut = _resolve_windows_shortcut(DEFAULT_DOOMSDAY_SHORTCUT_PATH)
+        configured_root = self.settings.get("gameInstallDir") or ""
+        install_root_value = product.get("InstallLocation") or configured_root
+        if not install_root_value and shortcut.get("target_path"):
+            target_path = Path(shortcut["target_path"])
+            if target_path.name.casefold() == "doomsdaylastsurvivors.exe":
+                install_root_value = str(target_path.parent)
+        if not install_root_value:
+            return None
+        install_root = Path(str(install_root_value))
         if not install_root.exists() and not product:
             return None
         versions: list[tuple[tuple[int, ...], str, Path]] = []
@@ -308,7 +319,6 @@ class GameRuntimeDiscoveryService:
             )
             if _safe_path_exists(path)
         ]
-        shortcut = _resolve_windows_shortcut(DEFAULT_DOOMSDAY_SHORTCUT_PATH)
         return {
             "runtime_id": "native-windows",
             "kind": "native_windows_client",
@@ -345,15 +355,22 @@ class GameRuntimeDiscoveryService:
 
     def _discover_bluestacks(self, processes: list[Mapping[str, Any]]) -> dict[str, Any] | None:
         values = _read_registry_key(r"SOFTWARE\BlueStacks_nxt")
-        data_dir = Path(str(values.get("DataDir") or r"F:\BlueStack\BlueStacks_nxt\Engine"))
-        install_dir = Path(str(values.get("InstallDir") or r"C:\Program Files\BlueStacks_nxt"))
-        user_dir = Path(str(values.get("UserDefinedDir") or data_dir.parent))
-        config_path = user_dir / "bluestacks.conf"
-        if not values and not config_path.exists():
+        data_value = values.get("DataDir") or self.settings.get("bluestacksDataDir") or ""
+        install_value = values.get("InstallDir") or self.settings.get("bluestacksInstallDir") or ""
+        if not data_value and not install_value:
+            return None
+        data_dir = Path(str(data_value)) if data_value else None
+        install_dir = Path(str(install_value)) if install_value else None
+        user_value = values.get("UserDefinedDir")
+        user_dir = Path(str(user_value)) if user_value else (
+            data_dir.parent if data_dir else install_dir
+        )
+        config_path = user_dir / "bluestacks.conf" if user_dir else None
+        if not values and (config_path is None or not config_path.exists()):
             return None
         config = (
             parse_bluestacks_config(config_path.read_text(encoding="utf-8", errors="replace"))
-            if config_path.exists()
+            if config_path is not None and config_path.exists()
             else {"installed_images": [], "instances": []}
         )
         running_instances: set[str] = set()
@@ -366,7 +383,7 @@ class GameRuntimeDiscoveryService:
                     running_instances.add(command_line[index + 1])
         instances = []
         for raw_instance in config["instances"]:
-            if not (data_dir / raw_instance["name"]).exists():
+            if data_dir is not None and not (data_dir / raw_instance["name"]).exists():
                 continue
             instance = dict(raw_instance)
             instance["running"] = instance["name"] in running_instances
@@ -395,9 +412,17 @@ class GameRuntimeDiscoveryService:
 
     def _discover_virtualbox_android(self) -> dict[str, Any] | None:
         values = _read_registry_key(r"SOFTWARE\Oracle\VirtualBox")
-        install_dir = Path(str(values.get("InstallDir") or r"F:\VirtualBox"))
+        install_value = values.get("InstallDir") or self.settings.get("virtualboxInstallDir") or ""
+        install_dir = Path(str(install_value)) if install_value else None
+        manage_command = shutil.which("VBoxManage")
+        configured_manage = Path(manage_command) if manage_command else None
+        if install_dir is None and configured_manage is not None:
+            install_dir = configured_manage.parent
+        if install_dir is None:
+            return None
         manage = install_dir / "VBoxManage.exe"
-        fallback_config = Path(r"F:\_VMs\Android\Android.vbox")
+        fallback_value = self.settings.get("androidVmConfig") or ""
+        fallback_config = Path(fallback_value) if fallback_value else None
         if not manage.exists():
             return None
         listed = self.command_runner([str(manage), "list", "vms"])
@@ -405,20 +430,21 @@ class GameRuntimeDiscoveryService:
             return None
         vm_names = re.findall(r'^"(.+)"\s+\{[^}]+\}$', listed.stdout, flags=re.MULTILINE)
         target = next((name for name in vm_names if "android" in name.casefold()), None)
-        if target is None and fallback_config.exists():
+        if target is None and fallback_config is not None and fallback_config.exists():
             target = "Android"
         if target is None:
             return None
         details_result = self.command_runner([str(manage), "showvminfo", target, "--machinereadable"])
         details = parse_vbox_machine_readable(details_result.stdout) if details_result.returncode == 0 else {}
-        config_path = Path(details.get("CfgFile") or fallback_config)
+        config_value = details.get("CfgFile")
+        config_path = Path(config_value) if config_value else fallback_config
         disk_path = next(
             (Path(value) for key, value in details.items() if key.endswith("-0-0") and value.lower().endswith(".vdi")),
-            config_path.with_suffix(".vdi"),
+            config_path.with_suffix(".vdi") if config_path is not None else None,
         )
         distribution = "Android-x86"
-        installer_iso = ""
-        if config_path.exists():
+        installer_iso = self.settings.get("androidVmInstallerIso") or ""
+        if config_path is not None and config_path.exists():
             config_text = config_path.read_text(encoding="utf-8", errors="replace")
             iso_match = re.search(r'location="([^"]*android-x86[^"]*\.iso)"', config_text, re.IGNORECASE)
             if iso_match:
@@ -447,7 +473,7 @@ class GameRuntimeDiscoveryService:
                 "installer_iso": installer_iso,
             },
             "disk": {
-                "allocated_bytes": disk_path.stat().st_size if disk_path.exists() else None,
+                "allocated_bytes": disk_path.stat().st_size if disk_path is not None and disk_path.exists() else None,
                 "encryption": "disabled" if details.get("encryption") == "disabled" else "unknown",
             },
             "access_strategy": "legacy_evidence_only_do_not_start_automatically",

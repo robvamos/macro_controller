@@ -7,6 +7,7 @@ from datetime import datetime
 import psutil
 
 from core.config_store import load_app_config, save_app_config
+from core.paths import DOOMSDAY_SHORTCUT_PATH
 from doomsday.vision.ui_graph import build_default_doomsday_ui_graph, evaluate_ui_graph
 from repositories.macro_repository import (
     SYSTEM_MACRO_KIND,
@@ -20,7 +21,7 @@ from repositories.macro_repository import (
 LAUNCH_GAME_SYSTEM_KEY = "launch_game"
 LAUNCH_GAME_SYSTEM_NAME = "Sistema · Avvia Doomsday"
 LOCAL_WORKSTATION_VARIANT_SCOPE = "local_workstation"
-DEFAULT_LAUNCH_SHORTCUT_PATH = "C:/Users/Public/Desktop/Doomsday.lnk"
+DEFAULT_LAUNCH_SHORTCUT_PATH = str(DOOMSDAY_SHORTCUT_PATH)
 DEFAULT_BLOCKING_POPUP_ELEMENT_NAME = "popup_exit_close_symbol"
 LAUNCH_GAME_OBJECTIVE = (
     "Arrivare all'interfaccia del gioco pronta all'uso dopo avvio, fullscreen, caricamento "

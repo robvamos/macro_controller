@@ -1,0 +1,2120 @@
+{
+  "capture_policy": {
+    "capture_level": "metadata-only",
+    "payloads_persisted": false,
+    "replay_allowed": false,
+    "tls_passthrough": true
+  },
+  "channel_inventory": [
+    {
+      "client_to_server_bytes": 3777,
+      "client_to_server_messages": 226,
+      "message_count": 3154,
+      "server_port": 16731,
+      "server_to_client_bytes": 907238,
+      "server_to_client_messages": 2928,
+      "transport": "tcp"
+    },
+    {
+      "client_to_server_bytes": 1594,
+      "client_to_server_messages": 116,
+      "message_count": 438,
+      "server_port": 16739,
+      "server_to_client_bytes": 206691,
+      "server_to_client_messages": 322,
+      "transport": "tcp"
+    },
+    {
+      "client_to_server_bytes": 517,
+      "client_to_server_messages": 1,
+      "message_count": 2,
+      "server_port": 11032,
+      "server_to_client_bytes": 125,
+      "server_to_client_messages": 1,
+      "transport": "tcp"
+    }
+  ],
+  "generated_at": "2026-07-23T20:20:19.293251+00:00",
+  "interpretation_policy": "Manual markers declare operator intent. Traffic shapes remain candidates until the same fingerprint is repeated with visual confirmation in independent sessions.",
+  "message_count": 3594,
+  "network_session_id": "20260723_215241",
+  "record_count": 3624,
+  "recurring_background_shapes": [
+    {
+      "bytes": 4,
+      "count": 124,
+      "direction": "client_to_server",
+      "server_port": 16731,
+      "transport": "tcp"
+    },
+    {
+      "bytes": 4,
+      "count": 107,
+      "direction": "server_to_client",
+      "server_port": 16731,
+      "transport": "tcp"
+    },
+    {
+      "bytes": 4,
+      "count": 111,
+      "direction": "client_to_server",
+      "server_port": 16739,
+      "transport": "tcp"
+    },
+    {
+      "bytes": 4,
+      "count": 111,
+      "direction": "server_to_client",
+      "server_port": 16739,
+      "transport": "tcp"
+    }
+  ],
+  "schema": "doomsday.annotated-network-analysis.v1",
+  "semantic_windows": [
+    {
+      "application_message_count": 12,
+      "application_shape": [
+        {
+          "bytes": 11,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 25,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 60,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 4,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 165,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 225,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 229,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 148,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 579,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 579,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 8,
+          "client_to_server_messages": 2,
+          "message_count": 14,
+          "server_port": 16731,
+          "server_to_client_bytes": 999,
+          "server_to_client_messages": 12,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 4,
+          "client_to_server_messages": 1,
+          "message_count": 4,
+          "server_port": 16739,
+          "server_to_client_bytes": 731,
+          "server_to_client_messages": 3,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APRO MESSAGGI",
+      "event_index_end": 340,
+      "event_index_start": 323,
+      "marker_observed_at": "2026-07-23T19:57:55.4808996Z",
+      "message_count": 18,
+      "record_count": 18,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "71c930809cf07d42"
+    },
+    {
+      "application_message_count": 55,
+      "application_shape": [
+        {
+          "bytes": 11,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 24,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 25,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 48,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 49,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 62,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 68,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 5,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 72,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 81,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 103,
+          "count": 4,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 118,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 125,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 130,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 142,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 167,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 173,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 217,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 228,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 229,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 239,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 276,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 280,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 327,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 356,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 412,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 824,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 840,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1184,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1281,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1451,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1571,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1985,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 119,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 151,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 496,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 525,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 541,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 542,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 555,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 824,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 412,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 412,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 412,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1184,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 542,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 356,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1571,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 280,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 327,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 276,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 525,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 840,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1281,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1451,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 542,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1985,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 541,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 496,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 555,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 16,
+          "client_to_server_messages": 4,
+          "message_count": 55,
+          "server_port": 16731,
+          "server_to_client_bytes": 14806,
+          "server_to_client_messages": 51,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 16,
+          "client_to_server_messages": 4,
+          "message_count": 16,
+          "server_port": 16739,
+          "server_to_client_bytes": 3487,
+          "server_to_client_messages": 12,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APERTI MESSAGGI",
+      "event_index_end": 411,
+      "event_index_start": 341,
+      "marker_observed_at": "2026-07-23T19:58:18.7604099Z",
+      "message_count": 71,
+      "record_count": 71,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "de8bfc020191847a"
+    },
+    {
+      "application_message_count": 16,
+      "application_shape": [
+        {
+          "bytes": 11,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 6,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 77,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 111,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 128,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 170,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 636,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 918,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 539,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 607,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 539,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 636,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 607,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 918,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 8,
+          "client_to_server_messages": 2,
+          "message_count": 18,
+          "server_port": 16731,
+          "server_to_client_bytes": 2550,
+          "server_to_client_messages": 16,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 8,
+          "client_to_server_messages": 2,
+          "message_count": 6,
+          "server_port": 16739,
+          "server_to_client_bytes": 1154,
+          "server_to_client_messages": 4,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APRO RAPPORTI CICLANDO TRA LE OPZIONI; RAPPORTI ULTIMO",
+      "event_index_end": 435,
+      "event_index_start": 412,
+      "marker_observed_at": "2026-07-23T19:59:17.2409534Z",
+      "message_count": 24,
+      "record_count": 24,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "7b01fabc3c8912ef"
+    },
+    {
+      "application_message_count": 0,
+      "application_shape": [],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [],
+      "channel_summary": [],
+      "declared_semantic_label": "APERTI RAPPORTI",
+      "event_index_end": 435,
+      "event_index_start": 436,
+      "marker_observed_at": "2026-07-23T19:59:48.0695780Z",
+      "message_count": 0,
+      "record_count": 0,
+      "semantic_status": "no_distinct_application_shape_observed",
+      "shape_fingerprint": "no_distinct_application_shape"
+    },
+    {
+      "application_message_count": 24,
+      "application_shape": [
+        {
+          "bytes": 11,
+          "count": 1,
+          "direction": "client_to_server",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 11,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 26,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 5,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 77,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 111,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 225,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 273,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 390,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 409,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 3019,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 5374,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 5598,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 5923,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 145,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [
+        {
+          "latency_ms": 284,
+          "request_bytes": 11,
+          "response_bytes": 5923,
+          "server_port": 16731,
+          "status": "shape_candidate_not_replayable",
+          "transport": "tcp"
+        }
+      ],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 390,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 273,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 3019,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 5374,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 273,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 5598,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 409,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 19,
+          "client_to_server_messages": 3,
+          "message_count": 27,
+          "server_port": 16731,
+          "server_to_client_bytes": 22338,
+          "server_to_client_messages": 24,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 12,
+          "client_to_server_messages": 3,
+          "message_count": 7,
+          "server_port": 16739,
+          "server_to_client_bytes": 157,
+          "server_to_client_messages": 4,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "INIZIO CICLO BATTAGLIE",
+      "event_index_end": 469,
+      "event_index_start": 436,
+      "marker_observed_at": "2026-07-23T19:59:48.0695780Z",
+      "message_count": 34,
+      "record_count": 34,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "d8d039ee9b1a53bd"
+    },
+    {
+      "application_message_count": 0,
+      "application_shape": [],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [],
+      "channel_summary": [],
+      "declared_semantic_label": "FINE CICLO BATTAGLIE",
+      "event_index_end": 469,
+      "event_index_start": 470,
+      "marker_observed_at": "2026-07-23T20:00:22.0019698Z",
+      "message_count": 0,
+      "record_count": 0,
+      "semantic_status": "no_distinct_application_shape_observed",
+      "shape_fingerprint": "no_distinct_application_shape"
+    },
+    {
+      "application_message_count": 59,
+      "application_shape": [
+        {
+          "bytes": 10,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 11,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 21,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 24,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 31,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 36,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 41,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 46,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 51,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 56,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 61,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 62,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 63,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 66,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 67,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 11,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 71,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 76,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 81,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 86,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 91,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 96,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 101,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 106,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 111,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 115,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 116,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 131,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 137,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 142,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 147,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 151,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 152,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 168,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 178,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 179,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 259,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 333,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 385,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1180,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 5604,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 145,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 271,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 5604,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1180,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 259,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 333,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 385,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 271,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 271,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 20,
+          "client_to_server_messages": 5,
+          "message_count": 66,
+          "server_port": 16731,
+          "server_to_client_bytes": 11947,
+          "server_to_client_messages": 61,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 16,
+          "client_to_server_messages": 4,
+          "message_count": 11,
+          "server_port": 16739,
+          "server_to_client_bytes": 703,
+          "server_to_client_messages": 7,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APRO DETTAGLI REPORT DA SINISTRA",
+      "event_index_end": 546,
+      "event_index_start": 470,
+      "marker_observed_at": "2026-07-23T20:00:22.0019698Z",
+      "message_count": 77,
+      "record_count": 77,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "59f841796792f439"
+    },
+    {
+      "application_message_count": 78,
+      "application_shape": [
+        {
+          "bytes": 10,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 11,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 24,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 31,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 36,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 41,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 46,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 51,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 56,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 61,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 62,
+          "count": 10,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 66,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 68,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 7,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 71,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 76,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 81,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 91,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 96,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 101,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 104,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 106,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 111,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 115,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 116,
+          "count": 3,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 121,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 126,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 131,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 137,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 142,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 147,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 152,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 153,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 158,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 163,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 168,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 173,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 176,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 178,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 229,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 276,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 300,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1664,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 3097,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 145,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 153,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 155,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 270,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 271,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 272,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 273,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 280,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 372,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 489,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 528,
+          "count": 2,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 585,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 3097,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 300,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1664,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 276,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 528,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 489,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 528,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 270,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 271,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 272,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 585,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 271,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 273,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 372,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 280,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 20,
+          "client_to_server_messages": 5,
+          "message_count": 74,
+          "server_port": 16731,
+          "server_to_client_bytes": 10738,
+          "server_to_client_messages": 69,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 24,
+          "client_to_server_messages": 6,
+          "message_count": 26,
+          "server_port": 16739,
+          "server_to_client_bytes": 4616,
+          "server_to_client_messages": 20,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APRO REPORT BATTAGLIA E LO ANALIZZO",
+      "event_index_end": 646,
+      "event_index_start": 547,
+      "marker_observed_at": "2026-07-23T20:01:34.6130702Z",
+      "message_count": 100,
+      "record_count": 100,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "4ae7e6480d1f1fb0"
+    },
+    {
+      "application_message_count": 0,
+      "application_shape": [],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [],
+      "channel_summary": [],
+      "declared_semantic_label": "FINE ANALISI PRIMO AVVERSARIO",
+      "event_index_end": 646,
+      "event_index_start": 647,
+      "marker_observed_at": "2026-07-23T20:02:55.7487088Z",
+      "message_count": 0,
+      "record_count": 0,
+      "semantic_status": "no_distinct_application_shape_observed",
+      "shape_fingerprint": "no_distinct_application_shape"
+    },
+    {
+      "application_message_count": 28,
+      "application_shape": [
+        {
+          "bytes": 6,
+          "count": 2,
+          "direction": "client_to_server",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 12,
+          "count": 1,
+          "direction": "client_to_server",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 10,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 11,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 40,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 62,
+          "count": 6,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 67,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 68,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 69,
+          "count": 6,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 304,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 846,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 1060,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16731,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 149,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 153,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 349,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 350,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        },
+        {
+          "bytes": 557,
+          "count": 1,
+          "direction": "server_to_client",
+          "server_port": 16739,
+          "transport": "tcp"
+        }
+      ],
+      "candidate_exchanges": [
+        {
+          "latency_ms": 303,
+          "request_bytes": 6,
+          "response_bytes": 846,
+          "server_port": 16731,
+          "status": "shape_candidate_not_replayable",
+          "transport": "tcp"
+        },
+        {
+          "latency_ms": 286,
+          "request_bytes": 12,
+          "response_bytes": 846,
+          "server_port": 16731,
+          "status": "shape_candidate_not_replayable",
+          "transport": "tcp"
+        },
+        {
+          "latency_ms": 260,
+          "request_bytes": 6,
+          "response_bytes": 846,
+          "server_port": 16731,
+          "status": "shape_candidate_not_replayable",
+          "transport": "tcp"
+        }
+      ],
+      "candidate_server_pushes": [
+        {
+          "response_bytes": 350,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 557,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 1060,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 304,
+          "server_port": 16731,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        },
+        {
+          "response_bytes": 349,
+          "server_port": 16739,
+          "status": "unmatched_server_push_candidate",
+          "transport": "tcp"
+        }
+      ],
+      "channel_summary": [
+        {
+          "client_to_server_bytes": 40,
+          "client_to_server_messages": 7,
+          "message_count": 30,
+          "server_port": 16731,
+          "server_to_client_bytes": 3204,
+          "server_to_client_messages": 23,
+          "transport": "tcp"
+        },
+        {
+          "client_to_server_bytes": 8,
+          "client_to_server_messages": 2,
+          "message_count": 9,
+          "server_port": 16739,
+          "server_to_client_bytes": 1566,
+          "server_to_client_messages": 7,
+          "transport": "tcp"
+        }
+      ],
+      "declared_semantic_label": "APRO REGISTRO ALTRO AVVERSARIO STESSA BATTAGLIA",
+      "event_index_end": 685,
+      "event_index_start": 647,
+      "marker_observed_at": "2026-07-23T20:02:55.7487088Z",
+      "message_count": 39,
+      "record_count": 39,
+      "semantic_status": "candidate_requires_repetition_and_visual_validation",
+      "shape_fingerprint": "a34099d14746582b"
+    },
+    {
+      "application_message_count": 0,
+      "application_shape": [],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [],
+      "channel_summary": [],
+      "declared_semantic_label": "FINE REGISTRO ALTRO AVVERSARIO",
+      "event_index_end": 685,
+      "event_index_start": 686,
+      "marker_observed_at": "2026-07-23T20:03:32.6779816Z",
+      "message_count": 0,
+      "record_count": 0,
+      "semantic_status": "no_distinct_application_shape_observed",
+      "shape_fingerprint": "no_distinct_application_shape"
+    },
+    {
+      "application_message_count": 0,
+      "application_shape": [],
+      "candidate_exchanges": [],
+      "candidate_server_pushes": [],
+      "channel_summary": [],
+      "declared_semantic_label": "CHIUDO MESSAGGI",
+      "event_index_end": 685,
+      "event_index_start": 686,
+      "marker_observed_at": "2026-07-23T20:03:32.6779816Z",
+      "message_count": 0,
+      "record_count": 0,
+      "semantic_status": "unbounded_missing_next_marker",
+      "shape_fingerprint": "no_distinct_application_shape"
+    }
+  ]
+}

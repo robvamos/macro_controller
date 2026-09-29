@@ -16,11 +16,11 @@ any Windows or application trust store.
 
 ## Launcher boundary
 
-The supported native-client entrypoint is the public Desktop shortcut
-`C:\Users\Public\Desktop\Doomsday.lnk`. It resolves to the IGG launcher
-`F:\Doomsday\DoomsdayLastSurvivors.exe`, which prepares the context required by
-the versioned game binary. Direct execution of `Doomsday.exe` is forbidden by
-the observation workflow because the client responds with `ErrCode: 0x4`.
+The native-client entrypoint is the shortcut configured in the workstation
+profile, with the Windows Public Desktop shortcut as fallback. It resolves to
+the IGG launcher, which prepares the context required by the versioned game
+binary. Direct execution of `Doomsday.exe` is forbidden by the observation
+workflow because the client responds with `ErrCode: 0x4`.
 
 ## Why two tools are retained
 

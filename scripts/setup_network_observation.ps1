@@ -1,12 +1,14 @@
 [CmdletBinding()]
 param(
-    [string]$PythonVersion = "3.13"
+    [string]$PythonVersion = ""
 )
 
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
+. "$PSScriptRoot\workstation-profile.ps1"
+$pythonCommand = Get-DdProjectPython -ProjectRoot $projectRoot
 $requirements = Join-Path $projectRoot "requirements-network-observation.txt"
-$venvRoot = Join-Path $projectRoot ".tools\mitmproxy"
+$venvRoot = Get-DdWorkstationSetting -ProjectRoot $projectRoot -Name "networkObserverDir" -PythonCommand $pythonCommand
 $venvPython = Join-Path $venvRoot "Scripts\python.exe"
 $mitmdump = Join-Path $venvRoot "Scripts\mitmdump.exe"
 
@@ -15,11 +17,19 @@ if (-not (Test-Path -LiteralPath $requirements -PathType Leaf)) {
 }
 
 if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf)) {
-    $launcher = Get-Command py -ErrorAction SilentlyContinue
-    if (-not $launcher) {
-        throw "Python Launcher (py.exe) non trovato. Installa Python $PythonVersion e riprova."
+    if ($PythonVersion) {
+        $versionArgs = @()
+        $versionArgs += $pythonCommand.PrefixArgs
+        $versionArgs += "--version"
+        $version = & $pythonCommand.Path @versionArgs
+        if ($version -notmatch [regex]::Escape($PythonVersion)) {
+            throw "Il runtime Python del profilo non corrisponde a $PythonVersion."
+        }
     }
-    & $launcher.Source "-$PythonVersion" -m venv $venvRoot
+    $venvArgs = @()
+    $venvArgs += $pythonCommand.PrefixArgs
+    $venvArgs += @("-m", "venv", $venvRoot)
+    & $pythonCommand.Path @venvArgs
     if ($LASTEXITCODE -ne 0) {
         throw "Creazione dell'ambiente mitmproxy non riuscita."
     }

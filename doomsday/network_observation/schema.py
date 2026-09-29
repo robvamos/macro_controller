@@ -135,6 +135,36 @@ def build_http_record(
     )
 
 
+def build_stream_message_record(
+    *,
+    flow_id: str,
+    transport: str,
+    from_client: bool,
+    message_bytes: int,
+    message_index: int,
+    server_host: str = "",
+    server_port: int = 0,
+) -> MetadataRecord:
+    """Describe one stream message without retaining any payload bytes."""
+
+    if transport not in {"tcp", "udp"}:
+        raise ValueError("stream transport must be tcp or udp")
+    if message_index < 1:
+        raise ValueError("message_index must be at least 1")
+    direction = "client_to_server" if from_client else "server_to_client"
+    return MetadataRecord(
+        event_type=f"{transport}_message",
+        transport=transport,
+        flow_id=flow_id,
+        server_host=server_host.casefold(),
+        server_port=server_port,
+        request_bytes=message_bytes if from_client else 0,
+        response_bytes=0 if from_client else message_bytes,
+        message_count=1,
+        metadata={"direction": direction, "message_index": message_index},
+    )
+
+
 @dataclass(frozen=True, slots=True)
 class ObservationSummary:
     record_count: int
@@ -217,6 +247,7 @@ __all__ = [
     "ObservationSummary",
     "SCHEMA",
     "build_http_record",
+    "build_stream_message_record",
     "content_length",
     "normalize_path",
     "safe_query_keys",

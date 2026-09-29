@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDGameAss workstation settings",
+  "type": "object",
+  "additionalProperties": false,
+  "profileEnv": "DDGAMEASS_WORKSTATION_PROFILE",
+  "configEnv": "DDGAMEASS_WORKSTATION_CONFIG",
+  "properties": {
+    "workspaceRoot": {
+      "type": "string",
+      "minLength": 1,
+      "default": "..",
+      "kind": "path",
+      "env": "CODEX_WORKSPACE_ROOT"
+    },
+    "knowledgeRoot": {
+      "type": "string",
+      "minLength": 0,
+      "default": "../Knowledge",
+      "kind": "path",
+      "env": "KNOWLEDGE_ROOT"
+    },
+    "runtimeDir": {
+      "type": "string",
+      "minLength": 1,
+      "default": "workstation/local/runtime",
+      "profileDefault": "runtime",
+      "kind": "path",
+      "env": "DDGAMEASS_RUNTIME_DIR"
+    },
+    "gameShortcutPath": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_GAME_SHORTCUT_PATH"
+    },
+    "gameInstallDir": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_GAME_INSTALL_DIR"
+    },
+    "bluestacksInstallDir": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_BLUESTACKS_INSTALL_DIR"
+    },
+    "bluestacksDataDir": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_BLUESTACKS_DATA_DIR"
+    },
+    "virtualboxInstallDir": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_VIRTUALBOX_INSTALL_DIR"
+    },
+    "androidVmConfig": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_ANDROID_VM_CONFIG"
+    },
+    "androidVmDisk": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_ANDROID_VM_DISK"
+    },
+    "androidVmInstallerIso": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_ANDROID_VM_INSTALLER_ISO"
+    },
+    "pythonExe": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "CODEX_PYTHON_EXE"
+    },
+    "tesseractExe": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "TESSERACT_EXE"
+    },
+    "wiresharkExe": {
+      "type": "string",
+      "minLength": 0,
+      "default": "",
+      "kind": "path",
+      "env": "DDGAMEASS_WIRESHARK_EXE"
+    },
+    "networkObserverDir": {
+      "type": "string",
+      "minLength": 1,
+      "default": "runtime/network-observer",
+      "profileDefault": "runtime/network-observer",
+      "kind": "path",
+      "env": "DDGAMEASS_NETWORK_OBSERVER_DIR"
+    }
+  }
+}

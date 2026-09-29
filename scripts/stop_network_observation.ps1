@@ -3,7 +3,10 @@ param()
 
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$pidPath = Join-Path $projectRoot ".tools\network_observation\active.pid"
+. "$PSScriptRoot\workstation-profile.ps1"
+$pythonCommand = Get-DdProjectPython -ProjectRoot $projectRoot
+$runtimeDir = Get-DdWorkstationSetting -ProjectRoot $projectRoot -Name "runtimeDir" -PythonCommand $pythonCommand
+$pidPath = Join-Path $runtimeDir "network_observation\active.pid"
 
 if (-not (Test-Path -LiteralPath $pidPath)) {
     Write-Host "Nessuna sessione di osservazione risulta attiva."

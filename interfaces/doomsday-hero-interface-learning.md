@@ -2,7 +2,7 @@
 
 - Producer: ddgameass
 - Status: experimental
-- Interface version: 0.1.0
+- Interface version: 0.2.0
 - Default mode: supervised, evidence-only
 
 ## Purpose
@@ -39,13 +39,23 @@ Each session writes under `.tools/learning_sessions/<session>/`:
 - `events.jsonl`: one durable record per click;
 - `frames.jsonl`: full-frame hashes, quality and lineage;
 - PNG frames at click time and after stabilization (new sessions).
+- `network_correlation_summary.json`: per-click metadata-only traffic shape,
+  latency candidate and repeatable fingerprint.
+
+Learning now enables per-PID network observation by default. The session
+manifest records whether the observer was started, attached or unavailable.
+Visual learning continues fail-soft when the observer cannot start, but the
+evidence coverage is explicitly partial. Use `-DisableNetworkObservation` only
+for an intentional visual-only session.
 
 ## Interrupted-session recovery
 
-`recover_learning_session()` opens `data/macro_recorder.db` using SQLite
+`recover_learning_session()` opens the workstation-local macro database using SQLite
 `mode=ro&immutable=1`. It never creates or updates a Macro row. It validates
-sequence continuity and predecessor links, then exports a supplemental JSON and
-click crops under `data/doomsday/knowledge/recovered_learning_sessions/`.
+sequence continuity and predecessor links, then writes a supplemental JSON and
+click crops under the selected profile's local `runtime/doomsday/recovered_learning_sessions/`
+directory. The shared exporter publishes only a sanitized click sequence; raw
+click crops remain local.
 
 ## OCR anchors
 
@@ -59,5 +69,5 @@ validated home-screen label `Eroe`; it is an OCR anchor, not a click target.
 - no autonomous clicks in learning mode;
 - no direct roster mutation from OCR;
 - no network/API meaning inferred from timing alone;
-- later network observations require a validated UI transition and cannot
+- network correlations require repeated validated UI transitions and cannot
   bypass authentication or game protections.

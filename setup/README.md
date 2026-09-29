@@ -12,10 +12,10 @@ Tenere separati:
 
 ## Struttura
 
-- [common](/F:/_CODEX/DDassistant/setup/common): metadati e convenzioni riusabili
-- [windows](/F:/_CODEX/DDassistant/setup/windows): primi file guida per il setup Windows
-- [linux](/F:/_CODEX/DDassistant/setup/linux): spazio riservato per packaging Linux
-- [android](/F:/_CODEX/DDassistant/setup/android): spazio riservato per una futura variante Android
+- [common](common): metadati e convenzioni riusabili
+- [windows](windows): primi file guida per il setup Windows
+- [linux](linux): spazio riservato per packaging Linux
+- [android](android): spazio riservato per una futura variante Android
 
 ## Principio
 

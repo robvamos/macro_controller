@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.11.0 - 2026-07-23
+
+- Semplificata la barra Comandi a un solo pulsante `Stop`; lo stop di emergenza
+  resta accessibile tramite le scorciatoie globali.
+- Added the read-only `Mappa Task/Chiamate` desktop tab.
+- Added navigation from learning domains to observed tasks, linked UI functions,
+  channels and individual metadata-only call shapes.
+- Added search plus domain and maturity filters, with explicit evidence and
+  replay-safety notices.
+- Added a reusable task/call read-model service backed by persisted annotated
+  network observations.
+
+## 0.10.1 - 2026-07-23
+
+- Aggiunta la skill condivisa `doomsday-task-call-mapper` per raggruppare
+  transizioni UI, chiusure popup e fingerprint applicativi metadata-only in
+  candidati di operazioni e task ricorrenti.
+- Formalizzate classi e livelli di maturità che mantengono separate evidenza,
+  attribuzione semantica, revisione umana ed eventuale autorità esecutiva.
+
+## 0.9.0 - 2026-07-23
+
+- Resa predefinita l'osservazione rete metadata-only nelle sessioni Learning,
+  con attach o avvio bounded sul PID del gioco e fallback visuale esplicito.
+- Collegati click, crop, frame completi e nodi UI agli indici degli eventi
+  TCP/UDP osservati prima e dopo la stabilizzazione grafica.
+- Aggiunti marker incrociati, fingerprint per click, latenza candidata e
+  `network_correlation_summary.json` senza contenuti, header o credenziali.
+- Introdotto il registro dei domini Learning per rapporti battaglia, risorse,
+  armamenti, raccolta, officina, ricerca e missioni.
+- Rimosso dal launcher Learning il percorso Python specifico della postazione:
+  ora usa `CODEX_PYTHON_EXE`, `.venv` o discovery del runtime.
+
+## 0.8.2 - 2026-07-23
+
+- Estesa l'osservazione metadata-only con eventi per ogni messaggio TCP/UDP:
+  timestamp, direzione, indice e byte count, senza persistere payload.
+- Resa possibile la correlazione temporale supervisionata tra transizioni del
+  grafo UI dei report e scambi sui canali persistenti del gioco.
+
 ## 0.7.1 - 2026-07-15
 
 - Reso esplicito il collegamento pubblico `Doomsday.lnk` come unico ingresso

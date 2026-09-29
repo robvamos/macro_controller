@@ -21,7 +21,6 @@ def build_macro_management_tab(
     delete_selected_macro,
     duplicate_selected_macro,
     concat_macros_dialog,
-    emergency_stop_all,
     update_button_states,
     setup_click_context_preview,
     setup_execution_visualizer,
@@ -110,14 +109,6 @@ def build_macro_management_tab(
 
     stop_button = ttk.Button(actions_body, text="■ Stop", command=stop_current_operation, style="TButton")
     stop_button.pack(fill="x", pady=3)
-
-    emergency_stop_button = ttk.Button(
-        actions_body,
-        text="■ Stop",
-        command=emergency_stop_all,
-        style="Emergency.TButton",
-    )
-    emergency_stop_button.pack(fill="x", pady=3)
 
     edit_button = ttk.Button(actions_body, text="✏️ Modifica", command=edit_selected_macro, style="TButton")
     edit_button.pack(fill="x", pady=3)
@@ -223,7 +214,6 @@ def build_macro_management_tab(
         "delete_button": delete_button,
         "duplicate_button": duplicate_button,
         "concat_button": concat_button,
-        "emergency_stop_button": emergency_stop_button,
         "loop_var": loop_var,
         "loop_var_checkbox": loop_var_checkbox,
         "loop_delay_entry": loop_delay_entry,

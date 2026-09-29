@@ -10,7 +10,7 @@ class SystemMacroServiceTests(unittest.TestCase):
             "system_key": "launch_game",
             "eseguibile": "Doomsday.exe",
             "system_payload": {
-                "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "shortcut_path": "D:/Test/Doomsday.lnk",
                 "target_exe": "Doomsday.exe",
             },
         }
@@ -53,7 +53,7 @@ class SystemMacroServiceTests(unittest.TestCase):
             "system_key": "launch_game",
             "eseguibile": "Doomsday.exe",
             "system_payload": {
-                "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "shortcut_path": "D:/Test/Doomsday.lnk",
                 "target_exe": "Doomsday.exe",
             },
         }
@@ -61,6 +61,7 @@ class SystemMacroServiceTests(unittest.TestCase):
 
         with (
             patch.object(system_macro_service, "is_process_running", return_value=False),
+            patch.object(system_macro_service, "get_local_launch_game_variant_for_current_context", return_value=None),
             patch("services.system_macro_service.os.path.exists", return_value=True),
             patch("services.system_macro_service.os.startfile") as startfile_mock,
             patch.object(system_macro_service, "wait_for_game_fullscreen", return_value={
@@ -85,7 +86,7 @@ class SystemMacroServiceTests(unittest.TestCase):
         ):
             result = system_macro_service.run_system_macro(metadata, log_callback)
 
-        startfile_mock.assert_called_once_with("C:/Users/Public/Desktop/Doomsday.lnk")
+        startfile_mock.assert_called_once_with("D:/Test/Doomsday.lnk")
         self.assertTrue(result["launched"])
         self.assertFalse(result["already_running"])
         self.assertTrue(result["fullscreen_ready"])
@@ -99,7 +100,7 @@ class SystemMacroServiceTests(unittest.TestCase):
             "system_key": "launch_game",
             "eseguibile": "Doomsday.exe",
             "system_payload": {
-                "shortcut_path": "C:/Users/Public/Desktop/Doomsday.lnk",
+                "shortcut_path": "D:/Test/Doomsday.lnk",
                 "target_exe": "Doomsday.exe",
             },
         }

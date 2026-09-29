@@ -1,14 +1,14 @@
 {
   "name": "DDGameAss",
   "slug": "ddgameass",
-  "path": "F:/_CODEX/DDassistant",
+  "path": ".",
   "status": "active",
-  "version": "0.7.1",
-  "summary": "Goal-driven Doomsday assistant with versioned game knowledge, safe semantic planning, evidence provenance, OCR, vision, and macro automation.",
-  "description": "Windows desktop Doomsday assistant that separates game-domain understanding, confidence-aware perception, versioned rules, safe semantic planning, supervised outcomes, and legacy macro execution.",
-  "local_agents": "F:/_CODEX/DDassistant/AGENTS.md",
-  "project_card": "F:/_CODEX/Knowledge/codex-knowledge-hub/projects/ddgameass.yaml",
-  "hub_root": "F:/_CODEX/Knowledge/codex-knowledge-hub",
+  "version": "0.12.0",
+  "summary": "Goal-driven Doomsday assistant with portable workstation profiles, GitHub-shared learning, a navigable task/call evidence map, OCR, vision and safe planning.",
+  "description": "Windows desktop Doomsday assistant with workstation-local runtime state and reviewed, versioned semantic knowledge that can be shared through GitHub across independent clones.",
+  "local_agents": "AGENTS.md",
+  "project_card": "../Knowledge/codex-knowledge-hub/projects/ddgameass.yaml",
+  "hub_root": "../Knowledge/codex-knowledge-hub",
   "capabilities": [
     "macro-automation-runtime",
     "macro-system-launch",
@@ -19,6 +19,7 @@
     "doomsday-visual-element-variant-matching",
     "doomsday-ui-graph-layer",
     "doomsday-ui-graph-macro-linking",
+    "doomsday-battle-report-knowledge-graph",
     "doomsday-lossless-element-ingestion",
     "doomsday-system-protected-game-elements",
     "doomsday-element-crop-editing",
@@ -50,26 +51,34 @@
     "doomsday-bluestacks-readonly-capture",
     "doomsday-semantic-campaign-attribution",
     "doomsday-supervised-campaign-runs",
-    "doomsday-network-metadata-observation"
+    "doomsday-network-metadata-observation",
+    "doomsday-dual-evidence-learning",
+    "doomsday-learning-network-fingerprints",
+    "doomsday-annotated-network-semantic-analysis",
+    "doomsday-task-call-pattern-mining",
+    "doomsday-navigable-task-call-map",
+    "portable-workstation-profiles",
+    "shared-learning-export",
+    "shared-learning-import"
   ],
   "interfaces": [
     {
       "name": "doomsday-roster-bootstrap",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-roster-bootstrap.md",
+      "path": "interfaces/doomsday-roster-bootstrap.md",
       "status": "draft",
-      "version": "0.3.0",
+      "version": "0.5.0",
       "consumers": []
     },
     {
       "name": "doomsday-vision-primitives",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-vision-primitives.md",
+      "path": "interfaces/doomsday-vision-primitives.md",
       "status": "draft",
       "version": "0.3.4",
       "consumers": []
     },
     {
       "name": "doomsday-creators-pipeline",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-creators-pipeline.md",
+      "path": "interfaces/doomsday-creators-pipeline.md",
       "status": "draft",
       "version": "0.1.0",
       "consumers": [
@@ -79,7 +88,7 @@
     },
     {
       "name": "doomsday-crawler",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-crawler.md",
+      "path": "interfaces/doomsday-crawler.md",
       "status": "draft",
       "version": "0.1.0",
       "consumers": [
@@ -88,16 +97,16 @@
     },
     {
       "name": "doomsday-intelligence-runtime",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-intelligence-runtime.md",
+      "path": "interfaces/doomsday-intelligence-runtime.md",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.3.0",
       "consumers": [
         "knowledge"
       ]
     },
     {
       "name": "doomsday-runtime-roster-acquisition",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-runtime-roster-acquisition.md",
+      "path": "interfaces/doomsday-runtime-roster-acquisition.md",
       "status": "draft",
       "version": "0.2.0",
       "consumers": [
@@ -106,18 +115,18 @@
     },
     {
       "name": "doomsday-hero-interface-learning",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-hero-interface-learning.md",
+      "path": "interfaces/doomsday-hero-interface-learning.md",
       "status": "experimental",
-      "version": "0.1.0",
+      "version": "0.3.0",
       "consumers": [
         "knowledge"
       ]
     },
     {
       "name": "doomsday-network-observation",
-      "path": "F:/_CODEX/DDassistant/interfaces/doomsday-network-observation.md",
+      "path": "interfaces/doomsday-network-observation.md",
       "status": "experimental",
-      "version": "0.1.1",
+      "version": "0.4.0",
       "consumers": [
         "knowledge"
       ]
@@ -125,6 +134,7 @@
   ],
   "reusable_skills": [
     "attivasviluppo",
+    "doomsday-task-call-mapper",
     "project-bootstrap",
     "sviluppo-conoscenza"
   ],
@@ -142,12 +152,10 @@
   },
   "notes": [
     "Bootstrapped with the project-bootstrap skill.",
-    "Moved into the shared Codex workspace from F:/Zombi/macro_controller.",
     "Doomsday modules expose reusable OCR, dataset bootstrap, and vision primitives for sibling projects.",
     "An emerging Doomsday crawler service for roster discovery and provider-aware hero enrichment is now explicitly exposed for Knowledge support and integration.",
     "The 0.5 intelligence core introduces 15 modes, 18 versioned rulesets, goal constraints, semantic actions, evidence conflicts, provider isolation, an execution policy gate, outcome evaluation, and a dedicated learning store.",
     "Knowledge remains the owner of source ranking; DDassistant publishes a validated Doomsday SourceRegistry overlay and consumes ranking through an adapter.",
-    "Concrete macro execution remains disabled by default until the conflicted macro database and structural UI-node recognition gaps are resolved.",
     "The field roster planner records current and proposed Doomsday march pairings, including heroes, beasts, special-weapon notes, bench candidates, and development priorities.",
     "Runtime inventory tracks the legacy Android-x86 VirtualBox VM, installed BlueStacks instances, and the active Windows client without starting emulators or ADB.",
     "The supervised roster acquisition port captures the visible game UI, normalizes OCR into provenance-aware atomic contributions, and defers canonical roster writes to user confirmation.",
@@ -158,8 +166,52 @@
     "Tesseract CLI provides local ita+eng OCR; only the home Eroe label is calibrated until full hero-view frames are reviewed.",
     "Semantic campaigns attribute reusable macro sequences to an explicit objective, operation, asset domains, game version, validation state, and immutable sequence snapshot without granting execution authority.",
     "Campaign runs persist pre/post observations and evidence independently from playback, so success informs coverage without granting authority to a macro.",
-    "Network observation uses project-local mitmproxy in local PID mode with TLS passthrough, redacted metadata-only JSONL, no trusted CA, no Windows proxy mutation, no replay and no protection bypass.",
-    "The native client must be launched through C:/Users/Public/Desktop/Doomsday.lnk, which resolves to DoomsdayLastSurvivors.exe; direct Doomsday.exe execution is explicitly unsupported because it returns error 0x4."
+    "Network observation 0.1.2 emits per-message timestamp, direction, ordinal and byte count for TCP/UDP flows so supervised UI transitions can be correlated without storing payloads.",
+    "Learning 0.9 enables metadata-only per-PID observation by default, binds click/frame journals to network event ranges, and emits repeatable per-click fingerprints without promoting timing into game meaning.",
+    "The learning domain registry seeds battle reports, resources, armaments, gathering, workshop, research and missions for progressive evidence-gated semantic reconstruction.",
+    "The UI knowledge graph now links Comunicazioni and battle-report navigation to multi-participant configurations, ordered battle events, outcome evidence, an execution model, and evidence-gated beast/armament/squad advice.",
+    "Battle-report semantics now include the top duration/engagement summary, repeatable opponent sections, initial and killed troop metrics, and vehicle configuration as user-confirmed structural knowledge awaiting visual anchors.",
+    "Annotated metadata-only proxy analysis separates heartbeat, request/response candidates and server pushes, binds safe fingerprints to operator markers, and emits no payload or replay mechanism.",
+    "The doomsday-task-call-mapper skill clusters repeated visual transitions and metadata-only application-call fingerprints into human-reviewed operation and composite-task candidates.",
+    "The desktop application exposes a read-only Mappa Task/Chiamate tab that navigates domains, operator-declared tasks, linked UI functions and metadata-only call shapes with maturity, fingerprint and evidence details.",
+    "Workstation settings, macro/roster databases, runtime inventories, logs, frames and optional tool environments are stored under an ignored local profile; project code resolves checkout paths dynamically.",
+    "Reviewed Doomsday visual elements, semantic click sessions, OCR observations and evidence-backed suggestions are exported additively into versioned files and shared through GitHub main; local captures and screen paths are excluded.",
+    "Other workstation clones receive new canonical visual templates on startup without replacing user-owned local elements with name collisions."
   ],
-  "last_updated": "2026-07-16T06:41:42.856832+00:00"
+  "last_updated": "2026-09-29T09:39:05+00:00",
+  "workstation": {
+    "documentation": "workstation/README.md",
+    "schema": "workstation/settings.schema.json",
+    "example": "workstation/settings.example.json",
+    "local_config": "workstation/local/<profile>/settings.json",
+    "profile_config": "workstation/local/<profile>/settings.json",
+    "profile_selector": "DDGAMEASS_WORKSTATION_PROFILE",
+    "config_override": "DDGAMEASS_WORKSTATION_CONFIG",
+    "validation": "python workstation/settings.py",
+    "regression": "python workstation/test_settings.py",
+    "support_inventory": "workstation/local/<profile>/support-inventory.json",
+    "support_inventory_command": "python scripts/collect_support_inventory.py",
+    "portability_check": "python scripts/validate_portability.py",
+    "ignored_state": "workstation/local/<profile>/",
+    "standard_version": "2026-09-29"
+  },
+  "knowledge_sharing": {
+    "guide": "docs/knowledge-sharing.md",
+    "canonical_directory": "data/doomsday/knowledge/",
+    "export_command": "python tools/export_shared_knowledge.py",
+    "transport": "GitHub main",
+    "runtime_import": "local GameElements database imports missing shared image variants",
+    "raw_captures": "workstation/local/<profile>/runtime/"
+  },
+  "support_inventory": {
+    "guide": "docs/project-support.md",
+    "local_file": "workstation/local/<profile>/support-inventory.json",
+    "collector": "scripts/collect_support_inventory.py",
+    "distinguishes": [
+      "required",
+      "optional",
+      "installed",
+      "verified"
+    ]
+  }
 }

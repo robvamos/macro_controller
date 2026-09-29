@@ -45,15 +45,21 @@ class ConfigStoreTests(unittest.TestCase):
         for style_name in config_store.DEFAULT_STYLE_MAP:
             self.assertTrue((self.styles_dir / f"style_{style_name}.json").exists())
 
-    def test_migrate_legacy_layout_moves_old_files(self):
+    def test_migrate_legacy_layout_copies_old_settings_and_styles_into_local_profile(self):
         self.legacy_config_path.write_text(json.dumps({"selected_style": "neon"}), encoding="utf-8")
-        (self.base / "style_neon.json").write_text(json.dumps({"background_color": "#111111"}), encoding="utf-8")
+        legacy_style = self.base / "style_neon.json"
+        legacy_style.write_text(json.dumps({"background_color": "#111111"}), encoding="utf-8")
 
         config_store.migrate_legacy_layout()
 
-        self.assertFalse(self.legacy_config_path.exists())
+        self.assertTrue(self.legacy_config_path.exists())
+        self.assertEqual(
+            json.loads(self.legacy_config_path.read_text(encoding="utf-8")),
+            {"selected_style": "neon"},
+        )
         self.assertTrue(self.app_config_path.exists())
         self.assertTrue((self.styles_dir / "style_neon.json").exists())
+        self.assertTrue(legacy_style.exists())
 
     def test_set_and_get_window_geometry(self):
         config_store.save_app_config(dict(config_store.DEFAULT_APP_CONFIG))

@@ -8,9 +8,9 @@ from pathlib import Path
 import re
 from typing import Any
 
+from core.paths import LEARNING_SESSIONS_DIR
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LEARNING_SESSIONS_ROOT = PROJECT_ROOT / ".tools" / "learning_sessions"
+DEFAULT_LEARNING_SESSIONS_ROOT = LEARNING_SESSIONS_DIR
 
 
 def learning_session_directory(
@@ -25,9 +25,11 @@ def initialize_learning_session_journal(
     *,
     session_name: str,
     scenario: str,
+    domain: str = "general",
     objective: str,
     declared_workflow_id: str | None,
     window_rect: tuple[int, int, int, int] | None,
+    network_observation: dict[str, Any] | None = None,
     root: str | Path = DEFAULT_LEARNING_SESSIONS_ROOT,
 ) -> Path:
     """Create the durable session manifest before the first click is observed."""
@@ -37,6 +39,7 @@ def initialize_learning_session_journal(
         "schema": "doomsday.learning.session.v1",
         "session_name": session_name,
         "scenario": scenario,
+        "domain": domain,
         "objective": objective,
         "declared_workflow_id": declared_workflow_id,
         "semantic_policy": "labels_require_visual_validation",
@@ -45,6 +48,7 @@ def initialize_learning_session_journal(
         "window_rect": _rect_to_dict(window_rect),
         "event_journal": "events.jsonl",
         "frame_journal": "frames.jsonl",
+        "network_observation": network_observation,
     }
     _atomic_write_json(session_dir / "session.json", payload)
     return session_dir
@@ -78,6 +82,7 @@ def finalize_learning_session_journal(
     status: str,
     click_count: int,
     macro_id: int | None = None,
+    network_observation: dict[str, Any] | None = None,
     root: str | Path = DEFAULT_LEARNING_SESSIONS_ROOT,
 ) -> Path:
     if status not in {"completed", "empty", "failed"}:
@@ -93,6 +98,8 @@ def finalize_learning_session_journal(
             "macro_id": macro_id,
         }
     )
+    if network_observation is not None:
+        payload["network_observation"] = network_observation
     _atomic_write_json(manifest, payload)
     return manifest
 

@@ -2,7 +2,7 @@
 
 - Producer: ddgameass
 - Status: draft
-- Interface version: 0.1.0
+- Interface version: 0.2.1
 - Current transport: in-process Python
 - Future transport: optional local JSON API, without changing domain payloads
 - Default execution mode: planning only
@@ -490,13 +490,45 @@ Compatibility rules for 0.x:
 
 ## Current operational blockers
 
-1. [data/macro_recorder.db](../data/macro_recorder.db) has an unresolved binary
-   Git conflict. Macro binding and execution must remain disabled until it is
-   reconciled and validated.
-2. The current exported UI graph has 21 of 24 nodes without recognition
+1. The legacy macro database is workstation-local and is not a shared source of
+   authority. Macro binding and semantic execution remain disabled until local
+   state is reconciled and the migration path is explicitly validated.
+2. The current exported UI graph has 43 of 49 nodes without recognition
    conditions. They are structural/unknown and cannot satisfy runtime
    preconditions.
-3. A concrete Executor remains disabled until both blockers above are closed.
+3. A concrete Executor remains disabled until these runtime boundaries and
+   the structural UI recognition gaps above are closed.
+
+## Battle-report knowledge graph
+
+Interface version 0.2.0 extends the structural UI graph from navigation into
+evidence-backed battle reasoning. The graph now represents:
+
+- `communications_button -> communications_center_view`;
+- `battle_reports_tab_button -> battle_report_list_view`;
+- repeatable report entries and a single battle-detail view;
+- multiple participants per side instead of a fixed one-versus-one model;
+- participant-specific buffs, debuffs, commander equipment, hero armaments,
+  squad equipment and beasts;
+- outcome measures such as kills, wounded, survivors, troop deltas and damage;
+- an ordered, scrollable timeline of abilities, hits, targets, effects and
+  durations;
+- a battle-execution model fed separately by configuration, timeline and
+  outcome evidence;
+- an advice model for beasts, armaments and squads gated by repeated,
+  comparable reports.
+
+Interface version 0.2.1 adds user-confirmed report structure:
+
+- a top summary for battle duration and opponent engagements;
+- one repeatable section per opponent;
+- participant-level initial and killed troop counts;
+- vehicle configuration as a separate source of modifiers.
+
+Structural graph nodes document meaning but do not authorize clicks. Advice
+must retain report and frame provenance, distinguish observations from
+inference, and cite uncertainty. A single battle cannot establish causal
+superiority for a pairing.
 
 ## Implementation anchors
 

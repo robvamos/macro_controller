@@ -1,50 +1,50 @@
 {
-  "schema": "doomsday.network-observation-profile.v1",
-  "profile_version": "0.1.1",
-  "target": {
-    "runtime_id": "native-windows",
-    "process_name": "Doomsday",
-    "game_version": "1.58.0",
-    "launcher_shortcut": "C:/Users/Public/Desktop/Doomsday.lnk",
-    "launcher_target": "F:/Doomsday/DoomsdayLastSurvivors.exe",
-    "forbidden_direct_launch": "F:/Doomsday/Doomsday_1.58.0/Doomsday.exe"
-  },
-  "tools": {
-    "http_observer": {
-      "name": "mitmproxy",
-      "version": "12.2.3",
-      "installation_scope": "project-local-venv",
-      "runtime_path": ".tools/mitmproxy",
-      "mode": "local-pid"
-    },
-    "packet_observer": {
-      "name": "Wireshark/tshark",
-      "version_observed": "4.4.6",
-      "npcap_version_observed": "0.9982",
-      "installation_scope": "machine-existing"
-    }
-  },
   "default_policy": {
+    "allow_pinning_bypass": false,
+    "allow_replay": false,
+    "allow_request_mutation": false,
     "capture_level": "metadata-only",
-    "tls_passthrough": true,
-    "trust_local_ca": false,
     "persist_headers": false,
     "persist_payloads": false,
     "persist_query_values": false,
-    "allow_replay": false,
-    "allow_request_mutation": false,
-    "allow_pinning_bypass": false
+    "tls_passthrough": true,
+    "trust_local_ca": false
   },
-  "observed_protocol_classes": [
-    "https-tcp-443",
-    "custom-persistent-tcp-high-port",
-    "udp-present-unclassified"
-  ],
   "notes": [
     "Il proxy locale per PID intercetta solo nuove connessioni del processo selezionato.",
     "Se il client non e attivo, usare -LaunchViaShortcut: il flusso avvia il collegamento del launcher e attende Doomsday.exe.",
     "L'avvio diretto di Doomsday.exe produce ErrCode 0x4 e non e un percorso supportato.",
     "Le connessioni gia aperte prima dell'avvio dell'osservatore non vengono retroattivamente acquisite.",
-    "La semantica di una chiamata richiede correlazione ripetuta con transizioni UI validate; la vicinanza temporale non e prova sufficiente."
-  ]
+    "La semantica di una chiamata richiede correlazione ripetuta con transizioni UI validate; la vicinanza temporale non e prova sufficiente.",
+    "Gli eventi tcp_message e udp_message conservano solo timestamp, direzione, indice e byte count per correlare le transizioni UI senza persistere payload.",
+    "La modalita Learning collega per default click, frame, nodi UI e finestre di eventi rete; il riepilogo conserva fingerprint candidate che richiedono ripetizione e revisione umana."
+  ],
+  "observed_protocol_classes": [
+    "https-tcp-443",
+    "custom-persistent-tcp-high-port",
+    "udp-present-unclassified"
+  ],
+  "profile_version": "0.3.0",
+  "schema": "doomsday.network-observation-profile.v1",
+  "target": {
+    "forbidden_direct_launch": "Doomsday.exe",
+    "game_version_observed": "1.58.0",
+    "launcher_policy": "use workstation profile gameShortcutPath or the Windows Public Desktop fallback",
+    "observed_at": "2026-07-23",
+    "process_name": "Doomsday",
+    "runtime_id": "native-windows"
+  },
+  "tools": {
+    "http_observer": {
+      "installation_scope": "optional-workstation-profile-venv",
+      "mode": "local-pid",
+      "name": "mitmproxy",
+      "runtime_setting": "networkObserverDir",
+      "version_source": "requirements-network-observation.txt"
+    },
+    "packet_observer": {
+      "installation_scope": "optional-workstation-installation",
+      "name": "Wireshark/tshark"
+    }
+  }
 }

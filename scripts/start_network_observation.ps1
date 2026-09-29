@@ -2,7 +2,7 @@
 param(
     [string]$TargetProcess = "Doomsday",
     [int]$TargetPid = 0,
-    [string]$ShortcutPath = "C:\Users\Public\Desktop\Doomsday.lnk",
+    [string]$ShortcutPath = "",
     [switch]$LaunchViaShortcut,
     [ValidateRange(10, 600)]
     [int]$LaunchTimeoutSeconds = 180,
@@ -13,9 +13,13 @@ param(
 
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$mitmdump = Join-Path $projectRoot ".tools\mitmproxy\Scripts\mitmdump.exe"
+. "$PSScriptRoot\workstation-profile.ps1"
+$pythonCommand = Get-DdProjectPython -ProjectRoot $projectRoot
+$runtimeDir = Get-DdWorkstationSetting -ProjectRoot $projectRoot -Name "runtimeDir" -PythonCommand $pythonCommand
+$observerDir = Get-DdWorkstationSetting -ProjectRoot $projectRoot -Name "networkObserverDir" -PythonCommand $pythonCommand
+$mitmdump = Join-Path $observerDir "Scripts\mitmdump.exe"
 $addon = Join-Path $projectRoot "tools\proxy\metadata_addon.py"
-$runtimeRoot = Join-Path $projectRoot ".tools\network_observation"
+$runtimeRoot = Join-Path $runtimeDir "network_observation"
 $confdir = Join-Path $runtimeRoot "mitmproxy-config"
 $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $sessionDir = Join-Path $runtimeRoot $timestamp
@@ -37,6 +41,12 @@ if ($TargetPid -le 0) {
         Sort-Object StartTime -Descending |
         Select-Object -First 1
     if (-not $target -and $LaunchViaShortcut) {
+        if (-not $ShortcutPath) {
+            $ShortcutPath = Get-DdWorkstationSetting -ProjectRoot $projectRoot -Name "gameShortcutPath" -PythonCommand $pythonCommand
+        }
+        if (-not $ShortcutPath) {
+            $ShortcutPath = Join-Path $env:PUBLIC "Desktop\Doomsday.lnk"
+        }
         if (-not (Test-Path -LiteralPath $ShortcutPath -PathType Leaf)) {
             throw "Collegamento launcher non trovato: $ShortcutPath"
         }

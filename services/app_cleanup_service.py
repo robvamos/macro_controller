@@ -7,12 +7,18 @@ import shutil
 from pathlib import Path
 from typing import Iterable
 
-from core.paths import DOOMSDAY_OCR_OUTPUT_DIR, DOOMSDAY_SCREENSHOTS_DIR, PROJECT_ROOT
+from core.paths import (
+    DOOMSDAY_OCR_OUTPUT_DIR,
+    DOOMSDAY_SCREENSHOTS_DIR,
+    EXPORTS_DIR,
+    LOGS_DIR,
+    PROJECT_ROOT,
+)
 
 
 DEFAULT_RUNTIME_CLEANUP_DIRS = (
-    PROJECT_ROOT / "logs",
-    PROJECT_ROOT / "exports",
+    LOGS_DIR,
+    EXPORTS_DIR,
     DOOMSDAY_SCREENSHOTS_DIR,
     DOOMSDAY_OCR_OUTPUT_DIR,
 )

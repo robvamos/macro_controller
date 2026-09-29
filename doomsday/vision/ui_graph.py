@@ -459,6 +459,281 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         tags=("shared", "section", "hero", "language-agnostic"),
         notes="Sezione Eroe del pannello basso destra condiviso, con riferimento principale sull'icona.",
     )
+    communications_button = UIGraphNode(
+        node_id="communications_button",
+        label="Pulsante Comunicazioni",
+        kind="control",
+        conditions=(),
+        parent_node_id="game_runtime_root",
+        layout_role="shared_navigation",
+        recovery_action=None,
+        tags=("shared", "communications", "messages", "reports", "user-confirmed"),
+        notes=(
+            "Apre il centro Comunicazioni. La funzione è confermata dall'utente e da sessioni "
+            "supervisionate; il riferimento grafico specifico resta da validare prima di autorizzare click autonomi."
+        ),
+    )
+    communications_center_view = UIGraphNode(
+        node_id="communications_center_view",
+        label="Centro Comunicazioni",
+        kind="view",
+        conditions=(),
+        parent_node_id="game_runtime_root",
+        layout_role="message_center",
+        recovery_action=None,
+        tags=("communications", "messages", "reports"),
+        notes="Contenitore delle sezioni di messaggistica, inclusa la sezione Rapporto.",
+    )
+    battle_reports_tab_button = UIGraphNode(
+        node_id="battle_reports_tab_button",
+        label="Sezione Rapporto",
+        kind="control",
+        conditions=(),
+        parent_node_id="communications_center_view",
+        layout_role="communications_section",
+        recovery_action=None,
+        tags=("communications", "battle-reports", "navigation", "user-confirmed"),
+        notes="Sezione di Comunicazioni che espone l'elenco dei report di battaglia.",
+    )
+    battle_report_list_view = UIGraphNode(
+        node_id="battle_report_list_view",
+        label="Elenco report di battaglia",
+        kind="list",
+        conditions=(),
+        parent_node_id="communications_center_view",
+        layout_role="chronological_list",
+        recovery_action=None,
+        tags=("battle-reports", "scrollable", "chronological", "needs-timestamp-validation"),
+        notes=(
+            "Elenco scrollabile dichiarato dall'utente come ordinato dalla battaglia più recente in alto "
+            "alle meno recenti in basso. L'ordinamento richiede ancora validazione OCR su più timestamp."
+        ),
+    )
+    battle_report_entry = UIGraphNode(
+        node_id="battle_report_entry",
+        label="Voce report di battaglia",
+        kind="list_item",
+        conditions=(),
+        parent_node_id="battle_report_list_view",
+        layout_role="battle_report_entry",
+        recovery_action=None,
+        tags=("battle-report", "selectable", "repeatable"),
+        notes="Voce ripetibile dell'elenco; selezionandola si apre il dettaglio della singola battaglia.",
+    )
+    battle_report_detail_view = UIGraphNode(
+        node_id="battle_report_detail_view",
+        label="Dettaglio report di battaglia",
+        kind="view",
+        conditions=(),
+        parent_node_id="communications_center_view",
+        layout_role="battle_report_detail",
+        recovery_action=None,
+        tags=("battle-report", "participants", "outcome", "evidence"),
+        notes=(
+            "Vista di una battaglia. Può contenere più partecipanti per lato e collega configurazioni, "
+            "riepilogo superiore di durata e ingaggi, risultato aggregato e registro temporale."
+        ),
+    )
+    battle_engagement_summary_panel = UIGraphNode(
+        node_id="battle_engagement_summary_panel",
+        label="Durata e ingaggi della battaglia",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_detail_view",
+        layout_role="battle_engagement_summary",
+        recovery_action=None,
+        tags=("battle-report", "duration", "engagements", "opponents", "user-confirmed"),
+        notes=(
+            "Prima sezione in alto del report. Riassume durata della battaglia e ingaggi con gli avversari; "
+            "la struttura è dichiarata dall'utente e richiede ancora ancore OCR dedicate."
+        ),
+    )
+    battle_report_participants_panel = UIGraphNode(
+        node_id="battle_report_participants_panel",
+        label="Partecipanti alla battaglia",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_detail_view",
+        layout_role="battle_participants",
+        recovery_action=None,
+        tags=("battle-report", "multi-participant", "sides"),
+        notes="Contiene la squadra dell'utente e uno o più avversari o contributori per lato.",
+    )
+    battle_report_participant = UIGraphNode(
+        node_id="battle_report_participant",
+        label="Partecipante alla battaglia",
+        kind="entity",
+        conditions=(),
+        parent_node_id="battle_report_participants_panel",
+        layout_role="repeatable_participant",
+        recovery_action=None,
+        tags=("battle-report", "participant", "squad", "repeatable"),
+        notes=(
+            "Entità ripetibile con identità, lato, leader, eroi, dimensione squadra e configurazione. "
+            "Non va ridotta a un modello rigido uno-contro-uno."
+        ),
+    )
+    battle_opponent_section = UIGraphNode(
+        node_id="battle_opponent_section",
+        label="Sezione avversario",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participants_panel",
+        layout_role="repeatable_opponent_section",
+        recovery_action=None,
+        tags=("battle-report", "opponent", "repeatable", "user-confirmed"),
+        notes=(
+            "Sezione ripetibile dedicata a un singolo avversario dopo la selezione della battaglia. "
+            "Deve mantenere distinta l'identità e la configurazione di ciascun avversario."
+        ),
+    )
+    participant_troop_metrics_panel = UIGraphNode(
+        node_id="participant_troop_metrics_panel",
+        label="Truppe iniziali e perdite",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="participant_troop_metrics",
+        recovery_action=None,
+        tags=("battle-report", "troops", "initial", "killed", "casualties"),
+        notes=(
+            "Metriche attribuite al partecipante: truppe iniziali, truppe uccise e, quando presenti, "
+            "feriti e sopravvissuti. I valori iniziali e finali non devono essere confusi con la dimensione nominale."
+        ),
+    )
+    participant_modifiers_panel = UIGraphNode(
+        node_id="participant_modifiers_panel",
+        label="Buff e debuff del partecipante",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="participant_modifiers",
+        recovery_action=None,
+        tags=("battle-report", "buff", "debuff", "participant"),
+        notes="Modificatori iniziali associati allo specifico partecipante, separati dagli effetti temporanei della timeline.",
+    )
+    participant_commander_equipment_panel = UIGraphNode(
+        node_id="participant_commander_equipment_panel",
+        label="Equipaggiamento comandante",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="commander_equipment",
+        recovery_action=None,
+        tags=("battle-report", "commander", "equipment", "participant"),
+        notes="Equipaggiamento del comandante associato allo specifico partecipante.",
+    )
+    participant_hero_armaments_panel = UIGraphNode(
+        node_id="participant_hero_armaments_panel",
+        label="Armamenti degli eroi",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="hero_armaments",
+        recovery_action=None,
+        tags=("battle-report", "hero", "armaments", "participant"),
+        notes="Armamenti ed effetti degli eroi impiegati dal partecipante.",
+    )
+    participant_squad_equipment_panel = UIGraphNode(
+        node_id="participant_squad_equipment_panel",
+        label="Equipaggiamento squadra",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="squad_equipment",
+        recovery_action=None,
+        tags=("battle-report", "squad", "equipment", "participant"),
+        notes="Equipaggiamento e modificatori della squadra del partecipante.",
+    )
+    participant_beast_panel = UIGraphNode(
+        node_id="participant_beast_panel",
+        label="Bestia del partecipante",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="beast_configuration",
+        recovery_action=None,
+        tags=("battle-report", "beast", "participant", "modifiers"),
+        notes="Bestia associata e relativi bonus, riduzioni, valori critici ed effetti.",
+    )
+    participant_vehicle_panel = UIGraphNode(
+        node_id="participant_vehicle_panel",
+        label="Veicolo del partecipante",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_participant",
+        layout_role="vehicle_configuration",
+        recovery_action=None,
+        tags=("battle-report", "vehicle", "participant", "modifiers", "user-confirmed"),
+        notes=(
+            "Veicolo associato al partecipante e relativi dati o modificatori. Rimane una configurazione "
+            "distinta da bestia, armamenti ed equipaggiamento della squadra."
+        ),
+    )
+    battle_report_outcome_panel = UIGraphNode(
+        node_id="battle_report_outcome_panel",
+        label="Esito e perdite",
+        kind="panel",
+        conditions=(),
+        parent_node_id="battle_report_detail_view",
+        layout_role="battle_outcome",
+        recovery_action=None,
+        tags=("battle-report", "outcome", "casualties", "damage"),
+        notes="Risultato, uccisioni, feriti, sopravvissuti, variazioni di truppe e danno totale.",
+    )
+    battle_report_timeline_view = UIGraphNode(
+        node_id="battle_report_timeline_view",
+        label="Registro cronologico della battaglia",
+        kind="timeline",
+        conditions=(),
+        parent_node_id="battle_report_detail_view",
+        layout_role="scrollable_battle_timeline",
+        recovery_action=None,
+        tags=("battle-report", "timeline", "scrollable", "abilities", "hits"),
+        notes="Registro scrollabile delle fasi della battaglia, da acquisire in ordine preservando la provenienza dei frame.",
+    )
+    battle_timeline_event = UIGraphNode(
+        node_id="battle_timeline_event",
+        label="Evento della battaglia",
+        kind="event",
+        conditions=(),
+        parent_node_id="battle_report_timeline_view",
+        layout_role="ordered_event",
+        recovery_action=None,
+        tags=("battle-report", "event", "source", "target", "effect"),
+        notes=(
+            "Evento ripetibile con ordine, sorgente, bersaglio, azione o abilità, valore, unità, "
+            "durata ed eventuale variazione di truppe, vittime o danno."
+        ),
+    )
+    battle_execution_model = UIGraphNode(
+        node_id="battle_execution_model",
+        label="Modello di esecuzione della battaglia",
+        kind="model",
+        conditions=(),
+        parent_node_id="game_runtime_root",
+        layout_role="evidence_model",
+        recovery_action=None,
+        tags=("battle", "execution-model", "evidence", "multi-participant"),
+        notes=(
+            "Ricostruisce configurazione iniziale, partecipanti ed eventi ordinati. Conserva testo OCR e frame, "
+            "distingue fatti osservati da inferenze e non attribuisce causalità da una sola battaglia."
+        ),
+    )
+    battle_pairing_advice_model = UIGraphNode(
+        node_id="battle_pairing_advice_model",
+        label="Suggerimenti bestie, armamenti e squadre",
+        kind="model",
+        conditions=(),
+        parent_node_id="game_runtime_root",
+        layout_role="advisory_model",
+        recovery_action=None,
+        tags=("battle", "advice", "beasts", "armaments", "squads", "evidence-gated"),
+        notes=(
+            "Produce suggerimenti soltanto da pattern ripetuti in battaglie e contesti compatibili. "
+            "Ogni proposta deve citare report, configurazioni, avversari, risultato e limiti dell'evidenza."
+        ),
+    )
     shelter_right_edge_alerts_panel = UIGraphNode(
         node_id="shelter_right_edge_alerts_panel",
         label="Pannellino destro controlli e avvisi",
@@ -787,6 +1062,188 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             description="Il pannello condiviso espone la sezione Eroe.",
         ),
         UIGraphEdge(
+            from_node_id="game_runtime_root",
+            to_node_id="communications_button",
+            trigger="communications_control_visible",
+            action_name=None,
+            description="Le viste giocabili espongono il pulsante Comunicazioni come accesso alla messaggistica.",
+        ),
+        UIGraphEdge(
+            from_node_id="communications_button",
+            to_node_id="communications_center_view",
+            trigger="communications_clicked",
+            action_name="open_communications_center",
+            description="Il pulsante Comunicazioni apre il centro messaggi.",
+        ),
+        UIGraphEdge(
+            from_node_id="communications_center_view",
+            to_node_id="battle_reports_tab_button",
+            trigger="reports_section_visible",
+            action_name=None,
+            description="Il centro Comunicazioni espone la sezione Rapporto.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_reports_tab_button",
+            to_node_id="battle_report_list_view",
+            trigger="reports_section_clicked",
+            action_name="open_battle_report_list",
+            description="La sezione Rapporto apre l'elenco scrollabile dei report di battaglia.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_list_view",
+            to_node_id="battle_report_entry",
+            trigger="battle_report_entry_visible",
+            action_name=None,
+            description="L'elenco contiene voci ripetibili di report, dichiarate in ordine temporale decrescente.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_entry",
+            to_node_id="battle_report_detail_view",
+            trigger="battle_report_selected",
+            action_name="open_battle_report_detail",
+            description="La selezione di una voce apre il dettaglio della battaglia.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_detail_view",
+            to_node_id="battle_report_participants_panel",
+            trigger="participants_visible",
+            action_name=None,
+            description="Il dettaglio espone tutti i partecipanti e i lati osservati.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_detail_view",
+            to_node_id="battle_engagement_summary_panel",
+            trigger="engagement_summary_visible",
+            action_name=None,
+            description="La parte superiore del report espone durata e ingaggi con gli avversari.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participants_panel",
+            to_node_id="battle_report_participant",
+            trigger="participant_visible",
+            action_name=None,
+            description="Il pannello contiene una o più entità partecipante per ciascun lato.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participants_panel",
+            to_node_id="battle_opponent_section",
+            trigger="opponent_section_visible",
+            action_name=None,
+            description="Il report contiene una sezione ripetibile per ogni avversario.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_opponent_section",
+            to_node_id="battle_report_participant",
+            trigger="opponent_bound_to_participant",
+            action_name=None,
+            description="La sezione avversario materializza un partecipante distinto con la propria configurazione.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_troop_metrics_panel",
+            trigger="participant_troop_metrics_visible",
+            action_name=None,
+            description="Il partecipante espone truppe iniziali, uccise e altre perdite osservate.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_modifiers_panel",
+            trigger="participant_modifiers_expanded",
+            action_name="inspect_participant_modifiers",
+            description="Espande buff e debuff attribuiti al partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_commander_equipment_panel",
+            trigger="commander_equipment_expanded",
+            action_name="inspect_commander_equipment",
+            description="Espande l'equipaggiamento del comandante del partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_hero_armaments_panel",
+            trigger="hero_armaments_expanded",
+            action_name="inspect_hero_armaments",
+            description="Espande gli armamenti degli eroi del partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_squad_equipment_panel",
+            trigger="squad_equipment_expanded",
+            action_name="inspect_squad_equipment",
+            description="Espande l'equipaggiamento della squadra del partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_beast_panel",
+            trigger="beast_configuration_expanded",
+            action_name="inspect_participant_beast",
+            description="Espande la bestia e i relativi modificatori del partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participant",
+            to_node_id="participant_vehicle_panel",
+            trigger="vehicle_configuration_expanded",
+            action_name="inspect_participant_vehicle",
+            description="Espande veicolo e modificatori associati al partecipante.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_engagement_summary_panel",
+            to_node_id="battle_execution_model",
+            trigger="duration_and_engagements_contribute_evidence",
+            action_name=None,
+            description="Durata e ingaggi definiscono il contesto temporale e la cardinalità dello scontro.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_detail_view",
+            to_node_id="battle_report_outcome_panel",
+            trigger="battle_outcome_visible",
+            action_name=None,
+            description="Il dettaglio espone risultato, perdite e danno.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_detail_view",
+            to_node_id="battle_report_timeline_view",
+            trigger="battle_timeline_opened",
+            action_name="open_battle_timeline",
+            description="Il report permette di aprire il registro scrollabile della battaglia.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_timeline_view",
+            to_node_id="battle_timeline_event",
+            trigger="ordered_event_observed",
+            action_name=None,
+            description="La timeline contiene eventi ordinati con sorgente, bersaglio ed effetto.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_participants_panel",
+            to_node_id="battle_execution_model",
+            trigger="participant_configuration_contributes_evidence",
+            action_name=None,
+            description="Partecipanti e configurazioni alimentano il modello di esecuzione.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_outcome_panel",
+            to_node_id="battle_execution_model",
+            trigger="outcome_contributes_evidence",
+            action_name=None,
+            description="Esito e perdite forniscono le misure finali da spiegare.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_report_timeline_view",
+            to_node_id="battle_execution_model",
+            trigger="timeline_contributes_evidence",
+            action_name=None,
+            description="La sequenza di abilità, colpi ed effetti alimenta il modello di esecuzione.",
+        ),
+        UIGraphEdge(
+            from_node_id="battle_execution_model",
+            to_node_id="battle_pairing_advice_model",
+            trigger="comparable_reports_validated",
+            action_name="derive_evidence_gated_pairing_advice",
+            description="Pattern ripetuti in report comparabili possono produrre suggerimenti motivati.",
+        ),
+        UIGraphEdge(
             from_node_id="shelter_interior_view",
             to_node_id="shelter_right_edge_alerts_panel",
             trigger="shelter_alerts_visible",
@@ -873,6 +1330,28 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
             alliance_section_button,
             beast_section_button,
             hero_section_button,
+            communications_button,
+            communications_center_view,
+            battle_reports_tab_button,
+            battle_report_list_view,
+            battle_report_entry,
+            battle_report_detail_view,
+            battle_engagement_summary_panel,
+            battle_report_participants_panel,
+            battle_report_participant,
+            battle_opponent_section,
+            participant_troop_metrics_panel,
+            participant_modifiers_panel,
+            participant_commander_equipment_panel,
+            participant_hero_armaments_panel,
+            participant_squad_equipment_panel,
+            participant_beast_panel,
+            participant_vehicle_panel,
+            battle_report_outcome_panel,
+            battle_report_timeline_view,
+            battle_timeline_event,
+            battle_execution_model,
+            battle_pairing_advice_model,
             shelter_right_edge_alerts_panel,
             troop_heal_action_symbol,
             boot_overlay_node,
@@ -885,7 +1364,8 @@ def build_default_doomsday_ui_graph() -> UIGraphDefinition:
         edges=edges,
         notes=(
             "Grafo iniziale dell'architettura UI del gioco: distingue vista esterna e rifugio, "
-            "pannelli comuni superiori, controlli di cambio vista, sezioni del rifugio e popup di boot."
+            "pannelli comuni superiori, controlli di cambio vista, sezioni del rifugio, popup di boot "
+            "e il percorso Comunicazioni/Rapporto che collega evidenza di battaglia e suggerimenti tattici."
         ),
     )
 

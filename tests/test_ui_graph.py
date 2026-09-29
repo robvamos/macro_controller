@@ -137,6 +137,132 @@ class UIGraphTests(unittest.TestCase):
         self.assertEqual(switch_node.conditions[0].threshold, 0.85)
         self.assertIn("Rifugio", switch_node.notes)
 
+    def test_default_graph_links_communications_reports_to_battle_advice(self):
+        graph = build_default_doomsday_ui_graph()
+
+        self.assertEqual(
+            graph.get_node("communications_button").parent_node_id,
+            "game_runtime_root",
+        )
+        self.assertEqual(
+            graph.get_node("battle_reports_tab_button").parent_node_id,
+            "communications_center_view",
+        )
+        self.assertIn(
+            "più partecipanti",
+            graph.get_node("battle_report_detail_view").notes,
+        )
+        self.assertIn(
+            "uno-contro-uno",
+            graph.get_node("battle_report_participant").notes,
+        )
+        self.assertIn(
+            "durata",
+            graph.get_node("battle_engagement_summary_panel").notes,
+        )
+        self.assertIn(
+            "singolo avversario",
+            graph.get_node("battle_opponent_section").notes,
+        )
+        self.assertIn(
+            "truppe iniziali",
+            graph.get_node("participant_troop_metrics_panel").notes,
+        )
+        self.assertIn(
+            "distinta da bestia",
+            graph.get_node("participant_vehicle_panel").notes,
+        )
+        self.assertIn(
+            "pattern ripetuti",
+            graph.get_node("battle_pairing_advice_model").notes,
+        )
+
+        edges = {
+            (edge.from_node_id, edge.to_node_id, edge.trigger, edge.action_name)
+            for edge in graph.edges
+        }
+        self.assertIn(
+            (
+                "communications_button",
+                "communications_center_view",
+                "communications_clicked",
+                "open_communications_center",
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_reports_tab_button",
+                "battle_report_list_view",
+                "reports_section_clicked",
+                "open_battle_report_list",
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_entry",
+                "battle_report_detail_view",
+                "battle_report_selected",
+                "open_battle_report_detail",
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_timeline_view",
+                "battle_execution_model",
+                "timeline_contributes_evidence",
+                None,
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_detail_view",
+                "battle_engagement_summary_panel",
+                "engagement_summary_visible",
+                None,
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_participants_panel",
+                "battle_opponent_section",
+                "opponent_section_visible",
+                None,
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_participant",
+                "participant_troop_metrics_panel",
+                "participant_troop_metrics_visible",
+                None,
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_report_participant",
+                "participant_vehicle_panel",
+                "vehicle_configuration_expanded",
+                "inspect_participant_vehicle",
+            ),
+            edges,
+        )
+        self.assertIn(
+            (
+                "battle_execution_model",
+                "battle_pairing_advice_model",
+                "comparable_reports_validated",
+                "derive_evidence_gated_pairing_advice",
+            ),
+            edges,
+        )
+
     def test_evaluate_ui_graph_marks_popup_node_active_when_symbol_is_found(self):
         found_result = Mock(condition_satisfied=True, found=True, score=0.91)
         absent_due_to_presence_result = Mock(condition_satisfied=False, found=True, score=0.91)

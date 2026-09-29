@@ -28,8 +28,9 @@ from learning_mode_common import (
     stop_hotkey_pressed as _stop_hotkey_pressed,
     wait_for_window_rect as _wait_for_window_rect,
 )
+from core.paths import LOGS_DIR
 
-LOG_PATH = REPO_ROOT / "logs" / "general_click_elements_learner.log"
+LOG_PATH = LOGS_DIR / "general_click_elements_learner.log"
 SESSION_SECONDS = 120
 _log = make_file_logger(LOG_PATH)
 
@@ -44,10 +45,21 @@ def parse_args():
         help="Scenario semantico dichiarato per la sessione.",
     )
     parser.add_argument(
+        "--domain",
+        default="general",
+        help="Dominio dichiarato: resources, armaments, gathering, workshop, research, missions, ecc.",
+    )
+    parser.add_argument(
         "--frame-delay",
         type=float,
         default=0.45,
         help="Attesa post-click prima del frame completo, in secondi.",
+    )
+    parser.add_argument(
+        "--network-observation",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Collega la sessione al proxy metadata-only per PID (attivo per default).",
     )
     return parser.parse_args()
 
@@ -80,6 +92,15 @@ def main() -> int:
         register_recorded_click_element,
     )
     from services.learning_frame_service import capture_learning_frame
+    from services.learning_network_correlation_service import (
+        append_learning_network_marker,
+        build_network_correlation_window,
+        capture_network_cursor,
+        find_process_pid,
+        start_or_attach_learning_network_observation,
+        stop_owned_learning_network_observation,
+        summarize_learning_network_correlations,
+    )
     from services.learning_session_journal_service import (
         append_learning_event,
         finalize_learning_session_journal,
@@ -129,15 +150,25 @@ def main() -> int:
 
     scenario_label = "Hero inspection" if args.scenario == "hero_inspection" else "General click elements"
     declared_workflow_id = "hero-inspection-v1" if args.scenario == "hero_inspection" else None
+    learning_domain = str(args.domain or "general").strip().casefold().replace("-", "_")
     objective = (
         "Apprendere il percorso selezione eroe, lista ordinabile, profilo e pannelli di dettaglio."
         if args.scenario == "hero_inspection"
-        else "Censire elementi grafici utili generici, con vista e zona semantica."
+        else (
+            "Censire azioni, stati e risultati del dominio "
+            f"'{learning_domain}' facendo convergere evidenza visuale e rete."
+        )
     )
     session_name = (
         f"Sistema - {scenario_label} - "
         f"Locale {context['host_name']}\\{context['user_name']} - "
         f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    )
+    target_pid = find_process_pid(TARGET_EXE) or 0
+    network_observation = start_or_attach_learning_network_observation(
+        target_pid=target_pid,
+        duration_seconds=session_seconds,
+        enabled=bool(args.network_observation),
     )
     started_at = time.monotonic()
     deadline = started_at + session_seconds
@@ -151,11 +182,25 @@ def main() -> int:
     initialize_learning_session_journal(
         session_name=session_name,
         scenario=args.scenario,
+        domain=learning_domain,
         objective=objective,
         declared_workflow_id=declared_workflow_id,
         window_rect=initial_window_rect,
+        network_observation=network_observation,
     )
     _log(f"Journal incrementale attivo: scenario={args.scenario}, workflow={declared_workflow_id or '-'}")
+    if network_observation.get("status") == "active":
+        _log(
+            "Osservazione rete collegata: "
+            f"sessione={network_observation.get('network_session_id')}, "
+            f"pid={network_observation.get('proxy_pid')}, "
+            f"owned={network_observation.get('owned_by_learning_session')}"
+        )
+    else:
+        _log(
+            "Osservazione rete non disponibile; il learning visuale continua con copertura parziale: "
+            f"{network_observation.get('reason', 'unknown')}"
+        )
 
     while time.monotonic() < deadline:
         if _stop_hotkey_pressed():
@@ -180,6 +225,7 @@ def main() -> int:
 
         if clicked_button and _point_inside_rect(cursor_x, cursor_y, window_rect) and now_monotonic - last_click_at > 0.12:
             event_time_ms = int((now_monotonic - started_at) * 1000)
+            sequence_index = len(events) + 1
             normalized_x, normalized_y = _normalize_point(cursor_x, cursor_y, window_rect)
             view_node_id = _safe_classify_view(classify_doomsday_view, window_rect)
             screen_zone = _screen_zone(normalized_x, normalized_y)
@@ -198,12 +244,25 @@ def main() -> int:
                 "normalized_y": round(normalized_y, 4),
                 "ui_graph_id": DOOMSDAY_GRAPH_ID,
                 "ui_node_id": semantic_node_id,
+                "learning_domain": learning_domain,
             }
             event_data["learning_frames"] = []
+            network_before = capture_network_cursor(network_observation)
+            try:
+                append_learning_network_marker(
+                    binding=network_observation,
+                    learning_session_name=session_name,
+                    sequence_index=sequence_index,
+                    event_time_ms=event_time_ms,
+                    ui_node_id=semantic_node_id,
+                    network_cursor=network_before,
+                )
+            except Exception as network_exc:
+                _log(f"Marcatore rete non aggiornato: {network_exc}")
             try:
                 click_time_frame = capture_learning_frame(
                     session_name=session_name,
-                    sequence_index=len(events) + 1,
+                    sequence_index=sequence_index,
                     window_rect=window_rect,
                     event_time_ms=event_time_ms,
                     view_node_id=view_node_id,
@@ -280,6 +339,12 @@ def main() -> int:
                     _log(f"Frame post-click non acquisito: {frame_exc}")
             except Exception as exc:
                 _log(f"Click rilevato ma censimento fallito in ({cursor_x},{cursor_y}): {exc}")
+            network_after = capture_network_cursor(network_observation)
+            event_data["network_correlation"] = build_network_correlation_window(
+                binding=network_observation,
+                before=network_before,
+                after=network_after,
+            )
             events.append(event_data)
             try:
                 append_learning_event(
@@ -295,7 +360,13 @@ def main() -> int:
         time.sleep(0.02)
 
     if not events:
-        finalize_learning_session_journal(session_name=session_name, status="empty", click_count=0)
+        final_network_observation = stop_owned_learning_network_observation(network_observation)
+        finalize_learning_session_journal(
+            session_name=session_name,
+            status="empty",
+            click_count=0,
+            network_observation=final_network_observation,
+        )
         _log("Nessun click acquisito; non salvo la macro componente.")
         return 1
 
@@ -313,7 +384,10 @@ def main() -> int:
         "stop_hotkey": STOP_HOTKEY_TEXT,
         "objective": objective,
         "scenario": args.scenario,
+        "learning_domain": learning_domain,
         "declared_workflow_id": declared_workflow_id,
+        "network_observation_session_id": network_observation.get("network_session_id"),
+        "network_observation_status": network_observation.get("status"),
     }
     macro_id = salva_macro_test(
         session_name,
@@ -328,12 +402,23 @@ def main() -> int:
     )
     _log("")
     _log(f"Macro componente salvata con ID {macro_id}: {session_name}")
-    finalize_learning_session_journal(
+    final_network_observation = stop_owned_learning_network_observation(network_observation)
+    manifest_path = finalize_learning_session_journal(
         session_name=session_name,
         status="completed",
         click_count=len(events),
         macro_id=macro_id,
+        network_observation=final_network_observation,
     )
+    try:
+        correlation_summary = summarize_learning_network_correlations(manifest_path.parent)
+        _log(
+            "Riepilogo convergenza visuale/rete: "
+            f"{correlation_summary['path']} "
+            f"({len(correlation_summary.get('correlations', []))} click)"
+        )
+    except Exception as correlation_exc:
+        _log(f"Riepilogo convergenza visuale/rete non generato: {correlation_exc}")
     _log(f"Click acquisiti: {len(events)}")
     _log(f"Elementi grafici censiti: {len(observations)}")
     _log("Puoi chiudere questa finestra.")

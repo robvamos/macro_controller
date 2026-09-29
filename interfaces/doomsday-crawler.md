@@ -10,10 +10,10 @@ Describe the emerging Doomsday crawler service for heroes and roster knowledge, 
 
 ## Current local building blocks
 
-- [doomsday/services/bootstrap_service.py](/F:/_CODEX/DDassistant/doomsday/services/bootstrap_service.py)
-- [doomsday/repositories/roster_repository.py](/F:/_CODEX/DDassistant/doomsday/repositories/roster_repository.py)
-- [doomsday/repositories/catalog_repository.py](/F:/_CODEX/DDassistant/doomsday/repositories/catalog_repository.py)
-- [doomsday/ocr/hero_extractor.py](/F:/_CODEX/DDassistant/doomsday/ocr/hero_extractor.py)
+- [doomsday/services/bootstrap_service.py](../doomsday/services/bootstrap_service.py)
+- [doomsday/repositories/roster_repository.py](../doomsday/repositories/roster_repository.py)
+- [doomsday/repositories/catalog_repository.py](../doomsday/repositories/catalog_repository.py)
+- [doomsday/ocr/hero_extractor.py](../doomsday/ocr/hero_extractor.py)
 
 ## Intended service shape
 

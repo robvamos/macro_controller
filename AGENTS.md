@@ -1,40 +1,28 @@
-# Project Agent Instructions
+# Istruzioni per gli agenti
 
-This project is part of the shared AI workspace and now lives at
-`F:\_CODEX\DDassistant`.
+Questo progetto fa parte del workspace condiviso. Non assumere che il clone sia in una directory o unità fissa. Leggi [configurazione workstation](workstation/README.md) e risolvi percorsi macchina tramite `workstation/settings.py` / `core.paths`.
 
-Default shared skills:
+## Coordinamento Knowledge
 
-- use `attivasviluppo` when the work concerns project setup, GitHub connection, or persistent assets
-- use `sviluppo-conoscenza` for workspace-aware development and knowledge coordination
+Usa le skill `attivasviluppo` per setup, GitHub e asset persistenti e `sviluppo-conoscenza` per lo sviluppo coordinato nel workspace. Il Knowledge hub si trova nel percorso `knowledgeRoot` del profilo locale (predefinito: `../Knowledge`); la copia GitHub è [robvamos/knowledge](https://github.com/robvamos/knowledge).
 
-Shared knowledge root:
+Prima di introdurre una capability:
 
-- [codex-knowledge-hub](/F:/_CODEX/Knowledge/codex-knowledge-hub)
+1. consulta nel Knowledge hub i registry di progetti, skill, capability e interfacce;
+2. verifica le interfacce pubblicate dai progetti fratelli e riusa le skill disponibili;
+3. evita duplicazioni di logica già pubblicata;
+4. aggiorna `project-manifest.json` per versioni, capability, interfacce o stato;
+5. dopo modifiche significative sincronizza manifest e scheda progetto nel Knowledge hub.
 
-Before implementing new features:
+## Aree riutilizzabili
 
-1. read shared registries in the knowledge hub
-2. check reusable skills and exposed interfaces from sibling projects
-3. avoid duplicating logic that is already published elsewhere
-4. update [project-manifest.json](/F:/_CODEX/DDassistant/project-manifest.json) when version, capabilities, interfaces, or status change
-5. sync the manifest back to the knowledge hub after meaningful project changes
+- riproduzione/registrazione macro, monitoraggio del focus e pianificazione;
+- bootstrap del roster da dataset versionati;
+- parser OCR di statistiche e talenti degli eroi;
+- cattura finestre Doomsday e primitives di template matching.
 
-Project-specific reusable areas:
+Interfacce locali: [bootstrap roster](interfaces/doomsday-roster-bootstrap.md) e [primitives visuali](interfaces/doomsday-vision-primitives.md). Per ricerche su rider, bestie, armamenti o guide consulta prima [l'indice delle fonti](docs/research/SOURCES.md).
 
-- macro playback, recording, focus monitoring, and scheduled execution
-- Doomsday roster bootstrap from bundled local datasets
-- Doomsday OCR parsers for hero stats and talents
-- Doomsday window capture and template matching primitives
+## Dati condivisi e locali
 
-Useful shared resources:
-
-- [projects-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/projects-index.yaml)
-- [skills-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/skills-index.yaml)
-- [interfaces-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/interfaces-index.yaml)
-- [capabilities-index.yaml](/F:/_CODEX/Knowledge/codex-knowledge-hub/registry/capabilities-index.yaml)
-
-Local interface notes:
-
-- [doomsday-roster-bootstrap](/F:/_CODEX/DDassistant/interfaces/doomsday-roster-bootstrap.md)
-- [doomsday-vision-primitives](/F:/_CODEX/DDassistant/interfaces/doomsday-vision-primitives.md)
+Leggi [come si condivide la conoscenza](docs/knowledge-sharing.md) e [l'inventario del supporto](docs/project-support.md). Profili, database, runtime, frame e log sono locali e ignorati. Versiona soltanto conoscenza portabile dopo revisione; gli exporter devono aggiungere/riconciliare i dati senza cancellare contributi delle altre workstation.

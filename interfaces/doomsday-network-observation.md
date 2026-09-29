@@ -2,7 +2,7 @@
 
 - Producer: ddgameass
 - Status: experimental
-- Interface version: 0.1.1
+- Interface version: 0.4.0
 - Default mode: local PID, metadata-only, TLS passthrough
 
 ## Purpose
@@ -14,8 +14,8 @@ particular game meaning.
 
 ## Runtime and installation
 
-- project-local mitmproxy 12.2.3: `.tools/mitmproxy`;
-- existing Wireshark 4.4.6 and Npcap 0.9982 for packet-level classification;
+- optional mitmproxy venv: path configured by workstation setting `networkObserverDir`;
+- optional Wireshark/tshark installation for packet-level classification;
 - versioned policy: [observation_profile.json](../data/doomsday/network/observation_profile.json).
 
 Mitmproxy's official documentation confirms that local capture is available on
@@ -44,8 +44,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\start_network_observation.ps1
   -TargetProcess Doomsday -LaunchViaShortcut -Minutes 5
 ```
 
-The shortcut is `C:\Users\Public\Desktop\Doomsday.lnk`, whose resolved target
-is `F:\Doomsday\DoomsdayLastSurvivors.exe`. The observer never launches the
+The shortcut comes from workstation setting `gameShortcutPath`, with the
+Windows Public Desktop launcher as fallback. The observer never launches the
 versioned `Doomsday.exe` directly; that unsupported path returns error `0x4`.
 
 Stop an active background session early:
@@ -54,7 +54,8 @@ Stop an active background session early:
 powershell -ExecutionPolicy Bypass -File .\scripts\stop_network_observation.ps1
 ```
 
-Sessions are written under `.tools/network_observation/<timestamp>/` and are
+Sessions are written under
+`workstation/local/<profile>/runtime/network_observation/<timestamp>/` and are
 excluded from Git. Summarize a session without exposing query values:
 
 ```powershell
@@ -69,6 +70,7 @@ Every line uses `doomsday.network-observation.v1`. Possible records include:
 - server connection destination and transport;
 - TLS ClientHello SNI and offered ALPN;
 - TCP/UDP message count and directional byte totals;
+- timestamp, direction, ordinal and byte count for each TCP/UDP message;
 - HTTP method, host, normalized path template, parameter names, MIME types,
   status and sizes, only in a future explicitly enabled decryption session.
 
@@ -95,3 +97,72 @@ Local PID capture sees only connections created after the observer starts. The
 current client has also shown persistent custom TCP and UDP traffic, which may
 not contain HTTP at all. Wireshark metadata can classify those protocols, but
 encrypted or proprietary payloads remain opaque in this phase.
+
+Version 0.1.2 emits one metadata-only `tcp_message` or `udp_message` record as
+each message crosses a captured flow. This enables supervised temporal
+correlation with known UI transitions without waiting for a persistent
+connection to close and without storing message content.
+
+## Learning-mode binding
+
+Version 0.2.0 makes metadata observation the default companion of supervised
+Learning. The learner attaches an already-compatible observer or starts one for
+the game PID, then stores the binding in its crash-safe `session.json`.
+
+Each click records:
+
+- a marker in the network session;
+- the network event indices before and after visual stabilization;
+- the click crop and full-window frames;
+- a metadata-only application shape and stable fingerprint;
+- the first observed client-to-server/server-to-client latency candidate.
+
+The generated `network_correlation_summary.json` retains the status
+`candidate_requires_repetition_and_visual_validation`. Repeated fingerprints
+can support a reviewed semantic mapping, but one temporal match cannot assign
+an operation name or grant execution authority.
+
+## Annotated semantic analysis
+
+Version 0.3.0 adds
+`analyze_annotated_network_session()` for operator-marked proxy sessions. It:
+
+- separates recurring 4-byte heartbeat shapes from application candidates;
+- inventories transport channels without retaining payloads;
+- aggregates message direction, size and count;
+- detects small-client-command / server-response candidates with bounded
+  latency;
+- distinguishes unmatched server-push candidates;
+- binds each aggregate fingerprint to the operator's declared marker window;
+- marks every result as requiring repetition and visual validation;
+- emits no payload, request template or replay mechanism.
+
+The command-line entrypoint is:
+
+```powershell
+python .\scripts\analyze_annotated_network_session.py `
+  .tools\network_observation\<session> `
+  --output data\doomsday\knowledge\network_observations\<session>.json
+```
+
+The final marker has no closing boundary and is therefore explicitly emitted
+as `unbounded_missing_next_marker`, rather than absorbing unrelated traffic
+recorded after the operator's last action.
+
+## Navigable task/call read model
+
+Version 0.4.0 exposes the persisted observations in the desktop tab
+`Mappa Task/Chiamate`. The read model joins:
+
+- learning domains;
+- operator-declared semantic windows;
+- conservative links to known UI nodes;
+- operation class;
+- maturity state;
+- metadata-only exchanges, server pushes and aggregate shapes;
+- session, fingerprint, channel, message-size and latency evidence.
+
+The hierarchy is navigable from domain to task, UI function and individual
+call shape. Search, domain and maturity filters never change evidence. The
+view contains no payload decoder, endpoint inference, replay control or
+execution-authority promotion.
